@@ -12,6 +12,7 @@ type NavItem = {
 const NAV_ITEMS: NavItem[] = [
   { key: 'about',        href: '/about' },
   { key: 'departments',  href: '/departments' },
+  { key: 'services',     href: '/services' },
   { key: 'doctors',      href: '/doctors' },
   { key: 'packages',     href: '/health-packages' },
   { key: 'sarc',         href: '/sarc', highlight: true },
