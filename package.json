@@ -1,0 +1,29 @@
+{
+  "name": "salamatek",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Salamatek Medical Centre — monorepo (web, admin, API)",
+  "workspaces": [
+    "apps/*",
+    "server/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspaces --if-present",
+    "build": "npm run build --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "clean": "npm run clean --workspaces --if-present"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  },
+  "overrides": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.4"
+  }
+}

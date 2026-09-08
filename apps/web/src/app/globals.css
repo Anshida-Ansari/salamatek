@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── CSS Custom Properties ─────────────────────────────────────────────── */
+:root {
+  /* Brand colours — will be finalised against client reference in Phase 1 */
+  --color-brand-primary: #1d72ef;
+  --color-brand-secondary: #142a55;
+  --color-brand-accent: #59b1fe;
+
+  /* Typography */
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-arabic: var(--font-noto-kufi), system-ui, sans-serif;
+}
+
+/* ─── RTL Support ───────────────────────────────────────────────────────── */
+[dir='rtl'] {
+  font-family: var(--font-arabic);
+  text-align: right;
+}
+
+[dir='ltr'] {
+  font-family: var(--font-sans);
+  text-align: left;
+}
+
+/* ─── Base ──────────────────────────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-white text-neutral-900 antialiased;
+}
