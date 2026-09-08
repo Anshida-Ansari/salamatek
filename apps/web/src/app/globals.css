@@ -2,34 +2,109 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ─── CSS Custom Properties ─────────────────────────────────────────────── */
+/* ─── Design Tokens ─────────────────────────────────────────────────────────── */
 :root {
-  /* Brand colours — will be finalised against client reference in Phase 1 */
-  --color-brand-primary: #1d72ef;
-  --color-brand-secondary: #142a55;
-  --color-brand-accent: #59b1fe;
+  --color-brand-dark:      #0C3528;
+  --color-brand:           #1A6B4A;
+  --color-brand-medium:    #1E7A56;
+  --color-brand-light:     #2D9E72;
+  --color-brand-mint:      #EBF5EF;
+  --color-brand-cream:     #F5F0E8;
+  --color-brand-red:       #CC2828;
+  --color-brand-orange:    #E05522;
+  --color-text-base:       #0F1F1A;
+  --color-text-muted:      #64746C;
+  --color-border:          #D4E5DB;
 
-  /* Typography */
-  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-sans:   var(--font-inter), system-ui, sans-serif;
+  --font-serif:  var(--font-playfair), Georgia, serif;
   --font-arabic: var(--font-noto-kufi), system-ui, sans-serif;
+
+  --radius-card: 0.75rem;
+  --radius-btn:  0.5rem;
+  --radius-input: 0.5rem;
 }
 
-/* ─── RTL Support ───────────────────────────────────────────────────────── */
+/* ─── Base ──────────────────────────────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  @apply bg-white text-text-base antialiased;
+  font-family: var(--font-sans);
+}
+
+/* ─── RTL / LTR Font Switching ──────────────────────────────────────────────── */
 [dir='rtl'] {
   font-family: var(--font-arabic);
-  text-align: right;
+}
+
+[dir='rtl'] .font-serif {
+  font-family: var(--font-arabic);
 }
 
 [dir='ltr'] {
   font-family: var(--font-sans);
-  text-align: left;
 }
 
-/* ─── Base ──────────────────────────────────────────────────────────────── */
-html {
-  scroll-behavior: smooth;
+/* ─── RTL Logical Property Helpers ──────────────────────────────────────────── */
+[dir='rtl'] .rtl-flip {
+  transform: scaleX(-1);
 }
 
-body {
-  @apply bg-white text-neutral-900 antialiased;
+/* ─── Focus Ring ────────────────────────────────────────────────────────────── */
+*:focus-visible {
+  outline: 2px solid var(--color-brand-medium);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ─── Scrollbar ─────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-brand-light);
+  border-radius: 3px;
+}
+
+/* ─── Typography Utilities ───────────────────────────────────────────────────── */
+@layer components {
+  .heading-display {
+    @apply font-serif text-display-xl font-bold tracking-tight text-text-base;
+  }
+  .heading-display-lg {
+    @apply font-serif text-display-2xl font-bold tracking-tight text-text-base;
+  }
+  .heading-1 {
+    @apply font-serif text-display-md font-bold tracking-tight text-text-base;
+  }
+  .heading-2 {
+    @apply font-serif text-display-sm font-semibold tracking-tight text-text-base;
+  }
+  .heading-3 {
+    @apply font-sans text-2xl font-semibold text-text-base;
+  }
+  .body-lg {
+    @apply font-sans text-lg leading-relaxed text-text-muted;
+  }
+  .body-base {
+    @apply font-sans text-base leading-relaxed text-text-muted;
+  }
+  .label-sm {
+    @apply font-sans text-xs font-semibold uppercase tracking-widest;
+  }
+
+  /* RTL equivalents for serif headings */
+  [dir='rtl'] .heading-display,
+  [dir='rtl'] .heading-display-lg,
+  [dir='rtl'] .heading-1,
+  [dir='rtl'] .heading-2 {
+    font-family: var(--font-arabic);
+  }
 }

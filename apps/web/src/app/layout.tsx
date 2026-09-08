@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
-import { Inter, Noto_Kufi_Arabic } from 'next/font/google';
+import { Inter, Noto_Kufi_Arabic, Playfair_Display } from 'next/font/google';
 import './globals.css';
-import { SITE_NAME, SITE_DESCRIPTION } from '@salamatek/config';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -15,23 +14,15 @@ const notoKufiArabic = Noto_Kufi_Arabic({
   display: 'swap',
 });
 
+const playfairDisplay = Playfair_Display({
+  subsets: ['latin'],
+  variable: '--font-playfair',
+  display: 'swap',
+});
+
 export const metadata: Metadata = {
-  title: {
-    default: SITE_NAME.en,
-    template: `%s | ${SITE_NAME.en}`,
-  },
-  description: SITE_DESCRIPTION.en,
-  metadataBase: new URL(
-    process.env['NEXT_PUBLIC_SITE_URL'] ?? 'http://localhost:3000'
-  ),
-  openGraph: {
-    type: 'website',
-    siteName: SITE_NAME.en,
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
+  title: 'Salamatek Medical Centre',
+  description: 'Complete family healthcare in Safwa, Eastern Province.',
 };
 
 export default function RootLayout({
@@ -41,11 +32,10 @@ export default function RootLayout({
 }) {
   return (
     <html
-      lang="en"
-      dir="ltr"
-      className={`${inter.variable} ${notoKufiArabic.variable}`}
+      suppressHydrationWarning
+      className={`${inter.variable} ${notoKufiArabic.variable} ${playfairDisplay.variable}`}
     >
-      <body>{children}</body>
+      <body suppressHydrationWarning>{children}</body>
     </html>
   );
 }
