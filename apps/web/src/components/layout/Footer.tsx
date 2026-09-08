@@ -19,6 +19,7 @@ const EXPLORE_LINKS = [
 ];
 
 export function Footer({ locale, t }: Props) {
+  // Client-confirmed contact: Bilal Bin Rataeh Street, Al Safa, Safwa 32533 | Tel: 013 664 2193
   const year = new Date().getFullYear();
   const copyright = t.footer.copyright.replace('{year}', String(year));
 
