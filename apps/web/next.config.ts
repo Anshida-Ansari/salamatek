@@ -13,7 +13,12 @@ const nextConfig: NextConfig = {
 
   // Image domains — will be populated when media hosting is confirmed
   images: {
-    remotePatterns: [],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+    ],
   },
 
   // Disable x-powered-by header

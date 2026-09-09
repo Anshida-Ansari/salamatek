@@ -62,7 +62,6 @@ const doctorSchema = new Schema(
 );
 
 // Indexes
-doctorSchema.index({ slug: 1 });
 doctorSchema.index({ active: 1 });
 doctorSchema.index({ departmentId: 1 });
 

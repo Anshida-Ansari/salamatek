@@ -6,6 +6,7 @@ import { getTranslations } from '@/i18n';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { HtmlAttributes } from '@/components/layout/HtmlAttributes';
+import { WhatsAppCTA } from '@/components/shared/WhatsAppCTA';
 
 export function generateStaticParams(): Array<{ locale: string }> {
   return LOCALES.map((locale) => ({ locale }));
@@ -49,6 +50,7 @@ export default async function LocaleLayout({ children, params }: Props) {
           {children}
         </main>
         <Footer locale={typedLocale} t={t} />
+        <WhatsAppCTA />
       </div>
     </>
   );

@@ -34,7 +34,6 @@ const departmentSchema = new Schema(
 );
 
 // Indexes
-departmentSchema.index({ slug: 1 });
 departmentSchema.index({ active: 1 });
 
 export const Department = mongoose.model<IDepartment>('Department', departmentSchema);

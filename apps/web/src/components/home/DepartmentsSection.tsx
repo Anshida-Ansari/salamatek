@@ -2,15 +2,28 @@ import Link from 'next/link';
 import type { Locale } from '@/i18n/config';
 import type { Translations } from '@/i18n';
 import { getLocalizedPath } from '@/lib/utils';
-import { departments } from '@/data/departments';
 
 type Props = {
   locale: Locale;
   t: Translations;
 };
 
+async function getDepartments() {
+  try {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+    const res = await fetch(`${apiUrl}/departments?active=true&limit=6`, {
+      next: { revalidate: 60 },
+    });
+    if (!res.ok) return [];
+    const json = await res.json();
+    return json.data || [];
+  } catch (error) {
+    return [];
+  }
+}
+
 // SVG icons for departments
-function DeptIcon({ id }: { id: string }) {
+function DeptIcon({ slug }: { slug: string }) {
   const icons: Record<string, React.ReactNode> = {
     dermatology: (
       <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
@@ -41,7 +54,7 @@ function DeptIcon({ id }: { id: string }) {
     ),
   };
 
-  const path = icons[id] ?? icons['general-medicine'];
+  const path = icons[slug] ?? icons['general-medicine'];
 
   return (
     <svg
@@ -73,10 +86,9 @@ function ArrowIcon({ className = '' }: { className?: string }) {
   );
 }
 
-export function DepartmentsSection({ locale, t }: Props) {
+export async function DepartmentsSection({ locale, t }: Props) {
   const p = t.pages.home;
-  // Display first 6 departments
-  const featured = departments.slice(0, 6);
+  const featured = await getDepartments();
 
   return (
     <section
@@ -103,26 +115,26 @@ export function DepartmentsSection({ locale, t }: Props) {
 
         {/* 3 × 2 grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-          {featured.map((dept) => (
+          {featured.map((dept: any) => (
             <Link
-              key={dept.id}
+              key={dept._id}
               href={getLocalizedPath(`/departments/${dept.slug}`, locale)}
               className="group relative bg-white/[0.06] hover:bg-white/[0.10] border border-white/[0.08] hover:border-white/[0.18] rounded-2xl p-6 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
-              aria-label={`${dept.name[locale]} — ${dept.description[locale]}`}
+              aria-label={`${dept.name[locale] || dept.name.en} — ${dept.description?.[locale] || dept.description?.en || ''}`}
             >
               {/* Icon */}
               <div className="w-9 h-9 rounded-xl bg-brand-medium/20 flex items-center justify-center text-brand-light mb-5">
-                <DeptIcon id={dept.id} />
+                <DeptIcon slug={dept.slug} />
               </div>
 
               {/* Name */}
               <h3 className="text-base font-semibold text-white mb-1.5">
-                {dept.name[locale]}
+                {dept.name[locale] || dept.name.en}
               </h3>
 
               {/* Description */}
-              <p className="text-sm text-white/55 leading-relaxed mb-4">
-                {dept.description[locale]}
+              <p className="text-sm text-white/55 leading-relaxed mb-4 line-clamp-2">
+                {dept.description?.[locale] || dept.description?.en || ''}
               </p>
 
               {/* Learn more */}

@@ -7,16 +7,30 @@ import { getTranslations } from '@/i18n';
 import { getLocalizedPath } from '@/lib/utils';
 import { PageHero } from '@/components/shared/PageHero';
 import { CTASection } from '@/components/shared/CTASection';
-import { departments } from '@/data/departments';
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
 };
 
+async function getDepartments() {
+  try {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+    const res = await fetch(`${apiUrl}/departments?active=true&limit=100`, {
+      next: { revalidate: 60 },
+    });
+    if (!res.ok) return [];
+    const json = await res.json();
+    return json.data || [];
+  } catch (error) {
+    return [];
+  }
+}
+
 /** Pre-generate all locale × slug combos for static SSG */
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  const depts = await getDepartments();
   return LOCALES.flatMap((locale) =>
-    departments.map((dept) => ({ locale, slug: dept.slug }))
+    depts.map((dept: any) => ({ locale, slug: dept.slug }))
   );
 }
 
@@ -24,12 +38,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
   if (!isValidLocale(locale)) return {};
 
-  const dept = departments.find((d) => d.slug === slug);
+  const depts = await getDepartments();
+  const dept = depts.find((d: any) => d.slug === slug);
   if (!dept) return {};
 
   const t = getTranslations(locale as Locale);
-  const name = dept.name[locale as Locale];
-  const desc = dept.description[locale as Locale];
+  const name = dept.name[locale as Locale] || dept.name.en;
+  const desc = dept.description?.[locale as Locale] || dept.description?.en || '';
 
   return {
     title: `${name} — ${t.meta.siteName}`,
@@ -48,17 +63,21 @@ export default async function DepartmentDetailPage({ params }: Props) {
   const { locale, slug } = await params;
   if (!isValidLocale(locale)) notFound();
 
-  const dept = departments.find((d) => d.slug === slug);
+  const depts = await getDepartments();
+  const dept = depts.find((d: any) => d.slug === slug);
   if (!dept) notFound();
 
   const typedLocale = locale as Locale;
   const t = getTranslations(typedLocale);
   const isAr = typedLocale === 'ar';
 
+  const name = dept.name[typedLocale] || dept.name.en;
+  const desc = dept.description?.[typedLocale] || dept.description?.en || '';
+
   const breadcrumbs = [
     { label: isAr ? 'الرئيسية' : 'Home', href: getLocalizedPath('/', typedLocale) },
     { label: isAr ? 'الأقسام' : 'Departments', href: getLocalizedPath('/departments', typedLocale) },
-    { label: dept.name[typedLocale] },
+    { label: name },
   ];
 
   return (
@@ -67,8 +86,8 @@ export default async function DepartmentDetailPage({ params }: Props) {
       <PageHero
         locale={typedLocale}
         badge={isAr ? 'الأقسام الطبية' : 'Medical Departments'}
-        heading={dept.name[typedLocale]}
-        subtext={dept.description[typedLocale]}
+        heading={name}
+        subtext={desc}
         breadcrumbs={breadcrumbs}
       />
 
@@ -83,10 +102,10 @@ export default async function DepartmentDetailPage({ params }: Props) {
               </svg>
             </div>
             <h2 className="text-xl font-semibold font-serif text-text-base mb-3">
-              {dept.name[typedLocale]}
+              {name}
             </h2>
             <p className="text-text-muted leading-relaxed mb-6">
-              {dept.description[typedLocale]}
+              {desc}
             </p>
             <p className="text-xs text-text-subtle italic">
               {t.common.placeholder}
@@ -102,16 +121,16 @@ export default async function DepartmentDetailPage({ params }: Props) {
             {isAr ? 'أقسام أخرى' : 'Other Departments'}
           </p>
           <div className="flex flex-wrap gap-3">
-            {departments
-              .filter((d) => d.id !== dept.id)
+            {depts
+              .filter((d: any) => d._id !== dept._id)
               .slice(0, 5)
-              .map((d) => (
+              .map((d: any) => (
                 <Link
-                  key={d.id}
+                  key={d._id}
                   href={getLocalizedPath(`/departments/${d.slug}`, typedLocale)}
                   className="px-4 py-2 rounded-lg border border-border bg-white text-sm font-medium text-text-base hover:border-brand-pale hover:bg-white hover:text-brand-dark transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-medium"
                 >
-                  {d.name[typedLocale]}
+                  {d.name[typedLocale] || d.name.en}
                 </Link>
               ))}
           </div>
@@ -119,12 +138,11 @@ export default async function DepartmentDetailPage({ params }: Props) {
       </section>
 
       {/* ── CTA ────────────────────────────────────────────────────────────── */}
-      <CTASection
-        heading={isAr ? 'هل تريد حجز موعد في هذا القسم؟' : 'Want to book an appointment in this department?'}
-        subtext={isAr ? 'فريق رعاية المرضى لدينا جاهز لمساعدتك.' : 'Our patient-care team is ready to help you.'}
-        ctaLabel={isAr ? 'احجز موعدًا' : 'Book an appointment'}
+      <CTASection 
+        heading={isAr ? 'هل تبحث عن رعاية متخصصة؟' : 'Looking for specialized care?'}
+        subtext={isAr ? 'احجز موعدك اليوم.' : 'Book your appointment today.'}
+        ctaLabel={t.common.bookNow}
         ctaHref={getLocalizedPath('/contact', typedLocale)}
-        variant="dark"
       />
     </>
   );

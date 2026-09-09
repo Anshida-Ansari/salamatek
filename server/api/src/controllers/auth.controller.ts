@@ -30,7 +30,7 @@ export const loginAdmin = asyncHandler(async (req: Request, res: Response) => {
         name: admin.name,
         email: admin.email,
         role: admin.role,
-        token: generateToken(admin._id as string),
+        token: generateToken(admin._id.toString()),
       },
     });
   } else {
@@ -40,8 +40,7 @@ export const loginAdmin = asyncHandler(async (req: Request, res: Response) => {
   }
 });
 
-export const getMe = asyncHandler(async (req: Request, res: Response) => {
-  // @ts-ignore
+export const getMe = asyncHandler(async (req: any, res: Response) => {
   const admin = await Admin.findById(req.admin._id).select('-passwordHash');
   if (!admin) {
     const error = new Error('Admin not found') as AppError;
@@ -52,7 +51,7 @@ export const getMe = asyncHandler(async (req: Request, res: Response) => {
 });
 
 // Temporary endpoint for development to create the first admin
-export const createInitialAdmin = asyncHandler(async (req: Request, res: Response) => {
+export const createInitialAdmin = asyncHandler(async (_req: Request, res: Response) => {
   const adminExists = await Admin.findOne({ email: 'admin@salamatek.com' });
   if (adminExists) {
     res.json({ message: 'Admin already exists' });

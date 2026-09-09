@@ -39,7 +39,6 @@ const serviceSchema = new Schema(
 );
 
 // Indexes
-serviceSchema.index({ slug: 1 });
 serviceSchema.index({ active: 1 });
 serviceSchema.index({ departmentId: 1 });
 

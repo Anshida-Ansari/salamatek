@@ -9,7 +9,7 @@ export function middleware(request: NextRequest): NextResponse {
       pathname === `/${locale}` || pathname.startsWith(`/${locale}/`)
   );
 
-  if (pathnameHasLocale) {
+  if (pathnameHasLocale || pathname.startsWith('/admin')) {
     return NextResponse.next();
   }
 

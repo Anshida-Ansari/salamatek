@@ -7,16 +7,30 @@ import { getTranslations } from '@/i18n';
 import { getLocalizedPath } from '@/lib/utils';
 import { PageHero } from '@/components/shared/PageHero';
 import { CTASection } from '@/components/shared/CTASection';
-import { services } from '@/data/services';
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
 };
 
+async function getServices() {
+  try {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+    const res = await fetch(`${apiUrl}/services?active=true&limit=100`, {
+      next: { revalidate: 60 },
+    });
+    if (!res.ok) return [];
+    const json = await res.json();
+    return json.data || [];
+  } catch (error) {
+    return [];
+  }
+}
+
 /** Pre-generate all locale × slug combos for static SSG */
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  const services = await getServices();
   return LOCALES.flatMap((locale) =>
-    services.map((s) => ({ locale, slug: s.slug }))
+    services.map((s: any) => ({ locale, slug: s.slug }))
   );
 }
 
@@ -24,12 +38,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
   if (!isValidLocale(locale)) return {};
 
-  const service = services.find((s) => s.slug === slug);
+  const services = await getServices();
+  const service = services.find((s: any) => s.slug === slug);
   if (!service) return {};
 
   const t = getTranslations(locale as Locale);
-  const name = service.name[locale as Locale];
-  const desc = service.description[locale as Locale];
+  const name = service.name[locale as Locale] || service.name.en;
+  const desc = service.description?.[locale as Locale] || service.description?.en || '';
 
   return {
     title: `${name} — ${t.meta.siteName}`,
@@ -48,53 +63,49 @@ export default async function ServiceDetailPage({ params }: Props) {
   const { locale, slug } = await params;
   if (!isValidLocale(locale)) notFound();
 
-  const service = services.find((s) => s.slug === slug);
+  const services = await getServices();
+  const service = services.find((s: any) => s.slug === slug);
   if (!service) notFound();
 
   const typedLocale = locale as Locale;
   const t = getTranslations(typedLocale);
   const isAr = typedLocale === 'ar';
 
+  const name = service.name[typedLocale] || service.name.en;
+  const desc = service.description?.[typedLocale] || service.description?.en || '';
+
   const breadcrumbs = [
     { label: isAr ? 'الرئيسية' : 'Home', href: getLocalizedPath('/', typedLocale) },
     { label: isAr ? 'الخدمات' : 'Services', href: getLocalizedPath('/services', typedLocale) },
-    { label: service.name[typedLocale] },
+    { label: name },
   ];
 
   return (
     <>
-      {/* ── Hero ──────────────────────────────────────────────────────────── */}
       <PageHero
         locale={typedLocale}
-        badge={isAr ? 'خدماتنا الطبية' : 'Medical Services'}
-        heading={service.name[typedLocale]}
-        subtext={service.description[typedLocale]}
+        badge={isAr ? 'خدمة طبية' : 'Medical Service'}
+        heading={name}
+        subtext={desc}
         breadcrumbs={breadcrumbs}
       />
 
-      {/* ── Content placeholder ───────────────────────────────────────────── */}
       <section className="bg-white py-14 md:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="max-w-2xl mx-auto text-center">
-            <div className="w-14 h-14 rounded-2xl bg-surface-mint flex items-center justify-center mx-auto mb-6">
-              <svg className="w-7 h-7 text-brand-medium" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
-              </svg>
-            </div>
-            <h2 className="text-xl font-semibold font-serif text-text-base mb-3">
-              {service.name[typedLocale]}
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-2xl font-serif font-bold text-text-base mb-6">
+              {isAr ? 'حول هذه الخدمة' : 'About this service'}
             </h2>
-            <p className="text-text-muted leading-relaxed mb-6">
-              {service.description[typedLocale]}
-            </p>
-            <p className="text-xs text-text-subtle italic">
-              {t.common.placeholder}
-            </p>
+            <div className="prose prose-brand max-w-none text-text-muted">
+              <p>{desc}</p>
+              <p className="mt-4 italic text-sm">
+                {t.common.placeholder}
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ── Other services ────────────────────────────────────────────────── */}
       <section className="bg-surface-mint py-10">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <p className="text-xs font-bold uppercase tracking-widest text-text-subtle mb-5">
@@ -102,28 +113,26 @@ export default async function ServiceDetailPage({ params }: Props) {
           </p>
           <div className="flex flex-wrap gap-3">
             {services
-              .filter((s) => s.id !== service.id && s.active)
+              .filter((s: any) => s._id !== service._id)
               .slice(0, 5)
-              .map((s) => (
+              .map((s: any) => (
                 <Link
-                  key={s.id}
+                  key={s._id}
                   href={getLocalizedPath(`/services/${s.slug}`, typedLocale)}
-                  className="px-4 py-2 rounded-lg border border-border bg-white text-sm font-medium text-text-base hover:border-brand-pale hover:text-brand-dark transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-medium"
+                  className="px-4 py-2 rounded-lg border border-border bg-white text-sm font-medium text-text-base hover:border-brand-pale hover:bg-white hover:text-brand-dark transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-medium"
                 >
-                  {s.name[typedLocale]}
+                  {s.name[typedLocale] || s.name.en}
                 </Link>
               ))}
           </div>
         </div>
       </section>
 
-      {/* ── CTA ────────────────────────────────────────────────────────────── */}
-      <CTASection
-        heading={isAr ? 'هل تريد الاستفادة من هذه الخدمة؟' : 'Ready to use this service?'}
-        subtext={isAr ? 'تواصل معنا لحجز موعدك.' : 'Contact us to schedule your appointment.'}
-        ctaLabel={isAr ? 'احجز موعدًا' : 'Book an appointment'}
+      <CTASection 
+        heading={isAr ? 'احجز خدمة اليوم' : 'Book a service today'}
+        subtext={isAr ? 'فريقنا مستعد لمساعدتك.' : 'Our team is ready to help you.'}
+        ctaLabel={t.common.bookNow}
         ctaHref={getLocalizedPath('/contact', typedLocale)}
-        variant="dark"
       />
     </>
   );

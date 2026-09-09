@@ -6,6 +6,12 @@ import departmentRoutes from './routes/department.routes';
 import serviceRoutes from './routes/service.routes';
 import doctorRoutes from './routes/doctor.routes';
 import authRoutes from './routes/auth.routes';
+import healthPackageRoutes from './routes/healthPackage.routes';
+import careerRoutes from './routes/career.routes';
+import jobApplicationRoutes from './routes/jobApplication.routes';
+import newsRoutes from './routes/news.routes';
+import sarcEnquiryRoutes from './routes/sarcEnquiry.routes';
+import contactEnquiryRoutes from './routes/contactEnquiry.routes';
 import { errorHandler, notFound } from './middlewares/errorHandler';
 
 export function createApp(): Application {
@@ -15,7 +21,7 @@ export function createApp(): Application {
   app.use(helmet());
   app.use(
     cors({
-      origin: process.env.CLIENT_URL || '*',
+      origin: process.env.CLIENT_URL ? process.env.CLIENT_URL.split(',') : '*',
       methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
       allowedHeaders: ['Content-Type', 'Authorization'],
       credentials: true,
@@ -39,6 +45,12 @@ export function createApp(): Application {
   app.use('/api/departments', departmentRoutes);
   app.use('/api/services', serviceRoutes);
   app.use('/api/doctors', doctorRoutes);
+  app.use('/api/health-packages', healthPackageRoutes);
+  app.use('/api/careers', careerRoutes);
+  app.use('/api/job-applications', jobApplicationRoutes);
+  app.use('/api/news', newsRoutes);
+  app.use('/api/sarc-enquiries', sarcEnquiryRoutes);
+  app.use('/api/contact-enquiries', contactEnquiryRoutes);
 
   // ─── Error handling ─────────────────────────────────────────────────────────
   app.use(notFound);

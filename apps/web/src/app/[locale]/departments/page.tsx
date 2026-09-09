@@ -1,177 +1,103 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { isValidLocale } from '@/i18n/config';
-import type { Locale } from '@/i18n/config';
+import Link from 'next/link';
 import { getTranslations } from '@/i18n';
+import { isValidLocale, type Locale } from '@/i18n/config';
 import { getLocalizedPath } from '@/lib/utils';
 import { PageHero } from '@/components/shared/PageHero';
 import { CTASection } from '@/components/shared/CTASection';
-import { departments } from '@/data/departments';
 
-type Props = { params: Promise<{ locale: string }> };
+type Props = {
+  params: Promise<{ locale: string }>;
+};
+
+async function getDepartments() {
+  try {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+    const res = await fetch(`${apiUrl}/departments?active=true&limit=100`, {
+      next: { revalidate: 60 },
+    });
+    if (!res.ok) return [];
+    const json = await res.json();
+    return json.data || [];
+  } catch (error) {
+    return [];
+  }
+}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   if (!isValidLocale(locale)) return {};
   const t = getTranslations(locale as Locale);
-  const pd = t.pages.departments;
+
   return {
-    title: pd.title,
-    description: pd.description,
+    title: t.pages.departments.title,
+    description: t.pages.departments.description,
     openGraph: {
-      title: pd.title,
-      description: pd.description,
-      siteName: t.meta.siteName,
-      locale: locale === 'ar' ? 'ar_SA' : 'en_US',
-      type: 'website',
+      title: t.pages.departments.title,
+      description: t.pages.departments.description,
     },
-    alternates: { languages: { en: '/en/departments', ar: '/ar/departments' } },
   };
-}
-
-// Inline SVG icon renderer (same set used on homepage)
-function DeptIcon({ id }: { id: string }) {
-  const paths: Record<string, React.ReactNode> = {
-    dermatology: (
-      <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
-    ),
-    dental: (
-      <path strokeLinecap="round" strokeLinejoin="round" d="M15.182 15.182a4.5 4.5 0 01-6.364 0M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-    ),
-    ophthalmology: (
-      <>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-        <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-      </>
-    ),
-    'womens-health': (
-      <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
-    ),
-    'general-medicine': (
-      <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-    ),
-    laboratory: (
-      <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104a24.301 24.301 0 014.5 0m0 0v5.714a2.25 2.25 0 001.357 2.059l.096.04a3.75 3.75 0 012.44 4.023 6.75 6.75 0 01-6.726 6.016h-.09A6.75 6.75 0 016.25 15.52a3.75 3.75 0 012.44-4.023l.096-.04a2.25 2.25 0 001.357-2.059V3.104" />
-    ),
-    physiotherapy: (
-      <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
-    ),
-    pediatrics: (
-      <path strokeLinecap="round" strokeLinejoin="round" d="M15.182 16.318A4.486 4.486 0 0012.016 15a4.486 4.486 0 00-3.198 1.318M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-    ),
-    emergency: (
-      <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
-    ),
-  };
-
-  return (
-    <svg
-      className="w-6 h-6"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      aria-hidden="true"
-    >
-      {paths[id] ?? paths['general-medicine']}
-    </svg>
-  );
 }
 
 export default async function DepartmentsPage({ params }: Props) {
   const { locale } = await params;
   if (!isValidLocale(locale)) notFound();
-
+  
   const typedLocale = locale as Locale;
   const t = getTranslations(typedLocale);
-  const pd = t.pages.departments;
-  const isAr = typedLocale === 'ar';
-
-  const breadcrumbs = [
-    { label: isAr ? 'الرئيسية' : 'Home', href: getLocalizedPath('/', typedLocale) },
-    { label: isAr ? 'الأقسام' : 'Departments' },
-  ];
-
-  const activeDepts = departments.filter((d) => d);
+  const p = t.pages.departments;
+  const depts = await getDepartments();
 
   return (
     <>
-      {/* ── 1. Hero ─────────────────────────────────────────────────────── */}
-      <PageHero
+      <PageHero 
         locale={typedLocale}
-        badge={pd.heroBadge}
-        heading={pd.heroHeading}
-        subtext={pd.heroSubtext}
-        breadcrumbs={breadcrumbs}
-        imageSrc="/images/hospital/emergency-ward.jpg"
-        imageAlt={isAr ? 'أقسام مجمع سلامتك الطبي' : 'Salamatek Medical Centre departments'}
+        badge={p.title}
+        heading={p.title}
+        subtext={p.description}
       />
 
-      {/* ── 2. Departments Grid ──────────────────────────────────────────── */}
-      <section
-        className="bg-white py-14 md:py-20"
-        aria-labelledby="departments-list-heading"
-        id="departments-list"
-      >
+      <section className="py-16 md:py-24 bg-surface-light">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          {/* Section header */}
-          <div className="mb-10">
-            <p className="text-xs font-bold uppercase tracking-widest text-brand-red mb-2">
-              {pd.listHeading}
-            </p>
-            <h2
-              id="departments-list-heading"
-              className="text-2xl md:text-display-sm font-serif font-bold text-text-base leading-snug mb-2"
-            >
-              {pd.listHeading}
-            </h2>
-            <p className="text-sm text-text-muted max-w-lg">
-              {pd.listSubtext}
-            </p>
-          </div>
-
-          {/* Grid of department cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {activeDepts.map((dept) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {depts.map((d: any) => (
               <Link
-                key={dept.id}
-                href={getLocalizedPath(`/departments/${dept.slug}`, typedLocale)}
+                key={d._id}
+                href={getLocalizedPath(`/departments/${d.slug}`, typedLocale)}
                 className="group flex flex-col bg-white border border-border rounded-2xl p-6 hover:border-brand-pale hover:shadow-card-md transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-medium"
-                aria-label={`${dept.name[typedLocale]} — ${dept.description[typedLocale]}`}
+                aria-label={`${d.name[typedLocale] || d.name.en} — ${d.description?.[typedLocale] || d.description?.en || ''}`}
               >
-                {/* Icon */}
+                {/* Icon Placeholder */}
                 <div className="w-11 h-11 rounded-xl bg-brand-mint flex items-center justify-center text-brand-medium mb-5 group-hover:bg-brand-medium group-hover:text-white transition-colors duration-200">
-                  <DeptIcon id={dept.id} />
+                  <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg>
                 </div>
 
                 {/* Name */}
-                <h3 className="text-base font-semibold text-text-base mb-2 leading-snug">
-                  {dept.name[typedLocale]}
+                <h3 className="text-xl font-serif font-bold text-text-base mb-3 group-hover:text-brand-medium transition-colors">
+                  {d.name[typedLocale] || d.name.en}
                 </h3>
-
-                {/* Description */}
-                <p className="text-sm text-text-muted leading-relaxed flex-1 mb-4">
-                  {dept.description[typedLocale]}
+                <p className="text-text-muted text-sm leading-relaxed mb-6 flex-1 line-clamp-3">
+                  {d.description?.[typedLocale] || d.description?.en || ''}
                 </p>
-
-                {/* Learn more */}
-                <span className="text-xs font-semibold text-brand-red group-hover:text-brand-red-dark transition-colors duration-150">
-                  {t.common.learnMore} →
-                </span>
+                
+                <div className="flex items-center text-sm font-semibold text-brand-medium">
+                  {t.common.learnMore}
+                  <svg className="w-4 h-4 ms-2 rtl:rotate-180 transition-transform group-hover:translate-x-1 rtl:group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  </svg>
+                </div>
               </Link>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── 3. CTA ───────────────────────────────────────────────────────── */}
-      <CTASection
-        heading={pd.ctaHeading}
-        subtext={pd.ctaSubtext}
-        ctaLabel={pd.ctaBtn}
+      <CTASection 
+        heading={t.pages.home.appointmentHeading}
+        subtext={t.pages.home.appointmentSubtext}
+        ctaLabel={t.common.bookNow}
         ctaHref={getLocalizedPath('/contact', typedLocale)}
-        variant="dark"
       />
     </>
   );

@@ -6,14 +6,14 @@ import Link from 'next/link';
 import type { Locale } from '@/i18n/config';
 import type { Translations } from '@/i18n';
 import { getLocalizedPath } from '@/lib/utils';
-import { departments } from '@/data/departments';
 
 type Props = {
   locale: Locale;
   t: Translations;
+  departments: any[];
 };
 
-export function DoctorsSection({ locale, t }: Props) {
+export function DoctorsSection({ locale, t, departments }: Props) {
   const p = t.pages.home;
   const [selectedDept, setSelectedDept] = useState('');
 
@@ -85,9 +85,9 @@ export function DoctorsSection({ locale, t }: Props) {
                     aria-label={p.doctorsFindLabel}
                   >
                     <option value="">{p.doctorsDeptPlaceholder}</option>
-                    {departments.map((d) => (
-                      <option key={d.id} value={d.id}>
-                        {d.name[locale]}
+                    {departments.map((d: any) => (
+                      <option key={d._id} value={d.slug}>
+                        {d.name[locale] || d.name.en}
                       </option>
                     ))}
                   </select>

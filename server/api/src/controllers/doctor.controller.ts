@@ -2,30 +2,29 @@ import { Request, Response } from 'express';
 import { Doctor } from '../models/Doctor';
 import { asyncHandler } from '../middlewares/asyncHandler';
 import { AppError } from '../middlewares/errorHandler';
-import { FilterQuery } from 'mongoose';
 
 export const getDoctors = asyncHandler(async (req: Request, res: Response): Promise<void> => {
   const page = parseInt(req.query.page as string) || 1;
   const limit = parseInt(req.query.limit as string) || 10;
   const skip = (page - 1) * limit;
 
-  const query: FilterQuery<any> = {};
+  const filter: any = {};
   if (req.query.active !== undefined) {
-    query.active = req.query.active === 'true';
+    filter.active = req.query.active === 'true';
   }
   if (req.query.departmentId) {
-    query.departmentId = req.query.departmentId;
+    filter.departmentId = req.query.departmentId;
   }
   if (req.query.search) {
-    query.$or = [
+    filter.$or = [
       { 'name.en': { $regex: req.query.search, $options: 'i' } },
       { 'name.ar': { $regex: req.query.search, $options: 'i' } },
     ];
   }
 
   const [data, total] = await Promise.all([
-    Doctor.find(query).populate('departmentId', 'name slug').skip(skip).limit(limit).sort({ createdAt: -1 }).lean(),
-    Doctor.countDocuments(query),
+    Doctor.find(filter).populate('departmentId', 'name slug').skip(skip).limit(limit).sort({ createdAt: -1 }).lean(),
+    Doctor.countDocuments(filter),
   ]);
 
   res.json({

@@ -43,10 +43,26 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
+async function getDepartments() {
+  try {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+    const res = await fetch(`${apiUrl}/departments?active=true&limit=100`, {
+      next: { revalidate: 60 },
+    });
+    if (!res.ok) return [];
+    const json = await res.json();
+    return json.data || [];
+  } catch (error) {
+    return [];
+  }
+}
+
 export default async function HomePage({ params }: Props) {
   const { locale } = await params;
   if (!isValidLocale(locale)) notFound();
   const t = getTranslations(locale as Locale);
+  
+  const depts = await getDepartments();
 
   return (
     <>
@@ -60,7 +76,7 @@ export default async function HomePage({ params }: Props) {
       <DepartmentsSection locale={locale} t={t} />
 
       {/* 4. Doctors */}
-      <DoctorsSection locale={locale} t={t} />
+      <DoctorsSection locale={locale} t={t} departments={depts} />
 
       {/* 5. Why Salamatek */}
       <WhySalamateKSection locale={locale} t={t} />

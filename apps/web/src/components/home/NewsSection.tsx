@@ -3,12 +3,25 @@ import Link from 'next/link';
 import type { Locale } from '@/i18n/config';
 import type { Translations } from '@/i18n';
 import { getLocalizedPath } from '@/lib/utils';
-import { newsArticles, type NewsArticle } from '@/data/news';
 
 type Props = {
   locale: Locale;
   t: Translations;
 };
+
+async function getNews() {
+  try {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+    const res = await fetch(`${apiUrl}/news?active=true&limit=3`, {
+      next: { revalidate: 60 },
+    });
+    if (!res.ok) return [];
+    const json = await res.json();
+    return json.data || [];
+  } catch (error) {
+    return [];
+  }
+}
 
 function NewsCard({
   article,
@@ -16,7 +29,7 @@ function NewsCard({
   t,
   featured = false,
 }: {
-  article: NewsArticle;
+  article: any;
   locale: Locale;
   t: Translations;
   featured?: boolean;
@@ -28,8 +41,8 @@ function NewsCard({
       {/* Image */}
       <div className={`relative overflow-hidden rounded-2xl ${featured ? 'aspect-[4/3]' : 'aspect-[16/10]'} mb-5`}>
         <Image
-          src={article.image}
-          alt={article.title[locale]}
+          src={article.image || '/images/placeholder.jpg'}
+          alt={article.title[locale] || article.title.en}
           fill
           sizes={featured ? '(max-width: 768px) 100vw, 45vw' : '(max-width: 768px) 100vw, 28vw'}
           className="object-cover object-center transition-transform duration-500 group-hover:scale-[1.03]"
@@ -38,18 +51,18 @@ function NewsCard({
 
       {/* Category */}
       <p className="text-[10px] font-bold uppercase tracking-widest text-brand-red mb-2">
-        {article.category[locale]}
+        {article.category?.[locale] || article.category?.en || 'News'}
       </p>
 
       {/* Title */}
       <h3 className={`font-serif font-bold text-text-base leading-snug mb-3 ${featured ? 'text-xl md:text-2xl' : 'text-base'}`}>
-        {article.title[locale]}
+        {article.title[locale] || article.title.en}
       </h3>
 
       {/* Excerpt — only on featured */}
       {featured && (
-        <p className="text-sm text-text-muted leading-relaxed mb-4">
-          {article.excerpt[locale]}
+        <p className="text-sm text-text-muted leading-relaxed mb-4 line-clamp-2">
+          {article.content?.[locale] || article.content?.en || ''}
         </p>
       )}
 
@@ -57,7 +70,7 @@ function NewsCard({
       <Link
         href={getLocalizedPath(`/news/${article.slug}`, locale)}
         className="text-xs font-semibold text-brand-red hover:text-brand-red-dark transition-colors duration-150"
-        aria-label={`${isLink} — ${article.title[locale]}`}
+        aria-label={`${isLink} — ${article.title[locale] || article.title.en}`}
       >
         {t.common.readInsight}
       </Link>
@@ -65,9 +78,10 @@ function NewsCard({
   );
 }
 
-export function NewsSection({ locale, t }: Props) {
+export async function NewsSection({ locale, t }: Props) {
   const p = t.pages.home;
-  const [featured, ...rest] = newsArticles;
+  const news = await getNews();
+  const [featured, ...rest] = news;
 
   if (!featured) return null;
 
@@ -114,8 +128,8 @@ export function NewsSection({ locale, t }: Props) {
 
           {/* Secondary articles */}
           <div className="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {rest.slice(0, 2).map((article) => (
-              <div key={article.id} className="group">
+            {rest.slice(0, 2).map((article: any) => (
+              <div key={article._id} className="group">
                 <NewsCard article={article} locale={locale} t={t} />
               </div>
             ))}
