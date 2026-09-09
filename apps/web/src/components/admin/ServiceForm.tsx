@@ -136,7 +136,7 @@ export default function ServiceForm({ serviceId }: { serviceId?: string }) {
         });
         toast('Service added successfully.', 'success');
       }
-      router.push('/dashboard/services');
+      router.push('/admin/dashboard/services');
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'Failed to save service.';
       toast(message, 'error');
@@ -301,7 +301,7 @@ export default function ServiceForm({ serviceId }: { serviceId?: string }) {
       <div className="flex items-center justify-between pt-2">
         <button
           type="button"
-          onClick={() => router.push('/dashboard/services')}
+          onClick={() => router.push('/admin/dashboard/services')}
           className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold text-gray-700 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 transition"
         >
           <ChevronLeft className="w-4 h-4" />

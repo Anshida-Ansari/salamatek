@@ -63,7 +63,7 @@ function EmptyState({ search }: { search: string }) {
       </p>
       {!search && (
         <Link
-          href="/dashboard/health-packages/new"
+          href="/admin/dashboard/health-packages/new"
           className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-lg transition"
         >
           <Plus className="w-4 h-4" />
@@ -145,7 +145,7 @@ export default function HealthPackagesPage() {
           </p>
         </div>
         <Link
-          href="/dashboard/health-packages/new"
+          href="/admin/dashboard/health-packages/new"
           className="inline-flex items-center gap-2 px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-xl transition shadow-sm"
         >
           <Plus className="w-4 h-4" />
@@ -232,7 +232,7 @@ export default function HealthPackagesPage() {
                     <td className="px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
                         <Link
-                          href={`/dashboard/health-packages/${pkg._id}/edit`}
+                          href={`/admin/dashboard/health-packages/${pkg._id}/edit`}
                           className="p-2 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition"
                         >
                           <Edit2 className="w-4 h-4" />

@@ -165,7 +165,7 @@ export default function CareerForm({ careerId }: { careerId?: string }) {
         });
         toast('Job added successfully.', 'success');
       }
-      router.push('/dashboard/careers');
+      router.push('/admin/dashboard/careers');
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'Failed to save job.';
       toast(message, 'error');
@@ -298,7 +298,7 @@ export default function CareerForm({ careerId }: { careerId?: string }) {
         </div>
 
         <div className="flex items-center justify-between pt-2">
-          <button type="button" onClick={() => router.push('/dashboard/careers')} className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold text-gray-700 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 transition">
+          <button type="button" onClick={() => router.push('/admin/dashboard/careers')} className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold text-gray-700 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 transition">
             <ChevronLeft className="w-4 h-4" /> Cancel
           </button>
           <button type="submit" disabled={isLoading} className="inline-flex items-center gap-2 px-6 py-2.5 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white text-sm font-semibold rounded-xl transition shadow-sm">

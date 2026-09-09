@@ -122,7 +122,7 @@ export default function DepartmentForm({ departmentId }: { departmentId?: string
         });
         toast('Department added successfully.', 'success');
       }
-      router.push('/dashboard/departments');
+      router.push('/admin/dashboard/departments');
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'Failed to save department.';
       toast(message, 'error');
@@ -269,7 +269,7 @@ export default function DepartmentForm({ departmentId }: { departmentId?: string
       <div className="flex items-center justify-between pt-2">
         <button
           type="button"
-          onClick={() => router.push('/dashboard/departments')}
+          onClick={() => router.push('/admin/dashboard/departments')}
           className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold text-gray-700 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 transition"
         >
           <ChevronLeft className="w-4 h-4" />

@@ -153,7 +153,7 @@ export default function NewsForm({ articleId }: { articleId?: string }) {
         });
         toast('Article created successfully.', 'success');
       }
-      router.push('/dashboard/news');
+      router.push('/admin/dashboard/news');
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'Failed to save article.';
       toast(message, 'error');
@@ -283,7 +283,7 @@ export default function NewsForm({ articleId }: { articleId?: string }) {
         </div>
 
         <div className="flex items-center justify-between pt-2">
-          <button type="button" onClick={() => router.push('/dashboard/news')} className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold text-gray-700 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 transition">
+          <button type="button" onClick={() => router.push('/admin/dashboard/news')} className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold text-gray-700 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 transition">
             <ChevronLeft className="w-4 h-4" /> Cancel
           </button>
           <button type="submit" disabled={isLoading} className="inline-flex items-center gap-2 px-6 py-2.5 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white text-sm font-semibold rounded-xl transition shadow-sm">

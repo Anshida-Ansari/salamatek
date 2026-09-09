@@ -62,7 +62,7 @@ function EmptyState({ search }: { search: string }) {
       </p>
       {!search && (
         <Link
-          href="/dashboard/services/new"
+          href="/admin/dashboard/services/new"
           className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold rounded-lg transition"
         >
           <Plus className="w-4 h-4" />
@@ -144,7 +144,7 @@ export default function ServicesPage() {
           </p>
         </div>
         <Link
-          href="/dashboard/services/new"
+          href="/admin/dashboard/services/new"
           className="inline-flex items-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold rounded-xl transition shadow-sm"
         >
           <Plus className="w-4 h-4" />
@@ -238,7 +238,7 @@ export default function ServicesPage() {
                     <td className="px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
                         <Link
-                          href={`/dashboard/services/${svc._id}/edit`}
+                          href={`/admin/dashboard/services/${svc._id}/edit`}
                           className="p-2 text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition"
                         >
                           <Edit2 className="w-4 h-4" />

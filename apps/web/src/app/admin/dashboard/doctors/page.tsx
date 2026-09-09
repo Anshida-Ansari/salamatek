@@ -70,7 +70,7 @@ function EmptyState({ search }: { search: string }) {
       </p>
       {!search && (
         <Link
-          href="/dashboard/doctors/new"
+          href="/admin/dashboard/doctors/new"
           className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-lg transition"
         >
           <Plus className="w-4 h-4" />
@@ -162,7 +162,7 @@ export default function DoctorsPage() {
           </p>
         </div>
         <Link
-          href="/dashboard/doctors/new"
+          href="/admin/dashboard/doctors/new"
           className="inline-flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-xl transition shadow-sm"
         >
           <Plus className="w-4 h-4" />
@@ -280,7 +280,7 @@ export default function DoctorsPage() {
                       <td className="px-6 py-4 text-right">
                         <div className="flex items-center justify-end gap-2">
                           <Link
-                            href={`/dashboard/doctors/${doctor._id}/edit`}
+                            href={`/admin/dashboard/doctors/${doctor._id}/edit`}
                             className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition"
                             title="Edit"
                           >

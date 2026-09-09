@@ -59,7 +59,7 @@ export default function DashboardOverview() {
       color: 'bg-blue-500',
       lightColor: 'bg-blue-50',
       textColor: 'text-blue-600',
-      href: '/dashboard/doctors',
+      href: '/admin/dashboard/doctors',
       linkLabel: 'Manage doctors',
     },
     {
@@ -69,7 +69,7 @@ export default function DashboardOverview() {
       color: 'bg-indigo-500',
       lightColor: 'bg-indigo-50',
       textColor: 'text-indigo-600',
-      href: '/dashboard/departments',
+      href: '/admin/dashboard/departments',
       linkLabel: 'Manage departments',
     },
     {
@@ -79,7 +79,7 @@ export default function DashboardOverview() {
       color: 'bg-emerald-500',
       lightColor: 'bg-emerald-50',
       textColor: 'text-emerald-600',
-      href: '/dashboard/services',
+      href: '/admin/dashboard/services',
       linkLabel: 'Manage services',
     },
   ];
@@ -143,9 +143,9 @@ export default function DashboardOverview() {
         <h2 className="text-base font-semibold text-gray-800 mb-4">Quick Actions</h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {[
-            { label: 'Add Doctor', href: '/dashboard/doctors/new', color: 'border-blue-200 hover:border-blue-400 hover:bg-blue-50' },
-            { label: 'Add Department', href: '/dashboard/departments/new', color: 'border-indigo-200 hover:border-indigo-400 hover:bg-indigo-50' },
-            { label: 'Add Service', href: '/dashboard/services/new', color: 'border-emerald-200 hover:border-emerald-400 hover:bg-emerald-50' },
+            { label: 'Add Doctor', href: '/admin/dashboard/doctors/new', color: 'border-blue-200 hover:border-blue-400 hover:bg-blue-50' },
+            { label: 'Add Department', href: '/admin/dashboard/departments/new', color: 'border-indigo-200 hover:border-indigo-400 hover:bg-indigo-50' },
+            { label: 'Add Service', href: '/admin/dashboard/services/new', color: 'border-emerald-200 hover:border-emerald-400 hover:bg-emerald-50' },
           ].map((action) => (
             <Link
               key={action.label}

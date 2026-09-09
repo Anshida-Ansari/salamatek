@@ -151,7 +151,7 @@ export default function HealthPackageForm({ packageId }: { packageId?: string })
         });
         toast('Health Package added successfully.', 'success');
       }
-      router.push('/dashboard/health-packages');
+      router.push('/admin/dashboard/health-packages');
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'Failed to save package.';
       toast(message, 'error');
@@ -276,7 +276,7 @@ export default function HealthPackageForm({ packageId }: { packageId?: string })
         </div>
 
         <div className="flex items-center justify-between pt-2">
-          <button type="button" onClick={() => router.push('/dashboard/health-packages')} className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold text-gray-700 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 transition">
+          <button type="button" onClick={() => router.push('/admin/dashboard/health-packages')} className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold text-gray-700 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 transition">
             <ChevronLeft className="w-4 h-4" /> Cancel
           </button>
           <button type="submit" disabled={isLoading} className="inline-flex items-center gap-2 px-6 py-2.5 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white text-sm font-semibold rounded-xl transition shadow-sm">
