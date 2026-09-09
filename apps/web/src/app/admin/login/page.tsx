@@ -28,7 +28,7 @@ export default function LoginPage() {
       if (res.ok && data.success) {
         localStorage.setItem('adminToken', data.data.token);
         localStorage.setItem('adminUser', JSON.stringify(data.data));
-        router.push('/dashboard');
+        router.push('/admin/dashboard');
       } else {
         setError(data.message || 'Invalid email or password. Please try again.');
       }

@@ -30,16 +30,16 @@ interface NavItem {
 }
 
 const navigation: NavItem[] = [
-  { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
-  { name: 'Doctors', href: '/dashboard/doctors', icon: Users },
-  { name: 'Departments', href: '/dashboard/departments', icon: Building2 },
-  { name: 'Services', href: '/dashboard/services', icon: Stethoscope },
-  { name: 'Packages & Offers', href: '/dashboard/health-packages', icon: Package },
-  { name: 'Careers', href: '/dashboard/careers', icon: Briefcase },
-  { name: 'News & Blog', href: '/dashboard/news', icon: FileText },
-  { name: 'SARC Enquiries', href: '/dashboard/sarc-enquiries', icon: HeartHandshake },
-  { name: 'Job Applications', href: '/dashboard/job-applications', icon: FileText },
-  { name: 'Contact Enquiries', href: '/dashboard/contact-enquiries', icon: Mail },
+  { name: 'Dashboard', href: '/admin/dashboard', icon: LayoutDashboard },
+  { name: 'Doctors', href: '/admin/dashboard/doctors', icon: Users },
+  { name: 'Departments', href: '/admin/dashboard/departments', icon: Building2 },
+  { name: 'Services', href: '/admin/dashboard/services', icon: Stethoscope },
+  { name: 'Packages & Offers', href: '/admin/dashboard/health-packages', icon: Package },
+  { name: 'Careers', href: '/admin/dashboard/careers', icon: Briefcase },
+  { name: 'News & Blog', href: '/admin/dashboard/news', icon: FileText },
+  { name: 'SARC Enquiries', href: '/admin/dashboard/sarc-enquiries', icon: HeartHandshake },
+  { name: 'Job Applications', href: '/admin/dashboard/job-applications', icon: FileText },
+  { name: 'Contact Enquiries', href: '/admin/dashboard/contact-enquiries', icon: Mail },
   { name: 'Appointments', href: '#', icon: Calendar, disabled: true },
   { name: 'Settings', href: '#', icon: Settings, disabled: true },
 ];
@@ -55,7 +55,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     const user = localStorage.getItem('adminUser');
     const token = localStorage.getItem('adminToken');
     if (!token) {
-      router.push('/login');
+      router.push('/admin/login');
     } else if (user) {
       const parsed = JSON.parse(user);
       setAdminName(parsed.name || 'Admin');
@@ -66,7 +66,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const handleLogout = () => {
     localStorage.removeItem('adminToken');
     localStorage.removeItem('adminUser');
-    router.push('/login');
+    router.push('/admin/login');
   };
 
   // Close sidebar on route change (mobile)
@@ -97,10 +97,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <p className="text-[10px] uppercase tracking-widest text-slate-500 font-semibold px-3 mb-2 mt-1">
           Management
         </p>
-        {navigation.slice(0, 9).map((item) => {
+        {navigation.slice(0, 10).map((item) => {
           const isActive =
             pathname === item.href ||
-            (item.href !== '/dashboard' && pathname.startsWith(item.href));
+            (item.href !== '/admin/dashboard' && pathname.startsWith(item.href));
           const Icon = item.icon;
           return (
             <Link
@@ -127,7 +127,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <p className="text-[10px] uppercase tracking-widest text-slate-500 font-semibold px-3 mb-2 mt-5">
           Coming Soon
         </p>
-        {navigation.slice(9).map((item) => {
+        {navigation.slice(10).map((item) => {
           const Icon = item.icon;
           return (
             <div

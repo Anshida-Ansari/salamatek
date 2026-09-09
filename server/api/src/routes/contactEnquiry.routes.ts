@@ -6,7 +6,7 @@ import {
   updateEnquiryStatus,
   deleteEnquiry
 } from '../controllers/contactEnquiry.controller';
-import { protect, adminOnly } from '../middlewares/auth';
+import { protect } from '../middlewares/auth.middleware';
 
 const router = Router();
 
@@ -15,7 +15,6 @@ router.post('/', createEnquiry);
 
 // Protected Admin Routes
 router.use(protect);
-router.use(adminOnly);
 
 router.route('/')
   .get(getEnquiries);
