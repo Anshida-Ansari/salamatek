@@ -2,8 +2,11 @@ import express, { type Application } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
-import { env } from './config/env';
-import { router } from './routes';
+import departmentRoutes from './routes/department.routes';
+import serviceRoutes from './routes/service.routes';
+import doctorRoutes from './routes/doctor.routes';
+import authRoutes from './routes/auth.routes';
+import { errorHandler, notFound } from './middlewares/errorHandler';
 
 export function createApp(): Application {
   const app = express();
@@ -12,7 +15,7 @@ export function createApp(): Application {
   app.use(helmet());
   app.use(
     cors({
-      origin: env.ALLOWED_ORIGINS,
+      origin: process.env.CLIENT_URL || '*',
       methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
       allowedHeaders: ['Content-Type', 'Authorization'],
       credentials: true,
@@ -20,44 +23,26 @@ export function createApp(): Application {
   );
 
   // ─── Logging ─────────────────────────────────────────────────────────────
-  app.use(morgan(env.NODE_ENV === 'production' ? 'combined' : 'dev'));
+  app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 
   // ─── Body parsing ────────────────────────────────────────────────────────
   app.use(express.json({ limit: '10mb' }));
   app.use(express.urlencoded({ extended: true }));
 
-  // ─── Routes ──────────────────────────────────────────────────────────────
-  app.use('/api/v1', router);
-
-  // ─── 404 handler ─────────────────────────────────────────────────────────
-  app.use((_req, res) => {
-    res.status(404).json({
-      success: false,
-      error: { message: 'Route not found', code: 'NOT_FOUND' },
-    });
+  // ─── Health Check ────────────────────────────────────────────────────────
+  app.get('/api/health', (_req, res) => {
+    res.json({ success: true, message: 'Salamatek API is running' });
   });
 
-  // ─── Global error handler ─────────────────────────────────────────────────
-  app.use(
-    (
-      err: Error,
-      _req: express.Request,
-      res: express.Response,
-      _next: express.NextFunction
-    ) => {
-      console.error(err);
-      res.status(500).json({
-        success: false,
-        error: {
-          message:
-            env.NODE_ENV === 'production'
-              ? 'Internal server error'
-              : err.message,
-          code: 'INTERNAL_SERVER_ERROR',
-        },
-      });
-    }
-  );
+  // ─── Routes ──────────────────────────────────────────────────────────────
+  app.use('/api/auth', authRoutes);
+  app.use('/api/departments', departmentRoutes);
+  app.use('/api/services', serviceRoutes);
+  app.use('/api/doctors', doctorRoutes);
+
+  // ─── Error handling ─────────────────────────────────────────────────────────
+  app.use(notFound);
+  app.use(errorHandler);
 
   return app;
 }
