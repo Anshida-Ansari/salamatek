@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { fetchApi } from '@/lib/admin/api';
 import { useToast } from '@/components/admin/ToastProvider';
-import { ImageUpload } from '@/components/admin/ImageUpload';
+import ImageUpload from '@/components/admin/ImageUpload';
 import { Loader2, Settings2, Save } from 'lucide-react';
 
 const PAGE_KEYS = [
