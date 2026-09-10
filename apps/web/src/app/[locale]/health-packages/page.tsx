@@ -1,10 +1,14 @@
-import { Metadata } from 'next';
-import Image from 'next/image';
-import { Package, CheckCircle2 } from 'lucide-react';
+import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
+import Link from 'next/link';
+import { getTranslations } from '@/i18n';
+import { isValidLocale, type Locale } from '@/i18n/config';
+import { getLocalizedPath } from '@/lib/utils';
+import { PageHero } from '@/components/shared/PageHero';
+import { CTASection } from '@/components/shared/CTASection';
 
-export const metadata: Metadata = {
-  title: 'Health Packages & Offers | Salamatek Medical Center',
-  description: 'Explore our comprehensive health screening packages and medical offers tailored for your wellbeing.',
+type Props = {
+  params: Promise<{ locale: string }>;
 };
 
 async function getHealthPackages() {
@@ -21,107 +25,97 @@ async function getHealthPackages() {
   }
 }
 
-type Props = {
-  params: Promise<{ locale: string }>;
-};
+async function getPageHero(pageKey: string) {
+  try {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+    const res = await fetch(`${apiUrl}/page-heroes/${pageKey}`, {
+      next: { revalidate: 60 },
+    });
+    if (!res.ok) return null;
+    const json = await res.json();
+    return json.data || null;
+  } catch (error) {
+    return null;
+  }
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  if (!isValidLocale(locale)) return {};
+  const t = getTranslations(locale as Locale);
+
+  return {
+    title: t.pages.healthPackages.title,
+    description: t.pages.healthPackages.description,
+  };
+}
 
 export default async function HealthPackagesPage({ params }: Props) {
   const { locale } = await params;
-  const isRtl = locale === 'ar';
-  const packages = await getHealthPackages();
+  if (!isValidLocale(locale)) notFound();
+  
+  const typedLocale = locale as Locale;
+  const t = getTranslations(typedLocale);
+  const p = t.pages.healthPackages;
+  
+  const [packages, heroSetting] = await Promise.all([
+    getHealthPackages(),
+    getPageHero('health-packages')
+  ]);
+
+  const heading = heroSetting?.heading?.[typedLocale] || p.title;
+  const subtext = heroSetting?.subtext?.[typedLocale] || p.description;
 
   return (
-    <main className="min-h-screen bg-slate-50 pt-32 pb-24" dir={isRtl ? 'rtl' : 'ltr'}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="inline-block py-1 px-3 rounded-full bg-blue-100 text-blue-700 font-semibold text-sm mb-4">
-            {isRtl ? 'باقات وعروض' : 'Packages & Offers'}
-          </span>
-          <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
-            {isRtl ? 'باقات الرعاية الصحية الشاملة' : 'Comprehensive Health Packages'}
-          </h1>
-          <p className="text-lg text-gray-600 leading-relaxed">
-            {isRtl 
-              ? 'اختر من بين باقات الفحص الطبي المتنوعة لدينا المصممة لضمان صحتك ورفاهيتك بأفضل الأسعار.' 
-              : 'Choose from our variety of medical screening packages designed to ensure your health and wellbeing at the best value.'}
-          </p>
-        </div>
+    <>
+      <PageHero 
+        locale={typedLocale}
+        badge={p.title}
+        heading={heading}
+        subtext={subtext}
+        imageSrc={heroSetting?.image}
+      />
 
-        {packages.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-20 bg-white rounded-3xl shadow-sm border border-gray-100">
-            <Package className="w-16 h-16 text-gray-300 mb-4" />
-            <h3 className="text-xl font-bold text-gray-800 mb-2">
-              {isRtl ? 'لا توجد باقات متاحة حالياً' : 'No packages currently available'}
-            </h3>
-            <p className="text-gray-500">
-              {isRtl ? 'يرجى التحقق مرة أخرى لاحقاً للحصول على العروض الجديدة.' : 'Please check back later for new offers and packages.'}
-            </p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {packages.map((pkg: any) => (
-              <div key={pkg._id} className="bg-white rounded-3xl shadow-lg shadow-gray-200/50 overflow-hidden flex flex-col border border-gray-100 transition-transform hover:-translate-y-1">
-                {pkg.image ? (
-                  <div className="relative h-48 w-full bg-gray-100">
-                    <Image src={pkg.image} alt={pkg.title[locale] || pkg.title.en} fill className="object-cover" />
+      <section className="py-16 md:py-24 bg-surface-light">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          {packages.length === 0 ? (
+            <div className="text-center py-20 text-text-muted">
+              {t.common.placeholder || 'No health packages found.'}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {packages.map((pkg: any) => (
+                <div
+                  key={pkg._id}
+                  className="group flex flex-col bg-white border border-border rounded-2xl p-6 hover:border-brand-pale hover:shadow-card-md transition-all duration-200"
+                >
+                  <div className="w-12 h-12 rounded-xl bg-brand-mint flex items-center justify-center text-brand-medium mb-5">
+                    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                    </svg>
                   </div>
-                ) : (
-                  <div className="h-48 w-full bg-blue-600/5 flex items-center justify-center">
-                    <Package className="w-12 h-12 text-blue-300" />
-                  </div>
-                )}
-                
-                <div className="p-8 flex flex-col flex-1">
-                  <div className="flex-1">
-                    <h3 className="text-2xl font-bold text-gray-900 mb-3">{pkg.title[locale] || pkg.title.en}</h3>
-                    <p className="text-gray-600 text-sm leading-relaxed mb-6">
-                      {pkg.description[locale] || pkg.description.en}
-                    </p>
-
-                    {pkg.includedItems?.[locale]?.length > 0 && (
-                      <div className="space-y-3 mb-8">
-                        <p className="font-semibold text-gray-900 text-sm">{isRtl ? 'يشمل:' : 'Includes:'}</p>
-                        <ul className="space-y-2">
-                          {pkg.includedItems[locale].map((item: string, idx: number) => (
-                            <li key={idx} className="flex items-start gap-2 text-sm text-gray-600">
-                              <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                              <span>{item}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="mt-auto pt-6 border-t border-gray-100">
-                    <div className="flex items-end justify-between mb-6">
-                      <div>
-                        <p className="text-sm font-medium text-gray-500 mb-1">{isRtl ? 'السعر' : 'Price'}</p>
-                        <p className="text-2xl font-bold text-blue-600">{pkg.price || (isRtl ? 'اتصل بنا' : 'Contact Us')}</p>
-                      </div>
-                      {pkg.validity?.[locale] && (
-                        <div className="text-right">
-                          <p className="text-xs text-gray-400 font-medium">{isRtl ? 'الصلاحية' : 'Validity'}</p>
-                          <p className="text-sm font-semibold text-gray-700">{pkg.validity[locale]}</p>
-                        </div>
-                      )}
-                    </div>
-
-                    <a 
-                      href="https://wa.me/966553504004" 
-                      target="_blank" 
-                      rel="noreferrer"
-                      className="block w-full py-3.5 px-4 bg-blue-600 hover:bg-blue-700 text-white font-bold text-center rounded-xl transition"
-                    >
-                      {isRtl ? 'احجز الآن' : 'Book Now'}
-                    </a>
+                  <h3 className="text-xl font-serif font-bold text-text-base mb-3">
+                    {pkg.name[typedLocale] || pkg.name.en}
+                  </h3>
+                  <p className="text-text-muted text-sm leading-relaxed mb-6 flex-1 line-clamp-3">
+                    {pkg.description?.[typedLocale] || pkg.description?.en || ''}
+                  </p>
+                  <div className="font-semibold text-brand-medium">
+                    {pkg.price ? `${pkg.price} SAR` : 'Contact for pricing'}
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-    </main>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+
+      <CTASection 
+        heading={t.pages.home.appointmentHeading}
+        subtext={t.pages.home.appointmentSubtext}
+        ctaLabel={t.common.bookNow}
+        ctaHref={getLocalizedPath('/contact', typedLocale)}
+      />
+    </>
   );
 }

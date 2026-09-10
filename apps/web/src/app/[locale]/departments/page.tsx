@@ -25,6 +25,20 @@ async function getDepartments() {
   }
 }
 
+async function getPageHero(pageKey: string) {
+  try {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+    const res = await fetch(`${apiUrl}/page-heroes/${pageKey}`, {
+      next: { revalidate: 60 },
+    });
+    if (!res.ok) return null;
+    const json = await res.json();
+    return json.data || null;
+  } catch (error) {
+    return null;
+  }
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   if (!isValidLocale(locale)) return {};
@@ -47,15 +61,23 @@ export default async function DepartmentsPage({ params }: Props) {
   const typedLocale = locale as Locale;
   const t = getTranslations(typedLocale);
   const p = t.pages.departments;
-  const depts = await getDepartments();
+  
+  const [depts, heroSetting] = await Promise.all([
+    getDepartments(),
+    getPageHero('departments')
+  ]);
+
+  const heading = heroSetting?.heading?.[typedLocale] || p.title;
+  const subtext = heroSetting?.subtext?.[typedLocale] || p.description;
 
   return (
     <>
       <PageHero 
         locale={typedLocale}
         badge={p.title}
-        heading={p.title}
-        subtext={p.description}
+        heading={heading}
+        subtext={subtext}
+        imageSrc={heroSetting?.image}
       />
 
       <section className="py-16 md:py-24 bg-surface-light">

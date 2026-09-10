@@ -84,10 +84,11 @@ export default async function ServiceDetailPage({ params }: Props) {
     <>
       <PageHero
         locale={typedLocale}
-        badge={isAr ? 'خدمة طبية' : 'Medical Service'}
+        badge={isAr ? 'الخدمات الطبية' : 'Medical Services'}
         heading={name}
         subtext={desc}
         breadcrumbs={breadcrumbs}
+        imageSrc={service.image}
       />
 
       <section className="bg-white py-14 md:py-20">

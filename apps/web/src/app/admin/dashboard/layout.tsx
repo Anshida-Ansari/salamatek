@@ -40,8 +40,8 @@ const navigation: NavItem[] = [
   { name: 'SARC Enquiries', href: '/admin/dashboard/sarc-enquiries', icon: HeartHandshake },
   { name: 'Job Applications', href: '/admin/dashboard/job-applications', icon: FileText },
   { name: 'Contact Enquiries', href: '/admin/dashboard/contact-enquiries', icon: Mail },
+  { name: 'Site Settings', href: '/admin/dashboard/site-settings', icon: Settings },
   { name: 'Appointments', href: '#', icon: Calendar, disabled: true },
-  { name: 'Settings', href: '#', icon: Settings, disabled: true },
 ];
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -97,7 +97,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <p className="text-[10px] uppercase tracking-widest text-slate-500 font-semibold px-3 mb-2 mt-1">
           Management
         </p>
-        {navigation.slice(0, 10).map((item) => {
+        {navigation.slice(0, 11).map((item) => {
           const isActive =
             pathname === item.href ||
             (item.href !== '/admin/dashboard' && pathname.startsWith(item.href));
@@ -127,7 +127,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <p className="text-[10px] uppercase tracking-widest text-slate-500 font-semibold px-3 mb-2 mt-5">
           Coming Soon
         </p>
-        {navigation.slice(10).map((item) => {
+        {navigation.slice(11).map((item) => {
           const Icon = item.icon;
           return (
             <div

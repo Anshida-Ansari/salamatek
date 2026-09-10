@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FileText, Calendar, User, ArrowRight } from 'lucide-react';
+import { PageHero } from '@/components/shared/PageHero';
 
 export const metadata: Metadata = {
   title: 'News & Blog | Salamatek Medical Center',
@@ -22,34 +23,56 @@ async function getNews() {
   }
 }
 
+async function getPageHero(pageKey: string) {
+  try {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+    const res = await fetch(`${apiUrl}/page-heroes/${pageKey}`, {
+      next: { revalidate: 60 },
+    });
+    if (!res.ok) return null;
+    const json = await res.json();
+    return json.data || null;
+  } catch (error) {
+    return null;
+  }
+}
+
 type Props = {
   params: Promise<{ locale: string }>;
 };
 
 export default async function NewsPage({ params }: Props) {
   const { locale } = await params;
+  const typedLocale = locale as 'en' | 'ar';
   const isRtl = locale === 'ar';
-  const newsList = await getNews();
+  
+  const [newsList, heroSetting] = await Promise.all([
+    getNews(),
+    getPageHero('news')
+  ]);
 
   const featured = newsList.find((n: any) => n.featured) || newsList[0];
   const regularNews = newsList.filter((n: any) => n._id !== featured?._id);
 
+  const defaultHeading = isRtl ? 'أحدث الأخبار والمقالات الطبية' : 'Latest News & Medical Articles';
+  const defaultSubtext = isRtl 
+    ? 'ابق على اطلاع بآخر النصائح الصحية والأخبار والتحديثات من مركز سلامتك الطبي.' 
+    : 'Stay updated with the latest health tips, news, and announcements from Salamatek.';
+
+  const heading = heroSetting?.heading?.[typedLocale] || defaultHeading;
+  const subtext = heroSetting?.subtext?.[typedLocale] || defaultSubtext;
+
   return (
-    <main className="min-h-screen bg-slate-50 pt-32 pb-24" dir={isRtl ? 'rtl' : 'ltr'}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <span className="inline-block py-1 px-3 rounded-full bg-blue-100 text-blue-700 font-semibold text-sm mb-4">
-            {isRtl ? 'المركز الإعلامي' : 'Media Center'}
-          </span>
-          <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
-            {isRtl ? 'أحدث الأخبار والمقالات الطبية' : 'Latest News & Medical Articles'}
-          </h1>
-          <p className="text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto">
-            {isRtl 
-              ? 'ابق على اطلاع بآخر النصائح الصحية والأخبار والتحديثات من مركز سلامتك الطبي.' 
-              : 'Stay updated with the latest health tips, news, and announcements from Salamatek.'}
-          </p>
-        </div>
+    <>
+      <PageHero 
+        locale={typedLocale}
+        badge={isRtl ? 'المركز الإعلامي' : 'Media Center'}
+        heading={heading}
+        subtext={subtext}
+        imageSrc={heroSetting?.image}
+      />
+
+      <main className="min-h-screen bg-slate-50 pt-16 pb-24" dir={isRtl ? 'rtl' : 'ltr'}>
 
         {newsList.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 bg-white rounded-3xl shadow-sm border border-gray-100">
@@ -149,6 +172,7 @@ export default async function NewsPage({ params }: Props) {
           </div>
         )}
       </div>
-    </main>
+      </main>
+    </>
   );
 }

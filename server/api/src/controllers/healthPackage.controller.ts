@@ -50,13 +50,14 @@ export const getHealthPackageById = asyncHandler(async (req: Request, res: Respo
 });
 
 export const getHealthPackageBySlug = asyncHandler(async (req: Request, res: Response): Promise<void> => {
-  const hp = await HealthPackage.findOne({ slug: req.params.slug }).lean();
-  if (!hp) {
-    const error = new Error('Health Package not found') as AppError;
+  const slug = req.params.slug as string;
+  const healthPackage = await HealthPackage.findOne({ slug }).lean();
+  if (!healthPackage) {
+    const error = new Error('Health package not found') as AppError;
     error.statusCode = 404;
     throw error;
   }
-  res.json({ success: true, data: hp });
+  res.json({ success: true, data: healthPackage });
 });
 
 export const createHealthPackage = asyncHandler(async (req: Request, res: Response): Promise<void> => {

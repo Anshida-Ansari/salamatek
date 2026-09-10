@@ -26,6 +26,34 @@ async function getDepartments() {
   }
 }
 
+async function getDepartmentServices(departmentId: string) {
+  try {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+    const res = await fetch(`${apiUrl}/services?active=true&departmentId=${departmentId}&limit=50`, {
+      next: { revalidate: 60 },
+    });
+    if (!res.ok) return [];
+    const json = await res.json();
+    return json.data || [];
+  } catch (error) {
+    return [];
+  }
+}
+
+async function getDepartmentDoctors(departmentId: string) {
+  try {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+    const res = await fetch(`${apiUrl}/doctors?active=true&departmentId=${departmentId}&limit=50`, {
+      next: { revalidate: 60 },
+    });
+    if (!res.ok) return [];
+    const json = await res.json();
+    return json.data || [];
+  } catch (error) {
+    return [];
+  }
+}
+
 /** Pre-generate all locale × slug combos for static SSG */
 export async function generateStaticParams() {
   const depts = await getDepartments();
@@ -80,6 +108,11 @@ export default async function DepartmentDetailPage({ params }: Props) {
     { label: name },
   ];
 
+  const [services, doctors] = await Promise.all([
+    getDepartmentServices(dept._id),
+    getDepartmentDoctors(dept._id)
+  ]);
+
   return (
     <>
       {/* ── Hero ──────────────────────────────────────────────────────────── */}
@@ -89,28 +122,72 @@ export default async function DepartmentDetailPage({ params }: Props) {
         heading={name}
         subtext={desc}
         breadcrumbs={breadcrumbs}
+        imageSrc={dept.image}
       />
 
-      {/* ── Content placeholder ───────────────────────────────────────────── */}
-      <section className="bg-white py-14 md:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          {/* Placeholder content card */}
-          <div className="max-w-2xl mx-auto text-center">
-            <div className="w-14 h-14 rounded-2xl bg-brand-mint flex items-center justify-center mx-auto mb-6">
-              <svg className="w-7 h-7 text-brand-medium" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
-              </svg>
+      <section className="bg-surface-light py-16 md:py-24">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-16">
+          
+          {/* Services Section */}
+          {services.length > 0 && (
+            <div>
+              <h2 className="text-2xl font-serif font-bold text-text-base mb-8">
+                {isAr ? 'الخدمات المتوفرة' : 'Available Services'}
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {services.map((service: any) => (
+                  <Link
+                    key={service._id}
+                    href={getLocalizedPath(`/services/${service.slug}`, typedLocale)}
+                    className="group bg-white p-6 rounded-2xl border border-border hover:border-brand-pale hover:shadow-card-sm transition-all duration-200"
+                  >
+                    <h3 className="text-lg font-bold text-text-base mb-2 group-hover:text-brand-medium transition-colors">
+                      {service.name[typedLocale] || service.name.en}
+                    </h3>
+                    <p className="text-sm text-text-muted line-clamp-2">
+                      {service.description?.[typedLocale] || service.description?.en || ''}
+                    </p>
+                  </Link>
+                ))}
+              </div>
             </div>
-            <h2 className="text-xl font-semibold font-serif text-text-base mb-3">
-              {name}
-            </h2>
-            <p className="text-text-muted leading-relaxed mb-6">
-              {desc}
-            </p>
-            <p className="text-xs text-text-subtle italic">
-              {t.common.placeholder}
-            </p>
-          </div>
+          )}
+
+          {/* Doctors Section */}
+          {doctors.length > 0 && (
+            <div>
+              <h2 className="text-2xl font-serif font-bold text-text-base mb-8">
+                {isAr ? 'أطباؤنا' : 'Our Doctors'}
+              </h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                {doctors.map((doc: any) => (
+                  <div key={doc._id} className="bg-white border border-border rounded-2xl overflow-hidden shadow-sm">
+                    {doc.image && (
+                      <div className="relative aspect-[4/5] bg-surface-mint w-full">
+                        <img src={doc.image} alt={doc.name[typedLocale] || doc.name.en} className="object-cover w-full h-full" />
+                      </div>
+                    )}
+                    <div className="p-6 text-center">
+                      <h3 className="text-xl font-serif font-bold text-text-base mb-1">
+                        {doc.name[typedLocale] || doc.name.en}
+                      </h3>
+                      {doc.designation && (
+                        <p className="text-sm text-brand-medium font-semibold">
+                          {doc.designation[typedLocale] || doc.designation.en}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {services.length === 0 && doctors.length === 0 && (
+             <div className="text-center py-10">
+               <p className="text-text-muted">{t.common.placeholder}</p>
+             </div>
+          )}
         </div>
       </section>
 

@@ -12,6 +12,7 @@ import jobApplicationRoutes from './routes/jobApplication.routes';
 import newsRoutes from './routes/news.routes';
 import sarcEnquiryRoutes from './routes/sarcEnquiry.routes';
 import contactEnquiryRoutes from './routes/contactEnquiry.routes';
+import pageHeroRoutes from './routes/pageHeroSetting.routes';
 import { errorHandler, notFound } from './middlewares/errorHandler';
 
 export function createApp(): Application {
@@ -51,6 +52,7 @@ export function createApp(): Application {
   app.use('/api/news', newsRoutes);
   app.use('/api/sarc-enquiries', sarcEnquiryRoutes);
   app.use('/api/contact-enquiries', contactEnquiryRoutes);
+  app.use('/api/page-heroes', pageHeroRoutes);
 
   // ─── Error handling ─────────────────────────────────────────────────────────
   app.use(notFound);

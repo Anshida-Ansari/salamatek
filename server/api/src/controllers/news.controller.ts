@@ -50,13 +50,14 @@ export const getNewsById = asyncHandler(async (req: Request, res: Response): Pro
 });
 
 export const getNewsBySlug = asyncHandler(async (req: Request, res: Response): Promise<void> => {
-  const news = await News.findOne({ slug: req.params.slug }).lean();
-  if (!news) {
-    const error = new Error('News not found') as AppError;
+  const slug = req.params.slug as string;
+  const newsItem = await News.findOne({ slug }).lean();
+  if (!newsItem) {
+    const error = new Error('News item not found') as AppError;
     error.statusCode = 404;
     throw error;
   }
-  res.json({ success: true, data: news });
+  res.json({ success: true, data: newsItem });
 });
 
 export const createNews = asyncHandler(async (req: Request, res: Response): Promise<void> => {

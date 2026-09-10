@@ -22,6 +22,12 @@ export const createEnquiry = async (req: Request, res: Response) => {
     const newEnquiry = new ContactEnquiry(value);
     await newEnquiry.save();
 
+    if ((req as any).user) {
+      newEnquiry.assignedTo = (req as any).user._id;
+      newEnquiry.status = 'in_progress';
+      await newEnquiry.save();
+    }
+
     // Attempt to send email notification in the background
     // We don't await this to fail the request if email fails, but we could.
     // The requirement says: "The database enquiry must not be lost just because email delivery fails."
