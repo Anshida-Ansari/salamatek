@@ -120,8 +120,8 @@ export function GlobalLoader() {
         style={{
           height: '100%',
           width: `${progress}%`,
-          background: 'linear-gradient(90deg, #C0392B 0%, #E05522 55%, #ff7a40 100%)',
-          boxShadow: '0 0 12px rgba(224,85,34,0.65), 0 0 4px rgba(192,57,43,0.5)',
+          background: 'linear-gradient(90deg, #0C3528 0%, #1A6B4A 55%, #34D399 100%)',
+          boxShadow: '0 0 12px rgba(26,107,74,0.7), 0 0 4px rgba(12,53,40,0.5)',
           borderRadius: '0 3px 3px 0',
           transition:
             progress === 100

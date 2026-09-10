@@ -170,7 +170,7 @@ export default function JobApplicationsPage() {
                           <span className="flex items-center gap-1"><Phone className="w-3 h-3" /> {app.phone}</span>
                         </div>
                         <a
-                          href={app.resumeUrl}
+                          href={`/api/view-resume?url=${encodeURIComponent(app.resumeUrl)}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="inline-flex items-center gap-1 text-xs text-brand hover:text-brand-medium font-semibold mt-1 w-fit"

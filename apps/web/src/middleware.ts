@@ -9,6 +9,11 @@ export function middleware(request: NextRequest): NextResponse {
       pathname === `/${locale}` || pathname.startsWith(`/${locale}/`)
   );
 
+  // Exclude API routes and upload files from locale redirection
+  if (pathname.startsWith('/api') || pathname.startsWith('/uploads')) {
+    return NextResponse.next();
+  }
+
   // Admin route protection & session handling
   if (pathname.startsWith('/admin')) {
     const adminToken = request.cookies.get('adminToken')?.value;

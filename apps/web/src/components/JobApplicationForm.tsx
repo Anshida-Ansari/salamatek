@@ -1,13 +1,14 @@
 'use client';
 
 import { useState, useRef } from 'react';
-import { Send, Loader2, UploadCloud, CheckCircle2 } from 'lucide-react';
+import { Send, Loader2, UploadCloud, CheckCircle2, FileText, X, AlertCircle } from 'lucide-react';
 
-export default function JobApplicationForm({ careerId, isRtl }: { careerId: string, isRtl: boolean }) {
+export default function JobApplicationForm({ careerId, isRtl }: { careerId: string; isRtl: boolean }) {
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState('');
   const [isUploading, setIsUploading] = useState(false);
+  const [uploadedFileName, setUploadedFileName] = useState('');
 
   const [formData, setFormData] = useState({
     careerId,
@@ -28,8 +29,9 @@ export default function JobApplicationForm({ careerId, isRtl }: { careerId: stri
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (file.size > 5 * 1024 * 1024) {
-      setError(isRtl ? 'حجم الملف يجب أن يكون أقل من 5 ميجابايت' : 'File size must be less than 5MB');
+    // Validate size (max 10MB)
+    if (file.size > 10 * 1024 * 1024) {
+      setError(isRtl ? 'حجم الملف يجب أن يكون أقل من 10 ميجابايت' : 'File size must be less than 10MB');
       return;
     }
 
@@ -39,28 +41,37 @@ export default function JobApplicationForm({ careerId, isRtl }: { careerId: stri
     try {
       const data = new FormData();
       data.append('file', file);
-      data.append('upload_preset', process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || '');
-      const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
 
-      const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/upload`, {
+      const res = await fetch('/api/upload-resume', {
         method: 'POST',
         body: data,
       });
 
-      if (!res.ok) throw new Error('Upload failed');
       const json = await res.json();
-      setFormData({ ...formData, resumeUrl: json.secure_url });
-    } catch (err) {
-      setError(isRtl ? 'فشل تحميل الملف' : 'File upload failed');
+
+      if (!res.ok || !json.success) {
+        throw new Error(json.error || 'Upload failed');
+      }
+
+      setFormData({ ...formData, resumeUrl: json.url });
+      setUploadedFileName(file.name);
+    } catch (err: any) {
+      setError(err?.message || (isRtl ? 'فشل تحميل الملف' : 'File upload failed. Please try again.'));
     } finally {
       setIsUploading(false);
     }
   };
 
+  const handleRemoveFile = () => {
+    setFormData({ ...formData, resumeUrl: '' });
+    setUploadedFileName('');
+    if (fileInputRef.current) fileInputRef.current.value = '';
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.resumeUrl) {
-      setError(isRtl ? 'يرجى إرفاق السيرة الذاتية' : 'Please upload your resume');
+      setError(isRtl ? 'يرجى إرفاق السيرة الذاتية بصيغة PDF أو DOC' : 'Please upload your resume (PDF or DOC)');
       return;
     }
 
@@ -78,7 +89,7 @@ export default function JobApplicationForm({ careerId, isRtl }: { careerId: stri
       if (!res.ok) throw new Error('Failed to submit application');
       setIsSuccess(true);
     } catch (err) {
-      setError(isRtl ? 'حدث خطأ. يرجى المحاولة مرة أخرى.' : 'An error occurred. Please try again.');
+      setError(isRtl ? 'حدث خطأ أثناء التقديم. يرجى المحاولة مرة أخرى.' : 'An error occurred while submitting. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -86,103 +97,184 @@ export default function JobApplicationForm({ careerId, isRtl }: { careerId: stri
 
   if (isSuccess) {
     return (
-      <div className="bg-green-50 rounded-2xl p-8 text-center border border-green-100">
-        <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-          <CheckCircle2 className="w-8 h-8 text-green-600" />
+      <div className="bg-white rounded-3xl p-8 text-center border border-brand/20 shadow-card">
+        <div className="w-16 h-16 bg-surface-mint rounded-2xl flex items-center justify-center mx-auto mb-5 border border-brand/10">
+          <CheckCircle2 className="w-9 h-9 text-brand" />
         </div>
-        <h3 className="text-xl font-bold text-gray-900 mb-2">
+        <h3 className="text-xl font-serif font-bold text-brand-dark mb-2.5">
           {isRtl ? 'تم تقديم الطلب بنجاح!' : 'Application Submitted Successfully!'}
         </h3>
-        <p className="text-gray-600">
+        <p className="text-text-muted text-sm leading-relaxed max-w-sm mx-auto">
           {isRtl 
-            ? 'شكراً لاهتمامك بالانضمام إلينا. سيقوم فريق الموارد البشرية بمراجعة طلبك.' 
-            : 'Thank you for your interest. Our HR team will review your application and get back to you.'}
+            ? 'شكراً لاهتمامك بالانضمام إلى فريق سلامتك. سيقوم قسم الموارد البشرية بمراجعة طلبك والتواصل معك قريباً.' 
+            : 'Thank you for your interest in joining Salamatek Medical Centre. Our HR team will review your credentials and contact you shortly.'}
         </p>
       </div>
     );
   }
 
-  const inputClass = "block w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition";
+  const inputClass = "block w-full px-4 py-3 bg-[#F8FAF9] border border-border rounded-xl text-sm placeholder:text-text-subtle text-text-base focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand focus:bg-white transition";
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8 space-y-6">
-      <h3 className="text-2xl font-bold text-gray-900 mb-6">
-        {isRtl ? 'قدم على هذه الوظيفة' : 'Apply for this Position'}
-      </h3>
+    <form onSubmit={handleSubmit} className="bg-white rounded-3xl shadow-card border border-border p-6 sm:p-8 space-y-5">
+      <div>
+        <h3 className="text-xl sm:text-2xl font-serif font-bold text-brand-dark mb-1">
+          {isRtl ? 'التقديم على هذه الوظيفة' : 'Apply for this Position'}
+        </h3>
+        <p className="text-xs text-text-muted">
+          {isRtl ? 'املأ البيانات التالية وأرفق سيرتك الذاتية' : 'Fill out the form below and attach your CV'}
+        </p>
+      </div>
 
       {error && (
-        <div className="p-4 bg-red-50 text-red-700 text-sm rounded-lg border border-red-100">
-          {error}
+        <div className="p-3.5 bg-red-50 text-brand-red text-sm rounded-xl border border-red-200 flex items-start gap-2.5">
+          <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5 text-brand-red" />
+          <span>{error}</span>
         </div>
       )}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+      <div className="space-y-4">
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-1.5">{isRtl ? 'الاسم الكامل' : 'Full Name'} *</label>
-          <input required type="text" name="fullName" value={formData.fullName} onChange={handleChange} className={inputClass} />
+          <label className="block text-xs font-bold uppercase tracking-wider text-text-muted mb-1.5">
+            {isRtl ? 'الاسم الكامل' : 'Full Name'} <span className="text-brand-red">*</span>
+          </label>
+          <input
+            required
+            type="text"
+            name="fullName"
+            placeholder={isRtl ? 'مثال: د. أحمد محمد' : 'e.g. Dr. Jane Smith'}
+            value={formData.fullName}
+            onChange={handleChange}
+            className={inputClass}
+          />
         </div>
+
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-1.5">{isRtl ? 'البريد الإلكتروني' : 'Email Address'} *</label>
-          <input required type="email" name="email" value={formData.email} onChange={handleChange} dir="ltr" className={inputClass} />
+          <label className="block text-xs font-bold uppercase tracking-wider text-text-muted mb-1.5">
+            {isRtl ? 'البريد الإلكتروني' : 'Email Address'} <span className="text-brand-red">*</span>
+          </label>
+          <input
+            required
+            type="email"
+            name="email"
+            placeholder="name@example.com"
+            value={formData.email}
+            onChange={handleChange}
+            dir="ltr"
+            className={inputClass}
+          />
         </div>
-        <div className="sm:col-span-2">
-          <label className="block text-sm font-semibold text-gray-700 mb-1.5">{isRtl ? 'رقم الهاتف' : 'Phone Number'} *</label>
-          <input required type="tel" name="phone" value={formData.phone} onChange={handleChange} dir="ltr" className={inputClass} />
+
+        <div>
+          <label className="block text-xs font-bold uppercase tracking-wider text-text-muted mb-1.5">
+            {isRtl ? 'رقم الهاتف' : 'Phone Number'} <span className="text-brand-red">*</span>
+          </label>
+          <input
+            required
+            type="tel"
+            name="phone"
+            placeholder="+966 50 000 0000"
+            value={formData.phone}
+            onChange={handleChange}
+            dir="ltr"
+            className={inputClass}
+          />
         </div>
-      </div>
 
-      <div>
-        <label className="block text-sm font-semibold text-gray-700 mb-1.5">{isRtl ? 'رسالة تعريفية (اختياري)' : 'Cover Letter (Optional)'}</label>
-        <textarea name="coverLetter" value={formData.coverLetter} onChange={handleChange} rows={4} className={`${inputClass} resize-none`}></textarea>
-      </div>
+        <div>
+          <label className="block text-xs font-bold uppercase tracking-wider text-text-muted mb-1.5">
+            {isRtl ? 'رسالة تعريفية (اختياري)' : 'Cover Letter (Optional)'}
+          </label>
+          <textarea
+            name="coverLetter"
+            value={formData.coverLetter}
+            onChange={handleChange}
+            rows={3}
+            placeholder={isRtl ? 'أخبرنا بإيجاز عن خبراتك ومؤهلاتك...' : 'Briefly describe your relevant experience...'}
+            className={`${inputClass} resize-none`}
+          />
+        </div>
 
-      <div>
-        <label className="block text-sm font-semibold text-gray-700 mb-1.5">{isRtl ? 'السيرة الذاتية (PDF/DOC)' : 'Resume / CV (PDF/DOC)'} *</label>
-        
-        {formData.resumeUrl ? (
-          <div className="flex items-center justify-between px-4 py-3 bg-blue-50 border border-blue-100 rounded-xl">
-            <div className="flex items-center gap-2 text-blue-700">
-              <CheckCircle2 className="w-5 h-5" />
-              <span className="text-sm font-medium">{isRtl ? 'تم إرفاق السيرة الذاتية' : 'Resume attached successfully'}</span>
+        <div>
+          <label className="block text-xs font-bold uppercase tracking-wider text-text-muted mb-1.5">
+            {isRtl ? 'السيرة الذاتية (PDF / DOC)' : 'Resume / CV (PDF / DOC)'} <span className="text-brand-red">*</span>
+          </label>
+          
+          {formData.resumeUrl ? (
+            <div className="flex items-center justify-between p-3.5 bg-surface-mint border border-brand/20 rounded-xl">
+              <div className="flex items-center gap-2.5 min-w-0">
+                <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center text-brand border border-brand/10 flex-shrink-0">
+                  <FileText className="w-4 h-4" />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-xs font-semibold text-brand-dark truncate">
+                    {uploadedFileName || 'Resume.pdf'}
+                  </p>
+                  <p className="text-[11px] text-brand-medium">
+                    {isRtl ? 'تم التحميل بنجاح' : 'Attached successfully'}
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={handleRemoveFile}
+                className="p-1 rounded-lg text-text-muted hover:text-brand-red hover:bg-red-50 transition cursor-pointer flex-shrink-0"
+                title={isRtl ? 'إزالة الملف' : 'Remove file'}
+              >
+                <X className="w-4 h-4" />
+              </button>
             </div>
-            <button type="button" onClick={() => setFormData({...formData, resumeUrl: ''})} className="text-sm font-semibold text-red-600 hover:text-red-700">
-              {isRtl ? 'إزالة' : 'Remove'}
-            </button>
-          </div>
-        ) : (
-          <div 
-            onClick={() => fileInputRef.current?.click()}
-            className="border-2 border-dashed border-gray-300 hover:border-blue-500 hover:bg-blue-50 bg-gray-50 rounded-xl px-6 py-8 text-center cursor-pointer transition"
-          >
-            {isUploading ? (
-              <Loader2 className="w-8 h-8 text-blue-500 animate-spin mx-auto mb-2" />
-            ) : (
-              <UploadCloud className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-            )}
-            <p className="text-sm font-semibold text-gray-700">
-              {isUploading 
-                ? (isRtl ? 'جاري التحميل...' : 'Uploading...') 
-                : (isRtl ? 'انقر لرفع سيرتك الذاتية' : 'Click to upload your resume')}
-            </p>
-            <p className="text-xs text-gray-500 mt-1">Max 5MB</p>
-            <input 
-              type="file" 
-              ref={fileInputRef}
-              onChange={handleFileUpload}
-              accept=".pdf,.doc,.docx"
-              className="hidden"
-            />
-          </div>
-        )}
+          ) : (
+            <div 
+              onClick={() => !isUploading && fileInputRef.current?.click()}
+              className={`border-2 border-dashed rounded-2xl p-6 text-center cursor-pointer transition ${
+                isUploading 
+                  ? 'border-brand-medium bg-surface-mint cursor-wait' 
+                  : 'border-border hover:border-brand hover:bg-surface-mint/40 bg-[#F8FAF9]'
+              }`}
+            >
+              {isUploading ? (
+                <div className="flex flex-col items-center">
+                  <Loader2 className="w-7 h-7 text-brand animate-spin mb-2" />
+                  <p className="text-xs font-semibold text-brand-dark">
+                    {isRtl ? 'جاري رفع الملف وحفظه بأمان...' : 'Uploading & securing your document...'}
+                  </p>
+                </div>
+              ) : (
+                <div className="flex flex-col items-center">
+                  <div className="w-10 h-10 rounded-xl bg-white border border-border shadow-sm flex items-center justify-center text-brand mb-2">
+                    <UploadCloud className="w-5 h-5" />
+                  </div>
+                  <p className="text-xs font-semibold text-brand-dark">
+                    {isRtl ? 'انقر لاختيار ملف السيرة الذاتية' : 'Click to select resume file'}
+                  </p>
+                  <p className="text-[11px] text-text-muted mt-0.5">
+                    PDF, DOC, DOCX (Max 10MB)
+                  </p>
+                </div>
+              )}
+              <input 
+                type="file" 
+                ref={fileInputRef}
+                onChange={handleFileUpload}
+                accept=".pdf,.doc,.docx"
+                className="hidden"
+                disabled={isUploading}
+              />
+            </div>
+          )}
+        </div>
       </div>
 
       <button 
         type="submit" 
         disabled={isLoading || isUploading}
-        className="w-full flex items-center justify-center gap-2 py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition disabled:opacity-70 disabled:cursor-not-allowed"
+        className="w-full flex items-center justify-center gap-2 py-3.5 bg-brand hover:bg-brand-medium active:scale-[0.99] text-white font-semibold text-sm rounded-xl shadow-sm transition-all disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
       >
-        {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5" />}
-        {isLoading ? (isRtl ? 'جاري التقديم...' : 'Submitting...') : (isRtl ? 'تقديم الطلب' : 'Submit Application')}
+        {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
+        {isLoading 
+          ? (isRtl ? 'جاري الإرسال...' : 'Submitting Application...') 
+          : (isRtl ? 'إرسال طلب التوظيف' : 'Submit Application')}
       </button>
     </form>
   );
