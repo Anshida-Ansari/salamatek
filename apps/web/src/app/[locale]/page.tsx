@@ -45,15 +45,28 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 async function getDepartments() {
   try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+    const apiUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api';
     const res = await fetch(`${apiUrl}/departments?active=true&limit=100`, {
       cache: 'no-store',
     });
     if (!res.ok) return [];
     const json = await res.json();
     return json.data || [];
-  } catch (error) {
+  } catch {
     return [];
+  }
+}
+
+/** Fetch a single page-hero image from CMS */
+async function getPageHeroImage(pageKey: string): Promise<string | undefined> {
+  try {
+    const apiUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api';
+    const res = await fetch(`${apiUrl}/page-heroes/${pageKey}`, { cache: 'no-store' });
+    if (!res.ok) return undefined;
+    const json = await res.json();
+    return json.data?.image || undefined;
+  } catch {
+    return undefined;
   }
 }
 
@@ -61,13 +74,18 @@ export default async function HomePage({ params }: Props) {
   const { locale } = await params;
   if (!isValidLocale(locale)) notFound();
   const t = getTranslations(locale as Locale);
-  
-  const depts = await getDepartments();
+
+  // Fetch all data in parallel
+  const [depts, heroImage, sarcImage] = await Promise.all([
+    getDepartments(),
+    getPageHeroImage('home'),
+    getPageHeroImage('sarc'),
+  ]);
 
   return (
     <>
-      {/* 1. Hero */}
-      <HeroSection locale={locale} t={t} />
+      {/* 1. Hero — dynamic image from CMS, falls back to local /images/hospital/exterior.jpg */}
+      <HeroSection locale={locale} t={t} heroImage={heroImage} />
 
       {/* 2. About / Welcome */}
       <AboutSection locale={locale} t={t} />
@@ -81,8 +99,8 @@ export default async function HomePage({ params }: Props) {
       {/* 5. Why Salamatek */}
       <WhySalamateKSection locale={locale} t={t} />
 
-      {/* 6. SARC */}
-      <SARCSection locale={locale} t={t} />
+      {/* 6. SARC — dynamic image from CMS */}
+      <SARCSection locale={locale} t={t} imageSrc={sarcImage} />
 
       {/* 7. Optical Store */}
       <OpticalStoreSection locale={locale} t={t} />

@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 async function getCareers() {
   try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+    const apiUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api';
     const res = await fetch(`${apiUrl}/careers?active=true&limit=100`, {
       cache: 'no-store',
     });

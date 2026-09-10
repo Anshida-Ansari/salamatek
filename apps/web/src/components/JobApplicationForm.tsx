@@ -68,7 +68,7 @@ export default function JobApplicationForm({ careerId, isRtl }: { careerId: stri
     setError('');
 
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+      const apiUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api';
       const res = await fetch(`${apiUrl}/job-applications`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

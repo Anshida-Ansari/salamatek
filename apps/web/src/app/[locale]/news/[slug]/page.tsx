@@ -6,7 +6,7 @@ import { Calendar, User, ChevronLeft } from 'lucide-react';
 
 async function getNewsBySlug(slug: string) {
   try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+    const apiUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api';
     const res = await fetch(`${apiUrl}/news/slug/${slug}`, {
       cache: 'no-store',
     });

@@ -13,7 +13,7 @@ type Props = {
 
 async function getServices() {
   try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+    const apiUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api';
     const res = await fetch(`${apiUrl}/services?active=true&limit=100`, {
       cache: 'no-store',
     });
@@ -27,7 +27,7 @@ async function getServices() {
 
 async function getPageHero(pageKey: string) {
   try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+    const apiUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api';
     const res = await fetch(`${apiUrl}/page-heroes/${pageKey}`, {
       cache: 'no-store',
     });
@@ -76,16 +76,13 @@ export default async function ServicesPage({ params }: Props) {
     getPageHero('services')
   ]);
 
-  const heading = heroSetting?.heading?.[typedLocale] || p.title;
-  const subtext = heroSetting?.subtext?.[typedLocale] || p.description;
-
   return (
     <>
       <PageHero 
         locale={typedLocale}
         badge={p.title}
-        heading={heading}
-        subtext={subtext}
+        heading={p.title}
+        subtext={p.description}
         imageSrc={heroSetting?.image}
       />
 
@@ -99,11 +96,17 @@ export default async function ServicesPage({ params }: Props) {
                 className="group flex flex-col bg-surface-white rounded-3xl shadow-card hover:shadow-card-md transition-shadow duration-300 overflow-hidden"
               >
                 {/* Visual Header */}
-                <div className="h-32 bg-brand-mint relative overflow-hidden flex items-center justify-center">
-                  <div className="absolute inset-0 opacity-10 bg-[url('/images/pattern.svg')] bg-repeat" />
-                  <div className="w-16 h-16 rounded-2xl bg-white shadow-card flex items-center justify-center text-brand-medium relative z-10 group-hover:scale-110 transition-transform duration-300">
-                    <ServiceIcon />
-                  </div>
+                <div className="h-48 bg-brand-mint relative overflow-hidden flex items-center justify-center">
+                  {s.image ? (
+                    <img src={s.image} alt={s.name[typedLocale] || s.name.en} className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500" />
+                  ) : (
+                    <>
+                      <div className="absolute inset-0 opacity-10 bg-[url('/images/pattern.svg')] bg-repeat" />
+                      <div className="w-16 h-16 rounded-2xl bg-white shadow-card flex items-center justify-center text-brand-medium relative z-10 group-hover:scale-110 transition-transform duration-300">
+                        <ServiceIcon />
+                      </div>
+                    </>
+                  )}
                 </div>
 
                 {/* Content */}

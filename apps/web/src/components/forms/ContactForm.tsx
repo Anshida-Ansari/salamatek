@@ -30,7 +30,7 @@ export function ContactForm() {
     setError('');
 
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+      const apiUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api';
       const res = await fetch(`${apiUrl}/contact-enquiries`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

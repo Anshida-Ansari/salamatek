@@ -7,6 +7,7 @@ import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { HtmlAttributes } from '@/components/layout/HtmlAttributes';
 import { WhatsAppCTA } from '@/components/shared/WhatsAppCTA';
+import { GlobalLoaderProvider } from '@/components/shared/GlobalLoaderProvider';
 
 export function generateStaticParams(): Array<{ locale: string }> {
   return LOCALES.map((locale) => ({ locale }));
@@ -27,6 +28,17 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     metadataBase: new URL(process.env['NEXT_PUBLIC_SITE_URL'] ?? 'http://localhost:3000'),
     openGraph: { type: 'website', siteName: t.meta.siteName },
     robots: { index: true, follow: true },
+    icons: {
+      icon: [
+        { url: '/favicon.ico', sizes: 'any' },
+        { url: '/icon.png', type: 'image/png', sizes: '32x32' },
+        { url: '/icon-192.png', type: 'image/png', sizes: '192x192' },
+      ],
+      apple: [
+        { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+      ],
+      shortcut: '/favicon.ico',
+    },
   };
 }
 
@@ -51,6 +63,7 @@ export default async function LocaleLayout({ children, params }: Props) {
         </main>
         <Footer locale={typedLocale} t={t} />
         <WhatsAppCTA />
+        <GlobalLoaderProvider />
       </div>
     </>
   );

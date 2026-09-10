@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import Link from 'next/link';
 import Image from 'next/image';
 import { getTranslations } from '@/i18n';
 import { isValidLocale, type Locale } from '@/i18n/config';
@@ -14,7 +13,7 @@ type Props = {
 
 async function getDoctors() {
   try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+    const apiUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api';
     const res = await fetch(`${apiUrl}/doctors?active=true&limit=100`, {
       cache: 'no-store',
     });
@@ -28,7 +27,7 @@ async function getDoctors() {
 
 async function getPageHero(pageKey: string) {
   try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+    const apiUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api';
     const res = await fetch(`${apiUrl}/page-heroes/${pageKey}`, {
       cache: 'no-store',
     });
@@ -64,16 +63,13 @@ export default async function DoctorsPage({ params }: Props) {
     getPageHero('doctors')
   ]);
 
-  const heading = heroSetting?.heading?.[typedLocale] || p.title;
-  const subtext = heroSetting?.subtext?.[typedLocale] || p.description;
-
   return (
     <>
       <PageHero 
         locale={typedLocale}
         badge={p.title}
-        heading={heading}
-        subtext={subtext}
+        heading={p.title}
+        subtext={p.description}
         imageSrc={heroSetting?.image}
       />
 

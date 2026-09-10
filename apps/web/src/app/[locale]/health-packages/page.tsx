@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import Link from 'next/link';
 import { getTranslations } from '@/i18n';
 import { isValidLocale, type Locale } from '@/i18n/config';
 import { getLocalizedPath } from '@/lib/utils';
@@ -13,7 +12,7 @@ type Props = {
 
 async function getHealthPackages() {
   try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+    const apiUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api';
     const res = await fetch(`${apiUrl}/health-packages?active=true&limit=100`, {
       cache: 'no-store',
     });
@@ -27,7 +26,7 @@ async function getHealthPackages() {
 
 async function getPageHero(pageKey: string) {
   try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+    const apiUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api';
     const res = await fetch(`${apiUrl}/page-heroes/${pageKey}`, {
       cache: 'no-store',
     });
@@ -63,16 +62,13 @@ export default async function HealthPackagesPage({ params }: Props) {
     getPageHero('health-packages')
   ]);
 
-  const heading = heroSetting?.heading?.[typedLocale] || p.title;
-  const subtext = heroSetting?.subtext?.[typedLocale] || p.description;
-
   return (
     <>
       <PageHero 
         locale={typedLocale}
         badge={p.title}
-        heading={heading}
-        subtext={subtext}
+        heading={p.title}
+        subtext={p.description}
         imageSrc={heroSetting?.image}
       />
 

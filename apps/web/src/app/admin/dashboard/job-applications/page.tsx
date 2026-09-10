@@ -113,18 +113,18 @@ export default function JobApplicationsPage() {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Job Applications</h1>
-          <p className="text-sm text-gray-500 mt-0.5">
+          <h1 className="text-2xl sm:text-3xl font-serif font-bold text-brand-dark">Job Applications</h1>
+          <p className="text-sm text-text-muted mt-1">
             {isLoading ? 'Loading...' : `${total} applicant${total !== 1 ? 's' : ''} total`}
           </p>
         </div>
       </div>
 
       <div className="relative max-w-sm">
-        <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
+        <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-text-muted pointer-events-none" />
         <input
           type="text"
-          className="block w-full pl-10 pr-4 py-2.5 bg-white border border-gray-300 rounded-xl text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+          className="block w-full pl-10 pr-4 py-2.5 bg-white border border-border rounded-xl text-sm placeholder-text-subtle focus:outline-none focus:ring-2 focus:ring-brand-medium focus:border-brand-medium"
           placeholder="Search name or email..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
@@ -173,7 +173,7 @@ export default function JobApplicationsPage() {
                           href={app.resumeUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1 text-xs text-blue-600 hover:text-blue-800 font-medium mt-1 w-fit"
+                          className="inline-flex items-center gap-1 text-xs text-brand hover:text-brand-medium font-semibold mt-1 w-fit"
                         >
                           <FileText className="w-3 h-3" /> View Resume
                         </a>
@@ -192,18 +192,18 @@ export default function JobApplicationsPage() {
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-2">
                         {updatingId === app._id ? (
-                          <Loader2 className="w-4 h-4 animate-spin text-blue-500" />
+                          <Loader2 className="w-4 h-4 animate-spin text-brand-medium" />
                         ) : (
                           <select
                             value={app.status}
                             onChange={(e) => handleUpdateStatus(app._id, e.target.value)}
-                            className={`text-xs font-semibold rounded-full px-2.5 py-1 border-0 ring-1 ring-inset focus:ring-2 focus:ring-blue-500 cursor-pointer ${
+                            className={`text-xs font-semibold rounded-full px-2.5 py-1 border-0 ring-1 ring-inset focus:ring-2 focus:ring-brand-medium cursor-pointer ${
                               app.status === 'new'
-                                ? 'bg-blue-50 text-blue-700 ring-blue-200'
+                                ? 'bg-surface-mint text-brand-dark ring-brand-pale'
                                 : app.status === 'reviewed'
                                 ? 'bg-purple-50 text-purple-700 ring-purple-200'
                                 : app.status === 'hired'
-                                ? 'bg-green-50 text-green-700 ring-green-200'
+                                ? 'bg-emerald-50 text-emerald-700 ring-emerald-200'
                                 : 'bg-red-50 text-red-700 ring-red-200'
                             }`}
                           >

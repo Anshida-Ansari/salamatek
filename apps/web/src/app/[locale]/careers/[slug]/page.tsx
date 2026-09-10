@@ -6,7 +6,7 @@ import JobApplicationForm from '@/components/JobApplicationForm';
 
 async function getCareerBySlug(slug: string) {
   try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+    const apiUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api';
     const res = await fetch(`${apiUrl}/careers/slug/${slug}`, {
       cache: 'no-store',
     });

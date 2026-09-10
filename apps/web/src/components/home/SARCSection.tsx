@@ -6,9 +6,11 @@ import { getLocalizedPath } from '@/lib/utils';
 type Props = {
   locale: Locale;
   t: Translations;
+  /** Dynamic hero image from CMS (passed from parent server component) */
+  imageSrc?: string | undefined;
 };
 
-export function SARCSection({ locale, t }: Props) {
+export function SARCSection({ locale, t, imageSrc }: Props) {
   const p = t.pages.home;
 
   const steps = [
@@ -22,27 +24,41 @@ export function SARCSection({ locale, t }: Props) {
       className="relative py-16 md:py-24 overflow-hidden"
       aria-labelledby="sarc-heading"
       id="sarc"
-      style={{
-        background: 'linear-gradient(135deg, #E05522 0%, #B8441A 30%, #8B2615 65%, #3B1408 100%)',
-      }}
     >
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      {/* Background — dynamic image or gradient fallback */}
+      <div className="absolute inset-0 z-0">
+        {imageSrc ? (
+          <img
+            src={imageSrc}
+            alt="SARC industrial healthcare"
+            className="w-full h-full object-cover object-center"
+          />
+        ) : (
+          <div
+            className="w-full h-full"
+            style={{ background: 'linear-gradient(135deg, #E05522 0%, #B8441A 30%, #8B2615 65%, #3B1408 100%)' }}
+          />
+        )}
+        {/* Dark overlay always present for readability */}
+        <div
+          className="absolute inset-0"
+          style={{ background: 'linear-gradient(to right, rgba(35,10,4,0.97) 0%, rgba(59,20,8,0.85) 50%, rgba(62,14,5,0.55) 100%)' }}
+          aria-hidden="true"
+        />
+      </div>
+
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
 
           {/* Left: Content */}
           <div>
-            {/* SARC logo text mark */}
-            <div className="flex items-center gap-1 mb-6">
-              <svg viewBox="0 0 60 40" className="w-16 h-10" aria-hidden="true" fill="none">
-                <text x="0" y="32" fontSize="32" fontWeight="900" fill="white" fontFamily="sans-serif">
-                  SARC
-                </text>
-              </svg>
+            {/* SARC wordmark */}
+            <div className="inline-flex items-center gap-2 mb-6 px-3 py-1.5 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm">
+              <span className="w-1.5 h-1.5 rounded-full bg-orange-400 flex-shrink-0" aria-hidden="true" />
+              <span className="text-xs font-bold uppercase tracking-widest text-white/80">
+                {p.sarcEyebrow}
+              </span>
             </div>
-
-            <p className="text-xs font-bold uppercase tracking-widest text-white/60 mb-4">
-              {p.sarcEyebrow}
-            </p>
 
             <h2
               id="sarc-heading"
@@ -59,13 +75,14 @@ export function SARCSection({ locale, t }: Props) {
             <div className="flex flex-wrap items-center gap-4">
               <Link
                 href={getLocalizedPath('/sarc', locale)}
-                className="inline-flex items-center px-5 py-2.5 rounded-lg border border-white text-white text-sm font-semibold hover:bg-white/10 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                className="inline-flex items-center px-6 py-3 rounded-lg bg-white text-[#8B2615] text-sm font-bold hover:bg-orange-50 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
               >
                 {t.common.exploreSarc}
+                <svg className="w-4 h-4 ms-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
               </Link>
               <Link
-                href={getLocalizedPath('/contact', locale)}
-                className="text-sm font-semibold text-white/80 hover:text-white transition-colors duration-150"
+                href={getLocalizedPath('/sarc#enquire', locale)}
+                className="text-sm font-semibold text-white/80 hover:text-white transition-colors duration-150 underline underline-offset-4"
               >
                 {t.common.requestProposal}
               </Link>

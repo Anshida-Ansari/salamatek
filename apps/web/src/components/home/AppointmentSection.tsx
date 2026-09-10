@@ -13,7 +13,7 @@ type Props = {
 
 async function getDepartments() {
   try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+    const apiUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api';
     const res = await fetch(`${apiUrl}/departments?active=true&limit=100`, {
       cache: 'no-store',
     });

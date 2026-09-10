@@ -22,7 +22,8 @@ export async function fetchApi(endpoint: string, options: RequestInit = {}) {
       if (typeof window !== 'undefined') {
         localStorage.removeItem('adminToken');
         localStorage.removeItem('adminUser');
-        window.location.href = '/login';
+        document.cookie = 'adminToken=; path=/; max-age=0; SameSite=Lax';
+        window.location.href = '/admin/login';
       }
     }
     throw new Error(data.message || data.error?.message || 'API request failed');

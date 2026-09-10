@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 async function getNews() {
   try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+    const apiUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api';
     const res = await fetch(`${apiUrl}/news?status=published&limit=100`, {
       cache: 'no-store',
     });
@@ -25,7 +25,7 @@ async function getNews() {
 
 async function getPageHero(pageKey: string) {
   try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+    const apiUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api';
     const res = await fetch(`${apiUrl}/page-heroes/${pageKey}`, {
       cache: 'no-store',
     });
@@ -59,21 +59,18 @@ export default async function NewsPage({ params }: Props) {
     ? 'ابق على اطلاع بآخر النصائح الصحية والأخبار والتحديثات من مركز سلامتك الطبي.' 
     : 'Stay updated with the latest health tips, news, and announcements from Salamatek.';
 
-  const heading = heroSetting?.heading?.[typedLocale] || defaultHeading;
-  const subtext = heroSetting?.subtext?.[typedLocale] || defaultSubtext;
-
   return (
     <>
       <PageHero 
         locale={typedLocale}
         badge={isRtl ? 'المركز الإعلامي' : 'Media Center'}
-        heading={heading}
-        subtext={subtext}
+        heading={defaultHeading}
+        subtext={defaultSubtext}
         imageSrc={heroSetting?.image}
       />
 
       <main className="min-h-screen bg-slate-50 pt-16 pb-24" dir={isRtl ? 'rtl' : 'ltr'}>
-
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {newsList.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 bg-white rounded-3xl shadow-sm border border-gray-100">
             <FileText className="w-16 h-16 text-gray-300 mb-4" />

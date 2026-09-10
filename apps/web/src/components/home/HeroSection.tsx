@@ -7,10 +7,13 @@ import { getLocalizedPath } from '@/lib/utils';
 type Props = {
   locale: Locale;
   t: Translations;
+  /** Optional dynamic hero image URL from CMS — falls back to local exterior.jpg */
+  heroImage?: string | undefined;
 };
 
-export function HeroSection({ locale, t }: Props) {
+export function HeroSection({ locale, t, heroImage }: Props) {
   const p = t.pages.home;
+  const bgSrc = heroImage || '/images/hospital/exterior.jpg';
 
   return (
     <section
@@ -20,7 +23,7 @@ export function HeroSection({ locale, t }: Props) {
       {/* Background image */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/images/hospital/exterior.jpg"
+          src={bgSrc}
           alt={
             locale === 'ar'
               ? 'مجمع سلامتك الطبي — مبنى المجمع'

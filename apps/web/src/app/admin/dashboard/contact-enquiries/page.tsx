@@ -18,9 +18,9 @@ interface Enquiry {
 }
 
 const statusColors: Record<EnquiryStatus, { bg: string, text: string, icon: any }> = {
-  new: { bg: 'bg-blue-100', text: 'text-blue-700', icon: Inbox },
+  new: { bg: 'bg-surface-mint', text: 'text-brand-dark', icon: Inbox },
   in_progress: { bg: 'bg-yellow-100', text: 'text-yellow-700', icon: Clock },
-  resolved: { bg: 'bg-green-100', text: 'text-green-700', icon: CheckCircle },
+  resolved: { bg: 'bg-emerald-50', text: 'text-emerald-700', icon: CheckCircle },
   archived: { bg: 'bg-gray-100', text: 'text-gray-700', icon: Archive },
 };
 
@@ -100,22 +100,22 @@ export default function ContactEnquiriesPage() {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Contact Enquiries</h1>
-          <p className="text-sm text-gray-500 mt-0.5">
+          <h1 className="text-2xl sm:text-3xl font-serif font-bold text-brand-dark">Contact Enquiries</h1>
+          <p className="text-sm text-text-muted mt-1">
             Manage form submissions from the website contact page.
           </p>
         </div>
       </div>
 
-      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
+      <div className="bg-white rounded-2xl border border-border overflow-hidden shadow-card">
         <div className="p-6">
           <div className="flex flex-col sm:flex-row justify-between gap-4 mb-6">
             <div className="relative flex-1 max-w-md">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
               <input 
                 type="text" 
                 placeholder="Search by name, email or subject..."
-                className="w-full pl-10 pr-4 py-2 border rounded-md focus:ring-2 focus:ring-[#8E2829] outline-none"
+                className="w-full pl-10 pr-4 py-2.5 bg-white border border-border rounded-xl text-sm placeholder-text-subtle focus:outline-none focus:ring-2 focus:ring-brand-medium focus:border-brand-medium"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && fetchEnquiries()}

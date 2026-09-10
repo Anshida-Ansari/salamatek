@@ -35,15 +35,15 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
   const dismiss = (id: string) => setToasts((prev) => prev.filter((t) => t.id !== id));
 
   const icons = {
-    success: <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />,
-    error: <XCircle className="w-5 h-5 text-red-500 flex-shrink-0" />,
-    info: <AlertCircle className="w-5 h-5 text-blue-500 flex-shrink-0" />,
+    success: <CheckCircle className="w-5 h-5 text-brand-medium flex-shrink-0" />,
+    error: <XCircle className="w-5 h-5 text-brand-red flex-shrink-0" />,
+    info: <AlertCircle className="w-5 h-5 text-brand-dark flex-shrink-0" />,
   };
 
   const colors = {
-    success: 'border-green-200 bg-green-50',
-    error: 'border-red-200 bg-red-50',
-    info: 'border-blue-200 bg-blue-50',
+    success: 'border-brand-pale bg-surface-mint text-brand-dark',
+    error: 'border-red-200 bg-red-50 text-red-900',
+    info: 'border-border bg-white text-text-base',
   };
 
   return (

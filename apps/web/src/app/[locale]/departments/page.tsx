@@ -13,7 +13,7 @@ type Props = {
 
 async function getDepartments() {
   try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+    const apiUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api';
     const res = await fetch(`${apiUrl}/departments?active=true&limit=100`, {
       cache: 'no-store',
     });
@@ -27,7 +27,7 @@ async function getDepartments() {
 
 async function getPageHero(pageKey: string) {
   try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+    const apiUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api';
     const res = await fetch(`${apiUrl}/page-heroes/${pageKey}`, {
       cache: 'no-store',
     });
@@ -67,16 +67,13 @@ export default async function DepartmentsPage({ params }: Props) {
     getPageHero('departments')
   ]);
 
-  const heading = heroSetting?.heading?.[typedLocale] || p.title;
-  const subtext = heroSetting?.subtext?.[typedLocale] || p.description;
-
   return (
     <>
       <PageHero 
         locale={typedLocale}
         badge={p.title}
-        heading={heading}
-        subtext={subtext}
+        heading={p.title}
+        subtext={p.description}
         imageSrc={heroSetting?.image}
       />
 
@@ -90,10 +87,15 @@ export default async function DepartmentsPage({ params }: Props) {
                 className="group flex flex-col bg-white border border-border rounded-2xl p-6 hover:border-brand-pale hover:shadow-card-md transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-medium"
                 aria-label={`${d.name[typedLocale] || d.name.en} — ${d.description?.[typedLocale] || d.description?.en || ''}`}
               >
-                {/* Icon Placeholder */}
-                <div className="w-11 h-11 rounded-xl bg-brand-mint flex items-center justify-center text-brand-medium mb-5 group-hover:bg-brand-medium group-hover:text-white transition-colors duration-200">
-                  <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg>
-                </div>
+                {d.image ? (
+                  <div className="w-full h-48 mb-5 rounded-xl overflow-hidden relative">
+                    <img src={d.image} alt={d.name[typedLocale] || d.name.en} className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300" />
+                  </div>
+                ) : (
+                  <div className="w-11 h-11 rounded-xl bg-brand-mint flex items-center justify-center text-brand-medium mb-5 group-hover:bg-brand-medium group-hover:text-white transition-colors duration-200">
+                    <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg>
+                  </div>
+                )}
 
                 {/* Name */}
                 <h3 className="text-xl font-serif font-bold text-text-base mb-3 group-hover:text-brand-medium transition-colors">

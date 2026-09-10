@@ -47,13 +47,13 @@ function TableSkeleton() {
 function EmptyState({ search }: { search: string }) {
   return (
     <div className="flex flex-col items-center justify-center py-16 px-4">
-      <div className="w-16 h-16 bg-indigo-50 rounded-2xl flex items-center justify-center mb-4">
-        <Building2 className="w-8 h-8 text-indigo-400" />
+      <div className="w-16 h-16 bg-surface-mint rounded-2xl flex items-center justify-center mb-4 text-brand-medium">
+        <Building2 className="w-8 h-8" />
       </div>
-      <h3 className="text-base font-semibold text-gray-800 mb-1">
+      <h3 className="text-base font-semibold text-text-base mb-1">
         {search ? 'No results found' : 'No departments yet'}
       </h3>
-      <p className="text-sm text-gray-500 text-center max-w-xs mb-6">
+      <p className="text-sm text-text-muted text-center max-w-xs mb-6">
         {search
           ? `No departments match "${search}".`
           : 'Add your first department to get started.'}
@@ -61,7 +61,7 @@ function EmptyState({ search }: { search: string }) {
       {!search && (
         <Link
           href="/admin/dashboard/departments/new"
-          className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-lg transition"
+          className="inline-flex items-center gap-2 px-4 py-2 bg-brand hover:bg-brand-medium text-white text-sm font-semibold rounded-xl transition shadow-sm cursor-pointer"
         >
           <Plus className="w-4 h-4" />
           Add First Department
@@ -136,14 +136,14 @@ export default function DepartmentsPage() {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Departments</h1>
-          <p className="text-sm text-gray-500 mt-0.5">
+          <h1 className="text-2xl sm:text-3xl font-serif font-bold text-brand-dark">Departments</h1>
+          <p className="text-sm text-text-muted mt-1">
             {isLoading ? 'Loading...' : `${total} department${total !== 1 ? 's' : ''} total`}
           </p>
         </div>
         <Link
           href="/admin/dashboard/departments/new"
-          className="inline-flex items-center gap-2 px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-xl transition shadow-sm"
+          className="inline-flex items-center gap-2 px-4 py-2.5 bg-brand hover:bg-brand-medium text-white text-sm font-semibold rounded-xl transition shadow-sm cursor-pointer"
         >
           <Plus className="w-4 h-4" />
           Add Department
@@ -151,10 +151,10 @@ export default function DepartmentsPage() {
       </div>
 
       <div className="relative max-w-sm">
-        <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
+        <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-text-muted pointer-events-none" />
         <input
           type="text"
-          className="block w-full pl-10 pr-4 py-2.5 bg-white border border-gray-300 rounded-xl text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+          className="block w-full pl-10 pr-4 py-2.5 bg-white border border-border rounded-xl text-sm placeholder-text-subtle focus:outline-none focus:ring-2 focus:ring-brand-medium focus:border-brand-medium"
           placeholder="Search departments..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}

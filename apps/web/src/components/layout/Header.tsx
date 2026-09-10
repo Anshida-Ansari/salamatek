@@ -35,10 +35,10 @@ export function Header({ locale, t }: Props) {
           <div className="flex items-center justify-between h-16 lg:h-18">
 
             {/* Logo */}
-            <Logo locale={locale} size="sm" />
+            <Logo locale={locale} size="md" type="horizontal" />
 
-            {/* Desktop Nav */}
-            <div className="hidden lg:flex items-center gap-6 flex-1 justify-center">
+            {/* Desktop Nav — overflow scroll on medium screens */}
+            <div className="hidden lg:flex items-center gap-6 flex-1 justify-center overflow-x-auto no-scrollbar">
               <Navigation locale={locale} t={t} />
             </div>
 

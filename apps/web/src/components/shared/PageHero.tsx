@@ -47,14 +47,16 @@ export function PageHero({
               fill
               sizes="100vw"
               priority
-              className="object-cover object-center opacity-25"
+              className="object-cover object-center"
             />
           </div>
           <div
             className="absolute inset-0 z-0"
             style={{
               background:
-                'linear-gradient(to bottom, rgba(12,53,40,0.95) 0%, rgba(12,53,40,0.85) 100%)',
+                _locale === 'ar'
+                  ? 'linear-gradient(to left, rgba(12,53,40,0.95) 0%, rgba(12,53,40,0.7) 40%, rgba(12,53,40,0.2) 100%)'
+                  : 'linear-gradient(to right, rgba(12,53,40,0.95) 0%, rgba(12,53,40,0.7) 40%, rgba(12,53,40,0.2) 100%)',
             }}
             aria-hidden="true"
           />

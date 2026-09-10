@@ -81,16 +81,16 @@ export default function ImageUpload({ value, onChange, className = '' }: ImageUp
           </div>
         </div>
       ) : (
-        <label className="relative flex flex-col items-center justify-center w-full max-w-sm aspect-video bg-gray-50 border-2 border-dashed border-gray-300 rounded-xl hover:bg-gray-100 hover:border-gray-400 transition cursor-pointer overflow-hidden">
+        <label className="relative flex flex-col items-center justify-center w-full max-w-sm aspect-video bg-surface-light border-2 border-dashed border-border rounded-2xl hover:bg-surface-mint hover:border-brand-medium transition cursor-pointer overflow-hidden">
           {isUploading ? (
-            <div className="flex flex-col items-center justify-center text-blue-600 gap-2">
+            <div className="flex flex-col items-center justify-center text-brand-medium gap-2">
               <Loader2 className="w-6 h-6 animate-spin" />
               <span className="text-sm font-semibold">Uploading...</span>
             </div>
           ) : (
-            <div className="flex flex-col items-center justify-center text-gray-500 gap-2 p-6 text-center">
-              <div className="w-10 h-10 bg-white shadow-sm rounded-full flex items-center justify-center mb-1">
-                <UploadCloud className="w-5 h-5 text-gray-400" />
+            <div className="flex flex-col items-center justify-center text-text-muted gap-2 p-6 text-center">
+              <div className="w-10 h-10 bg-white shadow-sm rounded-full flex items-center justify-center mb-1 text-brand-medium">
+                <UploadCloud className="w-5 h-5 text-brand-medium" />
               </div>
               <p className="text-sm font-medium">Click to upload an image</p>
               <p className="text-xs text-gray-400">JPG, PNG, WebP up to 5MB</p>

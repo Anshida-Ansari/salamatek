@@ -9,7 +9,39 @@ export function middleware(request: NextRequest): NextResponse {
       pathname === `/${locale}` || pathname.startsWith(`/${locale}/`)
   );
 
-  if (pathnameHasLocale || pathname.startsWith('/admin')) {
+  // Admin route protection & session handling
+  if (pathname.startsWith('/admin')) {
+    const adminToken = request.cookies.get('adminToken')?.value;
+
+    if (pathname === '/admin' || pathname === '/admin/') {
+      const redirectUrl = request.nextUrl.clone();
+      redirectUrl.pathname = adminToken ? '/admin/dashboard' : '/admin/login';
+      return NextResponse.redirect(redirectUrl);
+    }
+
+    if (pathname === '/admin/login') {
+      if (adminToken) {
+        const dashboardUrl = request.nextUrl.clone();
+        dashboardUrl.pathname = '/admin/dashboard';
+        return NextResponse.redirect(dashboardUrl);
+      }
+      return NextResponse.next();
+    }
+
+    if (pathname.startsWith('/admin/dashboard')) {
+      if (!adminToken) {
+        const loginUrl = request.nextUrl.clone();
+        loginUrl.pathname = '/admin/login';
+        loginUrl.searchParams.set('redirect', pathname);
+        return NextResponse.redirect(loginUrl);
+      }
+      return NextResponse.next();
+    }
+
+    return NextResponse.next();
+  }
+
+  if (pathnameHasLocale) {
     return NextResponse.next();
   }
 

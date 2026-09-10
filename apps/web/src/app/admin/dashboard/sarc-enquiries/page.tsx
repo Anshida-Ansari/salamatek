@@ -108,19 +108,19 @@ export default function SarcEnquiriesPage() {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">SARC Enquiries</h1>
-          <p className="text-sm text-gray-500 mt-0.5">
+          <h1 className="text-2xl sm:text-3xl font-serif font-bold text-brand-dark">SARC Enquiries</h1>
+          <p className="text-sm text-text-muted mt-1">
             {isLoading ? 'Loading...' : `${total} proposal request${total !== 1 ? 's' : ''} total`}
           </p>
         </div>
       </div>
 
       <div className="relative max-w-sm">
-        <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
+        <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-text-muted pointer-events-none" />
         <input
           type="text"
-          className="block w-full pl-10 pr-4 py-2.5 bg-white border border-gray-300 rounded-xl text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-          placeholder="Search company or email..."
+          className="block w-full pl-10 pr-4 py-2.5 bg-white border border-border rounded-xl text-sm placeholder-text-subtle focus:outline-none focus:ring-2 focus:ring-brand-medium focus:border-brand-medium"
+          placeholder="Search by company or contact..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
@@ -180,17 +180,17 @@ export default function SarcEnquiriesPage() {
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-2">
                         {updatingId === enq._id ? (
-                          <Loader2 className="w-4 h-4 animate-spin text-blue-500" />
+                          <Loader2 className="w-4 h-4 animate-spin text-brand-medium" />
                         ) : (
                           <select
                             value={enq.status}
                             onChange={(e) => handleUpdateStatus(enq._id, e.target.value)}
-                            className={`text-xs font-semibold rounded-full px-2.5 py-1 border-0 ring-1 ring-inset focus:ring-2 focus:ring-blue-500 cursor-pointer ${
+                            className={`text-xs font-semibold rounded-full px-2.5 py-1 border-0 ring-1 ring-inset focus:ring-2 focus:ring-brand-medium cursor-pointer ${
                               enq.status === 'new'
-                                ? 'bg-blue-50 text-blue-700 ring-blue-200'
+                                ? 'bg-surface-mint text-brand-dark ring-brand-pale'
                                 : enq.status === 'contacted'
                                 ? 'bg-orange-50 text-orange-700 ring-orange-200'
-                                : 'bg-green-50 text-green-700 ring-green-200'
+                                : 'bg-emerald-50 text-emerald-700 ring-emerald-200'
                             }`}
                           >
                             <option value="new">New</option>

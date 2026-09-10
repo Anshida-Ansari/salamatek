@@ -11,7 +11,7 @@ type Props = {
 
 async function getNews() {
   try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+    const apiUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api';
     const res = await fetch(`${apiUrl}/news?active=true&limit=3`, {
       cache: 'no-store',
     });

@@ -7,29 +7,26 @@ import ImageUpload from '@/components/admin/ImageUpload';
 import { Loader2, Settings2, Save } from 'lucide-react';
 
 const PAGE_KEYS = [
-  { id: 'departments', label: 'Departments Index' },
-  { id: 'services', label: 'Services Index' },
-  { id: 'doctors', label: 'Doctors Index' },
+  { id: 'home',          label: 'Home Hero (Landing Page)' },
+  { id: 'sarc',          label: 'SARC Section (Landing Page)' },
+  { id: 'departments',   label: 'Departments Index' },
+  { id: 'services',      label: 'Services Index' },
+  { id: 'doctors',       label: 'Doctors Index' },
   { id: 'health-packages', label: 'Health Packages Index' },
-  { id: 'sarc', label: 'SARC Index' },
-  { id: 'news', label: 'News & Blog Index' },
-  { id: 'careers', label: 'Careers Index' },
-  { id: 'contact', label: 'Contact Us Page' },
-  { id: 'about', label: 'About Us Page' },
+  { id: 'news',          label: 'News & Blog Index' },
+  { id: 'careers',       label: 'Careers Index' },
+  { id: 'contact',       label: 'Contact Us Page' },
+  { id: 'about',         label: 'About Us Page' },
 ];
 
 export default function SiteSettingsPage() {
   const { toast } = useToast();
-  const [selectedPage, setSelectedPage] = useState(PAGE_KEYS[0].id);
+  const [selectedPage, setSelectedPage] = useState(PAGE_KEYS[0]!.id);
   const [isLoading, setIsLoading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
   const [formData, setFormData] = useState({
     image: '',
-    headingEn: '',
-    headingAr: '',
-    subtextEn: '',
-    subtextAr: '',
   });
 
   const loadSettings = async (pageKey: string) => {
@@ -39,13 +36,9 @@ export default function SiteSettingsPage() {
       if (res.data) {
         setFormData({
           image: res.data.image || '',
-          headingEn: res.data.heading?.en || '',
-          headingAr: res.data.heading?.ar || '',
-          subtextEn: res.data.subtext?.en || '',
-          subtextAr: res.data.subtext?.ar || '',
         });
       } else {
-        setFormData({ image: '', headingEn: '', headingAr: '', subtextEn: '', subtextAr: '' });
+        setFormData({ image: '' });
       }
     } catch {
       toast('Failed to load settings', 'error');
@@ -66,8 +59,6 @@ export default function SiteSettingsPage() {
         method: 'PATCH',
         body: JSON.stringify({
           image: formData.image,
-          heading: { en: formData.headingEn, ar: formData.headingAr },
-          subtext: { en: formData.subtextEn, ar: formData.subtextAr },
         }),
       });
       toast('Page settings updated successfully', 'success');
@@ -98,10 +89,10 @@ export default function SiteSettingsPage() {
             <button
               key={page.id}
               onClick={() => setSelectedPage(page.id)}
-              className={`w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
+              className={`w-full text-left px-4 py-3 rounded-xl text-sm transition-colors cursor-pointer ${
                 selectedPage === page.id
-                  ? 'bg-blue-50 text-blue-700'
-                  : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                  ? 'bg-surface-mint text-brand-dark font-bold shadow-sm'
+                  : 'text-text-muted hover:bg-surface-mint/50 hover:text-text-base font-medium'
               }`}
             >
               {page.label}
@@ -110,15 +101,15 @@ export default function SiteSettingsPage() {
         </div>
 
         {/* Content Form */}
-        <div className="flex-1 bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-          <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-100">
-            <h2 className="text-lg font-semibold text-gray-900">
+        <div className="flex-1 bg-white rounded-2xl shadow-card border border-border p-6 sm:p-8">
+          <div className="flex items-center justify-between mb-6 pb-4 border-b border-border">
+            <h2 className="text-lg font-bold font-serif text-brand-dark">
               {PAGE_KEYS.find((p) => p.id === selectedPage)?.label} Hero
             </h2>
             <button
               onClick={handleSave}
               disabled={isSaving || isLoading}
-              className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 text-sm font-medium transition"
+              className="flex items-center gap-2 px-5 py-2.5 bg-brand text-white rounded-xl hover:bg-brand-medium disabled:opacity-50 text-sm font-semibold transition shadow-sm cursor-pointer"
             >
               {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
               Save Changes
@@ -137,54 +128,6 @@ export default function SiteSettingsPage() {
                   value={formData.image}
                   onChange={(url) => setFormData({ ...formData, image: url })}
                 />
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Heading (English)</label>
-                  <input
-                    type="text"
-                    value={formData.headingEn}
-                    onChange={(e) => setFormData({ ...formData, headingEn: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                    placeholder="Leave blank to use default"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1" dir="rtl">Heading (Arabic)</label>
-                  <input
-                    type="text"
-                    value={formData.headingAr}
-                    onChange={(e) => setFormData({ ...formData, headingAr: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                    placeholder="اتركه فارغًا لاستخدام الافتراضي"
-                    dir="rtl"
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Subtext (English)</label>
-                  <textarea
-                    rows={3}
-                    value={formData.subtextEn}
-                    onChange={(e) => setFormData({ ...formData, subtextEn: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                    placeholder="Leave blank to use default"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1" dir="rtl">Subtext (Arabic)</label>
-                  <textarea
-                    rows={3}
-                    value={formData.subtextAr}
-                    onChange={(e) => setFormData({ ...formData, subtextAr: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                    placeholder="اتركه فارغًا لاستخدام الافتراضي"
-                    dir="rtl"
-                  />
-                </div>
               </div>
             </div>
           )}

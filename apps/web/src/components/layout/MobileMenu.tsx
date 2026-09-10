@@ -6,18 +6,7 @@ import type { Locale } from '@/i18n/config';
 import type { Translations } from '@/i18n';
 import { getLocalizedPath, cn } from '@/lib/utils';
 import { LanguageSwitcher } from './LanguageSwitcher';
-import { Button } from '@/components/ui/Button';
-
-const NAV_ITEMS = [
-  { key: 'about' as const,        href: '/about' },
-  { key: 'departments' as const,  href: '/departments' },
-  { key: 'doctors' as const,      href: '/doctors' },
-  { key: 'packages' as const,     href: '/health-packages' },
-  { key: 'sarc' as const,         href: '/sarc', highlight: true },
-  { key: 'opticalStore' as const, href: '/optical-store' },
-  { key: 'news' as const,         href: '/news' },
-  { key: 'contact' as const,      href: '/contact' },
-];
+import { Navigation } from './Navigation';
 
 type Props = {
   isOpen: boolean;
@@ -91,38 +80,25 @@ export function MobileMenu({ isOpen, onClose, locale, t }: Props) {
           </button>
         </div>
 
-        {/* Nav Links */}
-        <nav aria-label="Mobile navigation" className="flex-1 overflow-y-auto px-4 py-4 space-y-1">
-          {NAV_ITEMS.map(({ key, href, highlight }) => {
-            const localizedHref = getLocalizedPath(href, locale);
-            const label = t.nav[key] as string;
-            return (
-              <Link
-                key={key}
-                href={localizedHref}
-                onClick={onClose}
-                className={cn(
-                  'flex items-center px-4 py-3 rounded-xl text-base font-medium transition-all duration-150',
-                  highlight
-                    ? 'bg-brand-orange text-white font-bold hover:bg-brand-orange-dark'
-                    : 'text-text-base hover:bg-brand-mint hover:text-brand-dark',
-                )}
-              >
-                {label}
-              </Link>
-            );
-          })}
-        </nav>
+        {/* Nav Links — reuse Navigation in vertical mode */}
+        <div className="flex-1 overflow-y-auto px-4 py-4">
+          <Navigation
+            locale={locale}
+            t={t}
+            orientation="vertical"
+            onLinkClick={onClose}
+          />
+        </div>
 
         {/* Footer */}
         <div className="px-4 py-5 border-t border-border space-y-3">
-          <Button
-            variant="primary"
-            fullWidth
+          <Link
+            href={getLocalizedPath('/contact', locale)}
             onClick={onClose}
+            className="flex items-center justify-center w-full px-4 py-3 rounded-xl bg-brand-red text-white text-sm font-semibold hover:bg-brand-red-dark transition-colors"
           >
             {t.nav.bookAppointment}
-          </Button>
+          </Link>
           <LanguageSwitcher currentLocale={locale} variant="mobile" />
         </div>
       </div>

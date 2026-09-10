@@ -13,13 +13,12 @@ interface Stats {
 
 function StatSkeleton() {
   return (
-    <div className="bg-white rounded-xl border border-gray-200 p-6 animate-pulse">
+    <div className="bg-white rounded-2xl border border-border p-6 shadow-card animate-pulse">
       <div className="flex items-center justify-between mb-4">
-        <div className="w-12 h-12 bg-gray-200 rounded-xl" />
-        <div className="w-16 h-5 bg-gray-200 rounded" />
+        <div className="w-12 h-12 bg-surface-mint rounded-xl" />
+        <div className="w-16 h-8 bg-surface-mint rounded" />
       </div>
-      <div className="w-10 h-8 bg-gray-200 rounded mb-1" />
-      <div className="w-24 h-4 bg-gray-200 rounded" />
+      <div className="w-24 h-4 bg-surface-mint rounded" />
     </div>
   );
 }
@@ -56,9 +55,6 @@ export default function DashboardOverview() {
       name: 'Total Doctors',
       value: stats.doctors,
       icon: Users,
-      color: 'bg-blue-500',
-      lightColor: 'bg-blue-50',
-      textColor: 'text-blue-600',
       href: '/admin/dashboard/doctors',
       linkLabel: 'Manage doctors',
     },
@@ -66,9 +62,6 @@ export default function DashboardOverview() {
       name: 'Departments',
       value: stats.departments,
       icon: Building2,
-      color: 'bg-indigo-500',
-      lightColor: 'bg-indigo-50',
-      textColor: 'text-indigo-600',
       href: '/admin/dashboard/departments',
       linkLabel: 'Manage departments',
     },
@@ -76,9 +69,6 @@ export default function DashboardOverview() {
       name: 'Services',
       value: stats.services,
       icon: Stethoscope,
-      color: 'bg-emerald-500',
-      lightColor: 'bg-emerald-50',
-      textColor: 'text-emerald-600',
       href: '/admin/dashboard/services',
       linkLabel: 'Manage services',
     },
@@ -89,20 +79,20 @@ export default function DashboardOverview() {
       {/* Page header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-          <p className="text-sm text-gray-500 mt-0.5">
-            Overview of Salamatek Medical Centre content.
+          <h1 className="text-2xl sm:text-3xl font-serif font-bold text-brand-dark">Dashboard</h1>
+          <p className="text-sm text-text-muted mt-1">
+            Overview of Salamatek Medical Centre content and active records.
           </p>
         </div>
-        <div className="hidden sm:flex items-center gap-2 text-xs text-gray-400 bg-gray-50 border border-gray-200 px-3 py-2 rounded-lg">
-          <TrendingUp className="w-3.5 h-3.5" />
-          Live data
+        <div className="hidden sm:flex items-center gap-2 text-xs font-semibold text-brand-dark bg-surface-mint border border-brand-pale/40 px-3.5 py-2 rounded-xl">
+          <TrendingUp className="w-3.5 h-3.5 text-brand-medium" />
+          Live system data
         </div>
       </div>
 
       {error && (
-        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-sm">
-          ⚠ {error}
+        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-sm flex items-center gap-2">
+          <span className="font-bold">⚠</span> {error}
         </div>
       )}
 
@@ -115,22 +105,22 @@ export default function DashboardOverview() {
               return (
                 <div
                   key={item.name}
-                  className="bg-white rounded-xl border border-gray-200 p-6 hover:border-gray-300 hover:shadow-sm transition-all group"
+                  className="bg-white rounded-2xl border border-border p-6 hover:border-brand-pale hover:shadow-card-md transition-all duration-200 group"
                 >
                   <div className="flex items-center justify-between mb-4">
-                    <div className={`w-12 h-12 rounded-xl ${item.lightColor} flex items-center justify-center`}>
-                      <Icon className={`w-6 h-6 ${item.textColor}`} />
+                    <div className="w-12 h-12 rounded-xl bg-surface-mint flex items-center justify-center text-brand-medium group-hover:scale-105 transition-transform">
+                      <Icon className="w-6 h-6" />
                     </div>
-                    <span className={`text-3xl font-bold text-gray-900`}>
+                    <span className="text-3xl font-serif font-bold text-brand-dark">
                       {item.value}
                     </span>
                   </div>
-                  <p className="text-sm font-medium text-gray-700 mb-3">{item.name}</p>
+                  <p className="text-sm font-semibold text-text-base mb-3">{item.name}</p>
                   <Link
                     href={item.href}
-                    className={`inline-flex items-center gap-1 text-xs font-semibold ${item.textColor} group-hover:gap-2 transition-all`}
+                    className="inline-flex items-center gap-1 text-xs font-bold text-brand hover:text-brand-medium group-hover:gap-2 transition-all uppercase tracking-wider"
                   >
-                    {item.linkLabel}
+                    <span>{item.linkLabel}</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                 </div>
@@ -140,19 +130,22 @@ export default function DashboardOverview() {
 
       {/* Quick actions */}
       <div>
-        <h2 className="text-base font-semibold text-gray-800 mb-4">Quick Actions</h2>
+        <h2 className="text-base font-bold text-text-base mb-4 uppercase tracking-wider text-xs">
+          Quick Actions
+        </h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {[
-            { label: 'Add Doctor', href: '/admin/dashboard/doctors/new', color: 'border-blue-200 hover:border-blue-400 hover:bg-blue-50' },
-            { label: 'Add Department', href: '/admin/dashboard/departments/new', color: 'border-indigo-200 hover:border-indigo-400 hover:bg-indigo-50' },
-            { label: 'Add Service', href: '/admin/dashboard/services/new', color: 'border-emerald-200 hover:border-emerald-400 hover:bg-emerald-50' },
+            { label: 'Add Doctor', href: '/admin/dashboard/doctors/new' },
+            { label: 'Add Department', href: '/admin/dashboard/departments/new' },
+            { label: 'Add Service', href: '/admin/dashboard/services/new' },
           ].map((action) => (
             <Link
               key={action.label}
               href={action.href}
-              className={`flex items-center justify-center gap-2 py-3 px-4 rounded-xl border-2 border-dashed text-sm font-semibold text-gray-600 transition-all ${action.color}`}
+              className="flex items-center justify-center gap-2 py-3.5 px-4 rounded-2xl border-2 border-dashed border-border hover:border-brand-medium hover:bg-surface-mint text-sm font-semibold text-brand-dark transition-all duration-200 group"
             >
-              + {action.label}
+              <span className="text-brand-medium group-hover:scale-125 transition-transform font-bold">+</span>
+              <span>{action.label}</span>
             </Link>
           ))}
         </div>

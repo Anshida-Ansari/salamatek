@@ -177,16 +177,16 @@ export default function CareerForm({ careerId }: { careerId?: string }) {
   if (isFetching) {
     return (
       <div className="flex items-center justify-center py-20">
-        <Loader2 className="w-6 h-6 animate-spin text-blue-600" />
-        <span className="ml-3 text-gray-500">Loading career data...</span>
+        <Loader2 className="w-6 h-6 animate-spin text-brand-medium" />
+        <span className="ml-3 text-text-muted">Loading career data...</span>
       </div>
     );
   }
 
   const inputClass =
-    'block w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition';
-  const labelClass = 'block text-sm font-semibold text-gray-700 mb-1.5';
-  const sectionClass = 'bg-white rounded-xl border border-gray-200 p-6 space-y-5';
+    'block w-full px-3 py-2.5 bg-white border border-border rounded-xl text-sm text-text-base placeholder-text-subtle focus:outline-none focus:ring-2 focus:ring-brand-medium focus:border-brand-medium transition';
+  const labelClass = 'block text-sm font-semibold text-text-base mb-1.5';
+  const sectionClass = 'bg-white rounded-2xl border border-border p-6 space-y-5 shadow-card';
 
   return (
     <div className="space-y-4">
@@ -195,7 +195,7 @@ export default function CareerForm({ careerId }: { careerId?: string }) {
           type="button"
           onClick={handleTranslate}
           disabled={isTranslating}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-50 text-indigo-700 hover:bg-indigo-100 disabled:opacity-50 text-sm font-semibold rounded-lg transition"
+          className="inline-flex items-center gap-2 px-4 py-2 bg-surface-mint text-brand-dark hover:bg-brand-pale/30 disabled:opacity-50 text-sm font-semibold rounded-xl border border-brand-pale/40 transition cursor-pointer"
         >
           {isTranslating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Languages className="w-4 h-4" />}
           Auto-Translate to Arabic
@@ -289,19 +289,19 @@ export default function CareerForm({ careerId }: { careerId?: string }) {
         <div className={sectionClass}>
           <h3 className="text-base font-semibold text-gray-900 pb-1 border-b border-gray-100">Settings</h3>
           <div className="flex items-center gap-3">
-            <input type="checkbox" name="active" checked={formData.active} onChange={handleChange} className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
+            <input type="checkbox" name="active" checked={formData.active} onChange={handleChange} className="h-4 w-4 rounded border-border text-brand-medium focus:ring-brand-medium" />
             <div>
-              <label className="text-sm font-semibold text-gray-700 cursor-pointer">Active Vacancy</label>
-              <p className="text-xs text-gray-400">When active, candidates can view and apply to this job on the careers page.</p>
+              <label className="text-sm font-semibold text-text-base cursor-pointer">Active Vacancy</label>
+              <p className="text-xs text-text-muted">When active, candidates can view and apply to this job on the careers page.</p>
             </div>
           </div>
         </div>
 
         <div className="flex items-center justify-between pt-2">
-          <button type="button" onClick={() => router.push('/admin/dashboard/careers')} className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold text-gray-700 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 transition">
+          <button type="button" onClick={() => router.push('/admin/dashboard/careers')} className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold text-text-muted bg-white border border-border rounded-xl hover:bg-surface-mint hover:text-brand-dark transition cursor-pointer">
             <ChevronLeft className="w-4 h-4" /> Cancel
           </button>
-          <button type="submit" disabled={isLoading} className="inline-flex items-center gap-2 px-6 py-2.5 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white text-sm font-semibold rounded-xl transition shadow-sm">
+          <button type="submit" disabled={isLoading} className="inline-flex items-center gap-2 px-6 py-2.5 bg-brand hover:bg-brand-medium disabled:opacity-50 text-white text-sm font-semibold rounded-xl transition shadow-sm cursor-pointer">
             {isLoading && <Loader2 className="w-4 h-4 animate-spin" />}
             {isLoading ? 'Saving...' : careerId ? 'Update Job' : 'Add Job'}
           </button>
