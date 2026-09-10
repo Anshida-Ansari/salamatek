@@ -20,7 +20,6 @@ import {
   X,
   ChevronRight,
   Mail,
-  ShieldCheck,
 } from 'lucide-react';
 
 interface NavItem {
@@ -228,18 +227,24 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         {/* Top Header */}
         <header className="bg-white border-b border-border flex-shrink-0 shadow-card">
           <div className="h-16 px-4 sm:px-6 flex items-center justify-between">
-            {/* Mobile menu button */}
-            <button
-              className="md:hidden p-2 rounded-lg text-text-muted hover:bg-surface-mint hover:text-brand-dark transition"
-              onClick={() => setSidebarOpen(true)}
-              aria-label="Open menu"
-            >
-              <Menu className="h-5 w-5" />
-            </button>
+            {/* Left side / Mobile brand & menu */}
+            <div className="flex items-center gap-3">
+              <button
+                className="md:hidden p-2 rounded-lg text-text-muted hover:bg-surface-mint hover:text-brand-dark transition"
+                onClick={() => setSidebarOpen(true)}
+                aria-label="Open menu"
+              >
+                <Menu className="h-5 w-5" />
+              </button>
+              <div className="flex items-center gap-2 md:hidden">
+                <Image src="/icon.png" alt="Salamatek" width={22} height={22} className="w-5 h-5 object-contain" />
+                <span className="font-serif font-bold text-brand-dark text-sm">Salamatek</span>
+              </div>
+            </div>
 
             {/* Breadcrumb / page title area */}
-            <div className="hidden md:flex items-center gap-2 text-sm">
-              <ShieldCheck className="w-4 h-4 text-brand-medium" />
+            <div className="hidden md:flex items-center gap-2.5 text-sm">
+              <Image src="/icon.png" alt="Salamatek" width={18} height={18} className="w-4.5 h-4.5 object-contain" />
               <span className="font-semibold text-text-base">Salamatek Medical Centre</span>
               <span className="text-text-muted">•</span>
               <span className="text-text-muted capitalize">{pathname.split('/')[3] || 'Dashboard'}</span>
