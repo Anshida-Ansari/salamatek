@@ -47,7 +47,7 @@ export const getCareerById = asyncHandler(async (req: Request, res: Response): P
 });
 
 export const getCareerBySlug = asyncHandler(async (req: Request, res: Response): Promise<void> => {
-  const career = await Career.findOne({ slug: req.params.slug }).lean();
+  const career = await Career.findOne({ slug: req.params.slug as string }).lean();
   if (!career) {
     const error = new Error('Career not found') as AppError;
     error.statusCode = 404;

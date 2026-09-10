@@ -5,6 +5,7 @@ export const createDepartmentSchema = z.object({
   body: z.object({
     name: bilingualStringSchema,
     slug: z.string().min(1, 'Slug is required'),
+    subheading: optionalBilingualStringSchema,
     description: optionalBilingualStringSchema,
     image: z.string().url().optional().or(z.literal('')),
     active: z.boolean().optional(),
@@ -18,6 +19,7 @@ export const updateDepartmentSchema = z.object({
   body: z.object({
     name: optionalBilingualStringSchema,
     slug: z.string().min(1).optional(),
+    subheading: optionalBilingualStringSchema,
     description: optionalBilingualStringSchema,
     image: z.string().url().optional().or(z.literal('')),
     active: z.boolean().optional(),

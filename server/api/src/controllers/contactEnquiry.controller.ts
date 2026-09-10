@@ -16,10 +16,10 @@ export const createEnquiry = async (req: Request, res: Response) => {
 
     const { error, value } = schema.validate(req.body);
     if (error) {
-      return res.status(400).json({ success: false, message: error.details[0].message });
+      return res.status(400).json({ success: false, message: error.details?.[0]?.message || 'Validation error' });
     }
 
-    const newEnquiry = new ContactEnquiry(value);
+    const newEnquiry: any = new ContactEnquiry(value);
     await newEnquiry.save();
 
     if ((req as any).user) {

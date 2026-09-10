@@ -12,6 +12,8 @@ interface FormState {
   nameEn: string;
   nameAr: string;
   slug: string;
+  subheadingEn: string;
+  subheadingAr: string;
   descriptionEn: string;
   descriptionAr: string;
   image: string;
@@ -22,6 +24,8 @@ const emptyForm: FormState = {
   nameEn: '',
   nameAr: '',
   slug: '',
+  subheadingEn: '',
+  subheadingAr: '',
   descriptionEn: '',
   descriptionAr: '',
   image: '',
@@ -46,6 +50,8 @@ export default function DepartmentForm({ departmentId }: { departmentId?: string
           nameEn: d.name?.en ?? '',
           nameAr: d.name?.ar ?? '',
           slug: d.slug ?? '',
+          subheadingEn: d.subheading?.en ?? '',
+          subheadingAr: d.subheading?.ar ?? '',
           descriptionEn: d.description?.en ?? '',
           descriptionAr: d.description?.ar ?? '',
           image: d.image ?? '',
@@ -74,14 +80,16 @@ export default function DepartmentForm({ departmentId }: { departmentId?: string
   const handleTranslate = async () => {
     setIsTranslating(true);
     try {
-      const [nameAr, descriptionAr] = await Promise.all([
+      const [nameAr, subheadingAr, descriptionAr] = await Promise.all([
         translateText(formData.nameEn),
+        formData.subheadingEn ? translateText(formData.subheadingEn) : Promise.resolve(''),
         translateText(formData.descriptionEn)
       ]);
 
       setFormData(prev => ({
         ...prev,
         nameAr,
+        subheadingAr: subheadingAr || prev.subheadingAr,
         descriptionAr
       }));
       toast('Translation completed successfully.', 'success');
@@ -103,6 +111,7 @@ export default function DepartmentForm({ departmentId }: { departmentId?: string
           .toLowerCase()
           .replace(/[^a-z0-9]+/g, '-')
           .replace(/^-|-$/g, ''),
+      subheading: { en: formData.subheadingEn, ar: formData.subheadingAr },
       description: { en: formData.descriptionEn, ar: formData.descriptionAr },
       image: formData.image || undefined,
       active: formData.active,
@@ -206,6 +215,45 @@ export default function DepartmentForm({ departmentId }: { departmentId?: string
               onChange={handleChange}
               placeholder="e.g. cardiology"
               className={inputClass}
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className={sectionClass}>
+        <div className="flex items-center justify-between pb-1 border-b border-gray-100">
+          <div>
+            <h3 className="text-base font-semibold text-gray-900">Subheading / Tagline</h3>
+            <p className="text-xs text-text-muted mt-0.5">
+              Displayed in italics below the department title on the public website.
+            </p>
+          </div>
+          <span className="text-xs text-brand font-medium italic">Optional • Italic Style</span>
+        </div>
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+          <div>
+            <label className={labelClass}>English Subheading</label>
+            <input
+              type="text"
+              name="subheadingEn"
+              value={formData.subheadingEn}
+              onChange={handleChange}
+              placeholder="e.g. Scared of becoming a diabetic??...Our recommendations suggest lower risk levels!!"
+              className={`${inputClass} italic`}
+            />
+          </div>
+          <div>
+            <label className={`${labelClass} text-right`} dir="rtl">
+              العنوان الفرعي بالعربية
+            </label>
+            <input
+              type="text"
+              name="subheadingAr"
+              value={formData.subheadingAr}
+              onChange={handleChange}
+              dir="rtl"
+              placeholder="مثال: هل تخشى الإصابة بالسكري؟ توصياتنا تساعدك على خفض المخاطر!!"
+              className={`${inputClass} text-right italic`}
             />
           </div>
         </div>

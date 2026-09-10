@@ -98,9 +98,14 @@ export default async function DepartmentsPage({ params }: Props) {
                 )}
 
                 {/* Name */}
-                <h3 className="text-xl font-serif font-bold text-text-base mb-3 group-hover:text-brand-medium transition-colors">
+                <h3 className="text-xl font-serif font-bold text-text-base mb-1.5 group-hover:text-brand-medium transition-colors">
                   {d.name[typedLocale] || d.name.en}
                 </h3>
+                {(d.subheading?.[typedLocale] || d.subheading?.en) && (
+                  <p className="text-xs italic font-serif text-brand mb-2 line-clamp-1">
+                    {d.subheading[typedLocale] || d.subheading.en}
+                  </p>
+                )}
                 <p className="text-text-muted text-sm leading-relaxed mb-6 flex-1 line-clamp-3">
                   {d.description?.[typedLocale] || d.description?.en || ''}
                 </p>

@@ -3,6 +3,7 @@ import mongoose, { Schema, Document } from 'mongoose';
 export interface IDepartment extends Document {
   name: { en: string; ar: string };
   slug: string;
+  subheading?: { en: string; ar: string };
   description?: { en: string; ar: string };
   image?: string;
   active: boolean;
@@ -22,6 +23,10 @@ const departmentSchema = new Schema(
       unique: true,
       lowercase: true,
       trim: true,
+    },
+    subheading: {
+      en: { type: String },
+      ar: { type: String },
     },
     description: {
       en: { type: String },

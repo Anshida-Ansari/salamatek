@@ -100,6 +100,7 @@ export default async function DepartmentDetailPage({ params }: Props) {
   const isAr = typedLocale === 'ar';
 
   const name = dept.name[typedLocale] || dept.name.en;
+  const subheading = dept.subheading?.[typedLocale] || dept.subheading?.en || '';
   const desc = dept.description?.[typedLocale] || dept.description?.en || '';
 
   const breadcrumbs = [
@@ -120,13 +121,33 @@ export default async function DepartmentDetailPage({ params }: Props) {
         locale={typedLocale}
         badge={isAr ? 'الأقسام الطبية' : 'Medical Departments'}
         heading={name}
-        subtext={desc}
+        subtext={subheading || desc}
         breadcrumbs={breadcrumbs}
         imageSrc={dept.image}
       />
 
       <section className="bg-surface-light py-16 md:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-16">
+          
+          {/* Department Overview: Title, Italic Subheading, Description */}
+          <div className="bg-white rounded-3xl p-8 sm:p-10 lg:p-12 border border-border shadow-card space-y-4">
+            <span className="inline-block px-3.5 py-1 rounded-full bg-surface-mint text-brand-dark text-xs font-bold tracking-wider uppercase">
+              {isAr ? 'عن القسم' : 'About Department'}
+            </span>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-serif font-bold text-brand-dark tracking-tight uppercase">
+              {name}
+            </h2>
+            {subheading && (
+              <p className="text-lg sm:text-xl italic font-serif text-brand font-medium leading-relaxed border-s-4 border-brand ps-4 py-1">
+                {subheading}
+              </p>
+            )}
+            {desc && (
+              <p className="text-base sm:text-lg text-text-muted leading-relaxed whitespace-pre-line pt-2">
+                {desc}
+              </p>
+            )}
+          </div>
           
           {/* Services Section */}
           {services.length > 0 && (
@@ -184,9 +205,13 @@ export default async function DepartmentDetailPage({ params }: Props) {
           )}
 
           {services.length === 0 && doctors.length === 0 && (
-             <div className="text-center py-10">
-               <p className="text-text-muted">{t.common.placeholder}</p>
-             </div>
+            <div className="bg-white rounded-3xl p-8 text-center border border-dashed border-border max-w-lg mx-auto">
+              <p className="text-sm text-text-muted leading-relaxed">
+                {isAr 
+                  ? 'لمزيد من المعلومات حول خدمات وأطباء هذا القسم، يرجى التواصل مع فريق الاستقبال أو حجز موعد استشارة.' 
+                  : 'For more information regarding specialized services and consultations in this department, please contact our reception or book an appointment.'}
+              </p>
+            </div>
           )}
         </div>
       </section>
