@@ -20,6 +20,7 @@ import {
   X,
   ChevronRight,
   Mail,
+  Home,
 } from 'lucide-react';
 
 interface NavItem {
@@ -28,6 +29,22 @@ interface NavItem {
   icon: React.ElementType;
   disabled?: boolean;
 }
+
+// Maps URL segments to human-readable labels for breadcrumbs
+const segmentLabels: Record<string, string> = {
+  dashboard:              'Dashboard',
+  doctors:                'Doctors',
+  departments:            'Departments',
+  services:               'Services',
+  'health-packages':      'Packages & Offers',
+  careers:                'Careers',
+  news:                   'News & Blog',
+  'sarc-enquiries':       'SARC Enquiries',
+  'job-applications':     'Job Applications',
+  'contact-enquiries':    'Contact Enquiries',
+  'appointment-enquiries':'Appointment Enquiries',
+  'site-settings':        'Site Settings',
+};
 
 const navigation: NavItem[] = [
   { name: 'Dashboard', href: '/admin/dashboard', icon: LayoutDashboard },
@@ -242,13 +259,48 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               </div>
             </div>
 
-            {/* Breadcrumb / page title area */}
-            <div className="hidden md:flex items-center gap-2.5 text-sm">
-              <Image src="/icon.png" alt="Salamatek" width={18} height={18} className="w-4.5 h-4.5 object-contain" />
-              <span className="font-semibold text-text-base">Salamatek Medical Centre</span>
-              <span className="text-text-muted">•</span>
-              <span className="text-text-muted capitalize">{pathname.split('/')[3] || 'Dashboard'}</span>
-            </div>
+            {/* Breadcrumb */}
+            <nav aria-label="Breadcrumb" className="hidden md:flex items-center gap-1 text-sm">
+              {/* Home */}
+              <Link
+                href="/admin/dashboard"
+                className="flex items-center gap-1.5 text-text-muted hover:text-brand-dark transition-colors group"
+                title="Dashboard"
+              >
+                <Home className="h-3.5 w-3.5 flex-shrink-0 group-hover:text-brand-medium transition-colors" />
+              </Link>
+
+              {/* Build segments from pathname: skip '', 'admin' */}
+              {(() => {
+                const segments = pathname.split('/').filter(Boolean).slice(1); // ['dashboard', 'section', ...]
+                return segments.map((seg, idx) => {
+                  const isLast = idx === segments.length - 1;
+                  const href = '/admin/' + segments.slice(0, idx + 1).join('/');
+                  const label = segmentLabels[seg] ||
+                    seg.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+                  return (
+                    <span key={seg} className="flex items-center gap-1">
+                      <ChevronRight className="h-3.5 w-3.5 text-text-subtle flex-shrink-0" />
+                      {isLast ? (
+                        <span
+                          className="font-semibold text-brand-dark px-2 py-0.5 rounded-md bg-surface-mint/70"
+                          aria-current="page"
+                        >
+                          {label}
+                        </span>
+                      ) : (
+                        <Link
+                          href={href}
+                          className="text-text-muted hover:text-brand-dark hover:underline underline-offset-2 transition-colors px-1"
+                        >
+                          {label}
+                        </Link>
+                      )}
+                    </span>
+                  );
+                });
+              })()}
+            </nav>
 
             {/* Right side */}
             <div className="flex items-center gap-3 sm:gap-4 ml-auto">

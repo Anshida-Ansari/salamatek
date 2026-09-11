@@ -11,7 +11,7 @@ type Props = {
 async function getPageHero(pageKey: string) {
   try {
     const apiUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api';
-    const res = await fetch(`${apiUrl}/page-heroes/${pageKey}`, { cache: 'no-store' });
+    const res = await fetch(`${apiUrl}/page-heroes/${pageKey}`, { next: { revalidate: 60 } });
     if (!res.ok) return null;
     const json = await res.json();
     return json.data || null;

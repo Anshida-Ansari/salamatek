@@ -1,4 +1,5 @@
 import 'dotenv/config';
+import './config/env'; // ← validates required env vars, exits early if missing
 import { connectDB } from './config/database';
 import { createApp } from './app';
 

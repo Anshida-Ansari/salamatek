@@ -47,7 +47,7 @@ async function getDepartments() {
   try {
     const apiUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api';
     const res = await fetch(`${apiUrl}/departments?active=true&limit=100`, {
-      cache: 'no-store',
+      next: { revalidate: 60 },
     });
     if (!res.ok) return [];
     const json = await res.json();
@@ -61,7 +61,7 @@ async function getDepartments() {
 async function getPageHeroImage(pageKey: string): Promise<string | undefined> {
   try {
     const apiUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api';
-    const res = await fetch(`${apiUrl}/page-heroes/${pageKey}`, { cache: 'no-store' });
+    const res = await fetch(`${apiUrl}/page-heroes/${pageKey}`, { next: { revalidate: 60 } });
     if (!res.ok) return undefined;
     const json = await res.json();
     return json.data?.image || undefined;

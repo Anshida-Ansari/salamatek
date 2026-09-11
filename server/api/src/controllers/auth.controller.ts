@@ -6,8 +6,9 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 
 const generateToken = (id: string) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET || 'fallback_secret', {
-    expiresIn: '30d',
+  // JWT_SECRET is guaranteed non-null by env.ts startup validation
+  return jwt.sign({ id }, process.env.JWT_SECRET!, {
+    expiresIn: (process.env.JWT_EXPIRES_IN || '30d') as any,
   });
 };
 
@@ -50,8 +51,15 @@ export const getMe = asyncHandler(async (req: any, res: Response) => {
   res.json({ success: true, data: admin });
 });
 
-// Temporary endpoint for development to create the first admin
+// ⚠️  Development-only endpoint — remove or protect before going live
+// This creates the first admin user in a fresh database.
 export const createInitialAdmin = asyncHandler(async (_req: Request, res: Response) => {
+  if (process.env.NODE_ENV === 'production') {
+    const error = new Error('Setup endpoint is disabled in production') as AppError;
+    error.statusCode = 403;
+    throw error;
+  }
+
   const adminExists = await Admin.findOne({ email: 'admin@salamatek.com' });
   if (adminExists) {
     res.json({ message: 'Admin already exists' });

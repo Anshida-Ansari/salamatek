@@ -2,6 +2,7 @@ import express, { type Application } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
+import rateLimit from 'express-rate-limit';
 import departmentRoutes from './routes/department.routes';
 import serviceRoutes from './routes/service.routes';
 import doctorRoutes from './routes/doctor.routes';
@@ -17,6 +18,25 @@ import { errorHandler, notFound } from './middlewares/errorHandler';
 
 export function createApp(): Application {
   const app = express();
+
+  // ─── Rate Limiters ──────────────────────────────────────────────────────
+  /** General API limiter — 100 requests per 15 minutes per IP */
+  const apiLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 100,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { success: false, message: 'Too many requests, please try again later.' },
+  });
+
+  /** Strict limiter for public form submissions — 10 per 15 minutes per IP */
+  const formLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 10,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { success: false, message: 'Too many submissions, please try again later.' },
+  });
 
   // ─── Security ───────────────────────────────────────────────────────────
   app.use(helmet());
@@ -43,16 +63,16 @@ export function createApp(): Application {
 
   // ─── Routes ──────────────────────────────────────────────────────────────
   app.use('/api/auth', authRoutes);
-  app.use('/api/departments', departmentRoutes);
-  app.use('/api/services', serviceRoutes);
-  app.use('/api/doctors', doctorRoutes);
-  app.use('/api/health-packages', healthPackageRoutes);
-  app.use('/api/careers', careerRoutes);
-  app.use('/api/job-applications', jobApplicationRoutes);
-  app.use('/api/news', newsRoutes);
-  app.use('/api/sarc-enquiries', sarcEnquiryRoutes);
-  app.use('/api/contact-enquiries', contactEnquiryRoutes);
-  app.use('/api/page-heroes', pageHeroRoutes);
+  app.use('/api/departments', apiLimiter, departmentRoutes);
+  app.use('/api/services', apiLimiter, serviceRoutes);
+  app.use('/api/doctors', apiLimiter, doctorRoutes);
+  app.use('/api/health-packages', apiLimiter, healthPackageRoutes);
+  app.use('/api/careers', apiLimiter, careerRoutes);
+  app.use('/api/job-applications', formLimiter, jobApplicationRoutes);
+  app.use('/api/news', apiLimiter, newsRoutes);
+  app.use('/api/sarc-enquiries', formLimiter, sarcEnquiryRoutes);
+  app.use('/api/contact-enquiries', formLimiter, contactEnquiryRoutes);
+  app.use('/api/page-heroes', apiLimiter, pageHeroRoutes);
 
   // ─── Error handling ─────────────────────────────────────────────────────────
   app.use(notFound);

@@ -16,7 +16,7 @@ async function getDepartments() {
   try {
     const apiUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api';
     const res = await fetch(`${apiUrl}/departments?active=true&limit=100`, {
-      cache: 'no-store',
+      next: { revalidate: 60 },
     });
     if (!res.ok) return [];
     const json = await res.json();
@@ -30,7 +30,7 @@ async function getDepartmentServices(departmentId: string) {
   try {
     const apiUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api';
     const res = await fetch(`${apiUrl}/services?active=true&departmentId=${departmentId}&limit=50`, {
-      cache: 'no-store',
+      next: { revalidate: 60 },
     });
     if (!res.ok) return [];
     const json = await res.json();
@@ -44,7 +44,7 @@ async function getDepartmentDoctors(departmentId: string) {
   try {
     const apiUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api';
     const res = await fetch(`${apiUrl}/doctors?active=true&departmentId=${departmentId}&limit=50`, {
-      cache: 'no-store',
+      next: { revalidate: 60 },
     });
     if (!res.ok) return [];
     const json = await res.json();

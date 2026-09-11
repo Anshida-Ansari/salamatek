@@ -12,7 +12,8 @@ export const protect = asyncHandler(async (req: any, _res: Response, next: NextF
       token = req.headers.authorization.split(' ')[1];
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-      const decoded = jwt.verify(token, (process.env.JWT_SECRET as string) || 'fallback_secret') as jwt.JwtPayload;
+      // JWT_SECRET is guaranteed non-null by env.ts startup validation
+      const decoded = jwt.verify(token, process.env.JWT_SECRET!) as jwt.JwtPayload;
 
       const admin = await Admin.findById(decoded.id).select('-passwordHash');
       

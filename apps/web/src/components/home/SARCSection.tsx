@@ -36,13 +36,13 @@ export function SARCSection({ locale, t, imageSrc }: Props) {
         ) : (
           <div
             className="w-full h-full"
-            style={{ background: 'linear-gradient(135deg, #E05522 0%, #B8441A 30%, #8B2615 65%, #3B1408 100%)' }}
+            style={{ background: 'linear-gradient(135deg, #FF8C00 0%, #F97316 30%, #EA6A00 65%, #C2510A 100%)' }}
           />
         )}
         {/* Dark overlay always present for readability */}
         <div
           className="absolute inset-0"
-          style={{ background: 'linear-gradient(to right, rgba(35,10,4,0.97) 0%, rgba(59,20,8,0.85) 50%, rgba(62,14,5,0.55) 100%)' }}
+          style={{ background: 'linear-gradient(to right, rgba(30,15,0,0.95) 0%, rgba(120,50,0,0.80) 50%, rgba(180,80,0,0.40) 100%)' }}
           aria-hidden="true"
         />
       </div>
@@ -75,7 +75,7 @@ export function SARCSection({ locale, t, imageSrc }: Props) {
             <div className="flex flex-wrap items-center gap-4">
               <Link
                 href={getLocalizedPath('/sarc', locale)}
-                className="inline-flex items-center px-6 py-3 rounded-lg bg-white text-[#8B2615] text-sm font-bold hover:bg-orange-50 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                className="inline-flex items-center px-6 py-3 rounded-lg bg-white text-orange-600 text-sm font-bold hover:bg-orange-50 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
               >
                 {t.common.exploreSarc}
                 <svg className="w-4 h-4 ms-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>

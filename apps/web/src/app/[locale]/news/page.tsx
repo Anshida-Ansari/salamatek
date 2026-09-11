@@ -13,7 +13,7 @@ async function getNews() {
   try {
     const apiUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api';
     const res = await fetch(`${apiUrl}/news?status=published&limit=100`, {
-      cache: 'no-store',
+      next: { revalidate: 60 },
     });
     if (!res.ok) return [];
     const json = await res.json();
@@ -27,7 +27,7 @@ async function getPageHero(pageKey: string) {
   try {
     const apiUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api';
     const res = await fetch(`${apiUrl}/page-heroes/${pageKey}`, {
-      cache: 'no-store',
+      next: { revalidate: 60 },
     });
     if (!res.ok) return null;
     const json = await res.json();

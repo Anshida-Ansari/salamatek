@@ -20,7 +20,7 @@ async function getCareers() {
   try {
     const apiUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api';
     const res = await fetch(`${apiUrl}/careers?active=true&limit=100`, {
-      cache: 'no-store',
+      next: { revalidate: 60 },
     });
     if (!res.ok) return [];
     const json = await res.json();
