@@ -29,6 +29,6 @@ const pageHeroSettingSchema = new Schema(
   { timestamps: true }
 );
 
-pageHeroSettingSchema.index({ pageKey: 1 });
+
 
 export const PageHeroSetting = mongoose.model<IPageHeroSetting>('PageHeroSetting', pageHeroSettingSchema);
