@@ -3,20 +3,11 @@ import { notFound } from 'next/navigation';
 import { isValidLocale, type Locale } from '@/i18n/config';
 import { getLocalizedPath } from '@/lib/utils';
 import { CTASection } from '@/components/shared/CTASection';
+import Image from 'next/image';
 
 type Props = {
   params: Promise<{ locale: string }>;
 };
-
-async function getPageHero(pageKey: string) {
-  try {
-    const apiUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api';
-    const res = await fetch(`${apiUrl}/page-heroes/${pageKey}`, { next: { revalidate: 60 } });
-    if (!res.ok) return null;
-    const json = await res.json();
-    return json.data || null;
-  } catch { return null; }
-}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
@@ -33,106 +24,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 // ────────────────────────────────────────────────────────
-// SARC Services data (from official SARC document)
+// SARC Data
 // ────────────────────────────────────────────────────────
 const SERVICES = [
-  {
-    id: 'equipping-clinics',
-    icon: (
-      <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3.75h.75m-.75 3.75h.75m3-7.5h.75m-.75 3.75h.75m-.75 3.75h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008z" />
-      </svg>
-    ),
-    title: 'Equipping Clinics',
-    desc: 'Setting up remote medical clinics at work sites according to your needs with the latest appropriate medical equipment and supplies, fully managed and operated by our qualified and specialized medical team.',
-  },
-  {
-    id: 'worker-safety',
-    icon: (
-      <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
-      </svg>
-    ),
-    title: 'Enhanced Worker Safety',
-    desc: 'With our on-site clinics and mobile medical solutions, SARC provides immediate access to medical attention for injuries and minor illnesses. Our specially trained medical staff handles a wide range of situations, enhancing worker safety and minimising project delays.',
-  },
-  {
-    id: 'employee-health',
-    icon: (
-      <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
-      </svg>
-    ),
-    title: 'Comprehensive Employee Health Services',
-    desc: 'We offer a range of employee health services tailored to the construction industry. Our customised health programs promote worker well-being, address underlying medical conditions, and improve overall health and productivity.',
-  },
-  {
-    id: 'follow-up',
-    icon: (
-      <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z" />
-      </svg>
-    ),
-    title: 'Efficient Follow-Up Care & Case Management',
-    desc: 'In the event of an injury that requires hospitalisation or recuperation, our healthcare team manages care by working closely with off-site medical staff and the injured employee to ensure appropriate treatment and follow-up.',
-  },
-  {
-    id: 'onsite',
-    icon: (
-      <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
-        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
-      </svg>
-    ),
-    title: 'On-Site Services',
-    desc: 'Our on-site clinics bring medical expertise directly to your construction site. Equipped with essential medical equipment and staffed by experienced professionals for immediate treatment of injuries and minor illnesses.',
-  },
-  {
-    id: 'mobile',
-    icon: (
-      <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
-      </svg>
-    ),
-    title: 'Mobile Medical Services',
-    desc: 'SARC offers mobile medical services for construction projects that require flexibility. Our mobile units are equipped to provide essential medical services wherever your construction site is located.',
-  },
-  {
-    id: 'immediate-care',
-    icon: (
-      <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
-      </svg>
-    ),
-    title: 'Improved Access to Immediate Care',
-    desc: 'For workers with minor injuries, on-site first aid allows them to quickly return to their duties without taking time off, reducing healthcare costs and improving overall productivity.',
-  },
-  {
-    id: 'ambulance',
-    icon: (
-      <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
-      </svg>
-    ),
-    title: 'Ambulance Service',
-    desc: 'SARC provides ambulances on rental basis to companies all over the Kingdom. We specialise in comprehensive service packages that include highly qualified medics, drivers, and full emergency first-aid equipment.',
-  },
+  { num: '01', title: 'Qualified doctors', desc: 'Physicians selected and mobilized to support the medical needs of industrial work sites.' },
+  { num: '02', title: 'Nursing teams', desc: 'Professional nurses scheduled around workforce size, shifts and site coverage requirements.' },
+  { num: '03', title: 'Paramedical staff', desc: 'Additional medical personnel configured to match the project scope and operating environment.' },
+  { num: '04', title: 'Ambulance services', desc: 'Ambulance coverage and supporting medical services for a more complete work-site healthcare environment.' },
 ];
 
-// Staff types
-const STAFF = [
-  { title: 'Physicians', sub: 'Qualified on-site doctors' },
-  { title: 'Paramedics', sub: 'Immediate first responders' },
-  { title: 'Registered Nurses', sub: 'Clinic support staff' },
-  { title: 'Ambulance Crews', sub: 'Drivers & medics' },
-];
-
-// 4-step process
-const PROCESS = [
-  { num: '01', title: 'Assess the Workforce', desc: 'Review headcount, shifts, location, risk level and project requirements.' },
-  { num: '02', title: 'Build the Medical Team', desc: 'Assign qualified doctors, nurses or supporting medical personnel.' },
-  { num: '03', title: 'Mobilise & Configure', desc: 'Deploy the team and set up on-site or mobile medical coverage.' },
-  { num: '04', title: 'Ongoing Support', desc: 'Continuous monitoring, follow-up care and case management.' },
+const FACTORS = [
+  { num: '01', title: 'Workforce headcount', desc: 'Coverage planned around the number of workers on site.' },
+  { num: '02', title: 'Shift pattern', desc: 'Personnel scheduled around working hours and rotation needs.' },
+  { num: '03', title: 'Site environment', desc: 'Scope shaped by location, access and operational risk.' },
+  { num: '04', title: 'Client requirements', desc: 'Deployment aligned to the project\'s medical-service brief.' },
 ];
 
 export default async function SARCPage({ params }: Props) {
@@ -140,280 +45,230 @@ export default async function SARCPage({ params }: Props) {
   if (!isValidLocale(locale)) notFound();
 
   const typedLocale = locale as Locale;
-  const heroSetting = await getPageHero('sarc');
   const isAr = typedLocale === 'ar';
 
   return (
     <>
       {/* ── 1. Hero ─────────────────────────────────────────────── */}
-      <section
-        className="relative min-h-[80vh] flex flex-col justify-end overflow-hidden"
-        aria-label="SARC — Industrial Healthcare Division"
-        style={{ background: heroSetting?.image ? undefined : 'linear-gradient(135deg, #E05522 0%, #B8441A 30%, #8B2615 65%, #3B1408 100%)' }}
-      >
-        {/* Background photo */}
-        {heroSetting?.image && (
-          <>
-            <div className="absolute inset-0 z-0">
-              <img src={heroSetting.image} alt="SARC Hero" className="w-full h-full object-cover object-center" />
-            </div>
-            <div
-              className="absolute inset-0 z-0"
-              style={{ background: 'linear-gradient(to right, rgba(62,14,5,0.97) 0%, rgba(139,38,21,0.80) 55%, rgba(224,85,34,0.30) 100%)' }}
-            />
-          </>
-        )}
-
-        {/* Decorative abstract grid */}
-        <div className="absolute inset-0 z-0 opacity-[0.06]" aria-hidden="true"
-          style={{ backgroundImage: 'repeating-linear-gradient(0deg, #fff 0, #fff 1px, transparent 1px, transparent 40px), repeating-linear-gradient(90deg, #fff 0, #fff 1px, transparent 1px, transparent 40px)' }} />
-
-        {/* Content */}
-        <div className="relative z-10 mx-auto max-w-7xl w-full px-4 sm:px-6 lg:px-8 pb-0">
-          <div className="max-w-3xl pt-32 pb-14">
-            {/* SARC wordmark */}
-            <div className="flex items-center gap-2 mb-6">
-              <span className="text-5xl font-black text-white tracking-tight leading-none">SARC</span>
-              <div className="h-10 w-px bg-white/20 mx-2" />
-              <span className="text-sm font-bold uppercase tracking-widest text-white/60 leading-tight">
-                {isAr ? 'خدمات الرعاية الطبية الميدانية' : 'Industrial Healthcare Division'}
-              </span>
-            </div>
-
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-serif font-bold text-white leading-tight mb-6">
-              {isAr ? (
-                <>
-                  فرق طبية ميدانية<br />
-                  <span className="text-orange-300 italic">مصممة لقوى عملك</span>
-                </>
-              ) : (
-                <>
-                  On-site medical teams.<br />
-                  <span className="text-orange-300 italic">Built around your workforce.</span>
-                </>
-              )}
-            </h1>
-
-            <p className="text-base md:text-lg text-white/70 leading-relaxed mb-10 max-w-2xl">
-              {isAr
-                ? 'نحن في سلامتك نُبسّط خدمات الرعاية الصحية في مواقع العمل من خلال أطباء مؤهلين وممرضين وكوادر طبية مدربة وتجهيزات طبية حديثة.'
-                : 'SARC is the division of Salamatek Medical Center. We simplify healthcare services at work sites with the latest medical tools and supplies through qualified Doctors, Nurses, Paramedical Staff and other high-quality medical teams to provide an effective medical environment that meets the needs of client companies.'
-              }
-            </p>
-
-            <div className="flex flex-wrap items-center gap-4">
-              <a
-                href="#enquire"
-                className="inline-flex items-center px-6 py-3 rounded-xl bg-white text-[#8B2615] text-sm font-bold hover:bg-orange-50 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
-              >
-                {isAr ? 'استفسر الآن' : 'Request a Staffing Proposal'}
-              </a>
-              <a
-                href="#services"
-                className="inline-flex items-center px-6 py-3 rounded-xl border border-white/30 text-white text-sm font-semibold hover:bg-white/10 transition-colors duration-200"
-              >
-                {isAr ? 'استعرض خدماتنا' : 'Explore Services'}
-                <svg className="w-4 h-4 ms-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
-              </a>
-            </div>
-          </div>
-
-          {/* Stats strip */}
-          <div className="border-t border-white/10 py-6 flex flex-wrap items-center gap-x-10 gap-y-4">
-            {[
-              { value: '24/7', label: isAr ? 'رعاية طارئة' : 'Emergency Care' },
-              { value: '4+', label: isAr ? 'أنواع كوادر طبية' : 'Medical Staff Types' },
-              { value: 'KSA', label: isAr ? 'خدمة على مستوى المملكة' : 'Kingdom-wide Coverage' },
-              { value: 'B2B', label: isAr ? 'حلول مؤسسية' : 'Industrial Solutions' },
-            ].map(stat => (
-              <div key={stat.value}>
-                <p className="text-2xl font-bold font-serif text-white leading-none">{stat.value}</p>
-                <p className="text-xs text-white/50 mt-1">{stat.label}</p>
+      <section className="relative pt-32 pb-24 md:pt-40 md:pb-32 overflow-hidden bg-gradient-to-br from-[#712316] to-[#3B1408]">
+        {/* Soft red glow */}
+        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#E05522] opacity-10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3" />
+        
+        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+            
+            {/* Left side content */}
+            <div className="max-w-xl">
+              {/* Logo */}
+              <div className="mb-10 w-48 h-auto mix-blend-screen opacity-90">
+                 <Image src="/sarc/sarc-logo.png" alt="SARC Logo" width={300} height={100} className="object-contain" priority />
               </div>
-            ))}
+
+              <p className="text-[#E05522] text-xs font-bold uppercase tracking-widest mb-4">
+                Industrial Healthcare Manpower
+              </p>
+              
+              <h1 className="text-5xl md:text-6xl lg:text-7xl font-serif font-bold text-white leading-[1.1] mb-6">
+                Medical teams<br />
+                deployed around<br />
+                <span className="italic text-[#E05522]">your workforce.</span>
+              </h1>
+              
+              <p className="text-lg text-white/70 mb-10 leading-relaxed max-w-lg">
+                SARC simplifies healthcare at work sites by providing qualified doctors, nurses, paramedical staff, ambulance services and other medical support tailored to each client company.
+              </p>
+              
+              <div className="flex flex-wrap items-center gap-4 mb-10">
+                <a href="#enquire" className="px-8 py-4 rounded-xl bg-[#E05522] text-white text-sm font-bold hover:bg-[#B8441A] transition-colors shadow-lg">
+                  Request a staffing proposal
+                </a>
+                <a href="#services" className="px-8 py-4 rounded-xl border border-white/20 text-white text-sm font-semibold hover:bg-white/10 transition-colors">
+                  Explore capabilities
+                </a>
+              </div>
+
+              <div className="flex items-center gap-6 text-xs text-white/50 font-medium">
+                <span className="flex items-center gap-2"><svg className="w-4 h-4 text-[#E05522]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg> Work-site healthcare</span>
+                <span className="flex items-center gap-2"><svg className="w-4 h-4 text-[#E05522]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg> Qualified personnel</span>
+                <span className="flex items-center gap-2"><svg className="w-4 h-4 text-[#E05522]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg> Tailored deployment</span>
+              </div>
+            </div>
+
+            {/* Right side image */}
+            <div className="relative lg:pl-10">
+              <div className="relative rounded-[40px] overflow-hidden shadow-2xl h-[500px] md:h-[600px] w-full bg-slate-800">
+                <Image src="/sarc/hero-team.jpg" alt="SARC Medical Team" fill className="object-cover object-center" priority />
+              </div>
+              
+              {/* Floating card */}
+              <div className="absolute -left-6 md:-left-12 bottom-12 bg-white rounded-xl p-6 md:p-8 shadow-xl max-w-xs z-20">
+                <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Built for the site</p>
+                <p className="text-xl font-serif font-bold text-slate-900 leading-snug">The right medical coverage for every workforce.</p>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
 
-      {/* ── 2. Who We Are ───────────────────────────────────────── */}
-      <section className="bg-white py-16 md:py-24">
+      {/* ── 2. Services Grid ────────────────────────────────────── */}
+      <section id="services" className="bg-white py-24 md:py-32">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <p className="text-xs font-bold uppercase tracking-widest text-[#E05522] mb-4">
-                {isAr ? 'من نحن' : 'About SARC'}
-              </p>
-              <h2 className="text-3xl md:text-4xl font-serif font-bold text-slate-900 leading-tight mb-6">
-                {isAr
-                  ? 'نحن ذراع الرعاية الطبية الصناعية في سلامتك'
-                  : 'The Industrial Healthcare Arm of Salamatek Medical Center'
-                }
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-start mb-16">
+            <div className="lg:col-span-5">
+              <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">What SARC Provides</p>
+              <h2 className="text-4xl md:text-5xl font-serif font-bold text-slate-900 leading-tight">
+                A complete work-site<br />healthcare team.
               </h2>
-              <p className="text-base text-slate-600 leading-relaxed mb-4">
-                We, at Salamatek Medical Center, a Multi-Speciality Medical Center located in the Eastern Province of Saudi Arabia, provide the most modern infrastructure facilities and quality services to serve the people.
-              </p>
-              <p className="text-base text-slate-600 leading-relaxed mb-8">
-                SARC is the division of Salamatek Medical Center. At SARC, we simplify the healthcare services at work sites with the latest medical tools and supplies through qualified Doctors, Nurses, Paramedical Staff and other high-quality medical teams to provide an effective medical health environment at work sites that meet the needs of our client companies.
-              </p>
-
-              {/* Staff tags */}
-              <div className="grid grid-cols-2 gap-3">
-                {STAFF.map(s => (
-                  <div key={s.title} className="flex items-start gap-3 p-4 rounded-xl bg-orange-50 border border-orange-100">
-                    <span className="w-2 h-2 rounded-full bg-[#E05522] mt-2 flex-shrink-0" />
-                    <div>
-                      <p className="text-sm font-bold text-slate-800">{s.title}</p>
-                      <p className="text-xs text-slate-500 mt-0.5">{s.sub}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
             </div>
-
-            {/* Process card */}
-            <div className="rounded-2xl overflow-hidden border border-slate-100 shadow-xl">
-              <div className="px-6 py-4 flex items-center justify-between" style={{ background: 'linear-gradient(135deg, #E05522, #8B2615)' }}>
-                <span className="text-[10px] font-bold uppercase tracking-widest text-white/60">Industrial Coverage Model</span>
-                <span className="text-xs font-semibold text-white">The right team for every site.</span>
-              </div>
-              <div className="divide-y divide-slate-100 bg-slate-50">
-                {PROCESS.map(step => (
-                  <div key={step.num} className="flex gap-4 px-6 py-5">
-                    <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 border-2 border-[#E05522]/20 bg-orange-50">
-                      <span className="text-[10px] font-black text-[#E05522]">{step.num}</span>
-                    </div>
-                    <div>
-                      <h3 className="text-sm font-bold text-slate-800 mb-1">{step.title}</h3>
-                      <p className="text-xs text-slate-500 leading-relaxed">{step.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div className="px-6 py-4 bg-white border-t border-slate-100">
-                <div className="flex items-center gap-2 bg-slate-50 rounded-lg px-4 py-3 border border-slate-100">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 flex-shrink-0" />
-                  <span className="text-xs text-slate-600">Staffing tailored to project and workforce requirements.</span>
-                </div>
-              </div>
+            <div className="lg:col-span-6 lg:col-start-7 lg:pt-8">
+              <p className="text-lg text-slate-500 leading-relaxed max-w-lg">
+                Each solution is shaped around client needs, from essential clinical manpower to broader on-site medical support.
+              </p>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── 3. Services Grid ────────────────────────────────────── */}
-      <section id="services" className="bg-slate-50 py-16 md:py-24">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-14">
-            <p className="text-xs font-bold uppercase tracking-widest text-[#E05522] mb-3">
-              {isAr ? 'خدماتنا' : 'What We Offer'}
-            </p>
-            <h2 className="text-3xl md:text-4xl font-serif font-bold text-slate-900 mb-4">
-              {isAr ? 'حلول طبية شاملة لمواقع العمل' : 'Comprehensive Worksite Medical Solutions'}
-            </h2>
-            <p className="text-slate-500 max-w-xl mx-auto">
-              {isAr
-                ? 'من عيادات ثابتة إلى وحدات متنقلة وخدمات إسعاف — كل ما تحتاجه في موقع عملك'
-                : 'From fixed clinics to mobile units and ambulance services — everything your worksite needs.'
-              }
-            </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {SERVICES.map(service => (
-              <div
-                key={service.id}
-                className="group bg-white rounded-2xl p-6 border border-slate-100 hover:border-orange-200 hover:shadow-lg transition-all duration-300"
-              >
-                <div className="w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center text-[#E05522] mb-5 group-hover:bg-[#E05522] group-hover:text-white transition-colors duration-300">
-                  {service.icon}
+              <div key={service.num} className="bg-[#FAF7F2] rounded-2xl p-8 hover:bg-[#F3EFE9] transition-colors border border-[#EFECE5]">
+                <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center text-[#E05522] text-xs font-bold mb-8 shadow-sm">
+                  {service.num}
                 </div>
-                <h3 className="text-base font-bold text-slate-800 mb-2 leading-snug">{service.title}</h3>
-                <p className="text-sm text-slate-500 leading-relaxed">{service.desc}</p>
+                <h3 className="text-xl font-bold text-slate-900 mb-3">{service.title}</h3>
+                <p className="text-sm text-slate-600 leading-relaxed">{service.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── 4. Ambulance Banner ─────────────────────────────────── */}
-      <section
-        className="py-16 md:py-24 relative overflow-hidden"
-        style={{ background: 'linear-gradient(135deg, #1E293B 0%, #0F172A 100%)' }}
-      >
-        <div className="absolute inset-0 opacity-5" aria-hidden="true"
-          style={{ backgroundImage: 'repeating-linear-gradient(0deg, #fff 0, #fff 1px, transparent 1px, transparent 60px), repeating-linear-gradient(90deg, #fff 0, #fff 1px, transparent 1px, transparent 60px)' }} />
-        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <p className="text-xs font-bold uppercase tracking-widest text-[#E05522] mb-4">
-                {isAr ? 'خدمة الإسعاف' : 'Ambulance Service'}
-              </p>
-              <h2 className="text-3xl md:text-4xl font-serif font-bold text-white mb-6 leading-tight">
-                {isAr
-                  ? 'سيارات إسعاف بالإيجار في كل أنحاء المملكة'
-                  : 'Ambulances on Rental Basis Across the Kingdom'
-                }
+      {/* ── 3. Workforce Based Staffing ─────────────────────────── */}
+      <section className="bg-[#FAF7F2] py-24 md:py-32 border-t border-[#EFECE5]">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8">
+            <div className="lg:col-span-4">
+              <p className="text-xs font-bold uppercase tracking-widest text-[#E05522] mb-4">Workforce-based staffing</p>
+              <h2 className="text-4xl md:text-5xl font-serif font-bold text-slate-900 leading-tight mb-8">
+                Not a fixed package.<br />A team designed for the site.
               </h2>
-              <p className="text-slate-400 leading-relaxed mb-6">
-                SARC provides Ambulances on rental basis to companies all over the Kingdom. We can assist in a tailor-made solution to suit your requirements, whether it is a short-term ambulance hire to cover a breakdown or long-term hire of a special purpose vehicle designed specifically to suit your individual needs.
-              </p>
-              <p className="text-slate-400 leading-relaxed mb-8">
-                We can provide an alternative solution that matches your budget. We specialise in providing our clients with a comprehensive service package that includes highly qualified medics, drivers, and other emergency first aid equipment.
-              </p>
-              <a
-                href="#enquire"
-                className="inline-flex items-center px-6 py-3 rounded-xl bg-[#E05522] text-white text-sm font-bold hover:bg-[#B8441A] transition-colors duration-200"
-              >
-                {isAr ? 'طلب الاستعلام' : 'Enquire About Ambulance Hire'}
+              <a href="#enquire" className="inline-flex items-center text-[#E05522] font-semibold text-sm hover:text-[#B8441A] group">
+                Discuss your site requirements
+                <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
               </a>
             </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              {[
-                { icon: '🚑', title: 'Short-Term Hire', desc: 'Flexible solutions for temporary project coverage' },
-                { icon: '📅', title: 'Long-Term Contracts', desc: 'Dedicated ambulances for ongoing project needs' },
-                { icon: '👨‍⚕️', title: 'Qualified Medics', desc: 'Trained medical professionals on every vehicle' },
-                { icon: '🩺', title: 'Full Equipment', desc: 'Emergency first-aid equipment included' },
-              ].map(item => (
-                <div key={item.title} className="bg-white/5 border border-white/10 rounded-xl p-5 hover:bg-white/10 transition-colors">
-                  <span className="text-2xl mb-3 block">{item.icon}</span>
-                  <h3 className="text-sm font-bold text-white mb-1">{item.title}</h3>
-                  <p className="text-xs text-slate-400 leading-relaxed">{item.desc}</p>
-                </div>
-              ))}
+            
+            <div className="lg:col-span-7 lg:col-start-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                {FACTORS.map(factor => (
+                  <div key={factor.num} className="bg-white rounded-2xl p-8 border border-[#EFECE5] shadow-sm">
+                    <div className="text-[10px] font-bold text-[#E05522] mb-6">{factor.num}</div>
+                    <h3 className="text-lg font-bold text-slate-900 mb-2">{factor.title}</h3>
+                    <p className="text-sm text-slate-500 leading-relaxed">{factor.desc}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── 5. Enquiry Form ─────────────────────────────────────── */}
-      <section id="enquire" className="bg-white py-16 md:py-24">
-        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <p className="text-xs font-bold uppercase tracking-widest text-[#E05522] mb-3">
-              {isAr ? 'تواصل معنا' : 'Request a Proposal'}
-            </p>
-            <h2 className="text-3xl md:text-4xl font-serif font-bold text-slate-900 mb-4">
-              {isAr ? 'تواصل مع فريق SARC' : "Let's Build Your Site Medical Team"}
-            </h2>
-            <p className="text-slate-500">
-              {isAr
-                ? 'سواء كان مشروعاً صغيراً أو منشأة كبرى، لدينا الحل المناسب لك.'
-                : 'Whether it\'s a small project or a large industrial facility, we have a tailored solution for you.'
-              }
-            </p>
+      {/* ── 4. Prepared before site ─────────────────────────────── */}
+      <section className="bg-white py-24 md:py-32 border-t border-slate-100">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 mb-16">
+            <div className="lg:col-span-6">
+              <p className="text-xs font-bold uppercase tracking-widest text-[#E05522] mb-4">Real people. Real readiness.</p>
+              <h2 className="text-4xl md:text-5xl font-serif font-bold text-slate-900 leading-tight">
+                Prepared before<br />they reach the site.
+              </h2>
+            </div>
+            <div className="lg:col-span-5 lg:col-start-8 lg:pt-8">
+              <p className="text-base text-slate-600 leading-relaxed">
+                SARC teams combine professional medical staffing with practical preparation for work-site healthcare, emergency response and coordinated patient care.
+              </p>
+            </div>
           </div>
 
-          {/* Enquiry form routes to the contact/SARC enquiry endpoint */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Left large image */}
+            <div className="relative rounded-[2rem] overflow-hidden h-[400px] md:h-[600px] group">
+              <Image src="/sarc/training.jpg" alt="Clinical team preparation" fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+              <div className="absolute bottom-10 left-10 text-white z-10">
+                <h3 className="text-2xl font-serif font-bold mb-2">Clinical team preparation</h3>
+                <p className="text-sm text-white/80">Structured training and team coordination</p>
+              </div>
+            </div>
+
+            {/* Right stacked images */}
+            <div className="grid grid-rows-2 gap-6 h-[400px] md:h-[600px]">
+              <div className="relative rounded-[2rem] overflow-hidden group">
+                <Image src="/sarc/hero-team.jpg" alt="Emergency readiness" fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                <div className="absolute bottom-8 left-8 text-white z-10">
+                  <h3 className="text-xl font-serif font-bold mb-1">Emergency readiness</h3>
+                  <p className="text-sm text-white/80">Hands-on response practice</p>
+                </div>
+              </div>
+              
+              <div className="relative rounded-[2rem] overflow-hidden group">
+                <Image src="/sarc/clinical.jpg" alt="On-site clinical capability" fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                <div className="absolute bottom-8 left-8 text-white z-10">
+                  <h3 className="text-xl font-serif font-bold mb-1">On-site clinical capability</h3>
+                  <p className="text-sm text-white/80">Equipped for the work environment</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 5. Coverage Banner ──────────────────────────────────── */}
+      <section className="bg-gradient-to-br from-[#8B2615] to-[#4A140B] py-24">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-widest text-[#E05522] mb-4">Where we support</p>
+              <h2 className="text-4xl md:text-5xl font-serif font-bold text-white leading-tight">
+                Healthcare coverage<br />where work happens.
+              </h2>
+            </div>
+            <div className="lg:pt-8">
+              <p className="text-white/70 max-w-sm">Flexible medical manpower for demanding industrial and project environments.</p>
+            </div>
+          </div>
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16 pt-12 border-t border-white/10">
+            <p className="text-sm text-white/90">Energy & industrial sites</p>
+            <p className="text-sm text-white/90">Construction & infrastructure</p>
+            <p className="text-sm text-white/90">Manufacturing facilities</p>
+            <p className="text-sm text-white/90">Remote project locations</p>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 6. Enquiry Form ─────────────────────────────────────── */}
+      <section id="enquire" className="bg-white py-24">
+        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <p className="text-xs font-bold uppercase tracking-widest text-[#E05522] mb-4">Contact SARC</p>
+            <h2 className="text-4xl font-serif font-bold text-slate-900 mb-4">
+              Let's Build Your Site Medical Team
+            </h2>
+            <p className="text-lg text-slate-500">
+              Tell us about your project requirements and we will design a staffing solution.
+            </p>
+          </div>
           <SARCEnquiryForm locale={typedLocale} isAr={isAr} />
         </div>
       </section>
-
-      {/* ── 6. Final CTA ─────────────────────────────────────────── */}
+      
+      {/* ── 7. Final CTA ─────────────────────────────────────────── */}
       <CTASection
-        heading={isAr ? 'هل تبحث عن حلول طبية لموقع عملك؟' : 'Need on-site medical support for your project?'}
-        subtext={isAr ? 'تواصل مع فريق SARC اليوم.' : 'Contact the SARC team today.'}
-        ctaLabel={isAr ? 'ابدأ الآن' : 'Get Started'}
+        heading="Need on-site medical support?"
+        subtext="Contact the SARC team today for a tailored proposal."
+        ctaLabel="Get Started"
         ctaHref={getLocalizedPath('/contact', typedLocale)}
       />
     </>
@@ -425,7 +280,7 @@ export default async function SARCPage({ params }: Props) {
 // ────────────────────────────────────────────────────────
 function SARCEnquiryForm({ locale: _locale, isAr }: { locale: Locale; isAr: boolean }) {
   return (
-    <div className="bg-slate-50 rounded-3xl p-8 md:p-12 border border-slate-100 shadow-sm">
+    <div className="bg-[#FAF7F2] rounded-3xl p-8 md:p-12 border border-[#EFECE5] shadow-sm">
       <form
         action={`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/sarc-enquiries`}
         method="POST"
@@ -433,126 +288,32 @@ function SARCEnquiryForm({ locale: _locale, isAr }: { locale: Locale; isAr: bool
         onSubmit={undefined}
       >
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          {/* Company Name */}
           <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-2">
-              {isAr ? 'اسم الشركة' : 'Company Name'} <span className="text-[#E05522]">*</span>
-            </label>
-            <input
-              type="text"
-              name="companyName"
-              required
-              className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#E05522]/40 focus:border-[#E05522] transition"
-              placeholder={isAr ? 'مثال: أرامكو السعودية' : 'e.g. Saudi Aramco'}
-            />
+            <label className="block text-sm font-semibold text-slate-900 mb-2">Company Name <span className="text-[#E05522]">*</span></label>
+            <input type="text" name="companyName" required className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#E05522]/40" placeholder="e.g. Saudi Aramco" />
           </div>
-
-          {/* Contact Person */}
           <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-2">
-              {isAr ? 'اسم المسؤول' : 'Contact Person'} <span className="text-[#E05522]">*</span>
-            </label>
-            <input
-              type="text"
-              name="contactName"
-              required
-              className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#E05522]/40 focus:border-[#E05522] transition"
-              placeholder={isAr ? 'الاسم الكامل' : 'Full Name'}
-            />
+            <label className="block text-sm font-semibold text-slate-900 mb-2">Contact Person <span className="text-[#E05522]">*</span></label>
+            <input type="text" name="contactName" required className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#E05522]/40" placeholder="Full Name" />
           </div>
-
-          {/* Email */}
           <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-2">
-              {isAr ? 'البريد الإلكتروني' : 'Email Address'} <span className="text-[#E05522]">*</span>
-            </label>
-            <input
-              type="email"
-              name="email"
-              required
-              className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#E05522]/40 focus:border-[#E05522] transition"
-              placeholder="contact@company.com"
-            />
+            <label className="block text-sm font-semibold text-slate-900 mb-2">Email Address <span className="text-[#E05522]">*</span></label>
+            <input type="email" name="email" required className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#E05522]/40" placeholder="contact@company.com" />
           </div>
-
-          {/* Phone */}
           <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-2">
-              {isAr ? 'رقم الهاتف' : 'Phone Number'}
-            </label>
-            <input
-              type="tel"
-              name="phone"
-              dir="ltr"
-              className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#E05522]/40 focus:border-[#E05522] transition"
-              placeholder="+966 5X XXX XXXX"
-            />
-          </div>
-
-          {/* Service Type */}
-          <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-2">
-              {isAr ? 'نوع الخدمة المطلوبة' : 'Service Required'}
-            </label>
-            <select
-              name="serviceType"
-              className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#E05522]/40 focus:border-[#E05522] transition bg-white"
-            >
-              <option value="">{isAr ? 'اختر نوع الخدمة' : 'Select a service'}</option>
-              <option value="on-site-clinic">{isAr ? 'عيادة ميدانية' : 'On-Site Clinic Setup'}</option>
-              <option value="mobile-unit">{isAr ? 'وحدة طبية متنقلة' : 'Mobile Medical Unit'}</option>
-              <option value="ambulance">{isAr ? 'خدمة إسعاف' : 'Ambulance Service'}</option>
-              <option value="staffing">{isAr ? 'توفير كوادر طبية' : 'Medical Staffing'}</option>
-              <option value="full-package">{isAr ? 'باقة شاملة' : 'Full Package'}</option>
-            </select>
-          </div>
-
-          {/* Workforce Size */}
-          <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-2">
-              {isAr ? 'حجم القوى العاملة' : 'Workforce Size'}
-            </label>
-            <select
-              name="workforceSize"
-              className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#E05522]/40 focus:border-[#E05522] transition bg-white"
-            >
-              <option value="">{isAr ? 'اختر الحجم' : 'Select size'}</option>
-              <option value="<50">{isAr ? 'أقل من 50 عامل' : 'Less than 50 workers'}</option>
-              <option value="50-200">50 – 200</option>
-              <option value="200-500">200 – 500</option>
-              <option value="500-1000">500 – 1,000</option>
-              <option value=">1000">{isAr ? 'أكثر من 1000 عامل' : 'More than 1,000 workers'}</option>
-            </select>
+            <label className="block text-sm font-semibold text-slate-900 mb-2">Phone Number</label>
+            <input type="tel" name="phone" className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#E05522]/40" placeholder="+966 5X XXX XXXX" />
           </div>
         </div>
 
-        {/* Message */}
         <div>
-          <label className="block text-sm font-semibold text-slate-700 mb-2">
-            {isAr ? 'تفاصيل إضافية' : 'Project / Requirements Details'}
-          </label>
-          <textarea
-            name="message"
-            rows={4}
-            className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#E05522]/40 focus:border-[#E05522] transition resize-none"
-            placeholder={isAr ? 'أخبرنا عن احتياجاتك...' : 'Tell us about your project location, duration, and specific medical requirements...'}
-          />
+          <label className="block text-sm font-semibold text-slate-900 mb-2">Project Details</label>
+          <textarea name="message" rows={4} className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#E05522]/40 resize-none" placeholder="Tell us about your project location, duration, and specific medical requirements..." />
         </div>
 
-        {/* Submit */}
-        <button
-          type="submit"
-          className="w-full py-4 rounded-xl bg-[#E05522] text-white font-bold text-sm hover:bg-[#B8441A] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#E05522] focus:ring-offset-2"
-        >
-          {isAr ? 'إرسال الاستفسار' : 'Send Enquiry'}
+        <button type="submit" className="w-full py-4 rounded-xl bg-[#E05522] text-white font-bold text-sm hover:bg-[#B8441A] transition-colors shadow-md">
+          Send Enquiry
         </button>
-
-        <p className="text-center text-xs text-slate-400">
-          {isAr
-            ? 'سيتواصل معك فريق SARC خلال 24 ساعة.'
-            : 'A SARC team member will respond within 24 hours.'
-          }
-        </p>
       </form>
     </div>
   );
