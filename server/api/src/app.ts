@@ -20,10 +20,10 @@ export function createApp(): Application {
   const app = express();
 
   // ─── Rate Limiters ──────────────────────────────────────────────────────
-  /** General API limiter — 100 requests per 15 minutes per IP */
+  /** General API limiter — 5000 requests per 15 minutes per IP */
   const apiLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
-    max: 100,
+    max: 5000,
     standardHeaders: true,
     legacyHeaders: false,
     message: { success: false, message: 'Too many requests, please try again later.' },
