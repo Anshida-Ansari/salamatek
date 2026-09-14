@@ -50,7 +50,7 @@ export default async function SARCPage({ params }: Props) {
   return (
     <>
       {/* ── 1. Hero ─────────────────────────────────────────────── */}
-      <section className="relative pt-32 pb-24 md:pt-40 md:pb-32 overflow-hidden bg-gradient-to-br from-[#712316] to-[#3B1408]">
+      <section className="relative pt-28 pb-16 md:pt-32 md:pb-20 overflow-hidden bg-gradient-to-br from-[#712316] to-[#3B1408]">
         {/* Soft red glow */}
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#E05522] opacity-10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3" />
         
@@ -102,7 +102,7 @@ export default async function SARCPage({ params }: Props) {
 
             {/* Right side image */}
             <div className="relative lg:pl-10">
-              <div className="relative rounded-[40px] overflow-hidden shadow-2xl h-[500px] md:h-[600px] w-full bg-slate-800">
+              <div className="relative rounded-[40px] overflow-hidden shadow-2xl h-[400px] md:h-[500px] w-full bg-slate-800">
                 <Image src="/sarc/hero-team.jpg" alt="SARC Medical Team" fill className="object-cover object-center" priority />
               </div>
               
