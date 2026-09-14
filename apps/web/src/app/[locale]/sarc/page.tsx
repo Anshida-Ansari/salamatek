@@ -60,13 +60,13 @@ export default async function SARCPage({ params }: Props) {
             {/* Left side content */}
             <div className="max-w-xl">
               {/* Logo & Division Text Lockup */}
-              <div className="mb-12 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
-                <div className="w-48 sm:w-56 md:w-72 mix-blend-screen opacity-100">
-                   <Image src="/sarc/sarc-logo.png" alt="SARC Logo" width={400} height={120} className="object-contain" priority />
+              <div className="mb-14 flex items-center gap-6">
+                <div className="w-48 sm:w-56 md:w-64 mix-blend-multiply opacity-100">
+                   <Image src="/sarc/sarc-logo.png" alt="SARC Logo" width={300} height={100} className="object-contain" priority />
                 </div>
-                <div className="flex flex-col sm:border-l sm:border-white/20 sm:pl-6 py-2">
-                  <span className="text-[11px] md:text-xs font-bold text-white/70 uppercase tracking-widest leading-tight mb-1">A Division of</span>
-                  <span className="text-sm md:text-base font-bold text-white uppercase tracking-widest leading-tight">Salamatek Medical Center</span>
+                <div className="flex flex-col border-l border-white/30 pl-6 py-1">
+                  <span className="text-[10px] md:text-xs font-bold text-white/70 uppercase tracking-widest leading-tight mb-1">A Division of</span>
+                  <span className="text-xs md:text-sm font-bold text-white uppercase tracking-widest leading-tight">Salamatek Medical Center</span>
                 </div>
               </div>
 
