@@ -62,7 +62,7 @@ export default async function SARCPage({ params }: Props) {
               {/* Logo & Division Text Lockup */}
               <div className="mb-10 flex items-center gap-6">
                 <div className="w-36 sm:w-48 md:w-56">
-                   <Image src="/sarc/sarc-logo-cropped.png" alt="SARC Logo" width={250} height={80} className="object-contain mix-blend-multiply opacity-90" priority />
+                   <Image src="/sarc/sarc-logo-transparent-cropped.png" alt="SARC Logo" width={250} height={80} className="object-contain" priority />
                 </div>
                 <div className="flex flex-col border-l border-white/30 pl-6 py-1">
                   <span className="text-[10px] md:text-xs font-bold text-white/70 uppercase tracking-widest leading-tight mb-1">A Division of</span>
