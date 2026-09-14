@@ -50,19 +50,19 @@ export default async function SARCPage({ params }: Props) {
   return (
     <>
       {/* ── 1. Hero ─────────────────────────────────────────────── */}
-      <section className="relative pt-28 pb-16 md:pt-32 md:pb-20 overflow-hidden bg-gradient-to-br from-[#712316] to-[#3B1408]">
+      <section className="relative min-h-[80vh] flex flex-col justify-center pt-28 pb-16 md:pt-32 md:pb-20 overflow-hidden bg-gradient-to-br from-[#712316] to-[#3B1408]">
         {/* Soft red glow */}
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#E05522] opacity-10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3" />
         
-        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
             
             {/* Left side content */}
             <div className="max-w-xl">
               {/* Logo & Division Text Lockup */}
-              <div className="mb-14 flex items-center gap-6">
-                <div className="w-48 sm:w-56 md:w-64">
-                   <Image src="/sarc/sarc-logo-cropped.png" alt="SARC Logo" width={300} height={100} className="object-contain mix-blend-multiply opacity-90" priority />
+              <div className="mb-10 flex items-center gap-6">
+                <div className="w-36 sm:w-48 md:w-56">
+                   <Image src="/sarc/sarc-logo-cropped.png" alt="SARC Logo" width={250} height={80} className="object-contain mix-blend-multiply opacity-90" priority />
                 </div>
                 <div className="flex flex-col border-l border-white/30 pl-6 py-1">
                   <span className="text-[10px] md:text-xs font-bold text-white/70 uppercase tracking-widest leading-tight mb-1">A Division of</span>
