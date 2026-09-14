@@ -8,6 +8,7 @@ import { Footer } from '@/components/layout/Footer';
 import { HtmlAttributes } from '@/components/layout/HtmlAttributes';
 import { WhatsAppCTA } from '@/components/shared/WhatsAppCTA';
 import { GlobalLoaderProvider } from '@/components/shared/GlobalLoaderProvider';
+import { PromoPopup } from '@/components/shared/PromoPopup';
 
 export function generateStaticParams(): Array<{ locale: string }> {
   return LOCALES.map((locale) => ({ locale }));
@@ -63,6 +64,7 @@ export default async function LocaleLayout({ children, params }: Props) {
         </main>
         <Footer locale={typedLocale} t={t} />
         <WhatsAppCTA />
+        <PromoPopup />
         <GlobalLoaderProvider />
       </div>
     </>
