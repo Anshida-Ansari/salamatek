@@ -54,7 +54,7 @@ export default async function SARCPage({ params }: Props) {
         {/* Soft red glow */}
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#E05522] opacity-10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3" />
         
-        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
             
             {/* Left side content */}
