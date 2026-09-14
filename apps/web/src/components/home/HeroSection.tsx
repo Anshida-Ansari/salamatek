@@ -22,7 +22,7 @@ export function HeroSection({ locale, t, heroImage }: Props) {
     >
       {/* Background image */}
       <div className="absolute inset-0 z-0 bg-[#151f23]">
-        <div className={`absolute inset-y-0 w-full md:w-[75%] lg:w-[65%] ${locale === 'ar' ? 'left-0' : 'right-0'}`}>
+        <div className="absolute inset-y-0 right-0 w-full md:w-[75%] lg:w-[65%]">
           <Image
             src={bgSrc}
             alt={
