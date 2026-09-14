@@ -138,7 +138,7 @@ export default async function SARCPage({ params }: Props) {
               </div>
 
               {/* Floating card */}
-              <div className="absolute -left-4 md:-left-8 bottom-10 bg-white rounded-2xl p-5 md:p-6 shadow-2xl max-w-[240px] z-20">
+              <div className={`absolute ${isAr ? '-right-4 md:-right-8' : '-left-4 md:-left-8'} bottom-10 bg-white rounded-2xl p-5 md:p-6 shadow-2xl max-w-[240px] z-20`}>
                 <p className="text-[9px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">Built for the site</p>
                 <p className="text-base font-serif font-bold text-slate-900 leading-snug">The right medical coverage for every workforce.</p>
               </div>
