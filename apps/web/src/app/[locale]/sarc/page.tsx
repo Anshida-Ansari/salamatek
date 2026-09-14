@@ -50,66 +50,97 @@ export default async function SARCPage({ params }: Props) {
   return (
     <>
       {/* ── 1. Hero ─────────────────────────────────────────────── */}
-      <section className="relative min-h-[80vh] flex flex-col justify-center pt-28 pb-16 md:pt-32 md:pb-20 overflow-hidden bg-gradient-to-br from-[#712316] to-[#3B1408]">
+      <section className="relative min-h-screen flex flex-col justify-center pt-20 pb-16 md:pt-24 md:pb-20 overflow-hidden bg-gradient-to-br from-[#712316] to-[#3B1408]">
         {/* Soft red glow */}
-        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#E05522] opacity-10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3" />
-        
+        <div className="absolute top-0 right-0 w-[700px] h-[700px] bg-[#E05522] opacity-10 rounded-full blur-[120px] -translate-y-1/3 translate-x-1/4" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#E05522] opacity-5 rounded-full blur-[80px] translate-y-1/3 -translate-x-1/4" />
+
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
-            
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-12 items-center">
+
             {/* Left side content */}
-            <div className="max-w-xl">
-              {/* Logo & Division Text Lockup */}
-              <div className="mb-10 flex items-center gap-6">
-                <div className="w-36 sm:w-48 md:w-56">
-                   <Image src="/sarc/sarc-logo-transparent-cropped.png" alt="SARC Logo" width={250} height={80} className="object-contain" priority />
+            <div className="flex flex-col">
+
+              {/* Logo & Division Lockup — tight horizontal brand badge */}
+              <div className="flex items-center gap-4 mb-8">
+                <div className="flex-shrink-0 w-24 sm:w-28">
+                  <Image
+                    src="/sarc/sarc-logo-transparent-cropped.png"
+                    alt="SARC Logo"
+                    width={140}
+                    height={45}
+                    className="object-contain w-full h-auto"
+                    priority
+                  />
                 </div>
-                <div className="flex flex-col border-l border-white/30 pl-6 py-1">
-                  <span className="text-[10px] md:text-xs font-bold text-white/70 uppercase tracking-widest leading-tight mb-1">A Division of</span>
-                  <span className="text-xs md:text-sm font-bold text-white uppercase tracking-widest leading-tight">Salamatek Medical Center</span>
+                <div className="h-10 w-px bg-white/25 flex-shrink-0" />
+                <div className="flex flex-col gap-0.5">
+                  <span className="text-[9px] font-semibold text-white/50 uppercase tracking-[0.18em] leading-none">
+                    A Division of
+                  </span>
+                  <span className="text-[11px] font-bold text-white/90 uppercase tracking-widest leading-tight">
+                    Salamatek Medical Center
+                  </span>
                 </div>
               </div>
 
-              <p className="text-[#E05522] text-xs font-bold uppercase tracking-widest mb-4">
+              <p className="text-[#E05522] text-[11px] font-bold uppercase tracking-[0.2em] mb-5">
                 Industrial Healthcare Manpower
               </p>
-              
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-serif font-bold text-white leading-[1.1] mb-6">
+
+              <h1 className="text-5xl md:text-6xl lg:text-[64px] font-serif font-bold text-white leading-[1.08] mb-6">
                 Medical teams<br />
                 deployed around<br />
                 <span className="italic text-[#E05522]">your workforce.</span>
               </h1>
-              
-              <p className="text-lg text-white/70 mb-10 leading-relaxed max-w-lg">
+
+              <p className="text-base text-white/65 mb-8 leading-relaxed max-w-md">
                 SARC simplifies healthcare at work sites by providing qualified doctors, nurses, paramedical staff, ambulance services and other medical support tailored to each client company.
               </p>
-              
-              <div className="flex flex-wrap items-center gap-4 mb-10">
-                <a href="#enquire" className="px-8 py-4 rounded-xl bg-[#E05522] text-white text-sm font-bold hover:bg-[#B8441A] transition-colors shadow-lg">
+
+              <div className="flex flex-wrap items-center gap-3 mb-8">
+                <a
+                  href="#enquire"
+                  className="px-7 py-3.5 rounded-xl bg-[#E05522] text-white text-sm font-bold hover:bg-[#B8441A] transition-colors shadow-lg"
+                >
                   Request a staffing proposal
                 </a>
-                <a href="#services" className="px-8 py-4 rounded-xl border border-white/20 text-white text-sm font-semibold hover:bg-white/10 transition-colors">
+                <a
+                  href="#services"
+                  className="px-7 py-3.5 rounded-xl border border-white/20 text-white text-sm font-semibold hover:bg-white/10 transition-colors"
+                >
                   Explore capabilities
                 </a>
               </div>
 
-              <div className="flex items-center gap-6 text-xs text-white/50 font-medium">
-                <span className="flex items-center gap-2"><svg className="w-4 h-4 text-[#E05522]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg> Work-site healthcare</span>
-                <span className="flex items-center gap-2"><svg className="w-4 h-4 text-[#E05522]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg> Qualified personnel</span>
-                <span className="flex items-center gap-2"><svg className="w-4 h-4 text-[#E05522]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg> Tailored deployment</span>
+              <div className="flex flex-wrap items-center gap-5 text-[11px] text-white/45 font-medium">
+                <span className="flex items-center gap-1.5">
+                  <svg className="w-3.5 h-3.5 text-[#E05522]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" /></svg>
+                  Work-site healthcare
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <svg className="w-3.5 h-3.5 text-[#E05522]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" /></svg>
+                  Qualified personnel
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <svg className="w-3.5 h-3.5 text-[#E05522]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" /></svg>
+                  Tailored deployment
+                </span>
               </div>
             </div>
 
             {/* Right side image */}
-            <div className="relative lg:pl-10">
-              <div className="relative rounded-[40px] overflow-hidden shadow-2xl h-[400px] md:h-[500px] w-full bg-slate-800">
+            <div className="relative">
+              <div className="relative rounded-[36px] overflow-hidden shadow-2xl h-[500px] md:h-[580px] lg:h-[620px] w-full bg-slate-800">
                 <Image src="/sarc/hero-team.jpg" alt="SARC Medical Team" fill className="object-cover object-center" priority />
+                {/* subtle inner vignette */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
               </div>
-              
+
               {/* Floating card */}
-              <div className="absolute -left-6 md:-left-12 bottom-12 bg-white rounded-xl p-6 md:p-8 shadow-xl max-w-xs z-20">
-                <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Built for the site</p>
-                <p className="text-xl font-serif font-bold text-slate-900 leading-snug">The right medical coverage for every workforce.</p>
+              <div className="absolute -left-4 md:-left-8 bottom-10 bg-white rounded-2xl p-5 md:p-6 shadow-2xl max-w-[240px] z-20">
+                <p className="text-[9px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">Built for the site</p>
+                <p className="text-base font-serif font-bold text-slate-900 leading-snug">The right medical coverage for every workforce.</p>
               </div>
             </div>
 
@@ -284,7 +315,7 @@ export default async function SARCPage({ params }: Props) {
 // ────────────────────────────────────────────────────────
 // SARC Enquiry Form (client component)
 // ────────────────────────────────────────────────────────
-function SARCEnquiryForm({ locale: _locale, isAr }: { locale: Locale; isAr: boolean }) {
+function SARCEnquiryForm({ locale: _locale, isAr: _isAr }: { locale: Locale; isAr: boolean }) {
   return (
     <div className="bg-[#FAF7F2] rounded-3xl p-8 md:p-12 border border-[#EFECE5] shadow-sm">
       <form

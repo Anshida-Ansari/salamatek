@@ -21,36 +21,38 @@ export function HeroSection({ locale, t, heroImage }: Props) {
       aria-label={locale === 'ar' ? 'البانر الرئيسي' : 'Hero banner'}
     >
       {/* Background image */}
-      <div className="absolute inset-0 z-0">
-        <Image
-          src={bgSrc}
-          alt={
-            locale === 'ar'
-              ? 'مجمع سلامتك الطبي — مبنى المجمع'
-              : 'Salamatek Medical Centre — building exterior'
-          }
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover object-center"
-        />
-        {/* Gradient overlay: dark at bottom and left for text legibility */}
+      <div className="absolute inset-0 z-0 bg-[#151f23]">
+        <div className="absolute inset-y-0 right-0 w-full md:w-[75%] lg:w-[65%]">
+          <Image
+            src={bgSrc}
+            alt={
+              locale === 'ar'
+                ? 'مجمع سلامتك الطبي — مبنى المجمع'
+                : 'Salamatek Medical Centre — building exterior'
+            }
+            fill
+            priority
+            sizes="(max-width: 768px) 100vw, 70vw"
+            className="object-cover object-center"
+          />
+        </div>
+        {/* Gradient overlay: dark at bottom for stats legibility */}
         <div
-          className="absolute inset-0"
+          className="absolute inset-0 z-10"
           style={{
             background:
-              'linear-gradient(to top, rgba(10,28,22,0.98) 0%, rgba(10,28,22,0.82) 45%, rgba(10,28,22,0.35) 100%)',
+              'linear-gradient(to top, #151f23 0%, rgba(21,31,35,0.7) 15%, transparent 40%)',
           }}
           aria-hidden="true"
         />
         {/* Additional horizontal gradient for RTL/LTR text readability */}
         <div
-          className="absolute inset-0"
+          className="absolute inset-0 z-10"
           style={{
             background:
               locale === 'ar'
-                ? 'linear-gradient(to left, rgba(10,28,22,0.9) 0%, rgba(10,28,22,0.4) 55%, transparent 100%)'
-                : 'linear-gradient(to right, rgba(10,28,22,0.9) 0%, rgba(10,28,22,0.4) 55%, transparent 100%)',
+                ? 'linear-gradient(to left, #151f23 0%, #151f23 35%, rgba(21,31,35,0.8) 55%, transparent 100%)'
+                : 'linear-gradient(to right, #151f23 0%, #151f23 35%, rgba(21,31,35,0.8) 55%, transparent 100%)',
           }}
           aria-hidden="true"
         />
