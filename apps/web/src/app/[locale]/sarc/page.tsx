@@ -291,7 +291,7 @@ export default async function SARCPage({ params }: Props) {
           <div className="text-center mb-16">
             <p className="text-xs font-bold uppercase tracking-widest text-[#E05522] mb-4">Contact SARC</p>
             <h2 className="text-4xl font-serif font-bold text-slate-900 mb-4">
-              Let's Build Your Site Medical Team
+              Let&apos;s Build Your Site Medical Team
             </h2>
             <p className="text-lg text-slate-500">
               Tell us about your project requirements and we will design a staffing solution.
