@@ -7,12 +7,13 @@ type Props = {
   variant?: 'dark' | 'light';
   size?: 'sm' | 'md' | 'lg';
   type?: 'icon' | 'horizontal';
+  isTransparent?: boolean;
 };
 
 const sizes = { sm: 'h-10', md: 'h-12', lg: 'h-14' };
 const horizSizes = { sm: 'h-12', md: 'h-14', lg: 'h-16' }; // Slightly taller for horizontal
 
-export function Logo({ locale, variant = 'dark', size = 'md', type = 'icon' }: Props) {
+export function Logo({ locale, variant = 'dark', size = 'md', type = 'icon', isTransparent = false }: Props) {
   const isDark = variant === 'dark';
 
   if (type === 'horizontal') {
@@ -26,7 +27,7 @@ export function Logo({ locale, variant = 'dark', size = 'md', type = 'icon' }: P
           <img 
             src="/images/logo-horizontal.png" 
             alt="Salamatek Logo" 
-            className="h-full w-auto object-contain mix-blend-multiply"
+            className={`h-full w-auto object-contain transition-all duration-300 ${!isTransparent ? 'mix-blend-multiply' : 'brightness-0 invert opacity-90'}`}
           />
         </div>
       </Link>
