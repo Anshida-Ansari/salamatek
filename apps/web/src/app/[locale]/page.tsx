@@ -13,6 +13,7 @@ import { WhySalamateKSection } from '@/components/home/WhySalamateKSection';
 import { SARCSection } from '@/components/home/SARCSection';
 import { OpticalStoreSection } from '@/components/home/OpticalStoreSection';
 import { NewsSection } from '@/components/home/NewsSection';
+import { TestimonialsSection } from '@/components/home/TestimonialsSection';
 import { AppointmentSection } from '@/components/home/AppointmentSection';
 
 type Props = {
@@ -57,6 +58,20 @@ async function getDepartments() {
   }
 }
 
+async function getTestimonials() {
+  try {
+    const apiUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api';
+    const res = await fetch(`${apiUrl}/testimonials?active=true&limit=20`, {
+      next: { revalidate: 60 },
+    });
+    if (!res.ok) return [];
+    const json = await res.json();
+    return json.data || [];
+  } catch {
+    return [];
+  }
+}
+
 /** Fetch a single page-hero image from CMS */
 async function getPageHeroImage(pageKey: string): Promise<string | undefined> {
   try {
@@ -76,8 +91,9 @@ export default async function HomePage({ params }: Props) {
   const t = getTranslations(locale as Locale);
 
   // Fetch all data in parallel
-  const [depts, heroImage, sarcImage] = await Promise.all([
+  const [depts, testimonials, heroImage, sarcImage] = await Promise.all([
     getDepartments(),
+    getTestimonials(),
     getPageHeroImage('home'),
     getPageHeroImage('sarc'),
   ]);
@@ -108,7 +124,10 @@ export default async function HomePage({ params }: Props) {
       {/* 8. News & Insights */}
       <NewsSection locale={locale} t={t} />
 
-      {/* 9. Appointment */}
+      {/* 9. Testimonials */}
+      <TestimonialsSection locale={locale} t={t} testimonials={testimonials} />
+
+      {/* 10. Appointment */}
       <AppointmentSection locale={locale} t={t} />
     </>
   );

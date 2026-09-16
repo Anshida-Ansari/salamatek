@@ -41,3 +41,16 @@ export type HealthCheckResponse = {
   version: string;
   environment: string;
 };
+
+// ─── Testimonials ────────────────────────────────────────────────────────────
+
+export interface ITestimonial {
+  _id: string;
+  name: { en: string; ar: string };
+  rating: number;
+  text: { en: string; ar: string };
+  date?: string;
+  active: boolean;
+  createdAt: string;
+  updatedAt: string;
+}

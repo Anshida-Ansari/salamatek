@@ -14,6 +14,7 @@ import newsRoutes from './routes/news.routes';
 import sarcEnquiryRoutes from './routes/sarcEnquiry.routes';
 import contactEnquiryRoutes from './routes/contactEnquiry.routes';
 import pageHeroRoutes from './routes/pageHeroSetting.routes';
+import testimonialRoutes from './routes/testimonial.routes';
 import { errorHandler, notFound } from './middlewares/errorHandler';
 
 export function createApp(): Application {
@@ -73,6 +74,7 @@ export function createApp(): Application {
   app.use('/api/sarc-enquiries', formLimiter, sarcEnquiryRoutes);
   app.use('/api/contact-enquiries', formLimiter, contactEnquiryRoutes);
   app.use('/api/page-heroes', apiLimiter, pageHeroRoutes);
+  app.use('/api/testimonials', apiLimiter, testimonialRoutes);
 
   // ─── Error handling ─────────────────────────────────────────────────────────
   app.use(notFound);
