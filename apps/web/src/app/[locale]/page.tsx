@@ -9,7 +9,7 @@ import { HeroSection } from '@/components/home/HeroSection';
 import { AboutSection } from '@/components/home/AboutSection';
 import { DepartmentsSection } from '@/components/home/DepartmentsSection';
 import { DoctorsSection } from '@/components/home/DoctorsSection';
-import { WhySalamateKSection } from '@/components/home/WhySalamateKSection';
+import { CoreValuesSection } from '@/components/home/CoreValuesSection';
 import { SARCSection } from '@/components/home/SARCSection';
 import { OpticalStoreSection } from '@/components/home/OpticalStoreSection';
 import { NewsSection } from '@/components/home/NewsSection';
@@ -112,8 +112,8 @@ export default async function HomePage({ params }: Props) {
       {/* 4. Doctors */}
       <DoctorsSection locale={locale} t={t} departments={depts} />
 
-      {/* 5. Why Salamatek */}
-      <WhySalamateKSection locale={locale} t={t} />
+      {/* 5. Core Values — SALAMATEK letter design */}
+      <CoreValuesSection locale={locale} t={t} />
 
       {/* 6. SARC — dynamic image from CMS */}
       <SARCSection locale={locale} t={t} imageSrc={sarcImage} />
