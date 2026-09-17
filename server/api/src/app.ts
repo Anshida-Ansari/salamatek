@@ -43,7 +43,18 @@ export function createApp(): Application {
   app.use(helmet());
   app.use(
     cors({
-      origin: process.env.CLIENT_URL ? process.env.CLIENT_URL.split(',') : '*',
+      origin: (origin, callback) => {
+        const allowedOrigins = process.env.CLIENT_URL
+          ? process.env.CLIENT_URL.split(',').map((o) => o.trim())
+          : [];
+        // Allow requests with no origin (server-to-server, Postman, etc.)
+        if (!origin) return callback(null, true);
+        // Allow all Vercel preview deployments
+        if (origin.endsWith('.vercel.app')) return callback(null, true);
+        // Allow whitelisted production origins
+        if (allowedOrigins.includes(origin)) return callback(null, true);
+        callback(new Error(`CORS: origin "${origin}" not allowed`));
+      },
       methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
       allowedHeaders: ['Content-Type', 'Authorization'],
       credentials: true,
