@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import Image from 'next/image';
 import type { Locale } from '@/i18n/config';
 import type { Translations } from '@/i18n';
@@ -16,9 +16,21 @@ type Props = {
 
 export function Header({ locale, t }: Props) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const openMenu = useCallback((): void => setIsMobileMenuOpen(true), []);
   const closeMenu = useCallback((): void => setIsMobileMenuOpen(false), []);
+
+  const isTransparent = !isScrolled;
 
   return (
     <>
@@ -29,22 +41,30 @@ export function Header({ locale, t }: Props) {
         Skip to main content
       </a>
 
-      <header className="sticky top-0 z-30 bg-white border-b border-border shadow-card" role="banner">
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          isScrolled ? 'bg-white border-b border-border shadow-card' : 'bg-transparent border-transparent'
+        }`}
+        role="banner"
+      >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16 lg:h-18">
+          <div className={`flex items-center justify-between transition-all duration-300 ${isScrolled ? 'h-16 lg:h-18' : 'h-20 lg:h-24'}`}>
 
-            {/* Salamatek Logo */}
-            <Logo locale={locale} size="md" type="horizontal" />
+            {/* Logo */}
+            <Logo locale={locale} size="md" type="horizontal" isTransparent={isTransparent} />
 
             {/* Desktop Nav */}
             <div className="hidden lg:flex items-center gap-6 flex-1 justify-center overflow-x-auto no-scrollbar">
-              <Navigation locale={locale} t={t} />
+              <Navigation locale={locale} t={t} isTransparent={isTransparent} />
             </div>
 
             {/* Desktop Right Actions */}
             <div className="hidden lg:flex items-center gap-4 flex-shrink-0">
-              <LanguageSwitcher currentLocale={locale} />
-              <div className="h-5 w-px bg-border" aria-hidden="true" />
+              <LanguageSwitcher currentLocale={locale} isTransparent={isTransparent} />
+              <div
+                className={`h-5 w-px transition-colors duration-300 ${isTransparent ? 'bg-white/30' : 'bg-border'}`}
+                aria-hidden="true"
+              />
               {/* CBAHI Accreditation Badge */}
               <a
                 href="https://www.cbahi.gov.sa/"
@@ -53,15 +73,28 @@ export function Header({ locale, t }: Props) {
                 aria-label="CBAHI — Saudi Central Board for Accreditation of Healthcare Institutions"
                 className="flex items-center transition-opacity duration-200 hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 rounded-sm"
               >
-                <Image
-                  src="/images/cbahi-logo.png"
-                  alt="CBAHI Accredited"
-                  width={80}
-                  height={32}
-                  className="h-8 w-auto object-contain"
-                  style={{ mixBlendMode: 'multiply' }}
-                  priority={false}
-                />
+                {isTransparent ? (
+                  <div className="bg-white/90 rounded-lg px-1.5 py-0.5 backdrop-blur-sm">
+                    <Image
+                      src="/images/cbahi-logo.png"
+                      alt="CBAHI Accredited"
+                      width={80}
+                      height={32}
+                      className="h-7 w-auto object-contain"
+                      priority={false}
+                    />
+                  </div>
+                ) : (
+                  <Image
+                    src="/images/cbahi-logo.png"
+                    alt="CBAHI Accredited"
+                    width={80}
+                    height={32}
+                    className="h-8 w-auto object-contain"
+                    style={{ mixBlendMode: 'multiply' }}
+                    priority={false}
+                  />
+                )}
               </a>
             </div>
 
@@ -71,7 +104,11 @@ export function Header({ locale, t }: Props) {
               aria-label={t.nav.openMenu}
               aria-expanded={isMobileMenuOpen}
               aria-controls="mobile-menu"
-              className="lg:hidden p-2 rounded-lg text-text-muted hover:text-text-base hover:bg-surface-mint transition-colors"
+              className={`lg:hidden p-2 rounded-lg transition-colors ${
+                isTransparent
+                  ? 'text-white hover:bg-white/20'
+                  : 'text-text-muted hover:text-text-base hover:bg-surface-mint'
+              }`}
             >
               <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />

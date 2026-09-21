@@ -34,7 +34,7 @@ export function PageHero({
 }: Props) {
   return (
     <section
-      className="relative bg-brand-dark pt-10 pb-14 md:pt-14 md:pb-20 overflow-hidden"
+      className="relative bg-brand-dark pt-28 pb-14 md:pt-36 md:pb-20 overflow-hidden"
       aria-label={badge}
     >
       {/* Optional background photo */}

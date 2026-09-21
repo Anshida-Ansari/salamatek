@@ -7,12 +7,12 @@ type Props = {
   variant?: 'dark' | 'light';
   size?: 'sm' | 'md' | 'lg';
   type?: 'icon' | 'horizontal';
+  isTransparent?: boolean;
 };
 
 const sizes = { sm: 'h-10', md: 'h-12', lg: 'h-14' };
-const horizSizes = { sm: 'h-12', md: 'h-14', lg: 'h-16' };
 
-export function Logo({ locale, variant = 'dark', size = 'md', type = 'icon' }: Props) {
+export function Logo({ locale, variant = 'dark', size = 'md', type = 'icon', isTransparent = false }: Props) {
   const isDark = variant === 'dark';
 
   if (type === 'horizontal') {
@@ -22,12 +22,24 @@ export function Logo({ locale, variant = 'dark', size = 'md', type = 'icon' }: P
         className="flex items-center group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-medium rounded-lg"
         aria-label="Salamatek Medical Centre — Home"
       >
-        <img
-          src="/images/logo-official.png"
-          alt="Salamatek Medical Center Company"
-          className="h-11 w-auto object-contain transition-opacity duration-200 group-hover:opacity-90"
-          style={{ mixBlendMode: 'multiply' }}
-        />
+        {isTransparent ? (
+          /* On transparent navbar: white pill so logo is visible on dark hero */
+          <div className="bg-white/90 rounded-lg px-2 py-1 backdrop-blur-sm transition-opacity duration-200 group-hover:opacity-90">
+            <img
+              src="/images/logo-official.png"
+              alt="Salamatek Medical Center Company"
+              className="h-10 w-auto object-contain"
+            />
+          </div>
+        ) : (
+          /* On white navbar: multiply removes the white background cleanly */
+          <img
+            src="/images/logo-official.png"
+            alt="Salamatek Medical Center Company"
+            className="h-11 w-auto object-contain transition-opacity duration-200 group-hover:opacity-90"
+            style={{ mixBlendMode: 'multiply' }}
+          />
+        )}
       </Link>
     );
   }

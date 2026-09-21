@@ -32,9 +32,10 @@ type Props = {
   className?: string;
   orientation?: 'horizontal' | 'vertical';
   onLinkClick?: () => void;
+  isTransparent?: boolean;
 };
 
-export function Navigation({ locale, t, className, orientation = 'horizontal', onLinkClick }: Props) {
+export function Navigation({ locale, t, className, orientation = 'horizontal', onLinkClick, isTransparent = false }: Props) {
   const pathname = usePathname();
   const isVertical = orientation === 'vertical';
 
@@ -104,8 +105,8 @@ export function Navigation({ locale, t, className, orientation = 'horizontal', o
               'relative px-3 py-1.5 text-sm font-medium transition-colors duration-200 group',
               isVertical && 'py-3 px-4 rounded-xl text-base w-full',
               active
-                ? 'text-brand-dark font-semibold'
-                : 'text-text-base hover:text-brand-dark',
+                ? (isTransparent ? 'text-white font-bold' : 'text-brand-dark font-semibold')
+                : (isTransparent ? 'text-white/80 hover:text-white' : 'text-text-base hover:text-brand-dark'),
               isVertical && active && 'bg-brand-mint',
               isVertical && !active && 'hover:bg-brand-mint',
             )}
@@ -117,7 +118,8 @@ export function Navigation({ locale, t, className, orientation = 'horizontal', o
               <span
                 aria-hidden="true"
                 className={cn(
-                  'absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 rounded-full bg-brand-dark transition-all duration-200',
+                  'absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 rounded-full transition-all duration-200',
+                  isTransparent ? 'bg-white' : 'bg-brand-dark',
                   active ? 'w-[70%] opacity-100' : 'w-0 opacity-0 group-hover:w-[40%] group-hover:opacity-40',
                 )}
               />
