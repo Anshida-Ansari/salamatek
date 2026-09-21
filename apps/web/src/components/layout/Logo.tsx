@@ -10,7 +10,7 @@ type Props = {
 };
 
 const sizes = { sm: 'h-10', md: 'h-12', lg: 'h-14' };
-const horizSizes = { sm: 'h-12', md: 'h-14', lg: 'h-16' }; // Slightly taller for horizontal
+const horizSizes = { sm: 'h-12', md: 'h-14', lg: 'h-16' };
 
 export function Logo({ locale, variant = 'dark', size = 'md', type = 'icon' }: Props) {
   const isDark = variant === 'dark';
@@ -22,13 +22,12 @@ export function Logo({ locale, variant = 'dark', size = 'md', type = 'icon' }: P
         className="flex items-center group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-medium rounded-lg"
         aria-label="Salamatek Medical Centre — Home"
       >
-        <div className={`${horizSizes[size]} w-auto relative flex items-center transition-transform duration-200 group-hover:scale-105`}>
-          <img 
-            src="/images/logo-horizontal.png" 
-            alt="Salamatek Logo" 
-            className="h-full w-auto object-contain mix-blend-multiply"
-          />
-        </div>
+        <img
+          src="/images/logo-official.png"
+          alt="Salamatek Medical Center Company"
+          className="h-11 w-auto object-contain transition-opacity duration-200 group-hover:opacity-90"
+          style={{ mixBlendMode: 'multiply' }}
+        />
       </Link>
     );
   }
@@ -44,9 +43,9 @@ export function Logo({ locale, variant = 'dark', size = 'md', type = 'icon' }: P
           isDark ? 'border-brand-dark/10 bg-white' : 'border-white/20 bg-white'
         }`}
       >
-        <img 
-          src="/images/logo.png" 
-          alt="Salamatek Logo" 
+        <img
+          src="/images/logo.png"
+          alt="Salamatek Logo"
           className="w-full h-full object-contain"
         />
       </div>

@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import type { Locale } from '@/i18n/config';
 import type { Translations } from '@/i18n';
@@ -58,22 +59,36 @@ export function Navigation({ locale, t, className, orientation = 'horizontal', o
         const active = isActive(href);
         const label = t.nav[key] as string;
 
-        /* ── SARC solid orange box ── */
+        /* ── SARC logo link ── */
         if (sarc) {
           return (
             <Link
               key={key}
               href={localizedHref}
               onClick={onLinkClick}
+              aria-label={label}
               aria-current={active ? 'page' : undefined}
               className={cn(
-                'inline-flex items-center justify-center px-3 py-1 rounded-md text-xs font-bold uppercase tracking-wide transition-all duration-200 shadow-sm',
-                'bg-[#E05522] text-white hover:bg-[#c84414] hover:shadow',
-                active && 'ring-2 ring-offset-2 ring-[#E05522] shadow-md',
-                isVertical && 'py-2.5 px-4 text-sm w-full text-center rounded-lg',
+                'inline-flex items-center justify-center transition-opacity duration-200 hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 rounded-sm',
+                active && 'opacity-90',
+                isVertical && 'w-full justify-start px-4 py-2',
               )}
             >
-              {label}
+              <Image
+                src="/images/sarc-logo.png"
+                alt="SARC — Industrial Healthcare"
+                width={120}
+                height={40}
+                className={cn(
+                  'object-contain h-8 w-auto',
+                  isVertical && 'h-9',
+                )}
+                style={{
+                  mixBlendMode: 'multiply',
+                  filter: 'brightness(1.6) contrast(1.2)',
+                }}
+                priority={false}
+              />
             </Link>
           );
         }
