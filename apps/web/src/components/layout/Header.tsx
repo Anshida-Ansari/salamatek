@@ -74,7 +74,7 @@ export function Header({ locale, t }: Props) {
                 className="flex items-center transition-opacity duration-200 hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 rounded-sm"
               >
                 <Image
-                  src="/images/cbahi-logo.png"
+                  src="/images/cbahi-logo-transparent.png"
                   alt="CBAHI Accredited"
                   width={80}
                   height={32}

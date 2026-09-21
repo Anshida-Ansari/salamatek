@@ -76,7 +76,7 @@ export function Navigation({ locale, t, className, orientation = 'horizontal', o
               )}
             >
               <Image
-                src="/images/sarc-logo.png"
+                src="/images/sarc-logo-transparent.png"
                 alt="SARC — Industrial Healthcare"
                 width={120}
                 height={40}
