@@ -84,10 +84,7 @@ export function Navigation({ locale, t, className, orientation = 'horizontal', o
                   'object-contain h-8 w-auto',
                   isVertical && 'h-9',
                 )}
-                style={{
-                  mixBlendMode: 'multiply',
-                  filter: 'brightness(1.6) contrast(1.2)',
-                }}
+                style={{ mixBlendMode: 'multiply' }}
                 priority={false}
               />
             </Link>

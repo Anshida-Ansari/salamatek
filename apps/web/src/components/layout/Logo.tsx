@@ -22,24 +22,15 @@ export function Logo({ locale, variant = 'dark', size = 'md', type = 'icon', isT
         className="flex items-center group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-medium rounded-lg"
         aria-label="Salamatek Medical Centre — Home"
       >
-        {isTransparent ? (
-          /* On transparent navbar: white pill so logo is visible on dark hero */
-          <div className="bg-white/90 rounded-lg px-2 py-1 backdrop-blur-sm transition-opacity duration-200 group-hover:opacity-90">
-            <img
-              src="/images/logo-official.png"
-              alt="Salamatek Medical Center Company"
-              className="h-10 w-auto object-contain"
-            />
-          </div>
-        ) : (
-          /* On white navbar: multiply removes the white background cleanly */
-          <img
-            src="/images/logo-official.png"
-            alt="Salamatek Medical Center Company"
-            className="h-11 w-auto object-contain transition-opacity duration-200 group-hover:opacity-90"
-            style={{ mixBlendMode: 'multiply' }}
-          />
-        )}
+        <img
+          src="/images/logo-official.png"
+          alt="Salamatek Medical Center Company"
+          className="h-11 w-auto object-contain transition-opacity duration-200 group-hover:opacity-90"
+          style={isTransparent
+            ? { filter: 'drop-shadow(0 1px 6px rgba(0,0,0,0.5)) drop-shadow(0 0 2px rgba(0,0,0,0.4))' }
+            : { mixBlendMode: 'multiply' }
+          }
+        />
       </Link>
     );
   }

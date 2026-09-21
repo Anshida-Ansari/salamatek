@@ -73,28 +73,18 @@ export function Header({ locale, t }: Props) {
                 aria-label="CBAHI — Saudi Central Board for Accreditation of Healthcare Institutions"
                 className="flex items-center transition-opacity duration-200 hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 rounded-sm"
               >
-                {isTransparent ? (
-                  <div className="bg-white/90 rounded-lg px-1.5 py-0.5 backdrop-blur-sm">
-                    <Image
-                      src="/images/cbahi-logo.png"
-                      alt="CBAHI Accredited"
-                      width={80}
-                      height={32}
-                      className="h-7 w-auto object-contain"
-                      priority={false}
-                    />
-                  </div>
-                ) : (
-                  <Image
-                    src="/images/cbahi-logo.png"
-                    alt="CBAHI Accredited"
-                    width={80}
-                    height={32}
-                    className="h-8 w-auto object-contain"
-                    style={{ mixBlendMode: 'multiply' }}
-                    priority={false}
-                  />
-                )}
+                <Image
+                  src="/images/cbahi-logo.png"
+                  alt="CBAHI Accredited"
+                  width={80}
+                  height={32}
+                  className="h-8 w-auto object-contain"
+                  style={isTransparent
+                    ? { filter: 'drop-shadow(0 1px 6px rgba(0,0,0,0.5))' }
+                    : { mixBlendMode: 'multiply' }
+                  }
+                  priority={false}
+                />
               </a>
             </div>
 
