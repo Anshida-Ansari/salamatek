@@ -1,10 +1,9 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import Link from 'next/link';
+import Image from 'next/image';
 import type { Locale } from '@/i18n/config';
 import type { Translations } from '@/i18n';
-import { getLocalizedPath } from '@/lib/utils';
 import { Logo } from './Logo';
 import { Navigation } from './Navigation';
 import { MobileMenu } from './MobileMenu';
@@ -34,24 +33,36 @@ export function Header({ locale, t }: Props) {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 lg:h-18">
 
-            {/* Logo */}
+            {/* Salamatek Logo */}
             <Logo locale={locale} size="md" type="horizontal" />
 
-            {/* Desktop Nav — overflow scroll on medium screens */}
+            {/* Desktop Nav */}
             <div className="hidden lg:flex items-center gap-6 flex-1 justify-center overflow-x-auto no-scrollbar">
               <Navigation locale={locale} t={t} />
             </div>
 
             {/* Desktop Right Actions */}
-            <div className="hidden lg:flex items-center gap-4">
+            <div className="hidden lg:flex items-center gap-4 flex-shrink-0">
               <LanguageSwitcher currentLocale={locale} />
               <div className="h-5 w-px bg-border" aria-hidden="true" />
-              <Link
-                href={getLocalizedPath('/contact', locale)}
-                className="inline-flex items-center px-4 py-2 rounded-lg bg-brand-red text-white text-sm font-semibold hover:bg-brand-red-dark transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-red focus-visible:ring-offset-2"
+              {/* CBAHI Accreditation Badge */}
+              <a
+                href="https://www.cbahi.gov.sa/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="CBAHI — Saudi Central Board for Accreditation of Healthcare Institutions"
+                className="flex items-center transition-opacity duration-200 hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 rounded-sm"
               >
-                {t.nav.bookAppointment}
-              </Link>
+                <Image
+                  src="/images/cbahi-logo.png"
+                  alt="CBAHI Accredited"
+                  width={80}
+                  height={32}
+                  className="h-8 w-auto object-contain"
+                  style={{ mixBlendMode: 'multiply' }}
+                  priority={false}
+                />
+              </a>
             </div>
 
             {/* Mobile Hamburger */}
