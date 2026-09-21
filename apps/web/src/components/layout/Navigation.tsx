@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import type { Locale } from '@/i18n/config';
 import type { Translations } from '@/i18n';
@@ -31,9 +32,10 @@ type Props = {
   className?: string;
   orientation?: 'horizontal' | 'vertical';
   onLinkClick?: () => void;
+  isTransparent?: boolean;
 };
 
-export function Navigation({ locale, t, className, orientation = 'horizontal', onLinkClick }: Props) {
+export function Navigation({ locale, t, className, orientation = 'horizontal', onLinkClick, isTransparent = false }: Props) {
   const pathname = usePathname();
   const isVertical = orientation === 'vertical';
 
@@ -58,22 +60,36 @@ export function Navigation({ locale, t, className, orientation = 'horizontal', o
         const active = isActive(href);
         const label = t.nav[key] as string;
 
-        /* ── SARC solid orange box ── */
+        /* ── SARC logo link ── */
         if (sarc) {
           return (
             <Link
               key={key}
               href={localizedHref}
               onClick={onLinkClick}
+              aria-label={label}
               aria-current={active ? 'page' : undefined}
               className={cn(
-                'inline-flex items-center justify-center px-3 py-1 rounded-md text-xs font-bold uppercase tracking-wide transition-all duration-200 shadow-sm',
-                'bg-[#E05522] text-white hover:bg-[#c84414] hover:shadow',
-                active && 'ring-2 ring-offset-2 ring-[#E05522] shadow-md',
-                isVertical && 'py-2.5 px-4 text-sm w-full text-center rounded-lg',
+                'inline-flex items-center justify-center transition-opacity duration-200 hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 rounded-sm',
+                active && 'opacity-90',
+                isVertical && 'w-full justify-start px-4 py-2',
               )}
             >
-              {label}
+              <Image
+                src="/images/sarc-logo.png"
+                alt="SARC — Industrial Healthcare"
+                width={120}
+                height={40}
+                className={cn(
+                  'object-contain h-8 w-auto',
+                  isVertical && 'h-9',
+                )}
+                style={{
+                  mixBlendMode: 'multiply',
+                  filter: 'brightness(1.6) contrast(1.2)',
+                }}
+                priority={false}
+              />
             </Link>
           );
         }
@@ -89,8 +105,8 @@ export function Navigation({ locale, t, className, orientation = 'horizontal', o
               'relative px-3 py-1.5 text-sm font-medium transition-colors duration-200 group',
               isVertical && 'py-3 px-4 rounded-xl text-base w-full',
               active
-                ? 'text-brand-dark font-semibold'
-                : 'text-text-base hover:text-brand-dark',
+                ? (isTransparent ? 'text-white font-bold' : 'text-brand-dark font-semibold')
+                : (isTransparent ? 'text-white/80 hover:text-white' : 'text-text-base hover:text-brand-dark'),
               isVertical && active && 'bg-brand-mint',
               isVertical && !active && 'hover:bg-brand-mint',
             )}
@@ -102,7 +118,8 @@ export function Navigation({ locale, t, className, orientation = 'horizontal', o
               <span
                 aria-hidden="true"
                 className={cn(
-                  'absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 rounded-full bg-brand-dark transition-all duration-200',
+                  'absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 rounded-full transition-all duration-200',
+                  isTransparent ? 'bg-white' : 'bg-brand-dark',
                   active ? 'w-[70%] opacity-100' : 'w-0 opacity-0 group-hover:w-[40%] group-hover:opacity-40',
                 )}
               />

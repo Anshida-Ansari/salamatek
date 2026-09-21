@@ -68,7 +68,14 @@ export function HeroSection({ locale, t, heroImage }: Props) {
 
           {/* Main heading */}
           <h1 className="text-4xl sm:text-5xl md:text-display-xl font-serif font-bold text-white leading-tight mb-4">
-            <span className="block">{p.heroHeading1}</span>
+            <span className="block">
+              <span className="text-5xl sm:text-6xl md:text-[5.5rem] text-brand-light font-bold me-3">
+                {/* @ts-ignore */}
+                {p.heroHeading1Num}
+              </span>
+              {/* @ts-ignore */}
+              {p.heroHeading1Text}
+            </span>
             <span className="block text-brand-light italic">{p.heroHeading2}</span>
           </h1>
 

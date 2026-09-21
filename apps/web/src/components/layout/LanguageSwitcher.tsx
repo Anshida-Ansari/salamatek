@@ -10,9 +10,10 @@ type Props = {
   currentLocale: Locale;
   variant?: 'header' | 'mobile';
   className?: string;
+  isTransparent?: boolean;
 };
 
-export function LanguageSwitcher({ currentLocale, variant = 'header', className }: Props) {
+export function LanguageSwitcher({ currentLocale, variant = 'header', className, isTransparent = false }: Props) {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -50,8 +51,9 @@ export function LanguageSwitcher({ currentLocale, variant = 'header', className 
     <button
       onClick={() => handleSwitch(otherLocale)}
       className={cn(
-        'text-sm font-medium text-text-base hover:text-brand-dark transition-colors duration-150',
+        'text-sm font-medium transition-colors duration-150',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-medium rounded px-1',
+        isTransparent ? 'text-white/80 hover:text-white' : 'text-text-base hover:text-brand-dark',
         className,
       )}
       lang={otherLocale}
