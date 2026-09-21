@@ -79,10 +79,7 @@ export function Header({ locale, t }: Props) {
                   width={80}
                   height={32}
                   className="h-8 w-auto object-contain"
-                  style={isTransparent
-                    ? { filter: 'drop-shadow(0 1px 6px rgba(0,0,0,0.5))' }
-                    : { mixBlendMode: 'multiply' }
-                  }
+                  style={isTransparent ? { filter: 'drop-shadow(0 1px 4px rgba(0,0,0,0.5))' } : undefined}
                   priority={false}
                 />
               </a>

@@ -26,10 +26,7 @@ export function Logo({ locale, variant = 'dark', size = 'md', type = 'icon', isT
           src="/images/logo-official.png"
           alt="Salamatek Medical Center Company"
           className="h-11 w-auto object-contain transition-opacity duration-200 group-hover:opacity-90"
-          style={isTransparent
-            ? { filter: 'drop-shadow(0 1px 6px rgba(0,0,0,0.5)) drop-shadow(0 0 2px rgba(0,0,0,0.4))' }
-            : { mixBlendMode: 'multiply' }
-          }
+          style={isTransparent ? { filter: 'drop-shadow(0 1px 4px rgba(0,0,0,0.5))' } : undefined}
         />
       </Link>
     );

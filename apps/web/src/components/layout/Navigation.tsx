@@ -84,7 +84,7 @@ export function Navigation({ locale, t, className, orientation = 'horizontal', o
                   'object-contain h-8 w-auto',
                   isVertical && 'h-9',
                 )}
-                style={{ mixBlendMode: 'multiply' }}
+                style={isTransparent ? { filter: 'drop-shadow(0 1px 4px rgba(0,0,0,0.5))' } : undefined}
                 priority={false}
               />
             </Link>
