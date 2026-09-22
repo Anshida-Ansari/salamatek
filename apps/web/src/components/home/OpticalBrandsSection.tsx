@@ -1,4 +1,4 @@
-import Image from 'next/image';
+
 import type { Locale } from '@/i18n/config';
 import type { Translations } from '@/i18n';
 
