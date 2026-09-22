@@ -71,8 +71,8 @@ export const ar: Translations = {
       // Hero
       heroEyebrow:    'رعاية تلامس القلب',
       heroHeading1Num: '٤٠',
-      heroHeading1Text: ' عامًا من الرعاية.',
-      heroHeading2:   'لا يزال يرعى. لا يزال يخدم.',
+      heroHeading1Text: ' عامًا من التميز ',
+      heroHeading2:   'في الرعاية الصحية.',
       heroSubtext:    'رعاية صحية موثوقة لأجيال من العائلات في صفوى.',
       heroCtaPrimary: 'احجز موعدًا',
       heroCtaSecondary: 'استكشف خدماتنا',

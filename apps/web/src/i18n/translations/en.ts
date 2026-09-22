@@ -69,8 +69,8 @@ export const en = {
       // Hero
       heroEyebrow:    'Care that feels personal',
       heroHeading1Num: '40',
-      heroHeading1Text: ' Years of Care.',
-      heroHeading2:   'Still caring. Still serving.',
+      heroHeading1Text: ' Years of excellence',
+      heroHeading2:   'in health care.',
       heroSubtext:    'Trusted healthcare for generations of families in Safwa.',
       heroCtaPrimary: 'Book an appointment',
       heroCtaSecondary: 'Explore our services',

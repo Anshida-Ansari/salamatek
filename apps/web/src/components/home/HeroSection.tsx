@@ -1,8 +1,9 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import type { Locale } from '@/i18n/config';
 import type { Translations } from '@/i18n';
 import { getLocalizedPath } from '@/lib/utils';
+import { contactConfig } from '@/config/contact';
+import HeroCarouselBackground from './HeroCarouselBackground';
 
 type Props = {
   locale: Locale;
@@ -13,50 +14,23 @@ type Props = {
 
 export function HeroSection({ locale, t, heroImage }: Props) {
   const p = t.pages.home;
-  const bgSrc = heroImage || '/images/hospital/exterior.jpg';
+  
+  // Carousel images array. Use CMS provided heroImage if available, otherwise fallback to standard images.
+  const carouselImages = heroImage 
+    ? [heroImage] 
+    : [
+        '/images/hospital/exterior.jpg',
+        '/images/hospital/reception.jpg',
+        '/images/hospital/entrance.jpg',
+        '/images/hospital/emergency-ward.jpg'
+      ];
 
   return (
     <section
       className="relative min-h-[92vh] flex flex-col justify-end overflow-hidden"
       aria-label={locale === 'ar' ? 'البانر الرئيسي' : 'Hero banner'}
     >
-      {/* Background image */}
-      <div className="absolute inset-0 z-0 bg-[#151f23]">
-        <div className="absolute inset-y-0 right-0 w-full md:w-[75%] lg:w-[65%]">
-          <Image
-            src={bgSrc}
-            alt={
-              locale === 'ar'
-                ? 'مجمع سلامتك الطبي — مبنى المجمع'
-                : 'Salamatek Medical Centre — building exterior'
-            }
-            fill
-            priority
-            sizes="(max-width: 768px) 100vw, 70vw"
-            className="object-cover object-center"
-          />
-        </div>
-        {/* Gradient overlay: dark at bottom for stats legibility */}
-        <div
-          className="absolute inset-0 z-10"
-          style={{
-            background:
-              'linear-gradient(to top, #151f23 0%, rgba(21,31,35,0.7) 15%, transparent 40%)',
-          }}
-          aria-hidden="true"
-        />
-        {/* Additional horizontal gradient for RTL/LTR text readability */}
-        <div
-          className="absolute inset-0 z-10"
-          style={{
-            background:
-              locale === 'ar'
-                ? 'linear-gradient(to left, #151f23 0%, #151f23 35%, rgba(21,31,35,0.8) 55%, transparent 100%)'
-                : 'linear-gradient(to right, #151f23 0%, #151f23 35%, rgba(21,31,35,0.8) 55%, transparent 100%)',
-          }}
-          aria-hidden="true"
-        />
-      </div>
+      <HeroCarouselBackground images={carouselImages} locale={locale} />
 
       {/* Content */}
       <div className="relative z-10 mx-auto max-w-7xl w-full px-4 sm:px-6 lg:px-8 pb-0">
@@ -86,12 +60,14 @@ export function HeroSection({ locale, t, heroImage }: Props) {
 
           {/* CTAs */}
           <div className="flex flex-wrap items-center gap-3">
-            <Link
-              href={getLocalizedPath('/contact', locale)}
+            <a
+              href={`https://wa.me/${contactConfig.whatsappNumber}`}
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center px-6 py-3 rounded-lg bg-brand-red text-white text-sm font-semibold hover:bg-brand-red-dark transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-red focus-visible:ring-offset-2"
             >
               {p.heroCtaPrimary}
-            </Link>
+            </a>
             <Link
               href={getLocalizedPath('/departments', locale)}
               className="inline-flex items-center px-6 py-3 rounded-lg border border-white/30 text-white text-sm font-semibold hover:bg-white/10 hover:border-white/50 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"

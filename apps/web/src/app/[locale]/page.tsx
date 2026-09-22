@@ -12,6 +12,7 @@ import { DoctorsSection } from '@/components/home/DoctorsSection';
 import { CoreValuesSection } from '@/components/home/CoreValuesSection';
 import { SARCSection } from '@/components/home/SARCSection';
 import { OpticalStoreSection } from '@/components/home/OpticalStoreSection';
+import { OpticalBrandsSection } from '@/components/home/OpticalBrandsSection';
 import { NewsSection } from '@/components/home/NewsSection';
 import { TestimonialsSection } from '@/components/home/TestimonialsSection';
 import { AppointmentSection } from '@/components/home/AppointmentSection';
@@ -120,6 +121,9 @@ export default async function HomePage({ params }: Props) {
 
       {/* 7. Optical Store */}
       <OpticalStoreSection locale={locale} t={t} />
+
+      {/* 8. Optical Brands */}
+      <OpticalBrandsSection locale={locale} t={t} />
 
       {/* 8. News & Insights */}
       <NewsSection locale={locale} t={t} />
