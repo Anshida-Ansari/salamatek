@@ -10,7 +10,6 @@ type Props = {
 const WA_NUMBER = '966532963521';
 const WA_MSG_EN = 'Hello%2C%20I%20would%20like%20to%20enquire%20about%20booking%20an%20appointment%20at%20Salamatek%20Medical%20Centre.';
 const WA_MSG_AR = '%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%D8%8C%20%D8%A3%D9%88%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D8%AD%D8%AC%D8%B2%20%D9%85%D9%88%D8%B9%D8%AF%20%D9%81%D9%8A%20%D9%85%D8%AC%D9%85%D8%B9%20%D8%B3%D9%84%D8%A7%D9%85%D8%AA%D9%83%20%D8%A7%D9%84%D8%B7%D8%A8%D9%8A.';
-const PHONE = '0136642193';
 
 export function AppointmentSection({ locale, t }: Props) {
   const p = t.pages.home;
