@@ -25,7 +25,7 @@ export function Logo({ locale, variant = 'dark', size = 'md', type = 'icon', isT
         <img
           src="/images/logo-official-transparent.png"
           alt="Salamatek Medical Center Company"
-          className="h-11 w-auto object-contain transition-opacity duration-200 group-hover:opacity-90"
+          className="h-12 sm:h-14 lg:h-16 w-auto object-contain transition-opacity duration-200 group-hover:opacity-90"
           style={isTransparent ? { filter: 'drop-shadow(0 1px 4px rgba(0,0,0,0.5))' } : undefined}
         />
       </Link>
