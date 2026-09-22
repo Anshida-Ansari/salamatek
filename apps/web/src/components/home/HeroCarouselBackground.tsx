@@ -97,10 +97,10 @@ export default function HeroCarouselBackground({ images, locale }: Props) {
       </div>
 
       {/* Indicators */}
-      <div className={`absolute bottom-[30%] z-20 flex gap-3 pointer-events-none ${
+      <div className={`absolute bottom-[30%] right-0 left-0 z-20 flex justify-center gap-3 pointer-events-none ${
         locale === 'ar' 
-          ? 'left-0 right-0 justify-center lg:left-24 lg:right-auto lg:justify-start' 
-          : 'left-0 right-0 justify-center lg:right-24 lg:left-auto lg:justify-end'
+          ? 'lg:left-24 lg:right-auto lg:justify-start' 
+          : 'lg:right-24 lg:left-auto lg:justify-end'
       }`}>
         {images.map((_, idx) => (
           <button
