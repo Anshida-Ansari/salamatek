@@ -16,7 +16,7 @@ const OPTICAL_BRANDS = [
   "Versace", "Chopard", "Swarovski", "Dkny"
 ];
 
-export function OpticalBrandsSection({ locale, t }: Props) {
+export function OpticalBrandsSection({ locale }: Props) {
   return (
     <section className="bg-white py-12 md:py-16 border-t border-brand-dark/5">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
