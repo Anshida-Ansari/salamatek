@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Search, Filter, Trash2, Eye, CheckCircle, Clock, Archive, Inbox } from 'lucide-react';
 import { fetchApi } from '@/lib/admin/api';
+import { Pagination } from '@/components/admin/Pagination';
 
 type EnquiryStatus = 'new' | 'in_progress' | 'resolved' | 'archived';
 
@@ -27,6 +28,8 @@ const statusColors: Record<EnquiryStatus, { bg: string, text: string, icon: any 
 export default function ContactEnquiriesPage() {
   const [enquiries, setEnquiries] = useState<Enquiry[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [totalPages, setTotalPages] = useState(1);
+  const [page, setPage] = useState(1);
   
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<EnquiryStatus | 'all'>('all');
@@ -40,11 +43,14 @@ export default function ContactEnquiriesPage() {
       const query = new URLSearchParams();
       if (statusFilter !== 'all') query.append('status', statusFilter);
       if (searchTerm) query.append('search', searchTerm);
+      query.append('page', page.toString());
+      query.append('limit', '10');
 
       const data = await fetchApi(`/api/contact-enquiries?${query.toString()}`);
       
       if (data.success) {
         setEnquiries(data.data);
+        setTotalPages(data.pagination?.totalPages ?? 1);
       } else {
         throw new Error(data.message || 'Failed to fetch enquiries');
       }
@@ -56,8 +62,13 @@ export default function ContactEnquiriesPage() {
   };
 
   useEffect(() => {
+    setPage(1);
+  }, [statusFilter, searchTerm]);
+
+  useEffect(() => {
     fetchEnquiries();
-  }, [statusFilter]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [statusFilter, searchTerm, page]);
 
   const handleUpdateStatus = async (id: string, newStatus: EnquiryStatus) => {
     try {
@@ -274,6 +285,14 @@ export default function ContactEnquiriesPage() {
           </div>
         </div>
       )}
+        
+        {!isLoading && enquiries && enquiries.length > 0 && (
+          <Pagination
+            currentPage={page}
+            totalPages={totalPages}
+            onPageChange={setPage}
+          />
+        )}
     </div>
   );
 }

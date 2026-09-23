@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { fetchApi } from '@/lib/admin/api';
 import { useToast } from '@/components/admin/ToastProvider';
+import { Pagination } from '@/components/admin/Pagination';
 import {
   Search,
   Trash2,
@@ -49,15 +50,18 @@ export default function SarcEnquiriesPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [total, setTotal] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
+  const [page, setPage] = useState(1);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [updatingId, setUpdatingId] = useState<string | null>(null);
 
   const loadData = async () => {
     setIsLoading(true);
     try {
-      const res = await fetchApi(`/api/sarc-enquiries?limit=50&search=${encodeURIComponent(search)}`);
+      const res = await fetchApi(`/api/sarc-enquiries?limit=10&page=${page}&search=${encodeURIComponent(search)}`);
       setEnquiries(res.data ?? []);
       setTotal(res.pagination?.total ?? 0);
+      setTotalPages(res.pagination?.totalPages ?? 1);
     } catch {
       toast('Failed to load enquiries.', 'error');
     } finally {
@@ -66,10 +70,14 @@ export default function SarcEnquiriesPage() {
   };
 
   useEffect(() => {
+    setPage(1);
+  }, [search]);
+
+  useEffect(() => {
     const timer = setTimeout(() => loadData(), 400);
     return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [search]);
+  }, [search, page]);
 
   const handleDelete = async (id: string, company: string) => {
     if (!confirm(`Are you sure you want to delete the enquiry from "${company}"?`)) return;
@@ -218,6 +226,14 @@ export default function SarcEnquiriesPage() {
               </tbody>
             </table>
           </div>
+        )}
+        
+        {!isLoading && enquiries && enquiries.length > 0 && (
+          <Pagination
+            currentPage={page}
+            totalPages={totalPages}
+            onPageChange={setPage}
+          />
         )}
       </div>
     </div>

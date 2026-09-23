@@ -65,10 +65,12 @@ const config: Config = {
       animation: {
         'fade-in':    'fadeIn 0.3s ease-out',
         'slide-down': 'slideDown 0.3s ease-out',
+        'marquee':    'marquee 240s linear infinite',
       },
       keyframes: {
         fadeIn:    { from: { opacity: '0' },                      to: { opacity: '1' } },
         slideDown: { from: { transform: 'translateY(-8px)', opacity: '0' }, to: { transform: 'translateY(0)', opacity: '1' } },
+        marquee:   { '0%': { transform: 'translateX(0%)' }, '100%': { transform: 'translateX(-50%)' } },
       },
     },
   },

@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { fetchApi } from '@/lib/admin/api';
 import { useToast } from '@/components/admin/ToastProvider';
+import { Pagination } from '@/components/admin/Pagination';
 import {
   Plus,
   Search,
@@ -77,15 +78,18 @@ export default function DepartmentsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [total, setTotal] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
+  const [page, setPage] = useState(1);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [togglingId, setTogglingId] = useState<string | null>(null);
 
   const loadData = async () => {
     setIsLoading(true);
     try {
-      const res = await fetchApi(`/api/departments?limit=50&search=${encodeURIComponent(search)}`);
+      const res = await fetchApi(`/api/departments?limit=10&page=${page}&search=${encodeURIComponent(search)}`);
       setDepartments(res.data ?? []);
       setTotal(res.pagination?.total ?? 0);
+      setTotalPages(res.pagination?.totalPages ?? 1);
     } catch {
       toast('Failed to load departments.', 'error');
     } finally {
@@ -94,10 +98,14 @@ export default function DepartmentsPage() {
   };
 
   useEffect(() => {
+    setPage(1);
+  }, [search]);
+
+  useEffect(() => {
     const timer = setTimeout(() => loadData(), 400);
     return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [search]);
+  }, [search, page]);
 
   const handleDelete = async (id: string, name: string) => {
     if (!confirm(`Are you sure you want to delete "${name}"?\n\nThis action cannot be undone.`)) return;
@@ -257,6 +265,14 @@ export default function DepartmentsPage() {
               </tbody>
             </table>
           </div>
+        )}
+        
+        {!isLoading && departments.length > 0 && (
+          <Pagination
+            currentPage={page}
+            totalPages={totalPages}
+            onPageChange={setPage}
+          />
         )}
       </div>
     </div>

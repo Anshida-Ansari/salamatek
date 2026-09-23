@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { fetchApi } from '@/lib/admin/api';
 import { useToast } from '@/components/admin/ToastProvider';
+import { Pagination } from '@/components/admin/Pagination';
 import {
   Plus,
   Search,
@@ -307,28 +308,12 @@ export default function DoctorsPage() {
             </div>
 
             {/* Pagination */}
-            {pagination.totalPages > 1 && (
-              <div className="flex items-center justify-between px-6 py-4 border-t border-gray-100">
-                <p className="text-sm text-gray-500">
-                  Page {pagination.page} of {pagination.totalPages} · {pagination.total} total
-                </p>
-                <div className="flex gap-2">
-                  <button
-                    disabled={page <= 1}
-                    onClick={() => setPage(page - 1)}
-                    className="px-3 py-1.5 text-sm border border-gray-200 rounded-lg hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition"
-                  >
-                    Previous
-                  </button>
-                  <button
-                    disabled={page >= pagination.totalPages}
-                    onClick={() => setPage(page + 1)}
-                    className="px-3 py-1.5 text-sm border border-gray-200 rounded-lg hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition"
-                  >
-                    Next
-                  </button>
-                </div>
-              </div>
+            {!isLoading && doctors.length > 0 && (
+              <Pagination
+                currentPage={page}
+                totalPages={pagination.totalPages}
+                onPageChange={setPage}
+              />
             )}
           </>
         )}

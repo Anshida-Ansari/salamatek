@@ -7,6 +7,7 @@ import { PageHero } from '@/components/shared/PageHero';
 import { contactConfig } from '@/config/contact';
 import { MapPin, Phone, Mail, Clock } from 'lucide-react';
 import { ContactForm } from '@/components/forms/ContactForm';
+import { InsurancePartnersSection } from '@/components/shared/InsurancePartnersSection';
 
 type Props = { params: Promise<{ locale: string }> };
 
@@ -109,6 +110,9 @@ export default async function ContactPage({ params }: Props) {
           </div>
         </div>
       </section>
+
+      {/* Insurance Providers Section */}
+      <InsurancePartnersSection variant="grid" isAr={isRtl} />
 
       {/* Google Maps Integration */}
       <section className="h-[500px] w-full relative">

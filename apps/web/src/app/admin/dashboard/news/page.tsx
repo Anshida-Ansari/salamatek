@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { fetchApi } from '@/lib/admin/api';
 import { useToast } from '@/components/admin/ToastProvider';
+import { Pagination } from '@/components/admin/Pagination';
 import {
   Plus,
   Search,
@@ -81,15 +82,18 @@ export default function NewsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [total, setTotal] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
+  const [page, setPage] = useState(1);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [togglingId, setTogglingId] = useState<string | null>(null);
 
   const loadData = async () => {
     setIsLoading(true);
     try {
-      const res = await fetchApi(`/api/news?limit=50&search=${encodeURIComponent(search)}`);
+      const res = await fetchApi(`/api/news?limit=10&page=${page}&search=${encodeURIComponent(search)}`);
       setNewsList(res.data ?? []);
       setTotal(res.pagination?.total ?? 0);
+      setTotalPages(res.pagination?.totalPages ?? 1);
     } catch {
       toast('Failed to load news.', 'error');
     } finally {
@@ -98,10 +102,14 @@ export default function NewsPage() {
   };
 
   useEffect(() => {
+    setPage(1);
+  }, [search]);
+
+  useEffect(() => {
     const timer = setTimeout(() => loadData(), 400);
     return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [search]);
+  }, [search, page]);
 
   const handleDelete = async (id: string, title: string) => {
     if (!confirm(`Are you sure you want to delete "${title}"?`)) return;
@@ -259,6 +267,14 @@ export default function NewsPage() {
               </tbody>
             </table>
           </div>
+        )}
+        
+        {!isLoading && newsList && newsList.length > 0 && (
+          <Pagination
+            currentPage={page}
+            totalPages={totalPages}
+            onPageChange={setPage}
+          />
         )}
       </div>
     </div>

@@ -20,7 +20,7 @@ export const getDepartments = asyncHandler(async (req: Request, res: Response): 
   }
 
   const [data, total] = await Promise.all([
-    Department.find(filter).skip(skip).limit(limit).sort({ createdAt: -1 }).lean(),
+    Department.find(filter).skip(skip).limit(limit).sort({ createdAt: 1 }).lean(),
     Department.countDocuments(filter),
   ]);
 

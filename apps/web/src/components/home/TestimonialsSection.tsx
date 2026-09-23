@@ -35,12 +35,12 @@ export function TestimonialsSection({ locale, testimonials }: Props) {
           </p>
         </div>
 
-        {/* CSS Scroll Snap Container for mobile, Grid for desktop */}
-        <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 -mx-4 px-4 sm:mx-0 sm:px-0 lg:grid lg:grid-cols-3 hide-scrollbar">
+        {/* CSS Scroll Snap Container */}
+        <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 -mx-4 px-4 sm:mx-0 sm:px-0 hide-scrollbar">
           {testimonials.map((testimonial) => (
             <div
               key={testimonial._id}
-              className="snap-center shrink-0 w-[85vw] sm:w-[400px] lg:w-auto bg-white rounded-3xl p-6 md:p-8 border border-white shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300 flex flex-col h-full relative group"
+              className="snap-center shrink-0 w-[85vw] sm:w-[400px] lg:w-[calc(33.333333%-1rem)] bg-white rounded-3xl p-6 md:p-8 border border-white shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300 flex flex-col h-full relative group"
             >
               {/* Google Review Indicator */}
               <div className="absolute top-6 right-6 flex items-center gap-1.5 opacity-60 group-hover:opacity-100 transition-opacity">

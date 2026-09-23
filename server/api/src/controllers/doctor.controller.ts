@@ -23,7 +23,7 @@ export const getDoctors = asyncHandler(async (req: Request, res: Response): Prom
   }
 
   const [data, total] = await Promise.all([
-    Doctor.find(filter).populate('departmentId', 'name slug').skip(skip).limit(limit).sort({ createdAt: -1 }).lean(),
+    Doctor.find(filter).populate('departmentId', 'name slug').skip(skip).limit(limit).sort({ createdAt: 1 }).lean(),
     Doctor.countDocuments(filter),
   ]);
 

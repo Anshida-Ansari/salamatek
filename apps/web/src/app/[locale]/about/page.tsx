@@ -19,31 +19,49 @@ import {
   Users,
   Activity,
   CheckCircle2,
+  Award,
+  Medal,
 } from 'lucide-react';
 
-// ─── SALAMATEK Values Definition ─────────────────────────────────────────────
-const VALUES_EN = [
-  { letter: 'S', title: 'Service', desc: 'Putting patient well-being and exceptional medical care above all else.' },
-  { letter: 'A', title: 'Accountability', desc: 'Taking full ownership of our medical outcomes, safety, and patient trust.' },
-  { letter: 'L', title: 'Loyalty', desc: 'Unwavering dedication to our community, patients, and healthcare mission.' },
-  { letter: 'A', title: 'Accuracy', desc: 'Precision in diagnostics, surgical interventions, and laboratory testing.' },
-  { letter: 'M', title: 'Motivation', desc: 'Inspiring wellness, proactive healing, and healthy lifestyle choices.' },
-  { letter: 'A', title: 'Awareness', desc: 'Promoting community health literacy, preventive care, and education.' },
-  { letter: 'T', title: 'Team Work', desc: 'Multidisciplinary collaboration across doctors, nurses, and staff.' },
-  { letter: 'E', title: 'Efficiency', desc: 'Streamlined clinical operations minimizing wait times and delays.' },
-  { letter: 'K', title: 'Knowledge', desc: 'Continuous medical training, evidence-based practices, and learning.' },
+
+
+// ─── Certifications & Awards Content ─────────────────────────────────────────
+const CERTIFICATES_EN = [
+  {
+    title: 'D-U-N-S® Registered™',
+    org: 'Dun & Bradstreet',
+    date: 'Validity: 22-Jul-26 to 21-Jul-27',
+    image: '/images/certificates/duns.jpg',
+  },
+  {
+    title: 'ISO 9001:2015 (Quality Management System)',
+    org: 'TNV',
+    date: 'Issued: 11/07/2025',
+    image: '/images/certificates/iso.jpg',
+  },
 ];
 
-const VALUES_AR = [
-  { letter: 'S', title: 'الخدمة', desc: 'وضع صحة المريض وراحته فوق كل اعتبار في كافة الإجراءات.' },
-  { letter: 'A', title: 'المساءلة', desc: 'تحمل المسؤولية الكاملة عن السلامة السريرية وثقة المراجعين.' },
-  { letter: 'L', title: 'الولاء', desc: 'التفاني الدائم في خدمة مجتمع صفوى ورسالتنا الإنسانية النبيلة.' },
-  { letter: 'A', title: 'الدقة', desc: 'الالتزام بأعلى درجات الدقة في التشخيص والتحاليل والخطط العلاجية.' },
-  { letter: 'M', title: 'التحفيز', desc: 'تشجيع المرضى على الشفاء وتبني أسلوب حياة صحي ومستدام.' },
-  { letter: 'A', title: 'الوعي', desc: 'نشر التثقيف الصحي والوقائي وتعزيز ثقافة السلامة للجميع.' },
-  { letter: 'T', title: 'العمل الجماعي', desc: 'تكامل وتناغم الكوادر الطبية والتمريضية لتقديم رعاية موحدة.' },
-  { letter: 'E', title: 'الكفاءة', desc: 'إدارة تشغيلية ورعاية سريعة تُقلل فترات الانتظار بدقة عالية.' },
-  { letter: 'K', title: 'المعرفة', desc: 'التعلم الطبي المستمر والاعتماد على أحدث البروتوكولات العالمية.' },
+const CERTIFICATES_AR = [
+  {
+    title: 'مسجل في D-U-N-S®',
+    org: 'Dun & Bradstreet',
+    date: 'صالح من 22-07-2026 إلى 21-07-2027',
+    image: '/images/certificates/duns.jpg',
+  },
+  {
+    title: 'آيزو 9001:2015 (نظام إدارة الجودة)',
+    org: 'TNV',
+    date: 'تاريخ الإصدار: 2025/07/11',
+    image: '/images/certificates/iso.jpg',
+  },
+];
+
+const AWARDS_EN = [
+  'CBAHI Accredited (Saudi Central Board for Accreditation of Healthcare Institutions)',
+];
+
+const AWARDS_AR = [
+  'معتمد من المركز السعودي لاعتماد المنشآت الصحية (سباهي)',
 ];
 
 // ─── Chairman's Message Content ──────────────────────────────────────────────
@@ -122,8 +140,9 @@ export default async function AboutPage({ params }: Props) {
   const t = getTranslations(typedLocale);
   const pa = t.pages.about;
   const isAr = typedLocale === 'ar';
-  const values = isAr ? VALUES_AR : VALUES_EN;
   const chairman = isAr ? CHAIRMAN_MESSAGE_AR : CHAIRMAN_MESSAGE_EN;
+  const certificates = isAr ? CERTIFICATES_AR : CERTIFICATES_EN;
+  const awards = isAr ? AWARDS_AR : AWARDS_EN;
 
   const breadcrumbs = [
     { label: isAr ? 'الرئيسية' : 'Home', href: getLocalizedPath('/', typedLocale) },
@@ -383,52 +402,72 @@ export default async function AboutPage({ params }: Props) {
         </div>
       </section>
 
-      {/* ── 5. SALAMATEK Core Values ─────────────────────────────────────── */}
-      <section className="bg-[#F8FAF9] py-16 md:py-24" aria-labelledby="values-heading">
+
+      {/* ── 6. Accreditations & Certifications ────────────────────────────── */}
+      <section className="bg-white py-16 md:py-24 border-b border-border">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          {/* Header */}
-          <div className="text-center max-w-2xl mx-auto mb-14">
+          <div className="text-center max-w-2xl mx-auto mb-12">
             <span className="inline-block px-3.5 py-1 rounded-full bg-surface-mint text-brand-dark text-xs font-bold tracking-wider uppercase mb-3">
-              {pa.valuesHeading}
+              {isAr ? 'الاعتمادات والشهادات' : 'Global Standards'}
             </span>
-            <h2 id="values-heading" className="text-2xl sm:text-3xl lg:text-4xl font-serif font-bold text-brand-dark mb-3">
-              {isAr ? 'قيم سلامتك الجوهرية (SALAMATEK)' : 'The SALAMATEK Core Values'}
+            <h2 className="text-2xl sm:text-3xl font-serif font-bold text-brand-dark">
+              {isAr ? 'اعتماداتنا وشهاداتنا' : 'Our Accreditations & Certifications'}
             </h2>
-            <p className="text-sm sm:text-base text-text-muted leading-relaxed">
-              {pa.valuesSubtext}
-            </p>
           </div>
 
-          {/* Values grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {values.map((v, idx) => (
-              <div
-                key={idx}
-                className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-7 border border-border shadow-card hover:shadow-card-hover hover:border-brand/40 transition-all group flex flex-col justify-between"
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="w-10 h-10 rounded-xl bg-surface-mint text-brand font-serif font-bold text-lg flex items-center justify-center group-hover:bg-brand group-hover:text-white transition-colors">
-                      {v.letter}
-                    </span>
-                    <span className="text-xs font-bold text-text-subtle tabular-nums">
-                      {String(idx + 1).padStart(2, '0')}
-                    </span>
-                  </div>
-                  <h3 className="text-lg font-serif font-bold text-brand-dark mb-2 group-hover:text-brand transition-colors">
-                    {v.title}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-text-muted leading-relaxed">
-                    {v.desc}
-                  </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 max-w-5xl mx-auto">
+            {certificates.map((cert, idx) => (
+              <div key={idx} className="bg-[#F8FAF9] border border-border rounded-3xl p-6 sm:p-8 flex flex-col items-center text-center shadow-sm hover:shadow-card-hover transition-all">
+                <div className="relative w-full aspect-[4/3] mb-8 bg-white rounded-2xl overflow-hidden border border-border">
+                  <Image
+                    src={cert.image}
+                    alt={cert.title}
+                    fill
+                    className="object-contain p-4"
+                  />
                 </div>
+                <h3 className="text-xl font-serif font-bold text-brand-dark mb-2">{cert.title}</h3>
+                <p className="text-sm font-semibold text-brand mb-1">{cert.org}</p>
+                <p className="text-xs text-text-muted">{cert.date}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── 6. Our Facilities & Journey ───────────────────────────────────── */}
+      {/* ── 7. Awards & Recognition ───────────────────────────────────────── */}
+      <section className="bg-[#F8FAF9] py-16 md:py-24 border-b border-border">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-2xl mx-auto mb-12">
+            <div className="w-12 h-12 rounded-full bg-brand/10 text-brand flex items-center justify-center mx-auto mb-4">
+              <Award className="w-6 h-6" />
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-serif font-bold text-brand-dark mb-3">
+              {isAr ? 'الجوائز والتكريم' : 'Awards & Recognition'}
+            </h2>
+            <p className="text-sm text-text-muted">
+              {isAr ? 'إنجازاتنا تعكس التزامنا المستمر بالتميز' : 'Our achievements reflect our continuous commitment to excellence.'}
+            </p>
+          </div>
+
+          <div className="max-w-4xl mx-auto">
+            <div className="grid grid-cols-1 gap-4">
+              {awards.map((award, idx) => (
+                <div key={idx} className="bg-white border border-border rounded-2xl p-5 sm:p-6 flex items-center gap-4 sm:gap-6 shadow-sm hover:shadow-md transition-shadow">
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 shrink-0 rounded-full bg-amber-50 border border-amber-100 flex items-center justify-center">
+                    <Medal className="w-6 h-6 sm:w-7 sm:h-7 text-amber-500" />
+                  </div>
+                  <div>
+                    <h3 className="text-base sm:text-lg font-bold text-brand-dark leading-snug">{award}</h3>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 8. Our Facilities & Journey ───────────────────────────────────── */}
       <section
         className="py-16 md:py-24 overflow-hidden text-white"
         style={{ background: 'linear-gradient(135deg, #0C3528 0%, #1A6B4A 100%)' }}
