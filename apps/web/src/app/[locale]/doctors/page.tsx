@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import Link from 'next/link';
 import { getTranslations } from '@/i18n';
 import { isValidLocale, type Locale } from '@/i18n/config';
 import { getLocalizedPath } from '@/lib/utils';
@@ -81,7 +82,8 @@ export default async function DoctorsPage({ params }: Props) {
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {doctors.map((doc: any) => (
-                <div
+                <Link
+                  href={getLocalizedPath(`/doctors/${doc.slug}`, typedLocale)}
                   key={doc._id}
                   className="group h-full flex flex-col bg-white rounded-3xl overflow-hidden transition-all duration-300 hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] border border-transparent hover:border-border/60"
                 >
@@ -133,7 +135,7 @@ export default async function DoctorsPage({ params }: Props) {
                       )}
                     </div>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           )}

@@ -223,7 +223,7 @@ export default async function DepartmentDetailPage({ params }: Props) {
                       
                       <div className="absolute bottom-0 start-0 end-0 p-6 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
                         <Link 
-                          href={getLocalizedPath(`/doctors`, typedLocale)}
+                          href={getLocalizedPath(`/doctors/${doc.slug}`, typedLocale)}
                           className="block w-full py-2.5 bg-white text-brand-dark text-sm font-semibold rounded-xl text-center hover:bg-brand hover:text-white transition-colors"
                         >
                           {isAr ? 'عرض الملف الشخصي' : 'View Profile'}

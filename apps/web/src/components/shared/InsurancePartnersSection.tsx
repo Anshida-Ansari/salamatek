@@ -32,7 +32,7 @@ export function InsurancePartnersSection({ isAr = false }: Props) {
     : 'We work with leading insurance providers to make quality healthcare more accessible.';
 
   return (
-    <section className="bg-[#F8FAF9] py-16 md:py-24 border-y border-border/50" aria-labelledby="insurance-heading">
+    <section className="bg-white py-16 md:py-24 border-y border-border/50" aria-labelledby="insurance-heading">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         
         {/* Header */}
