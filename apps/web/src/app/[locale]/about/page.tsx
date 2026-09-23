@@ -31,7 +31,7 @@ const CERTIFICATES_EN = [
     title: 'D-U-N-S® Registered™',
     org: 'Dun & Bradstreet',
     date: 'Validity: 22-Jul-26 to 21-Jul-27',
-    image: '/images/certificates/duns.jpg',
+    image: '/images/certificates/duns.png',
   },
   {
     title: 'ISO 9001:2015 (Quality Management System)',
@@ -46,7 +46,7 @@ const CERTIFICATES_AR = [
     title: 'مسجل في D-U-N-S®',
     org: 'Dun & Bradstreet',
     date: 'صالح من 22-07-2026 إلى 21-07-2027',
-    image: '/images/certificates/duns.jpg',
+    image: '/images/certificates/duns.png',
   },
   {
     title: 'آيزو 9001:2015 (نظام إدارة الجودة)',

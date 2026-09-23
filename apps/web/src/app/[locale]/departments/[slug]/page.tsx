@@ -129,18 +129,18 @@ export default async function DepartmentDetailPage({ params }: Props) {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-20 lg:space-y-28">
           
           {/* Department Overview: Elegant Layout */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
-            <div className="lg:col-span-4 flex flex-col items-start space-y-4">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+            <div className="lg:col-span-5 flex flex-col items-start space-y-4 min-w-0">
               <span className="inline-block px-3.5 py-1.5 rounded-full bg-surface-mint/50 text-brand-dark text-xs font-bold tracking-widest uppercase">
                 {isAr ? 'عن القسم' : 'About Department'}
               </span>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-brand-dark leading-tight relative">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-brand-dark leading-tight relative break-words w-full">
                 {name}
                 <div className="absolute -bottom-3 start-0 w-12 h-1 bg-brand rounded-full"></div>
               </h2>
             </div>
             
-            <div className="lg:col-span-8 space-y-6 lg:pt-4">
+            <div className="lg:col-span-7 space-y-6 lg:pt-4 min-w-0">
               {subheading && (
                 <p className="text-xl md:text-2xl italic font-serif text-brand font-medium leading-relaxed border-s-4 border-brand-pale ps-5 py-2">
                   {subheading}

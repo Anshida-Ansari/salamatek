@@ -1,35 +1,25 @@
 'use client';
 
-import { useState } from 'react';
+import Image from 'next/image';
 import { ShieldCheck } from 'lucide-react';
 import { INSURANCE_PARTNERS } from '@/lib/constants';
 
 interface Props {
-  variant?: 'marquee' | 'grid'; // We ignore the variant now since user wants only static grid
+  variant?: string; // Kept for backwards compatibility, but ignored in UI
   isAr?: boolean;
 }
 
-function InsuranceLogo({ partner }: { partner: { name: string; domain: string } }) {
-  const [hasError, setHasError] = useState(false);
-  const logoUrl = partner.domain ? `https://logo.clearbit.com/${partner.domain}` : null;
-
-  if (hasError || !logoUrl) {
-    return (
-      <div className="w-full h-full flex items-center justify-center p-4 bg-[#F8FAF9] rounded-xl border border-border/60 hover:bg-white hover:shadow-sm transition-all">
-        <span className="text-xs sm:text-sm font-bold text-brand-dark text-center leading-tight">
-          {partner.name}
-        </span>
-      </div>
-    );
-  }
+function InsuranceLogo({ partner }: { partner: { name: string; image: string } }) {
+  const logoUrl = `/images/insurance/${partner.image}`;
 
   return (
-    <div className="w-full h-24 sm:h-28 flex items-center justify-center p-4 sm:p-6 bg-white rounded-xl border border-border/40 hover:border-brand-pale/60 hover:shadow-md transition-all group">
-      <img
+    <div className="relative w-full h-20 md:h-24 flex items-center justify-center transition-all duration-300 group overflow-hidden">
+      <Image
         src={logoUrl}
         alt={`${partner.name} Logo`}
-        className="max-w-full max-h-full object-contain grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300"
-        onError={() => setHasError(true)}
+        fill
+        sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw"
+        className="object-contain p-2 md:p-4 transition-transform duration-500 ease-out group-hover:scale-[1.05] mix-blend-multiply"
       />
     </div>
   );
@@ -38,18 +28,16 @@ function InsuranceLogo({ partner }: { partner: { name: string; domain: string } 
 export function InsurancePartnersSection({ isAr = false }: Props) {
   const heading = isAr ? 'شركاء التأمين' : 'Our Insurance Partners';
   const subtext = isAr
-    ? 'نعمل مع أبرز شركات التأمين لتسهيل حصولكم على الرعاية الطبية بأعلى جودة.'
+    ? 'نعمل مع أبرز مزودي خدمات التأمين لنجعل الرعاية الصحية عالية الجودة في متناول الجميع.'
     : 'We work with leading insurance providers to make quality healthcare more accessible.';
 
-  // Remove duplicate entries if any (like ORIENT and ORIENT INSURANCE)
-  const uniquePartners = Array.from(new Map(INSURANCE_PARTNERS.map(p => [p.name, p])).values());
-
   return (
-    <section className="bg-white py-16 md:py-24 border-y border-border" aria-labelledby="insurance-heading">
+    <section className="bg-[#F8FAF9] py-16 md:py-24 border-y border-border/50" aria-labelledby="insurance-heading">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         
+        {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-surface-mint text-brand mb-6 shadow-sm border border-brand-pale/30">
+          <span className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-white text-brand mb-6 shadow-sm border border-brand-pale/30">
             <ShieldCheck className="w-6 h-6" />
           </span>
           <h2 id="insurance-heading" className="text-3xl md:text-4xl font-serif font-bold text-brand-dark mb-4">
@@ -60,9 +48,21 @@ export function InsurancePartnersSection({ isAr = false }: Props) {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 sm:gap-6">
-          {uniquePartners.map((partner, idx) => (
-            <InsuranceLogo key={idx} partner={partner} />
+        {/* 
+          Grid Layout: 
+          - Mobile: 2 columns 
+          - Tablet: 3-4 columns 
+          - Desktop: 5-6 columns
+          Uses flex-wrap with center justification so the last row is always perfectly balanced.
+        */}
+        <div className="flex flex-wrap justify-center gap-4 sm:gap-5 md:gap-6">
+          {INSURANCE_PARTNERS.map((partner, idx) => (
+            <div 
+              key={idx} 
+              className="w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-0.85rem)] md:w-[calc(25%-1.125rem)] lg:w-[calc(20%-1.2rem)] xl:w-[calc(16.666%-1.25rem)]"
+            >
+              <InsuranceLogo partner={partner} />
+            </div>
           ))}
         </div>
 

@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import Image from 'next/image';
 import { getTranslations } from '@/i18n';
 import { isValidLocale, type Locale } from '@/i18n/config';
 import { getLocalizedPath } from '@/lib/utils';
@@ -84,37 +83,55 @@ export default async function DoctorsPage({ params }: Props) {
               {doctors.map((doc: any) => (
                 <div
                   key={doc._id}
-                  className="group flex flex-col bg-white border border-border rounded-2xl overflow-hidden hover:border-brand-pale hover:shadow-card-md transition-all duration-200"
+                  className="group h-full flex flex-col bg-white rounded-3xl overflow-hidden transition-all duration-300 hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] border border-transparent hover:border-border/60"
                 >
-                  <div className="relative aspect-[4/5] bg-surface-mint w-full overflow-hidden">
+                  <div className="relative aspect-[4/5] bg-surface-light w-full overflow-hidden shrink-0">
                     {doc.image ? (
-                      <Image
+                      <img
                         src={doc.image}
                         alt={doc.name[typedLocale] || doc.name.en}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                        className="object-cover w-full h-full object-top group-hover:scale-105 transition-transform duration-700 ease-in-out"
                       />
                     ) : (
-                      <div className="absolute inset-0 flex items-center justify-center text-brand-medium">
-                        <svg className="w-16 h-16 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                      <div className="w-full h-full flex items-center justify-center bg-surface-mint/30">
+                        <svg className="w-20 h-20 text-brand-pale" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
                         </svg>
                       </div>
                     )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/90 via-brand-dark/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    
+                    <div className="absolute bottom-0 start-0 end-0 p-6 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+                      <div 
+                        className="block w-full py-2.5 bg-white text-brand-dark text-sm font-semibold rounded-xl text-center cursor-default shadow-sm"
+                      >
+                        {doc.departmentId?.name?.[typedLocale] || doc.departmentId?.name?.en || 'Specialist'}
+                      </div>
+                    </div>
                   </div>
                   
-                  <div className="p-6 flex flex-col flex-1 text-center">
-                    <p className="text-sm font-semibold text-brand-medium mb-1 uppercase tracking-wider">
-                      {doc.departmentId?.name?.[typedLocale] || doc.departmentId?.name?.en || 'General'}
-                    </p>
-                    <h3 className="text-xl font-serif font-bold text-text-base mb-2">
+                  <div className="p-6 text-center bg-white relative z-10 flex flex-col items-center flex-grow">
+                    <h3 className="text-xl lg:text-2xl font-serif font-bold text-brand-dark mb-1.5 group-hover:text-brand transition-colors">
                       {doc.name[typedLocale] || doc.name.en}
                     </h3>
                     {doc.designation && (
-                      <p className="text-text-muted text-sm mb-4">
+                      <p className="text-sm md:text-base text-text-muted font-medium mb-4">
                         {doc.designation[typedLocale] || doc.designation.en}
                       </p>
                     )}
+                    
+                    <div className="mt-auto pt-2">
+                      {doc.experienceYears ? (
+                        <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-mint rounded-full text-brand-dark font-bold text-sm border border-brand-pale/30">
+                          <svg className="w-4 h-4 text-brand" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                          </svg>
+                          <span>{doc.experienceYears}+ {typedLocale === 'ar' ? 'سنوات خبرة' : 'Years Experience'}</span>
+                        </div>
+                      ) : (
+                        <div className="h-[30px]"></div>
+                      )}
+                    </div>
                   </div>
                 </div>
               ))}
