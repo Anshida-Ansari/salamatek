@@ -54,6 +54,8 @@ export function GalleryGrid({ images, isAr }: GalleryGridProps) {
     if (e.key === 'ArrowLeft') handlePrev(e as any);
   };
 
+  const selectedImage = selectedIndex !== null ? images[selectedIndex] : null;
+
   return (
     <>
       {/* Masonry / Grid Layout */}
@@ -93,7 +95,7 @@ export function GalleryGrid({ images, isAr }: GalleryGridProps) {
       </div>
 
       {/* Lightbox Viewer */}
-      {selectedIndex !== null && (
+      {selectedImage && (
         <div 
           className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center"
           onClick={() => setSelectedIndex(null)}
@@ -131,21 +133,21 @@ export function GalleryGrid({ images, isAr }: GalleryGridProps) {
           <div className="relative w-full h-full max-w-6xl max-h-[90vh] mx-auto p-4 md:p-12 flex flex-col items-center justify-center" onClick={(e) => e.stopPropagation()}>
             <div className="relative w-full h-full flex items-center justify-center">
               <Image
-                src={images[selectedIndex].imageUrl}
-                alt={(isAr ? images[selectedIndex].title?.ar : images[selectedIndex].title?.en) || 'Gallery Image'}
+                src={selectedImage.imageUrl}
+                alt={(isAr ? selectedImage.title?.ar : selectedImage.title?.en) || 'Gallery Image'}
                 fill
                 className="object-contain"
                 quality={100}
                 priority
               />
             </div>
-            {(images[selectedIndex].title?.en || images[selectedIndex].title?.ar || images[selectedIndex].description?.en || images[selectedIndex].description?.ar) && (
+            {(selectedImage.title?.en || selectedImage.title?.ar || selectedImage.description?.en || selectedImage.description?.ar) && (
               <div className="absolute bottom-0 inset-x-0 p-6 bg-gradient-to-t from-black/90 to-transparent text-center">
                 <h3 className="text-white text-xl font-medium mb-2">
-                  {isAr ? images[selectedIndex].title?.ar : images[selectedIndex].title?.en}
+                  {isAr ? selectedImage.title?.ar : selectedImage.title?.en}
                 </h3>
                 <p className="text-white/80 max-w-2xl mx-auto">
-                  {isAr ? images[selectedIndex].description?.ar : images[selectedIndex].description?.en}
+                  {isAr ? selectedImage.description?.ar : selectedImage.description?.en}
                 </p>
               </div>
             )}
