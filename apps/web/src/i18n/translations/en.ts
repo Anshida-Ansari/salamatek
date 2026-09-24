@@ -11,6 +11,7 @@ export const en = {
     services:        'Services',
     doctors:         'Doctors',
     packages:        'Packages',
+    gallery:         'Gallery',
     sarc:            'SARC',
     careers:         'Careers',
     news:            'News',

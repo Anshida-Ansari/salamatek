@@ -13,6 +13,7 @@ export const ar: Translations = {
     services:        'الخدمات',
     doctors:         'الأطباء',
     packages:        'الباقات',
+    gallery:         'المعرض',
     sarc:            'سارك',
     careers:         'الوظائف',
     news:            'الأخبار',

@@ -22,6 +22,7 @@ import {
   Mail,
   Home,
   MessageSquare,
+  Image as ImageIcon,
 } from 'lucide-react';
 
 interface NavItem {
@@ -46,6 +47,7 @@ const segmentLabels: Record<string, string> = {
   'appointment-enquiries':'Appointment Enquiries',
   'site-settings':        'Site Settings',
   testimonials:           'Testimonials',
+  gallery:                'Gallery',
 };
 
 const navigation: NavItem[] = [
@@ -60,6 +62,7 @@ const navigation: NavItem[] = [
   { name: 'Job Applications', href: '/admin/dashboard/job-applications', icon: FileText },
   { name: 'Contact Enquiries', href: '/admin/dashboard/contact-enquiries', icon: Mail },
   { name: 'Testimonials', href: '/admin/dashboard/testimonials', icon: MessageSquare },
+  { name: 'Gallery', href: '/admin/dashboard/gallery', icon: ImageIcon },
   { name: 'Site Settings', href: '/admin/dashboard/site-settings', icon: Settings },
   { name: 'Appointments', href: '#', icon: Calendar, disabled: true },
 ];
@@ -147,7 +150,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <p className="text-[10px] uppercase tracking-widest text-brand-pale/70 font-bold px-3 mb-2 mt-1">
           Management
         </p>
-        {navigation.slice(0, 12).map((item) => {
+        {navigation.slice(0, 13).map((item) => {
           const isActive =
             pathname === item.href ||
             (item.href !== '/admin/dashboard' && pathname.startsWith(item.href));
@@ -177,7 +180,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <p className="text-[10px] uppercase tracking-widest text-brand-pale/50 font-bold px-3 mb-2 mt-6">
           Upcoming
         </p>
-        {navigation.slice(12).map((item) => {
+        {navigation.slice(13).map((item) => {
           const Icon = item.icon;
           return (
             <div

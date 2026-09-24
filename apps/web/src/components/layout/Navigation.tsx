@@ -20,6 +20,7 @@ const NAV_ITEMS: NavItem[] = [
   { key: 'services',     href: '/services' },
   { key: 'doctors',      href: '/doctors' },
   { key: 'packages',     href: '/health-packages' },
+  { key: 'gallery',      href: '/gallery' },
   { key: 'sarc',         href: '/sarc', sarc: true },
   { key: 'careers',      href: '/careers' },
   { key: 'news',         href: '/news' },
