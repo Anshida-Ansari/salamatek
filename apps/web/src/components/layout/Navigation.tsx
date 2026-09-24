@@ -51,7 +51,7 @@ export function Navigation({ locale, t, className, orientation = 'horizontal', o
     <nav
       aria-label="Main navigation"
       className={cn(
-        isVertical ? 'flex flex-col gap-0.5' : 'flex items-center gap-0.5',
+        isVertical ? 'flex flex-col gap-1' : 'flex items-center gap-1 lg:gap-2',
         className,
       )}
     >
@@ -67,24 +67,26 @@ export function Navigation({ locale, t, className, orientation = 'horizontal', o
               key={key}
               href={localizedHref}
               onClick={onLinkClick}
-              aria-label={label}
+              aria-label="SARC — Industrial Healthcare"
               aria-current={active ? 'page' : undefined}
               className={cn(
                 'inline-flex items-center justify-center transition-opacity duration-200 hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 rounded-sm',
                 active && 'opacity-90',
-                isVertical && 'w-full justify-start px-4 py-2',
+                isVertical ? 'w-full justify-start px-4 py-2 mx-0 mt-2' : 'mx-1'
               )}
             >
               <Image
                 src="/images/sarc-logo-transparent.png"
-                alt="SARC — Industrial Healthcare"
+                alt="SARC"
                 width={120}
                 height={40}
-                className={cn(
-                  'object-contain h-8 w-auto',
-                  isVertical && 'h-9',
-                )}
-                style={isTransparent ? { filter: 'drop-shadow(0 1px 4px rgba(0,0,0,0.5))' } : undefined}
+                className="object-contain transition-transform hover:scale-105"
+                style={{
+                  width: isVertical ? '140px' : 'auto',
+                  height: isVertical ? 'auto' : '36px',
+                  minWidth: isVertical ? undefined : '108px',
+                  filter: isTransparent ? 'drop-shadow(0 1px 4px rgba(0,0,0,0.5))' : undefined
+                }}
                 priority={false}
               />
             </Link>
@@ -99,7 +101,7 @@ export function Navigation({ locale, t, className, orientation = 'horizontal', o
             onClick={onLinkClick}
             aria-current={active ? 'page' : undefined}
             className={cn(
-              'relative px-3 py-1.5 text-sm font-medium transition-colors duration-200 group',
+              'relative px-1.5 xl:px-2 py-1.5 text-sm font-medium transition-colors duration-200 group',
               isVertical && 'py-3 px-4 rounded-xl text-base w-full',
               active
                 ? (isTransparent ? 'text-white font-bold' : 'text-brand-dark font-semibold')

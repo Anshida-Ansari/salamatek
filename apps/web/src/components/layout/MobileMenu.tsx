@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useCallback } from 'react';
+import Image from 'next/image';
 import type { Locale } from '@/i18n/config';
 import type { Translations } from '@/i18n';
 import { cn } from '@/lib/utils';
@@ -42,7 +43,7 @@ export function MobileMenu({ isOpen, onClose, locale, t }: Props) {
       {/* Backdrop */}
       {isOpen && (
         <div
-          className="fixed inset-0 z-40 bg-brand-dark/60 backdrop-blur-sm lg:hidden"
+          className="fixed inset-0 z-40 bg-brand-dark/60 backdrop-blur-sm xl:hidden"
           onClick={onClose}
           aria-hidden="true"
         />
@@ -56,7 +57,7 @@ export function MobileMenu({ isOpen, onClose, locale, t }: Props) {
         aria-modal="true"
         aria-label="Navigation menu"
         className={cn(
-          'fixed inset-y-0 z-50 w-80 max-w-[90vw] bg-white shadow-2xl lg:hidden',
+          'fixed inset-y-0 z-50 w-80 max-w-[90vw] bg-white shadow-2xl xl:hidden',
           'flex flex-col transition-transform duration-300 ease-in-out',
           locale === 'ar' ? 'left-0' : 'right-0',
           isOpen
@@ -80,13 +81,31 @@ export function MobileMenu({ isOpen, onClose, locale, t }: Props) {
         </div>
 
         {/* Nav Links — reuse Navigation in vertical mode */}
-        <div className="flex-1 overflow-y-auto px-4 py-4">
+        <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
           <Navigation
             locale={locale}
             t={t}
             orientation="vertical"
             onLinkClick={onClose}
           />
+          <div className="px-4 mt-6 mb-2">
+            <div className="flex items-center gap-6">
+              <Image
+                src="/images/cbahi-logo-transparent.png"
+                alt="CBAHI Accredited"
+                width={100}
+                height={40}
+                className="h-10 w-auto object-contain"
+              />
+              <Image
+                src="/images/24-7-logo-transparent.png"
+                alt="24/7 Service"
+                width={80}
+                height={40}
+                className="h-10 w-auto object-contain"
+              />
+            </div>
+          </div>
         </div>
 
         {/* Footer */}

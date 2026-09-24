@@ -19,13 +19,13 @@ export function Logo({ locale, variant = 'dark', size = 'md', type = 'icon', isT
     return (
       <Link
         href={getLocalizedPath('/', locale)}
-        className="flex items-center group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-medium rounded-lg"
+        className="flex items-center flex-shrink-0 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-medium rounded-lg"
         aria-label="Salamatek Medical Centre — Home"
       >
         <img
           src="/images/logo-official-transparent.png"
           alt="Salamatek Medical Center Company"
-          className={`h-12 sm:h-14 lg:h-16 w-auto object-contain transition-opacity duration-200 group-hover:opacity-90 ${!isDark ? 'brightness-0 invert' : ''}`}
+          className={`w-[180px] md:w-[210px] lg:w-[230px] xl:w-[240px] h-auto object-contain transition-all duration-300 group-hover:opacity-90${!isDark ? ' brightness-0 invert' : ''}`}
           style={isTransparent ? { filter: 'drop-shadow(0 1px 4px rgba(0,0,0,0.5))' } : undefined}
         />
       </Link>

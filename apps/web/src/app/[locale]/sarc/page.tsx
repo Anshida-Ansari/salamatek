@@ -132,7 +132,7 @@ export default async function SARCPage({ params }: Props) {
             {/* Right side image */}
             <div className="relative">
               <div className="relative rounded-[36px] overflow-hidden shadow-2xl h-[500px] md:h-[580px] lg:h-[620px] w-full bg-slate-800">
-                <Image src="/sarc/hero-team.jpg" alt="SARC Medical Team" fill className="object-cover object-center" priority />
+                <Image src="/images/sarc-hero-new.jpg" alt="SARC Medical Team" fill className="object-cover object-center" priority />
                 {/* subtle inner vignette */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
               </div>
@@ -148,7 +148,8 @@ export default async function SARCPage({ params }: Props) {
         </div>
       </section>
 
-      {/* ── 2. Services Grid ────────────────────────────────────── */}
+
+
       <section id="services" className="bg-white py-24 md:py-32">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-start mb-16">
@@ -209,7 +210,52 @@ export default async function SARCPage({ params }: Props) {
         </div>
       </section>
 
-      {/* ── 4. Prepared before site ─────────────────────────────── */}
+      {/* ── 3.5 SARC Capabilities ────────────────────────────────────── */}
+      <section className="bg-gradient-to-br from-[#712316] to-[#3B1408] py-24 md:py-32 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#E05522] opacity-10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#E05522] opacity-5 rounded-full blur-[80px]" />
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+
+          {/* Section header */}
+          <div className="max-w-2xl mb-16">
+            <p className="text-[#E05522] text-[11px] font-bold uppercase tracking-[0.2em] mb-4">What we do</p>
+            <h2 className="text-4xl md:text-5xl font-serif font-bold text-white leading-tight">
+              Full-spectrum care<br /><span className="italic text-[#E05522]">at every worksite.</span>
+            </h2>
+          </div>
+
+          {/* Cards grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+
+            {[
+              { title: 'Equipping Clinics', icon: '🏥', desc: 'Remote medical clinics set up at your worksite with the latest equipment. Our team fully manages and operates the clinic to international standards.' },
+              { title: 'Enhanced Worker Safety', icon: '🦺', desc: 'Immediate on-site access to medical attention for injuries and illnesses — minimizing project delays and keeping productivity high.' },
+              { title: 'Employee Health Services', icon: '❤️', desc: 'Customized health programs tailored to the construction industry that promote worker well-being and address underlying medical conditions.' },
+              { title: 'Follow-Up & Case Management', icon: '📋', desc: 'Our team works closely with off-site medical staff to ensure injured workers receive appropriate treatment and follow-up appointments.' },
+              { title: 'On-Site Services', icon: '⛑️', desc: 'Medical expertise delivered directly to your site, staffed by experienced professionals for immediate treatment of injuries and minor illnesses.' },
+              { title: 'Mobile Medical Services', icon: '🚑', desc: 'Flexible mobile units that bring essential medical services to any project location — wherever your construction site is located.' },
+            ].map(({ title, icon, desc }) => (
+              <div key={title} className="bg-white/5 border border-white/10 rounded-2xl p-7 hover:bg-white/10 transition-colors group">
+                <div className="text-3xl mb-5">{icon}</div>
+                <h3 className="text-lg font-bold text-white mb-3 group-hover:text-[#E05522] transition-colors">{title}</h3>
+                <p className="text-sm text-white/60 leading-relaxed">{desc}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Bottom call-out */}
+          <div className="mt-14 pt-10 border-t border-white/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+            <p className="text-white/70 text-base max-w-xl leading-relaxed">
+              Improved access to immediate care — SARC brings healthcare directly to the worksite, ensuring first aid response is always available where it matters most.
+            </p>
+            <a href="#enquire" className="flex-shrink-0 px-7 py-3.5 rounded-xl bg-[#E05522] text-white text-sm font-bold hover:bg-[#B8441A] transition-colors shadow-lg whitespace-nowrap">
+              Request a Proposal
+            </a>
+          </div>
+
+        </div>
+      </section>
+
       <section className="bg-white py-24 md:py-32 border-t border-slate-100">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 mb-16">
@@ -229,7 +275,7 @@ export default async function SARCPage({ params }: Props) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Left large image */}
             <div className="relative rounded-[2rem] overflow-hidden h-[400px] md:h-[600px] group">
-              <Image src="/sarc/training.jpg" alt="Clinical team preparation" fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+              <Image src="/images/sarc-clinic.jpg" alt="Clinical team preparation" fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
               <div className="absolute bottom-10 left-10 text-white z-10">
                 <h3 className="text-2xl font-serif font-bold mb-2">Clinical team preparation</h3>
@@ -249,7 +295,7 @@ export default async function SARCPage({ params }: Props) {
               </div>
               
               <div className="relative rounded-[2rem] overflow-hidden group">
-                <Image src="/sarc/clinical.jpg" alt="On-site clinical capability" fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+                <Image src="/images/sarc-field.jpg" alt="On-site clinical capability" fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                 <div className="absolute bottom-8 left-8 text-white z-10">
                   <h3 className="text-xl font-serif font-bold mb-1">On-site clinical capability</h3>

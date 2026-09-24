@@ -47,42 +47,55 @@ export function Header({ locale, t }: Props) {
         }`}
         role="banner"
       >
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8">
           <div className={`flex items-center justify-between transition-all duration-300 ${isScrolled ? 'h-16 lg:h-18' : 'h-20 lg:h-24'}`}>
 
             {/* Logo */}
             <Logo locale={locale} size="md" type="horizontal" isTransparent={isTransparent} />
 
             {/* Desktop Nav */}
-            <div className="hidden lg:flex items-center gap-6 flex-1 justify-center overflow-x-auto no-scrollbar">
+            <div className="hidden xl:flex items-center gap-2 xl:gap-4 flex-1 justify-center xl:justify-center">
               <Navigation locale={locale} t={t} isTransparent={isTransparent} />
             </div>
 
             {/* Desktop Right Actions */}
-            <div className="hidden lg:flex items-center gap-4 flex-shrink-0">
+            <div className="hidden xl:flex items-center gap-3 flex-shrink-0">
+
+              {/* Language Switcher — leftmost */}
               <LanguageSwitcher currentLocale={locale} isTransparent={isTransparent} />
+
+              {/* Divider */}
               <div
-                className={`h-5 w-px transition-colors duration-300 ${isTransparent ? 'bg-white/30' : 'bg-border'}`}
+                className={`h-5 w-px mx-1 transition-colors duration-300 ${isTransparent ? 'bg-white/30' : 'bg-border'}`}
                 aria-hidden="true"
               />
-              {/* CBAHI Accreditation Badge */}
-              <a
-                href="https://www.cbahi.gov.sa/"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="CBAHI — Saudi Central Board for Accreditation of Healthcare Institutions"
-                className="flex items-center transition-opacity duration-200 hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 rounded-sm"
-              >
+
+              {/* CBAHI Logo (not clickable) */}
+              <div className="flex items-center select-none">
                 <Image
                   src="/images/cbahi-logo-transparent.png"
                   alt="CBAHI Accredited"
                   width={80}
                   height={32}
-                  className="h-8 w-auto object-contain"
+                  className="w-16 lg:w-20 h-auto object-contain"
                   style={isTransparent ? { filter: 'drop-shadow(0 1px 4px rgba(0,0,0,0.5))' } : undefined}
                   priority={false}
                 />
-              </a>
+              </div>
+
+              {/* 24/7 Logo */}
+              <div className="flex items-center select-none">
+                <Image
+                  src="/images/24-7-logo-transparent.png"
+                  alt="24/7 Service"
+                  width={80}
+                  height={40}
+                  className="w-12 lg:w-16 h-auto object-contain"
+                  style={isTransparent ? { filter: 'drop-shadow(0 1px 4px rgba(0,0,0,0.5)) brightness(1.2)' } : undefined}
+                  priority={false}
+                />
+              </div>
+
             </div>
 
             {/* Mobile Hamburger */}
@@ -91,7 +104,7 @@ export function Header({ locale, t }: Props) {
               aria-label={t.nav.openMenu}
               aria-expanded={isMobileMenuOpen}
               aria-controls="mobile-menu"
-              className={`lg:hidden p-2 rounded-lg transition-colors ${
+              className={`xl:hidden p-2 rounded-lg transition-colors ${
                 isTransparent
                   ? 'text-white hover:bg-white/20'
                   : 'text-text-muted hover:text-text-base hover:bg-surface-mint'
