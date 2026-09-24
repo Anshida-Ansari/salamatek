@@ -13,6 +13,7 @@ const PAGE_KEYS = [
   { id: 'services',      label: 'Services Index' },
   { id: 'doctors',       label: 'Doctors Index' },
   { id: 'health-packages', label: 'Health Packages Index' },
+  { id: 'gallery',       label: 'Gallery Page' },
   { id: 'news',          label: 'News & Blog Index' },
   { id: 'careers',       label: 'Careers Index' },
   { id: 'contact',       label: 'Contact Us Page' },
