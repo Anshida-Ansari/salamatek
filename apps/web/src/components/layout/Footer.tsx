@@ -32,7 +32,7 @@ export function Footer({ locale, t }: Props) {
 
           {/* Column 1 — Brand */}
           <div className="sm:col-span-2 lg:col-span-1">
-            <Logo locale={locale} variant="light" size="md" type="horizontal" />
+            <Logo locale={locale} variant="dark" size="md" type="horizontal" />
             <p className="mt-4 text-sm text-white/70 leading-relaxed max-w-xs">
               {t.footer.tagline}
             </p>

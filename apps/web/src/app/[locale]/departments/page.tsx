@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { getTranslations } from '@/i18n';
 import { isValidLocale, type Locale } from '@/i18n/config';
 import { getLocalizedPath } from '@/lib/utils';
@@ -89,7 +90,7 @@ export default async function DepartmentsPage({ params }: Props) {
               >
                 {d.image ? (
                   <div className="w-full h-48 mb-5 rounded-xl overflow-hidden relative">
-                    <img src={d.image} alt={d.name[typedLocale] || d.name.en} className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300" />
+                    <Image src={d.image} alt={d.name[typedLocale] || d.name.en} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300" priority={true} />
                   </div>
                 ) : (
                   <div className="w-11 h-11 rounded-xl bg-brand-mint flex items-center justify-center text-brand-medium mb-5 group-hover:bg-brand-medium group-hover:text-white transition-colors duration-200">

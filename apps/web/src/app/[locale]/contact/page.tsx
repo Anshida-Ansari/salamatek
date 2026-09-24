@@ -7,7 +7,6 @@ import { PageHero } from '@/components/shared/PageHero';
 import { contactConfig } from '@/config/contact';
 import { MapPin, Phone, Mail } from 'lucide-react';
 import { ContactForm } from '@/components/forms/ContactForm';
-import { InsurancePartnersSection } from '@/components/shared/InsurancePartnersSection';
 
 type Props = { params: Promise<{ locale: string }> };
 
@@ -99,13 +98,10 @@ export default async function ContactPage({ params }: Props) {
         </div>
       </section>
 
-      {/* Insurance Providers Section */}
-      <InsurancePartnersSection variant="grid" isAr={isRtl} />
-
       {/* Google Maps Integration */}
       <section className="h-[500px] w-full relative">
         <iframe 
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d113659.63854973347!2d49.88210332822165!3d26.658605557762696!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e35e7df2dfcff79%3A0xc3b86940d99dc0ec!2sSalamatek%20Medical%20Group!5e0!3m2!1sen!2ssa!4v1714562473456!5m2!1sen!2ssa" 
+          src="https://maps.google.com/maps?q=Salamatek%20Medical%20Group,%20Safwa,%20Saudi%20Arabia&t=&z=14&ie=UTF8&iwloc=&output=embed"
           width="100%" 
           height="100%" 
           style={{ border: 0 }} 
