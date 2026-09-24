@@ -5,7 +5,7 @@ import type { Locale } from '@/i18n/config';
 import { getTranslations } from '@/i18n';
 import { PageHero } from '@/components/shared/PageHero';
 import { contactConfig } from '@/config/contact';
-import { MapPin, Phone, Mail, Clock } from 'lucide-react';
+import { MapPin, Phone, Mail } from 'lucide-react';
 import { ContactForm } from '@/components/forms/ContactForm';
 import { InsurancePartnersSection } from '@/components/shared/InsurancePartnersSection';
 
@@ -85,18 +85,6 @@ export default async function ContactPage({ params }: Props) {
                   <div>
                     <h4 className="font-bold text-gray-900">{isRtl ? 'البريد الإلكتروني' : 'Email'}</h4>
                     <p className="text-gray-600 mt-1">{contactConfig.email}</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-full bg-[#8E2829]/10 flex items-center justify-center flex-shrink-0 text-[#8E2829]">
-                    <Clock className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-gray-900">{isRtl ? 'ساعات العمل' : 'Working Hours'}</h4>
-                    <p className="text-gray-600 mt-1">
-                      {isRtl ? 'السبت - الخميس: 8 صباحاً - 10 مساءً' : 'Sat - Thu: 8:00 AM - 10:00 PM'}
-                    </p>
                   </div>
                 </div>
               </div>

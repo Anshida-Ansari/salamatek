@@ -149,12 +149,6 @@ export default async function CareersPage({ params }: Props) {
                   ? 'نقوم بتحديث الشواغر باستمرار. يمكنك إرسال سيرتك الذاتية وسنتواصل معك فور توفر فرصة تلائم خبراتك.' 
                   : 'We update our opportunities regularly. Feel free to submit an open application and we will get in touch when a matching role opens.'}
               </p>
-              <a
-                href={`mailto:careers@salamatek.com`}
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand text-white text-sm font-semibold hover:bg-brand-medium transition"
-              >
-                {isRtl ? 'إرسال سيرة ذاتية عامة' : 'Send General Application'}
-              </a>
             </div>
           ) : (
             <div className="space-y-4">
