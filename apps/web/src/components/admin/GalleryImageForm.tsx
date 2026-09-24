@@ -168,7 +168,6 @@ export default function GalleryImageForm({ imageId }: { imageId?: string }) {
             <ImageUpload
               value={formData.imageUrl}
               onChange={(url) => setFormData((prev) => ({ ...prev, imageUrl: url }))}
-              folder="gallery"
             />
           </div>
         </div>
