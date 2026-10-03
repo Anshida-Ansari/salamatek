@@ -33,17 +33,17 @@ export function HeroSection({ locale, t, heroImage }: Props) {
       <HeroCarouselBackground images={carouselImages} locale={locale} />
 
       {/* Content */}
-      <div className="relative z-10 mx-auto max-w-7xl w-full px-4 sm:px-6 lg:px-8 pb-0">
+      <div className="relative z-10 mx-auto max-w-[1600px] w-full px-4 sm:px-6 lg:px-8 xl:px-12 pb-0">
         <div className="max-w-2xl pt-32 pb-12">
           {/* Eyebrow */}
-          <p className="text-xs font-bold uppercase tracking-widest text-brand-light mb-5">
+          <p className="text-xs font-semibold uppercase tracking-widest text-[#6EE7A8] mb-5 drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]">
             {p.heroEyebrow}
           </p>
 
           {/* Main heading */}
-          <h1 className="text-4xl sm:text-5xl md:text-display-xl font-serif font-bold text-white leading-tight mb-4">
+          <h1 className="text-4xl sm:text-5xl md:text-display-xl font-serif font-bold text-white leading-tight mb-4 drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]">
             <span className="block">
-              <span className="text-5xl sm:text-6xl md:text-[5.5rem] text-brand-light font-bold me-3">
+              <span className="text-5xl sm:text-6xl md:text-[5.5rem] text-[#5FE3A1] font-bold me-3">
                 {/* @ts-ignore */}
                 {p.heroHeading1Num}
               </span>
@@ -54,12 +54,12 @@ export function HeroSection({ locale, t, heroImage }: Props) {
           </h1>
 
           {/* Sub-text */}
-          <p className="text-base sm:text-lg text-white/75 mb-8 max-w-lg leading-relaxed">
+          <p className="text-base sm:text-lg text-white/90 mb-8 max-w-lg leading-relaxed drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]">
             {p.heroSubtext}
           </p>
 
           {/* CTAs */}
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3 drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]">
             <a
               href={`https://wa.me/${contactConfig.whatsappNumber}`}
               target="_blank"
@@ -70,7 +70,7 @@ export function HeroSection({ locale, t, heroImage }: Props) {
             </a>
             <Link
               href={getLocalizedPath('/departments', locale)}
-              className="inline-flex items-center px-6 py-3 rounded-lg border border-white/30 text-white text-sm font-semibold hover:bg-white/10 hover:border-white/50 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+              className="inline-flex items-center px-6 py-3 rounded-lg bg-white/10 backdrop-blur-sm border border-white/60 text-white text-sm font-semibold hover:bg-white/20 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
             >
               {p.heroCtaSecondary}
             </Link>
@@ -78,36 +78,36 @@ export function HeroSection({ locale, t, heroImage }: Props) {
         </div>
 
         {/* Stats bar */}
-        <div className="border-t border-white/10 py-6 flex flex-wrap items-center gap-x-12 gap-y-4">
+        <div className="border-t border-white/10 py-6 flex flex-wrap items-center gap-x-12 gap-y-4 drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]">
           <div>
             <p className="text-xl sm:text-2xl font-bold font-serif text-white leading-none">
               {p.heroStat1Value}
             </p>
-            <p className="text-xs text-white/55 mt-1">{p.heroStat1Label}</p>
+            <p className="text-xs text-white/80 mt-1">{p.heroStat1Label}</p>
           </div>
           <div className="w-px h-8 bg-white/15 hidden sm:block" aria-hidden="true" />
           <div>
             <p className="text-xl sm:text-2xl font-bold font-serif text-white leading-none">
               {p.heroStat2Value}
             </p>
-            <p className="text-xs text-white/55 mt-1">{p.heroStat2Label}</p>
+            <p className="text-xs text-white/80 mt-1">{p.heroStat2Label}</p>
           </div>
           <div className="w-px h-8 bg-white/15 hidden sm:block" aria-hidden="true" />
           <div>
             <p className="text-xl sm:text-2xl font-bold font-serif text-white leading-none">
               {p.heroStat3Value}
             </p>
-            <p className="text-xs text-white/55 mt-1">{p.heroStat3Label}</p>
+            <p className="text-xs text-white/80 mt-1">{p.heroStat3Label}</p>
           </div>
 
           {/* Availability badge */}
-          <div className="ms-auto hidden md:flex items-center gap-2 text-sm text-white/70">
+          <div className="ms-auto hidden md:flex items-center gap-2 text-sm text-white/90">
             <span
               className="w-2 h-2 rounded-full bg-emerald-400 flex-shrink-0"
               aria-hidden="true"
             />
             <span>{p.heroAvailability}</span>
-            <span className="text-brand-light font-semibold">{p.heroChooseTime}</span>
+            <span className="text-[#6EE7A8] font-semibold underline underline-offset-4">{p.heroChooseTime}</span>
           </div>
         </div>
       </div>

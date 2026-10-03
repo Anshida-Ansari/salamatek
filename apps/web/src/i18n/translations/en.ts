@@ -20,6 +20,10 @@ export const en = {
     switchLanguage:  'العربية',
     openMenu:        'Open navigation menu',
     closeMenu:       'Close navigation menu',
+    aboutDropdownSalamatek: 'About Salamatek',
+    aboutDropdownChairman: 'Chairman\'s Message',
+    aboutDropdownMission: 'Mission & Vision',
+    aboutDropdownAccreditations: 'Accreditations & Certifications',
   },
   footer: {
     tagline:      'Complete family healthcare in Safwa, Eastern Province.',

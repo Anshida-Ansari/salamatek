@@ -22,6 +22,10 @@ export const ar: Translations = {
     switchLanguage:  'English',
     openMenu:        'فتح قائمة التنقل',
     closeMenu:       'إغلاق قائمة التنقل',
+    aboutDropdownSalamatek: 'عن سلامتك',
+    aboutDropdownChairman: 'رسالة رئيس مجلس الإدارة',
+    aboutDropdownMission: 'رسالتنا ورؤيتنا',
+    aboutDropdownAccreditations: 'الاعتمادات والشهادات',
   },
   footer: {
     tagline:      'رعاية صحية متكاملة للأسرة في صفوى، المنطقة الشرقية.',

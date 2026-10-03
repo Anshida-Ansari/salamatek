@@ -1,13 +1,11 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { isValidLocale } from '@/i18n/config';
 import type { Locale } from '@/i18n/config';
 import { getTranslations } from '@/i18n';
 import { getLocalizedPath } from '@/lib/utils';
 import { PageHero } from '@/components/shared/PageHero';
-import { CTASection } from '@/components/shared/CTASection';
 import {
   Quote,
   Target,
@@ -404,7 +402,7 @@ export default async function AboutPage({ params }: Props) {
 
 
       {/* ── 6. Accreditations & Certifications ────────────────────────────── */}
-      <section className="bg-white py-16 md:py-24 border-b border-border">
+      <section id="accreditations-heading" className="bg-white py-16 md:py-24 border-b border-border">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <span className="inline-block px-3.5 py-1 rounded-full bg-surface-mint text-brand-dark text-xs font-bold tracking-wider uppercase mb-3">
@@ -467,66 +465,7 @@ export default async function AboutPage({ params }: Props) {
         </div>
       </section>
 
-      {/* ── 8. Our Facilities & Journey ───────────────────────────────────── */}
-      <section
-        className="py-16 md:py-24 overflow-hidden text-white"
-        style={{ background: 'linear-gradient(135deg, #0C3528 0%, #1A6B4A 100%)' }}
-        aria-labelledby="history-heading"
-      >
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
-            {/* Image */}
-            <div className="lg:col-span-6 relative rounded-3xl overflow-hidden aspect-[4/3] w-full border border-white/20 shadow-2xl order-2 lg:order-1">
-              <Image
-                src="/images/hospital/reception.jpg"
-                alt={isAr ? 'مجمع سلامتك — الاستقبال' : 'Salamatek Medical Centre — reception area'}
-                fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover object-center"
-              />
-            </div>
 
-            {/* Text */}
-            <div className="lg:col-span-6 order-1 lg:order-2 space-y-6">
-              <span className="inline-block px-3.5 py-1 rounded-full bg-white/10 text-brand-light text-xs font-bold tracking-wider uppercase border border-white/15">
-                {pa.historyHeading}
-              </span>
-              <h2
-                id="history-heading"
-                className="text-2xl sm:text-3xl lg:text-4xl font-serif font-bold text-white leading-tight"
-              >
-                {isAr ? 'أربعة عقود من الرعاية المخلصة والتفوق الطبي' : 'Four Decades of Trusted Healing & Compassion'}
-              </h2>
-              <p className="text-sm sm:text-base text-white/80 leading-relaxed">
-                {pa.historyText}
-              </p>
-              <div className="pt-2 flex flex-wrap gap-4">
-                <Link
-                  href={getLocalizedPath('/departments', typedLocale)}
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white text-brand-dark font-bold text-sm shadow-md hover:bg-brand-pale transition-all"
-                >
-                  <span>{pa.ctaLink.replace('→', '').trim()}</span>
-                  <span className={isAr ? 'rotate-180' : ''}>→</span>
-                </Link>
-                <Link
-                  href={getLocalizedPath('/contact', typedLocale)}
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white/10 border border-white/20 text-white font-semibold text-sm hover:bg-white/20 transition-all"
-                >
-                  <span>{isAr ? 'تواصل معنا' : 'Contact Us'}</span>
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── 7. CTA ───────────────────────────────────────────────────────── */}
-      <CTASection
-        heading={pa.ctaHeading}
-        ctaLabel={pa.ctaBtn}
-        ctaHref={getLocalizedPath('/contact', typedLocale)}
-        variant="mint"
-      />
     </>
   );
 }

@@ -51,9 +51,9 @@ export function LanguageSwitcher({ currentLocale, variant = 'header', className,
     <button
       onClick={() => handleSwitch(otherLocale)}
       className={cn(
-        'text-sm font-medium transition-colors duration-150',
+        'text-[15px] font-medium transition-colors duration-150',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-medium rounded px-1',
-        isTransparent ? 'text-white/80 hover:text-white' : 'text-text-base hover:text-brand-dark',
+        isTransparent ? 'text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.6)] hover:text-white/80' : 'text-text-base hover:text-brand-dark',
         className,
       )}
       lang={otherLocale}

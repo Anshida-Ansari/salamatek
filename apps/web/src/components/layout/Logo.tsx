@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import type { Locale } from '@/i18n/config';
 import { getLocalizedPath } from '@/lib/utils';
 
@@ -19,14 +20,17 @@ export function Logo({ locale, variant = 'dark', size = 'md', type = 'icon', isT
     return (
       <Link
         href={getLocalizedPath('/', locale)}
-        className="flex items-center flex-shrink-0 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-medium rounded-lg"
+        className="flex items-center flex-shrink-0 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-medium rounded-lg transition-all duration-300"
         aria-label="Salamatek Medical Centre — Home"
       >
-        <img
-          src="/images/logo-official-transparent.png"
+        <Image
+          src="/images/salamatek-logo-transparent-bg.png"
           alt="Salamatek Medical Center Company"
-          className={`w-[180px] md:w-[210px] lg:w-[230px] xl:w-[240px] h-auto object-contain transition-all duration-300 group-hover:opacity-90${!isDark ? ' brightness-0 invert' : ''}`}
-          style={isTransparent ? { filter: 'drop-shadow(0 1px 4px rgba(0,0,0,0.5))' } : undefined}
+          width={794}
+          height={347}
+          className="h-10 md:h-11 lg:h-12 xl:h-16 w-auto object-contain transition-all duration-300 group-hover:opacity-95"
+          style={{ filter: isTransparent ? 'drop-shadow(0 2px 6px rgba(0,0,0,0.45))' : 'drop-shadow(0 1px 2px rgba(0,0,0,0.15))' }}
+          priority={true}
         />
       </Link>
     );

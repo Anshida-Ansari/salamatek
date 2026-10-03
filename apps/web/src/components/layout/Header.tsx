@@ -43,77 +43,86 @@ export function Header({ locale, t }: Props) {
 
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled ? 'bg-white border-b border-border shadow-card' : 'bg-transparent border-transparent'
+          isScrolled 
+            ? 'bg-white/95 backdrop-blur border-b border-border shadow-card' 
+            : 'border-transparent'
         }`}
-        role="banner"
       >
-        <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8">
-          <div className={`flex items-center justify-between transition-all duration-300 ${isScrolled ? 'h-16 lg:h-18' : 'h-20 lg:h-24'}`}>
+        {isTransparent && (
+          <div 
+            className="absolute top-0 left-0 right-0 h-[180px] bg-gradient-to-b from-black/65 to-transparent pointer-events-none -z-10"
+            aria-hidden="true"
+          />
+        )}
+        <div className="mx-auto max-w-[1600px] px-4 sm:px-6 lg:px-8 xl:px-12 relative z-10">
+          <div className="flex items-center justify-between h-20 transition-all duration-300">
 
-            {/* Logo */}
-            <Logo locale={locale} size="md" type="horizontal" isTransparent={isTransparent} />
+            {/* Left: Logo */}
+            <div className="flex-shrink-0 flex items-center">
+              <Logo locale={locale} size="md" type="horizontal" isTransparent={isTransparent} />
+            </div>
 
-            {/* Desktop Nav */}
-            <div className="hidden xl:flex items-center gap-2 xl:gap-4 flex-1 justify-center xl:justify-center">
+            {/* Center: Desktop Nav */}
+            <div className="hidden xl:flex flex-1 justify-center min-w-0 px-4">
               <Navigation locale={locale} t={t} isTransparent={isTransparent} />
             </div>
 
-            {/* Desktop Right Actions */}
-            <div className="hidden xl:flex items-center gap-3 flex-shrink-0">
+            {/* Right: Desktop Right Actions */}
+            <div className="hidden xl:flex items-center gap-4 flex-shrink-0">
 
-              {/* Language Switcher — leftmost */}
               <LanguageSwitcher currentLocale={locale} isTransparent={isTransparent} />
 
-              {/* Divider */}
               <div
-                className={`h-5 w-px mx-1 transition-colors duration-300 ${isTransparent ? 'bg-white/30' : 'bg-border'}`}
+                className={`h-5 w-px transition-colors duration-300 ${isTransparent ? 'bg-white/30' : 'bg-border'}`}
                 aria-hidden="true"
               />
 
-              {/* CBAHI Logo (not clickable) */}
-              <div className="flex items-center select-none">
+              {/* Accreditation Group */}
+              <div className="flex items-center gap-4 transition-all duration-300">
                 <Image
                   src="/images/cbahi-logo-transparent.png"
                   alt="CBAHI Accredited"
                   width={80}
                   height={32}
-                  className="w-16 lg:w-20 h-auto object-contain"
-                  style={isTransparent ? { filter: 'drop-shadow(0 1px 4px rgba(0,0,0,0.5))' } : undefined}
+                  className="h-7 xl:h-8 w-auto object-contain"
+                  style={{ filter: isTransparent ? 'drop-shadow(0 1px 3px rgba(0,0,0,0.6)) brightness(1.15)' : undefined }}
                   priority={false}
                 />
-              </div>
 
-              {/* 24/7 Logo */}
-              <div className="flex items-center select-none">
                 <Image
                   src="/images/24-7-logo-transparent.png"
                   alt="24/7 Service"
                   width={80}
                   height={40}
-                  className="w-12 lg:w-16 h-auto object-contain"
-                  style={isTransparent ? { filter: 'drop-shadow(0 1px 4px rgba(0,0,0,0.5)) brightness(1.2)' } : undefined}
+                  className="h-7 xl:h-8 w-auto object-contain"
+                  style={{ filter: isTransparent ? 'drop-shadow(0 1px 3px rgba(0,0,0,0.6)) brightness(1.15)' : undefined }}
                   priority={false}
                 />
               </div>
 
             </div>
 
-            {/* Mobile Hamburger */}
-            <button
-              onClick={openMenu}
-              aria-label={t.nav.openMenu}
-              aria-expanded={isMobileMenuOpen}
-              aria-controls="mobile-menu"
-              className={`xl:hidden p-2 rounded-lg transition-colors ${
-                isTransparent
-                  ? 'text-white hover:bg-white/20'
-                  : 'text-text-muted hover:text-text-base hover:bg-surface-mint'
-              }`}
-            >
-              <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </button>
+            {/* Mobile Actions */}
+            <div className="flex xl:hidden items-center gap-3">
+              <LanguageSwitcher currentLocale={locale} isTransparent={isTransparent} />
+
+              {/* Mobile Hamburger */}
+              <button
+                onClick={openMenu}
+                aria-label={t.nav.openMenu}
+                aria-expanded={isMobileMenuOpen}
+                aria-controls="mobile-menu"
+                className={`flex items-center justify-center w-11 h-11 min-w-[44px] min-h-[44px] rounded-lg transition-colors ${
+                  isTransparent
+                    ? 'text-white hover:bg-white/20'
+                    : 'text-text-muted hover:text-text-base hover:bg-surface-mint'
+                }`}
+              >
+                <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
       </header>
