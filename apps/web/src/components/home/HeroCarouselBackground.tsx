@@ -50,8 +50,7 @@ export default function HeroCarouselBackground({ images, locale }: Props) {
             priority={idx === 0}
             sizes="100vw"
             quality={90}
-            style={{ objectPosition: 'center center' }}
-            className={`object-cover transition-opacity duration-1000 ease-in-out ${
+            className={`object-cover object-center transition-opacity duration-1000 ease-in-out ${
               idx === currentIndex ? 'opacity-100' : 'opacity-0'
             }`}
           />
