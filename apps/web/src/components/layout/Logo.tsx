@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import type { Locale } from '@/i18n/config';
 import { getLocalizedPath } from '@/lib/utils';
 
