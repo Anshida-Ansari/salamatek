@@ -24,7 +24,7 @@ export function Logo({ locale, variant = 'dark', size = 'md', type = 'icon', isT
         aria-label="Salamatek Medical Centre — Home"
       >
         <Image
-          src="/images/salamatek-logo-transparent-bg.png"
+          src="/images/new-logo-transparent.png"
           alt="Salamatek Medical Center Company"
           width={794}
           height={347}

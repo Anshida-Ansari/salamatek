@@ -33,8 +33,8 @@ export function HeroSection({ locale, t, heroImage }: Props) {
       <HeroCarouselBackground images={carouselImages} locale={locale} />
 
       {/* Content */}
-      <div className="relative z-10 mx-auto max-w-[1600px] w-full px-4 sm:px-6 lg:px-8 xl:px-12 pb-0">
-        <div className="max-w-2xl pt-32 pb-12">
+      <div className="relative z-10 mx-auto max-w-[1600px] w-full px-4 sm:px-6 lg:px-8 xl:px-12 pb-0 pointer-events-none">
+        <div className="max-w-2xl pt-32 pb-12 pointer-events-auto">
           {/* Eyebrow */}
           <p className="text-xs font-semibold uppercase tracking-widest text-[#6EE7A8] mb-5 drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]">
             {p.heroEyebrow}
@@ -78,7 +78,7 @@ export function HeroSection({ locale, t, heroImage }: Props) {
         </div>
 
         {/* Stats bar */}
-        <div className="border-t border-white/10 py-6 flex flex-wrap items-center gap-x-12 gap-y-4 drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]">
+        <div className="border-t border-white/10 py-6 flex flex-wrap items-center gap-x-12 gap-y-4 drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)] pointer-events-auto">
           <div>
             <p className="text-xl sm:text-2xl font-bold font-serif text-white leading-none">
               {p.heroStat1Value}
