@@ -34,13 +34,13 @@ export function PromoPopup() {
         <div className="w-full md:w-[55%] p-8 md:p-12 flex flex-col justify-center relative z-10">
           
           {/* Logo */}
-          <div className="mb-8 relative flex items-center justify-start">
+          <div className="mb-6 relative flex items-center justify-start">
             <Image
-              src="/images/logo-official-transparent.png"
+              src="/images/promo-horizontal-logo.png"
               alt="Salamatek Logo"
-              width={140}
-              height={60}
-              className="object-contain"
+              width={220}
+              height={80}
+              className="object-contain mix-blend-multiply"
               priority
             />
           </div>
