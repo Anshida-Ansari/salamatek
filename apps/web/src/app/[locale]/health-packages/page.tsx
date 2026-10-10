@@ -41,7 +41,7 @@ export default async function HealthPackagesPage({ params }: Props) {
   const t = getTranslations(typedLocale);
   const p = t.pages.healthPackages;
   
-  const heroSetting = await getPageHero('packages');
+  const heroSetting = await getPageHero('health-packages');
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -50,7 +50,7 @@ export default async function HealthPackagesPage({ params }: Props) {
         badge="Health Packages"
         heading={heroSetting?.title?.[typedLocale] || p.title}
         subtext={heroSetting?.description?.[typedLocale] || p.description}
-        imageSrc={heroSetting?.imageUrl || '/images/hero-packages.jpg'}
+        imageSrc={heroSetting?.image || '/images/hero-packages.jpg'}
       />
 
       <section className="py-20 lg:py-32 relative bg-surface-mint/30 flex-1 flex items-center justify-center">

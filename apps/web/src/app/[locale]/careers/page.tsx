@@ -42,6 +42,18 @@ export default async function CareersPage({ params }: Props) {
   const isRtl = typedLocale === 'ar';
   const careers = await getCareers();
 
+  let careersHeroImage = '/images/hospital/exterior.jpg';
+  try {
+    const apiUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api';
+    const res = await fetch(`${apiUrl}/page-heroes/careers`, { next: { revalidate: 60 } });
+    if (res.ok) {
+      const json = await res.json();
+      if (json.data?.image) careersHeroImage = json.data.image as string;
+    }
+  } catch {
+    // keep fallback
+  }
+
   const benefits = [
     {
       icon: Award,
@@ -75,7 +87,7 @@ export default async function CareersPage({ params }: Props) {
         subtext={isRtl 
           ? 'نبحث دائماً عن الكوادر الطبية والتمريضية والإدارية المتميزة لتقديم رعاية صحية بمعايير عالمية في صفوى والمنطقة الشرقية.' 
           : 'We are always seeking passionate medical, nursing, and administrative professionals dedicated to raising healthcare standards in Safwa.'}
-        imageSrc="/images/hospital/exterior.jpg"
+        imageSrc={careersHeroImage}
         imageAlt="Salamatek Medical Centre"
         breadcrumbs={[
           { label: isRtl ? 'الرئيسية' : 'Home', href: `/${locale}` },
