@@ -17,9 +17,9 @@ export default function ImageUpload({ value, onChange, className = '' }: ImageUp
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Validate size (e.g. max 5MB)
-    if (file.size > 5 * 1024 * 1024) {
-      setError('Image must be less than 5MB');
+    // Validate size (e.g. max 20MB)
+    if (file.size > 20 * 1024 * 1024) {
+      setError('Image must be less than 20MB');
       return;
     }
 
@@ -93,7 +93,7 @@ export default function ImageUpload({ value, onChange, className = '' }: ImageUp
                 <UploadCloud className="w-5 h-5 text-brand-medium" />
               </div>
               <p className="text-sm font-medium">Click to upload an image</p>
-              <p className="text-xs text-gray-400">JPG, PNG, WebP up to 5MB</p>
+              <p className="text-xs text-gray-400">JPG, PNG, WebP up to 20MB</p>
             </div>
           )}
           <input
