@@ -3,8 +3,8 @@ import Image from 'next/image';
 
 export default function GlobalNotFound() {
   return (
-    <html lang="en">
-      <body className="bg-surface-light min-h-screen flex flex-col items-center justify-center font-sans antialiased">
+    <html lang="en" suppressHydrationWarning>
+      <body className="bg-surface-light min-h-screen flex flex-col items-center justify-center font-sans antialiased" suppressHydrationWarning>
         <div className="max-w-xl mx-auto px-6 py-16 text-center">
           {/* Logo */}
           <div className="flex justify-center mb-10">
