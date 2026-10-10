@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import Image from 'next/image';
 import type { Locale } from '@/i18n/config';
 import type { Translations } from '@/i18n';
@@ -16,21 +16,9 @@ type Props = {
 
 export function Header({ locale, t }: Props) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll);
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   const openMenu = useCallback((): void => setIsMobileMenuOpen(true), []);
   const closeMenu = useCallback((): void => setIsMobileMenuOpen(false), []);
-
-  const isTransparent = !isScrolled;
 
   return (
     <>
@@ -41,51 +29,38 @@ export function Header({ locale, t }: Props) {
         Skip to main content
       </a>
 
-      <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled 
-            ? 'bg-white/95 backdrop-blur border-b border-border shadow-card' 
-            : 'border-transparent'
-        }`}
-      >
-        {isTransparent && (
-          <div 
-            className="absolute top-0 left-0 right-0 h-[180px] bg-gradient-to-b from-black/65 to-transparent pointer-events-none -z-10"
-            aria-hidden="true"
-          />
-        )}
+      <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-border shadow-card">
         <div className="mx-auto max-w-[1600px] px-4 sm:px-6 lg:px-8 xl:px-12 relative z-10">
-          <div className="flex items-center justify-between h-20 transition-all duration-300">
+          <div className="flex items-center justify-between h-20">
 
             {/* Left: Logo */}
             <div className="flex-shrink-0 flex items-center">
-              <Logo locale={locale} size="md" type="horizontal" isTransparent={isTransparent} />
+              <Logo locale={locale} size="md" type="horizontal" isTransparent={false} />
             </div>
 
             {/* Center: Desktop Nav */}
             <div className="hidden xl:flex flex-1 justify-center min-w-0 px-4">
-              <Navigation locale={locale} t={t} isTransparent={isTransparent} />
+              <Navigation locale={locale} t={t} isTransparent={false} />
             </div>
 
             {/* Right: Desktop Right Actions */}
             <div className="hidden xl:flex items-center gap-4 flex-shrink-0">
 
-              <LanguageSwitcher currentLocale={locale} isTransparent={isTransparent} />
+              <LanguageSwitcher currentLocale={locale} isTransparent={false} />
 
               <div
-                className={`h-5 w-px transition-colors duration-300 ${isTransparent ? 'bg-white/30' : 'bg-border'}`}
+                className="h-5 w-px bg-border"
                 aria-hidden="true"
               />
 
               {/* Accreditation Group */}
-              <div className="flex items-center gap-4 transition-all duration-300">
+              <div className="flex items-center gap-4">
                 <Image
                   src="/images/cbahi-logo-transparent.png"
                   alt="CBAHI Accredited"
                   width={80}
                   height={32}
                   className="h-7 xl:h-8 w-auto object-contain"
-                  style={{ filter: isTransparent ? 'drop-shadow(0 1px 3px rgba(0,0,0,0.6)) brightness(1.15)' : undefined }}
                   priority={false}
                 />
 
@@ -95,7 +70,6 @@ export function Header({ locale, t }: Props) {
                   width={80}
                   height={40}
                   className="h-7 xl:h-8 w-auto object-contain"
-                  style={{ filter: isTransparent ? 'drop-shadow(0 1px 3px rgba(0,0,0,0.6)) brightness(1.15)' : undefined }}
                   priority={false}
                 />
               </div>
@@ -104,7 +78,7 @@ export function Header({ locale, t }: Props) {
 
             {/* Mobile Actions */}
             <div className="flex xl:hidden items-center gap-3">
-              <LanguageSwitcher currentLocale={locale} isTransparent={isTransparent} />
+              <LanguageSwitcher currentLocale={locale} isTransparent={false} />
 
               {/* Mobile Hamburger */}
               <button
@@ -112,11 +86,7 @@ export function Header({ locale, t }: Props) {
                 aria-label={t.nav.openMenu}
                 aria-expanded={isMobileMenuOpen}
                 aria-controls="mobile-menu"
-                className={`flex items-center justify-center w-11 h-11 min-w-[44px] min-h-[44px] rounded-lg transition-colors ${
-                  isTransparent
-                    ? 'text-white hover:bg-white/20'
-                    : 'text-text-muted hover:text-text-base hover:bg-surface-mint'
-                }`}
+                className="flex items-center justify-center w-11 h-11 min-w-[44px] min-h-[44px] rounded-lg transition-colors text-text-muted hover:text-text-base hover:bg-surface-mint"
               >
                 <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />

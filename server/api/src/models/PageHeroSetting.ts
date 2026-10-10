@@ -3,6 +3,7 @@ import mongoose, { Schema, Document } from 'mongoose';
 export interface IPageHeroSetting extends Document {
   pageKey: string;
   image?: string;
+  images?: string[];
   heading?: { en: string; ar: string };
   subtext?: { en: string; ar: string };
   updatedAt: Date;
@@ -17,6 +18,7 @@ const pageHeroSettingSchema = new Schema(
       trim: true,
     },
     image: { type: String },
+    images: [{ type: String }],
     heading: {
       en: { type: String },
       ar: { type: String },

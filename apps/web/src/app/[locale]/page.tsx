@@ -74,6 +74,22 @@ async function getTestimonials() {
   }
 }
 
+/** Fetch hero images array for the homepage carousel from CMS */
+async function getPageHeroImages(pageKey: string): Promise<string[]> {
+  try {
+    const apiUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api';
+    const res = await fetch(`${apiUrl}/page-heroes/${pageKey}`, { next: { revalidate: 60 } });
+    if (!res.ok) return [];
+    const json = await res.json();
+    // Prefer the `images` array; fall back to single `image` for backward compat
+    if (json.data?.images?.length) return json.data.images as string[];
+    if (json.data?.image) return [json.data.image as string];
+    return [];
+  } catch {
+    return [];
+  }
+}
+
 /** Fetch a single page-hero image from CMS */
 async function getPageHeroImage(pageKey: string): Promise<string | undefined> {
   try {
@@ -93,17 +109,17 @@ export default async function HomePage({ params }: Props) {
   const t = getTranslations(locale as Locale);
 
   // Fetch all data in parallel
-  const [depts, testimonials, heroImage, sarcImage] = await Promise.all([
+  const [depts, testimonials, heroImages, sarcImage] = await Promise.all([
     getDepartments(),
     getTestimonials(),
-    getPageHeroImage('home'),
+    getPageHeroImages('home'),
     getPageHeroImage('sarc'),
   ]);
 
   return (
     <>
-      {/* 1. Hero — dynamic image from CMS, falls back to local /images/hospital/exterior.jpg */}
-      <HeroSection locale={locale} t={t} heroImage={heroImage} />
+      {/* 1. Hero — dynamic images from CMS, falls back to local hospital images */}
+      <HeroSection locale={locale} t={t} heroImages={heroImages} />
 
       {/* 2. About / Welcome */}
       <AboutSection locale={locale} t={t} />

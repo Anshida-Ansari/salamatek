@@ -8,16 +8,16 @@ import HeroCarouselBackground from './HeroCarouselBackground';
 type Props = {
   locale: Locale;
   t: Translations;
-  /** Optional dynamic hero image URL from CMS — falls back to local exterior.jpg */
-  heroImage?: string | undefined;
+  /** Admin-managed carousel image URLs from CMS — falls back to local hospital images when empty */
+  heroImages?: string[];
 };
 
-export function HeroSection({ locale, t, heroImage }: Props) {
+export function HeroSection({ locale, t, heroImages }: Props) {
   const p = t.pages.home;
   
-  // Carousel images array. Use CMS provided heroImage if available, otherwise fallback to standard images.
-  const carouselImages = heroImage 
-    ? [heroImage] 
+  // Use admin-managed images if any are configured; otherwise fall back to local images.
+  const carouselImages = heroImages && heroImages.length > 0
+    ? heroImages
     : [
         '/images/hospital/exterior.jpg',
         '/images/hospital/reception.jpg',
@@ -27,14 +27,14 @@ export function HeroSection({ locale, t, heroImage }: Props) {
 
   return (
     <section
-      className="relative min-h-[92vh] flex flex-col justify-end overflow-hidden"
+      className="relative w-full h-[calc(100svh-5rem)] min-h-[600px] max-h-[850px] flex flex-col justify-end overflow-hidden"
       aria-label={locale === 'ar' ? 'البانر الرئيسي' : 'Hero banner'}
     >
       <HeroCarouselBackground images={carouselImages} locale={locale} />
 
       {/* Content */}
-      <div className="relative z-10 mx-auto max-w-[1600px] w-full px-4 sm:px-6 lg:px-8 xl:px-12 pb-0 pointer-events-none">
-        <div className="max-w-2xl pt-32 pb-12 pointer-events-auto">
+      <div className="relative z-10 mx-auto max-w-[1600px] w-full px-4 sm:px-6 lg:px-8 xl:px-12 pb-0 pointer-events-none mt-auto">
+        <div className="max-w-2xl pt-20 sm:pt-24 pb-8 sm:pb-12 pointer-events-auto">
           {/* Eyebrow */}
           <p className="text-xs font-semibold uppercase tracking-widest text-[#6EE7A8] mb-5 drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]">
             {p.heroEyebrow}
@@ -100,15 +100,7 @@ export function HeroSection({ locale, t, heroImage }: Props) {
             <p className="text-xs text-white/80 mt-1">{p.heroStat3Label}</p>
           </div>
 
-          {/* Availability badge */}
-          <div className="ms-auto hidden md:flex items-center gap-2 text-sm text-white/90">
-            <span
-              className="w-2 h-2 rounded-full bg-emerald-400 flex-shrink-0"
-              aria-hidden="true"
-            />
-            <span>{p.heroAvailability}</span>
-            <span className="text-[#6EE7A8] font-semibold underline underline-offset-4">{p.heroChooseTime}</span>
-          </div>
+
         </div>
       </div>
     </section>

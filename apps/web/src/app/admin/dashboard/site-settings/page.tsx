@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { fetchApi } from '@/lib/admin/api';
 import { useToast } from '@/components/admin/ToastProvider';
 import ImageUpload from '@/components/admin/ImageUpload';
-import { Loader2, Settings2, Save } from 'lucide-react';
+import { Loader2, Settings2, Save, Plus, Trash2 } from 'lucide-react';
 
 const PAGE_KEYS = [
   { id: 'home',          label: 'Home Hero (Landing Page)' },
@@ -26,9 +26,13 @@ export default function SiteSettingsPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
+  // Single-image pages use `image`; home uses `images` array for carousel
   const [formData, setFormData] = useState({
     image: '',
+    images: [] as string[],
   });
+
+  const isHomePage = selectedPage === 'home';
 
   const loadSettings = async (pageKey: string) => {
     setIsLoading(true);
@@ -37,9 +41,10 @@ export default function SiteSettingsPage() {
       if (res.data) {
         setFormData({
           image: res.data.image || '',
+          images: res.data.images || [],
         });
       } else {
-        setFormData({ image: '' });
+        setFormData({ image: '', images: [] });
       }
     } catch {
       toast('Failed to load settings', 'error');
@@ -56,11 +61,12 @@ export default function SiteSettingsPage() {
   const handleSave = async () => {
     setIsSaving(true);
     try {
+      const body = isHomePage
+        ? { images: formData.images }
+        : { image: formData.image };
       await fetchApi(`/api/page-heroes/${selectedPage}`, {
         method: 'PATCH',
-        body: JSON.stringify({
-          image: formData.image,
-        }),
+        body: JSON.stringify(body),
       });
       toast('Page settings updated successfully', 'success');
     } catch {
@@ -68,6 +74,25 @@ export default function SiteSettingsPage() {
     } finally {
       setIsSaving(false);
     }
+  };
+
+  // Home page: manage images array
+  const addCarouselImage = (url: string) => {
+    if (url) setFormData((prev) => ({ ...prev, images: [...prev.images, url] }));
+  };
+
+  const removeCarouselImage = (idx: number) => {
+    setFormData((prev) => ({
+      ...prev,
+      images: prev.images.filter((_, i) => i !== idx),
+    }));
+  };
+
+  const updateCarouselImage = (idx: number, url: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      images: prev.images.map((img, i) => (i === idx ? url : img)),
+    }));
   };
 
   return (
@@ -121,7 +146,54 @@ export default function SiteSettingsPage() {
             <div className="flex items-center justify-center h-64">
               <Loader2 className="w-8 h-8 animate-spin text-gray-300" />
             </div>
+          ) : isHomePage ? (
+            /* ── Home page: manage multiple carousel images ── */
+            <div className="space-y-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Carousel Images
+                </label>
+                <p className="text-xs text-gray-400 mb-4">
+                  Add one or more images for the homepage hero carousel. They rotate automatically. If none are set, the default local images are used.
+                </p>
+
+                {formData.images.map((img, idx) => (
+                  <div key={idx} className="mb-6 border border-border rounded-xl p-4 space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide">
+                        Image {idx + 1}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => removeCarouselImage(idx)}
+                        className="flex items-center gap-1 text-xs text-red-500 hover:text-red-700 font-medium transition"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                        Remove
+                      </button>
+                    </div>
+                    <ImageUpload
+                      value={img}
+                      onChange={(url) => updateCarouselImage(idx, url)}
+                    />
+                  </div>
+                ))}
+
+                {/* Add new slot */}
+                <div className="border border-dashed border-border rounded-xl p-4 space-y-3">
+                  <div className="flex items-center gap-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+                    <Plus className="w-3.5 h-3.5" />
+                    Add Image {formData.images.length + 1}
+                  </div>
+                  <ImageUpload
+                    value=""
+                    onChange={(url) => addCarouselImage(url)}
+                  />
+                </div>
+              </div>
+            </div>
           ) : (
+            /* ── All other pages: single hero image ── */
             <div className="space-y-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Hero Image</label>

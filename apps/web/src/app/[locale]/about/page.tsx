@@ -142,6 +142,19 @@ export default async function AboutPage({ params }: Props) {
   const certificates = isAr ? CERTIFICATES_AR : CERTIFICATES_EN;
   const awards = isAr ? AWARDS_AR : AWARDS_EN;
 
+  // Fetch admin-managed about hero image (falls back to local exterior.jpg)
+  let aboutHeroImage = '/images/hospital/exterior.jpg';
+  try {
+    const apiUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api';
+    const res = await fetch(`${apiUrl}/page-heroes/about`, { next: { revalidate: 60 } });
+    if (res.ok) {
+      const json = await res.json();
+      if (json.data?.image) aboutHeroImage = json.data.image as string;
+    }
+  } catch {
+    // keep fallback
+  }
+
   const breadcrumbs = [
     { label: isAr ? 'الرئيسية' : 'Home', href: getLocalizedPath('/', typedLocale) },
     { label: isAr ? 'من نحن' : 'About' },
@@ -163,7 +176,7 @@ export default async function AboutPage({ params }: Props) {
         heading={pa.heroHeading}
         subtext={pa.heroSubtext}
         breadcrumbs={breadcrumbs}
-        imageSrc="/images/hospital/exterior.jpg"
+        imageSrc={aboutHeroImage}
         imageAlt={isAr ? 'مجمع سلامتك الطبي' : 'Salamatek Medical Centre'}
       />
 
