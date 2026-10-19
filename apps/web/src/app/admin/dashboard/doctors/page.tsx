@@ -23,6 +23,7 @@ interface Doctor {
   designation?: { en: string };
   departmentId?: { name?: { en: string } };
   experienceYears?: number;
+  nationality?: { en?: string; ar?: string };
   active: boolean;
   image?: string;
 }
@@ -242,6 +243,7 @@ export default function DoctorsPage() {
                             <p className="font-semibold text-gray-900 truncate">{doctor.name.en}</p>
                             <p className="text-xs text-gray-500 truncate">
                               {doctor.designation?.en || 'No designation'}
+                              {doctor.nationality?.en ? ` • ${doctor.nationality.en}` : ''}
                             </p>
                           </div>
                         </div>

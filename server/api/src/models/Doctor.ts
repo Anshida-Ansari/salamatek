@@ -11,6 +11,9 @@ export interface IDoctor extends Document {
   languages?: { en: string[]; ar: string[] };
   bio?: { en: string; ar: string };
   image?: string;
+  nationality?: { en: string; ar: string };
+  clinicalDuties?: { en: string; ar: string };
+  remarks?: { en: string; ar: string };
   active: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -52,6 +55,18 @@ const doctorSchema = new Schema(
       ar: [{ type: String }],
     },
     bio: {
+      en: { type: String },
+      ar: { type: String },
+    },
+    nationality: {
+      en: { type: String },
+      ar: { type: String },
+    },
+    clinicalDuties: {
+      en: { type: String },
+      ar: { type: String },
+    },
+    remarks: {
       en: { type: String },
       ar: { type: String },
     },

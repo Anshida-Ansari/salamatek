@@ -74,6 +74,10 @@ export default async function ServiceDetailPage({ params }: Props) {
   const name = service.name[typedLocale] || service.name.en;
   const desc = service.description?.[typedLocale] || service.description?.en || '';
 
+  const categoryName = service.categoryId?.name
+    ? (service.categoryId.name[typedLocale] || service.categoryId.name.en)
+    : (isAr ? 'الخدمات الطبية' : 'Medical Services');
+
   const breadcrumbs = [
     { label: isAr ? 'الرئيسية' : 'Home', href: getLocalizedPath('/', typedLocale) },
     { label: isAr ? 'الخدمات' : 'Services', href: getLocalizedPath('/services', typedLocale) },
@@ -84,7 +88,7 @@ export default async function ServiceDetailPage({ params }: Props) {
     <>
       <PageHero
         locale={typedLocale}
-        badge={isAr ? 'الخدمات الطبية' : 'Medical Services'}
+        badge={categoryName}
         heading={name}
         subtext={desc}
         breadcrumbs={breadcrumbs}
@@ -94,15 +98,46 @@ export default async function ServiceDetailPage({ params }: Props) {
       <section className="bg-white py-14 md:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto">
+            <div className="flex flex-wrap items-center gap-3 mb-6">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                {categoryName}
+              </span>
+              {service.associatedOrganizations && service.associatedOrganizations.length > 0 && (
+                <span className="text-xs text-text-muted">
+                  {isAr ? '• جهات معتمدة' : '• Approved Organizations'}
+                </span>
+              )}
+            </div>
+
             <h2 className="text-2xl font-serif font-bold text-text-base mb-6">
               {isAr ? 'حول هذه الخدمة' : 'About this service'}
             </h2>
             <div className="prose prose-brand max-w-none text-text-muted">
-              <p>{desc}</p>
-              <p className="mt-4 italic text-sm">
-                {t.common.placeholder}
-              </p>
+              <p className="text-base leading-relaxed text-text-muted whitespace-pre-line">{desc}</p>
             </div>
+
+            {service.associatedOrganizations && service.associatedOrganizations.length > 0 && (
+              <div className="mt-8 p-6 bg-surface-mint rounded-2xl border border-emerald-100">
+                <h3 className="text-sm font-bold uppercase tracking-wider text-emerald-900 mb-3">
+                  {isAr ? 'الجهات والشركات المعتمدة' : 'Accredited & Recognized Corporate Entities'}
+                </h3>
+                <p className="text-xs text-text-muted mb-4">
+                  {isAr
+                    ? 'يتم إصدار الفحوصات والتقارير الطبية بما يطابق اشتراطات واعتمادات الجهات التالية:'
+                    : 'Medical reports and fitness assessments are issued in strict compliance with requirements of:'}
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {service.associatedOrganizations.map((org: string) => (
+                    <span
+                      key={org}
+                      className="px-3 py-1 rounded-lg bg-white border border-emerald-200 text-xs font-bold text-emerald-800 shadow-xs"
+                    >
+                      {org}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </section>

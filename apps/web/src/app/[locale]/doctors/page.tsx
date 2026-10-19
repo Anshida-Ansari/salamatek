@@ -122,7 +122,12 @@ export default async function DoctorsPage({ params }: Props) {
                       </p>
                     )}
                     
-                    <div className="mt-auto pt-2">
+                    <div className="mt-auto pt-2 flex flex-wrap items-center justify-center gap-2">
+                      {doc.nationality && (doc.nationality[typedLocale] || doc.nationality.en) ? (
+                        <div className="inline-flex items-center px-2.5 py-0.5 bg-gray-100 rounded-full text-text-muted font-medium text-xs">
+                          {doc.nationality[typedLocale] || doc.nationality.en}
+                        </div>
+                      ) : null}
                       {doc.experienceYears ? (
                         <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-mint rounded-full text-brand-dark font-bold text-sm border border-brand-pale/30">
                           <svg className="w-4 h-4 text-brand" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -130,9 +135,7 @@ export default async function DoctorsPage({ params }: Props) {
                           </svg>
                           <span>{doc.experienceYears}+ {typedLocale === 'ar' ? 'سنوات خبرة' : 'Years Experience'}</span>
                         </div>
-                      ) : (
-                        <div className="h-[30px]"></div>
-                      )}
+                      ) : null}
                     </div>
                   </div>
                 </Link>

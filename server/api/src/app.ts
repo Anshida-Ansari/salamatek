@@ -4,6 +4,7 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import rateLimit from 'express-rate-limit';
 import departmentRoutes from './routes/department.routes';
+import serviceCategoryRoutes from './routes/serviceCategory.routes';
 import serviceRoutes from './routes/service.routes';
 import doctorRoutes from './routes/doctor.routes';
 import authRoutes from './routes/auth.routes';
@@ -77,6 +78,7 @@ export function createApp(): Application {
   // ─── Routes ──────────────────────────────────────────────────────────────
   app.use('/api/auth', authRoutes);
   app.use('/api/departments', apiLimiter, departmentRoutes);
+  app.use('/api/service-categories', apiLimiter, serviceCategoryRoutes);
   app.use('/api/services', apiLimiter, serviceRoutes);
   app.use('/api/doctors', apiLimiter, doctorRoutes);
   app.use('/api/health-packages', apiLimiter, healthPackageRoutes);

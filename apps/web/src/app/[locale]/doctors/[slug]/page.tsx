@@ -71,6 +71,9 @@ export default async function DoctorDetailPage({ params }: Props) {
   const specialization = doc.specialization?.[typedLocale] || doc.specialization?.en;
   const qualification = doc.qualification?.[typedLocale] || doc.qualification?.en;
   const languages = doc.languages?.[typedLocale] || doc.languages?.en || [];
+  const nationality = doc.nationality?.[typedLocale] || doc.nationality?.en;
+  const clinicalDuties = doc.clinicalDuties?.[typedLocale] || doc.clinicalDuties?.en;
+  const remarks = doc.remarks?.[typedLocale] || doc.remarks?.en;
 
   const breadcrumbs = [
     { label: isAr ? 'الرئيسية' : 'Home', href: getLocalizedPath('/', typedLocale) },
@@ -142,6 +145,17 @@ export default async function DoctorDetailPage({ params }: Props) {
                       </p>
                     </div>
                   )}
+
+                  {nationality && (
+                    <div>
+                      <p className="text-xs font-bold uppercase tracking-widest text-text-subtle mb-1">
+                        {isAr ? 'الجنسية' : 'Nationality'}
+                      </p>
+                      <p className="text-brand-dark font-medium">
+                        {nationality}
+                      </p>
+                    </div>
+                  )}
                   
                   {languages.length > 0 && (
                     <div>
@@ -176,6 +190,30 @@ export default async function DoctorDetailPage({ params }: Props) {
                     </div>
                   )}
                 </div>
+
+                {/* Clinical Duties & Common Conditions */}
+                {clinicalDuties && (
+                  <div className="mb-8">
+                    <p className="text-xs font-bold uppercase tracking-widest text-text-subtle mb-3">
+                      {isAr ? 'المهام السريرية والحالات الشائعة' : 'Clinical Duties & Common Conditions'}
+                    </p>
+                    <div className="text-text-muted leading-relaxed whitespace-pre-line text-sm sm:text-base bg-surface-light/70 p-5 rounded-2xl border border-border/60">
+                      {clinicalDuties}
+                    </div>
+                  </div>
+                )}
+
+                {/* Remarks & Key Responsibilities */}
+                {remarks && (
+                  <div className="mb-8">
+                    <p className="text-xs font-bold uppercase tracking-widest text-text-subtle mb-3">
+                      {isAr ? 'ملاحظات ومسؤوليات إضافية' : 'Key Responsibilities & Remarks'}
+                    </p>
+                    <div className="text-text-muted leading-relaxed whitespace-pre-line text-sm sm:text-base bg-surface-mint/30 p-5 rounded-2xl border border-brand-pale/40">
+                      {remarks}
+                    </div>
+                  </div>
+                )}
 
                 {bio && (
                   <div className="mt-auto">

@@ -23,6 +23,7 @@ import {
   Home,
   MessageSquare,
   Image as ImageIcon,
+  Layers,
 } from 'lucide-react';
 
 interface NavItem {
@@ -38,6 +39,7 @@ const segmentLabels: Record<string, string> = {
   doctors:                'Doctors',
   departments:            'Departments',
   services:               'Services',
+  'service-categories':   'Service Categories',
   'health-packages':      'Packages & Offers',
   careers:                'Careers',
   news:                   'News & Blog',
@@ -55,6 +57,7 @@ const navigation: NavItem[] = [
   { name: 'Doctors', href: '/admin/dashboard/doctors', icon: Users },
   { name: 'Departments', href: '/admin/dashboard/departments', icon: Building2 },
   { name: 'Services', href: '/admin/dashboard/services', icon: Stethoscope },
+  { name: 'Service Categories', href: '/admin/dashboard/service-categories', icon: Layers },
   { name: 'Packages & Offers', href: '/admin/dashboard/health-packages', icon: Package },
   { name: 'Careers', href: '/admin/dashboard/careers', icon: Briefcase },
   { name: 'News & Blog', href: '/admin/dashboard/news', icon: FileText },

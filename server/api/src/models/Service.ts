@@ -3,9 +3,12 @@ import mongoose, { Schema, Document, Types } from 'mongoose';
 export interface IService extends Document {
   name: { en: string; ar: string };
   slug: string;
+  categoryId?: Types.ObjectId;
   description?: { en: string; ar: string };
   image?: string;
+  associatedOrganizations?: string[];
   departmentId?: Types.ObjectId;
+  order?: number;
   active: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -24,15 +27,21 @@ const serviceSchema = new Schema(
       lowercase: true,
       trim: true,
     },
+    categoryId: {
+      type: Schema.Types.ObjectId,
+      ref: 'ServiceCategory',
+    },
     description: {
       en: { type: String },
       ar: { type: String },
     },
     image: { type: String },
+    associatedOrganizations: [{ type: String }],
     departmentId: {
       type: Schema.Types.ObjectId,
       ref: 'Department',
     },
+    order: { type: Number, default: 0 },
     active: { type: Boolean, default: true },
   },
   { timestamps: true }
@@ -40,6 +49,8 @@ const serviceSchema = new Schema(
 
 // Indexes
 serviceSchema.index({ active: 1 });
+serviceSchema.index({ categoryId: 1 });
 serviceSchema.index({ departmentId: 1 });
+serviceSchema.index({ order: 1 });
 
 export const Service = mongoose.model<IService>('Service', serviceSchema);

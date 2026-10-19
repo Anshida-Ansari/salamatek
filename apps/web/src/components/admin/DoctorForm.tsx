@@ -25,6 +25,12 @@ interface FormState {
   qualificationEn: string;
   qualificationAr: string;
   experienceYears: string;
+  nationalityEn: string;
+  nationalityAr: string;
+  clinicalDutiesEn: string;
+  clinicalDutiesAr: string;
+  remarksEn: string;
+  remarksAr: string;
   languagesEn: string;
   languagesAr: string;
   bioEn: string;
@@ -45,6 +51,12 @@ const emptyForm: FormState = {
   qualificationEn: '',
   qualificationAr: '',
   experienceYears: '',
+  nationalityEn: '',
+  nationalityAr: '',
+  clinicalDutiesEn: '',
+  clinicalDutiesAr: '',
+  remarksEn: '',
+  remarksAr: '',
   languagesEn: '',
   languagesAr: '',
   bioEn: '',
@@ -83,6 +95,12 @@ export default function DoctorForm({ doctorId }: { doctorId?: string }) {
             qualificationEn: d.qualification?.en ?? '',
             qualificationAr: d.qualification?.ar ?? '',
             experienceYears: d.experienceYears?.toString() ?? '',
+            nationalityEn: d.nationality?.en ?? '',
+            nationalityAr: d.nationality?.ar ?? '',
+            clinicalDutiesEn: d.clinicalDuties?.en ?? '',
+            clinicalDutiesAr: d.clinicalDuties?.ar ?? '',
+            remarksEn: d.remarks?.en ?? '',
+            remarksAr: d.remarks?.ar ?? '',
             languagesEn: d.languages?.en?.join(', ') ?? '',
             languagesAr: d.languages?.ar?.join(', ') ?? '',
             bioEn: d.bio?.en ?? '',
@@ -114,13 +132,26 @@ export default function DoctorForm({ doctorId }: { doctorId?: string }) {
   const handleTranslate = async () => {
     setIsTranslating(true);
     try {
-      const [nameAr, designationAr, specializationAr, qualificationAr, bioAr, languagesAr] = await Promise.all([
+      const [
+        nameAr,
+        designationAr,
+        specializationAr,
+        qualificationAr,
+        bioAr,
+        languagesAr,
+        nationalityAr,
+        clinicalDutiesAr,
+        remarksAr,
+      ] = await Promise.all([
         translateText(formData.nameEn),
         translateText(formData.designationEn),
         translateText(formData.specializationEn),
         translateText(formData.qualificationEn),
         translateText(formData.bioEn),
-        translateText(formData.languagesEn)
+        translateText(formData.languagesEn),
+        formData.nationalityEn ? translateText(formData.nationalityEn) : Promise.resolve(''),
+        formData.clinicalDutiesEn ? translateText(formData.clinicalDutiesEn) : Promise.resolve(''),
+        formData.remarksEn ? translateText(formData.remarksEn) : Promise.resolve(''),
       ]);
 
       setFormData(prev => ({
@@ -130,7 +161,10 @@ export default function DoctorForm({ doctorId }: { doctorId?: string }) {
         specializationAr,
         qualificationAr,
         bioAr,
-        languagesAr
+        languagesAr,
+        nationalityAr: nationalityAr || prev.nationalityAr,
+        clinicalDutiesAr: clinicalDutiesAr || prev.clinicalDutiesAr,
+        remarksAr: remarksAr || prev.remarksAr,
       }));
       toast('Translation completed successfully.', 'success');
     } catch (error) {
@@ -157,6 +191,15 @@ export default function DoctorForm({ doctorId }: { doctorId?: string }) {
       specialization: { en: formData.specializationEn, ar: formData.specializationAr },
       qualification: { en: formData.qualificationEn, ar: formData.qualificationAr },
       experienceYears: formData.experienceYears ? Number(formData.experienceYears) : undefined,
+      nationality: (formData.nationalityEn || formData.nationalityAr)
+        ? { en: formData.nationalityEn, ar: formData.nationalityAr }
+        : undefined,
+      clinicalDuties: (formData.clinicalDutiesEn || formData.clinicalDutiesAr)
+        ? { en: formData.clinicalDutiesEn, ar: formData.clinicalDutiesAr }
+        : undefined,
+      remarks: (formData.remarksEn || formData.remarksAr)
+        ? { en: formData.remarksEn, ar: formData.remarksAr }
+        : undefined,
       languages: {
         en: formData.languagesEn
           .split(',')
@@ -370,6 +413,30 @@ export default function DoctorForm({ doctorId }: { doctorId?: string }) {
           </div>
 
           <div>
+            <label className={labelClass}>English Nationality</label>
+            <input
+              type="text"
+              name="nationalityEn"
+              value={formData.nationalityEn}
+              onChange={handleChange}
+              placeholder="e.g. Egypt, Saudi Arabia, India"
+              className={inputClass}
+            />
+          </div>
+          <div>
+            <label className={`${labelClass} text-right`} dir="rtl">الجنسية بالعربية</label>
+            <input
+              type="text"
+              name="nationalityAr"
+              value={formData.nationalityAr}
+              onChange={handleChange}
+              dir="rtl"
+              placeholder="مثال: مصر، المملكة العربية السعودية"
+              className={`${inputClass} text-right`}
+            />
+          </div>
+
+          <div className="sm:col-span-2">
             <label className={labelClass}>Experience (Years)</label>
             <input
               type="number"
@@ -380,6 +447,82 @@ export default function DoctorForm({ doctorId }: { doctorId?: string }) {
               max="60"
               placeholder="e.g. 15"
               className={inputClass}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Clinical Duties & Common Conditions */}
+      <div className={sectionClass}>
+        <div className="flex items-center justify-between pb-1 border-b border-gray-100">
+          <div>
+            <h3 className="text-base font-semibold text-gray-900">Clinical Duties & Common Conditions</h3>
+            <p className="text-xs text-text-muted mt-0.5">
+              List clinical duties, procedures, and conditions treated. Supports multi-line bullet points.
+            </p>
+          </div>
+          <span className="text-xs text-brand font-medium">Optional</span>
+        </div>
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+          <div>
+            <label className={labelClass}>Clinical Duties (English)</label>
+            <textarea
+              name="clinicalDutiesEn"
+              rows={6}
+              value={formData.clinicalDutiesEn}
+              onChange={handleChange}
+              placeholder="• Laboratory Testing&#10;  - Receive, identify and process patient specimens&#10;• Hematology&#10;  - Perform CBC and routine hematology investigations"
+              className={`${inputClass} resize-y`}
+            />
+          </div>
+          <div>
+            <label className={`${labelClass} text-right`} dir="rtl">المهام السريرية والحالات الشائعة (عربي)</label>
+            <textarea
+              name="clinicalDutiesAr"
+              rows={6}
+              value={formData.clinicalDutiesAr}
+              onChange={handleChange}
+              dir="rtl"
+              placeholder="• الفحوصات المخبرية&#10;  - استلام وفحص عينات المرضى&#10;• أمراض الدم"
+              className={`${inputClass} resize-y text-right`}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Remarks & Key Responsibilities */}
+      <div className={sectionClass}>
+        <div className="flex items-center justify-between pb-1 border-b border-gray-100">
+          <div>
+            <h3 className="text-base font-semibold text-gray-900">Remarks & Key Responsibilities</h3>
+            <p className="text-xs text-text-muted mt-0.5">
+              Supervisory duties, operational oversight, or special clinical remarks.
+            </p>
+          </div>
+          <span className="text-xs text-brand font-medium">Optional</span>
+        </div>
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+          <div>
+            <label className={labelClass}>Remarks (English)</label>
+            <textarea
+              name="remarksEn"
+              rows={4}
+              value={formData.remarksEn}
+              onChange={handleChange}
+              placeholder="e.g. Oversees daily laboratory operations, ensures quality control and regulatory compliance..."
+              className={`${inputClass} resize-y`}
+            />
+          </div>
+          <div>
+            <label className={`${labelClass} text-right`} dir="rtl">ملاحظات ومسؤوليات إضافية (عربي)</label>
+            <textarea
+              name="remarksAr"
+              rows={4}
+              value={formData.remarksAr}
+              onChange={handleChange}
+              dir="rtl"
+              placeholder="مثال: الإشراف على العمليات اليومية للمختبر وضمان الجودة والامتثال التنظيمي..."
+              className={`${inputClass} resize-y text-right`}
             />
           </div>
         </div>

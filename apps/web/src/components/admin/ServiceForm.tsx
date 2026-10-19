@@ -13,13 +13,21 @@ interface Department {
   name: { en: string };
 }
 
+interface ServiceCategory {
+  _id: string;
+  name: { en: string; ar?: string };
+}
+
 interface FormState {
   nameEn: string;
   nameAr: string;
   slug: string;
+  categoryId: string;
   descriptionEn: string;
   descriptionAr: string;
+  associatedOrganizations: string;
   departmentId: string;
+  order: string;
   image: string;
   active: boolean;
 }
@@ -28,9 +36,12 @@ const emptyForm: FormState = {
   nameEn: '',
   nameAr: '',
   slug: '',
+  categoryId: '',
   descriptionEn: '',
   descriptionAr: '',
+  associatedOrganizations: '',
   departmentId: '',
+  order: '0',
   image: '',
   active: true,
 };
@@ -39,6 +50,7 @@ export default function ServiceForm({ serviceId }: { serviceId?: string }) {
   const router = useRouter();
   const { toast } = useToast();
   const [departments, setDepartments] = useState<Department[]>([]);
+  const [categories, setCategories] = useState<ServiceCategory[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isFetching, setIsFetching] = useState(!!serviceId);
   const [isTranslating, setIsTranslating] = useState(false);
@@ -47,8 +59,12 @@ export default function ServiceForm({ serviceId }: { serviceId?: string }) {
   useEffect(() => {
     async function loadData() {
       try {
-        const depsRes = await fetchApi('/api/departments?limit=100&active=true');
+        const [depsRes, catsRes] = await Promise.all([
+          fetchApi('/api/departments?limit=100&active=true'),
+          fetchApi('/api/service-categories?limit=100&active=true'),
+        ]);
         setDepartments(depsRes.data ?? []);
+        setCategories(catsRes.data ?? []);
 
         if (serviceId) {
           const res = await fetchApi(`/api/services/${serviceId}`);
@@ -57,9 +73,14 @@ export default function ServiceForm({ serviceId }: { serviceId?: string }) {
             nameEn: d.name?.en ?? '',
             nameAr: d.name?.ar ?? '',
             slug: d.slug ?? '',
+            categoryId: d.categoryId?._id ?? d.categoryId ?? '',
             descriptionEn: d.description?.en ?? '',
             descriptionAr: d.description?.ar ?? '',
+            associatedOrganizations: Array.isArray(d.associatedOrganizations)
+              ? d.associatedOrganizations.join(', ')
+              : '',
             departmentId: d.departmentId?._id ?? d.departmentId ?? '',
+            order: d.order ? d.order.toString() : '0',
             image: d.image ?? '',
             active: d.active !== false,
           });
@@ -116,8 +137,16 @@ export default function ServiceForm({ serviceId }: { serviceId?: string }) {
           .toLowerCase()
           .replace(/[^a-z0-9]+/g, '-')
           .replace(/^-|-$/g, ''),
+      categoryId: formData.categoryId || undefined,
       description: { en: formData.descriptionEn, ar: formData.descriptionAr },
+      associatedOrganizations: formData.associatedOrganizations
+        ? formData.associatedOrganizations
+            .split(',')
+            .map((s) => s.trim())
+            .filter(Boolean)
+        : [],
       departmentId: formData.departmentId || undefined,
+      order: formData.order ? Number(formData.order) : 0,
       image: formData.image || undefined,
       active: formData.active,
     };
@@ -225,7 +254,34 @@ export default function ServiceForm({ serviceId }: { serviceId?: string }) {
           </div>
 
           <div>
-            <label className={labelClass}>Department</label>
+            <div className="flex items-center justify-between mb-1.5">
+              <label className="text-sm font-semibold text-text-base">Service Category</label>
+              <a
+                href="/admin/dashboard/service-categories"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs text-brand hover:underline font-medium"
+              >
+                + Manage Categories
+              </a>
+            </div>
+            <select
+              name="categoryId"
+              value={formData.categoryId}
+              onChange={handleChange}
+              className={inputClass}
+            >
+              <option value="">— Select Category —</option>
+              {categories.map((cat) => (
+                <option key={cat._id} value={cat._id}>
+                  {cat.name.en} {cat.name.ar ? `(${cat.name.ar})` : ''}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label className={labelClass}>Department (Optional)</label>
             <select
               name="departmentId"
               value={formData.departmentId}
@@ -240,6 +296,45 @@ export default function ServiceForm({ serviceId }: { serviceId?: string }) {
               ))}
             </select>
           </div>
+
+          <div>
+            <label className={labelClass}>Display Order</label>
+            <input
+              type="number"
+              name="order"
+              min="0"
+              value={formData.order}
+              onChange={handleChange}
+              placeholder="0"
+              className={inputClass}
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className={sectionClass}>
+        <div className="flex items-center justify-between pb-1 border-b border-gray-100">
+          <div>
+            <h3 className="text-base font-semibold text-gray-900">Associated Organizations & Corporate Clients</h3>
+            <p className="text-xs text-text-muted mt-0.5">
+              Approved industrial companies or corporate partners (comma-separated).
+            </p>
+          </div>
+          <span className="text-xs text-brand font-medium">Optional</span>
+        </div>
+        <div>
+          <label className={labelClass}>Associated Organizations</label>
+          <input
+            type="text"
+            name="associatedOrganizations"
+            value={formData.associatedOrganizations}
+            onChange={handleChange}
+            placeholder="e.g. ARAMCO, SABIC, SAIPEM, SADARA, PETRORABIGH, SAMSUNG"
+            className={inputClass}
+          />
+          <p className="text-xs text-gray-400 mt-1.5">
+            Separate multiple companies with commas. These display as verified accreditation badges on the public service card.
+          </p>
         </div>
       </div>
 

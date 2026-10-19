@@ -14,6 +14,7 @@ import {
   XCircle,
   Stethoscope,
   Loader2,
+  Layers,
 } from 'lucide-react';
 
 interface Service {
@@ -21,7 +22,9 @@ interface Service {
   name: { en: string; ar: string };
   slug: string;
   active: boolean;
+  categoryId?: { name?: { en: string; ar?: string }; slug?: string };
   departmentId?: { name?: { en: string } };
+  associatedOrganizations?: string[];
   image?: string;
 }
 
@@ -151,13 +154,22 @@ export default function ServicesPage() {
             {isLoading ? 'Loading...' : `${total} service${total !== 1 ? 's' : ''} total`}
           </p>
         </div>
-        <Link
-          href="/admin/dashboard/services/new"
-          className="inline-flex items-center gap-2 px-4 py-2.5 bg-brand hover:bg-brand-medium text-white text-sm font-semibold rounded-xl transition shadow-sm cursor-pointer"
-        >
-          <Plus className="w-4 h-4" />
-          Add Service
-        </Link>
+        <div className="flex items-center gap-3">
+          <Link
+            href="/admin/dashboard/service-categories"
+            className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-white border border-border hover:bg-surface-mint text-text-base text-sm font-semibold rounded-xl transition shadow-sm cursor-pointer"
+          >
+            <Layers className="w-4 h-4 text-brand-medium" />
+            Manage Categories
+          </Link>
+          <Link
+            href="/admin/dashboard/services/new"
+            className="inline-flex items-center gap-2 px-4 py-2.5 bg-brand hover:bg-brand-medium text-white text-sm font-semibold rounded-xl transition shadow-sm cursor-pointer"
+          >
+            <Plus className="w-4 h-4" />
+            Add Service
+          </Link>
+        </div>
       </div>
 
       <div className="relative max-w-sm">
@@ -185,6 +197,9 @@ export default function ServicesPage() {
                     Service
                   </th>
                   <th className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider px-6 py-3.5 hidden sm:table-cell">
+                    Category
+                  </th>
+                  <th className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider px-6 py-3.5 hidden md:table-cell">
                     Department
                   </th>
                   <th className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider px-6 py-3.5">
@@ -212,13 +227,39 @@ export default function ServicesPage() {
                             <Stethoscope className="w-5 h-5 text-emerald-500" />
                           </div>
                         )}
-                        <div>
-                          <p className="font-semibold text-gray-900">{svc.name.en}</p>
+                        <div className="min-w-0">
+                          <p className="font-semibold text-gray-900 truncate">{svc.name.en}</p>
                           <p className="text-xs text-gray-400">/{svc.slug}</p>
+                          {svc.associatedOrganizations && svc.associatedOrganizations.length > 0 && (
+                            <div className="flex flex-wrap gap-1 mt-1">
+                              {svc.associatedOrganizations.slice(0, 3).map((org, i) => (
+                                <span
+                                  key={i}
+                                  className="inline-block text-[10px] font-semibold bg-gray-100 text-gray-600 px-1.5 py-0.5 rounded"
+                                >
+                                  {org}
+                                </span>
+                              ))}
+                              {svc.associatedOrganizations.length > 3 && (
+                                <span className="text-[10px] text-gray-400">
+                                  +{svc.associatedOrganizations.length - 3} more
+                                </span>
+                              )}
+                            </div>
+                          )}
                         </div>
                       </div>
                     </td>
                     <td className="px-6 py-4 hidden sm:table-cell">
+                      {svc.categoryId?.name?.en ? (
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-surface-mint text-brand-dark border border-brand-pale/40">
+                          {svc.categoryId.name.en}
+                        </span>
+                      ) : (
+                        <span className="text-gray-400 italic text-xs">Uncategorized</span>
+                      )}
+                    </td>
+                    <td className="px-6 py-4 hidden md:table-cell">
                       <span className="text-gray-700">
                         {svc.departmentId?.name?.en ?? <span className="text-gray-400 italic">None</span>}
                       </span>

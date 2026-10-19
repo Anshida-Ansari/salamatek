@@ -15,6 +15,9 @@ export const getServices = asyncHandler(async (req: Request, res: Response): Pro
   if (req.query.departmentId) {
     filter.departmentId = req.query.departmentId;
   }
+  if (req.query.categoryId) {
+    filter.categoryId = req.query.categoryId;
+  }
   if (req.query.search) {
     filter.$or = [
       { 'name.en': { $regex: req.query.search, $options: 'i' } },
@@ -25,9 +28,10 @@ export const getServices = asyncHandler(async (req: Request, res: Response): Pro
   const [data, total] = await Promise.all([
     Service.find(filter)
       .populate('departmentId', 'name slug')
+      .populate('categoryId', 'name slug order')
       .skip(skip)
       .limit(limit)
-      .sort({ createdAt: -1 })
+      .sort({ order: 1, createdAt: 1 })
       .lean(),
     Service.countDocuments(filter),
   ]);
@@ -45,7 +49,10 @@ export const getServices = asyncHandler(async (req: Request, res: Response): Pro
 });
 
 export const getServiceById = asyncHandler(async (req: Request, res: Response): Promise<void> => {
-  const service = await Service.findById(req.params.id).populate('departmentId', 'name slug').lean();
+  const service = await Service.findById(req.params.id)
+    .populate('departmentId', 'name slug')
+    .populate('categoryId', 'name slug order')
+    .lean();
   if (!service) {
     const error = new Error('Service not found') as AppError;
     error.statusCode = 404;
