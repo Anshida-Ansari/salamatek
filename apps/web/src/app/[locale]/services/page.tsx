@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import Link from 'next/link';
 import { getTranslations } from '@/i18n';
 import { isValidLocale, type Locale } from '@/i18n/config';
 import { getLocalizedPath } from '@/lib/utils';
 import { PageHero } from '@/components/shared/PageHero';
 import { CTASection } from '@/components/shared/CTASection';
+import { ServicesDirectory } from './ServicesDirectory';
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -74,24 +74,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-function ServiceIcon() {
-  return (
-    <svg
-      className="w-8 h-8"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-      />
-    </svg>
-  );
-}
-
 export default async function ServicesPage({ params }: Props) {
   const { locale } = await params;
   if (!isValidLocale(locale)) notFound();
@@ -107,39 +89,6 @@ export default async function ServicesPage({ params }: Props) {
     getPageHero('services'),
   ]);
 
-  // Group services by category
-  const categorizedGroups: {
-    category: any;
-    items: any[];
-  }[] = [];
-
-  const categoryMap = new Map<string, any[]>();
-  const uncategorizedItems: any[] = [];
-
-  services.forEach((service: any) => {
-    const catId = service.categoryId?._id || service.categoryId;
-    if (catId) {
-      const idStr = catId.toString();
-      if (!categoryMap.has(idStr)) {
-        categoryMap.set(idStr, []);
-      }
-      categoryMap.get(idStr)!.push(service);
-    } else {
-      uncategorizedItems.push(service);
-    }
-  });
-
-  // Keep categories in their defined sort order
-  categories.forEach((cat: any) => {
-    const items = categoryMap.get(cat._id.toString()) || [];
-    if (items.length > 0) {
-      categorizedGroups.push({
-        category: cat,
-        items,
-      });
-    }
-  });
-
   return (
     <>
       <PageHero
@@ -150,210 +99,36 @@ export default async function ServicesPage({ params }: Props) {
         imageSrc={heroSetting?.image}
       />
 
-      <section className="py-16 md:py-24 bg-surface-light">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-20 md:space-y-24">
-          {/* Categorized Groups */}
-          {categorizedGroups.map(({ category, items }, groupIdx) => {
-            const catName = category.name?.[typedLocale] || category.name?.en;
-            const catDesc =
-              category.description?.[typedLocale] ||
-              category.description?.en ||
-              '';
-
-            return (
-              <div key={category._id} className="space-y-8">
-                {/* Category Header */}
-                <div className="border-b border-border/80 pb-5">
-                  <div className="flex flex-col md:flex-row md:items-end justify-between gap-3">
-                    <div>
-                      <span className="inline-block text-xs font-bold uppercase tracking-widest text-brand-medium mb-1.5">
-                        {isAr ? `الفئة ${groupIdx + 1}` : `Category 0${groupIdx + 1}`}
-                      </span>
-                      <h2 className="text-2xl sm:text-3xl lg:text-4xl font-serif font-bold text-brand-dark">
-                        {catName}
-                      </h2>
-                    </div>
-                    {catDesc && (
-                      <p className="text-sm md:text-base text-text-muted max-w-xl">
-                        {catDesc}
-                      </p>
-                    )}
-                  </div>
-                </div>
-
-                {/* Services Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {items.map((s: any) => {
-                    const sName = s.name?.[typedLocale] || s.name?.en;
-                    const sDesc =
-                      s.description?.[typedLocale] || s.description?.en || '';
-                    const orgs = Array.isArray(s.associatedOrganizations)
-                      ? s.associatedOrganizations
-                      : [];
-
-                    return (
-                      <Link
-                        key={s._id}
-                        href={getLocalizedPath(`/services/${s.slug}`, typedLocale)}
-                        className="group flex flex-col bg-white rounded-3xl shadow-[0_4px_20px_rgb(0,0,0,0.04)] hover:shadow-[0_12px_32px_rgb(0,0,0,0.08)] transition-all duration-300 overflow-hidden border border-border/60 hover:border-brand-pale/50"
-                      >
-                        {/* Visual Header */}
-                        <div className="h-52 bg-surface-mint relative overflow-hidden flex items-center justify-center">
-                          {s.image ? (
-                            <img
-                              src={s.image}
-                              alt={sName}
-                              className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
-                            />
-                          ) : (
-                            <>
-                              <div className="w-16 h-16 rounded-2xl bg-white shadow-card flex items-center justify-center text-brand-medium relative z-10 group-hover:scale-110 transition-transform duration-300">
-                                <ServiceIcon />
-                              </div>
-                            </>
-                          )}
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                        </div>
-
-                        {/* Content */}
-                        <div className="p-7 sm:p-8 flex flex-col flex-1">
-                          <h3 className="text-xl font-serif font-bold text-brand-dark mb-3 group-hover:text-brand transition-colors">
-                            {sName}
-                          </h3>
-
-                          {sDesc && (
-                            <p className="text-text-muted text-sm leading-relaxed mb-6 flex-1 line-clamp-3">
-                              {sDesc}
-                            </p>
-                          )}
-
-                          {/* Associated Organizations (e.g. for Pre-Employment Medical) */}
-                          {orgs.length > 0 && (
-                            <div className="mb-6 pt-4 border-t border-border/60">
-                              <p className="text-[11px] font-bold uppercase tracking-wider text-text-subtle mb-2.5">
-                                {isAr
-                                  ? 'معتمد لدى كبرى المنشآت الصناعية:'
-                                  : 'Approved for Industrial Organizations:'}
-                              </p>
-                              <div className="flex flex-wrap gap-1.5">
-                                {orgs.map((org: string, i: number) => (
-                                  <span
-                                    key={i}
-                                    className="inline-flex items-center px-2.5 py-1 bg-surface-mint/80 rounded-lg text-brand-dark font-bold text-xs border border-brand-pale/40 tracking-wide"
-                                  >
-                                    {org}
-                                  </span>
-                                ))}
-                              </div>
-                            </div>
-                          )}
-
-                          <div className="mt-auto pt-2 flex items-center text-sm font-semibold text-brand group-hover:text-brand-medium transition-colors">
-                            <span>{t.common.learnMore}</span>
-                            <svg
-                              className="w-4 h-4 ms-2 rtl:rotate-180 transition-transform group-hover:translate-x-1.5 rtl:group-hover:-translate-x-1.5"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M14 5l7 7m0 0l-7 7m7-7H3"
-                              />
-                            </svg>
-                          </div>
-                        </div>
-                      </Link>
-                    );
-                  })}
-                </div>
-              </div>
-            );
-          })}
-
-          {/* Uncategorized Services (Fallback) */}
-          {uncategorizedItems.length > 0 && (
-            <div className="space-y-8 pt-8">
-              <div className="border-b border-border/80 pb-5">
-                <h2 className="text-2xl sm:text-3xl font-serif font-bold text-brand-dark">
-                  {isAr ? 'خدمات طبية إضافية' : 'Additional Healthcare Services'}
-                </h2>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {uncategorizedItems.map((s: any) => (
-                  <Link
-                    key={s._id}
-                    href={getLocalizedPath(`/services/${s.slug}`, typedLocale)}
-                    className="group flex flex-col bg-white rounded-3xl shadow-card hover:shadow-card-md transition-shadow duration-300 overflow-hidden border border-border/60"
-                  >
-                    <div className="h-48 bg-surface-mint relative overflow-hidden flex items-center justify-center">
-                      {s.image ? (
-                        <img
-                          src={s.image}
-                          alt={s.name?.[typedLocale] || s.name?.en}
-                          className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
-                        />
-                      ) : (
-                        <div className="w-16 h-16 rounded-2xl bg-white shadow-card flex items-center justify-center text-brand-medium">
-                          <ServiceIcon />
-                        </div>
-                      )}
-                    </div>
-                    <div className="p-7 flex flex-col flex-1">
-                      <h3 className="text-xl font-serif font-bold text-text-base mb-3 group-hover:text-brand-medium transition-colors">
-                        {s.name?.[typedLocale] || s.name?.en}
-                      </h3>
-                      <p className="text-text-muted text-sm leading-relaxed mb-6 flex-1 line-clamp-3">
-                        {s.description?.[typedLocale] || s.description?.en || ''}
-                      </p>
-                      <div className="flex items-center text-sm font-semibold text-brand-medium">
-                        {t.common.learnMore}
-                        <svg
-                          className="w-4 h-4 ms-2 rtl:rotate-180 transition-transform group-hover:translate-x-1"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M14 5l7 7m0 0l-7 7m7-7H3"
-                          />
-                        </svg>
-                      </div>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          )}
+      {/* Main Services Section with Interactive Category Filter & Unified Grid */}
+      <section className="py-14 md:py-20 bg-surface-light">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <ServicesDirectory
+            services={services}
+            categories={categories}
+            locale={typedLocale}
+          />
         </div>
       </section>
 
-      {/* ── Digital Integration & Certification Section ─────────────────────── */}
-      <section className="bg-brand-dark text-white py-16 md:py-24 relative overflow-hidden">
-        {/* Subtle decorative glow */}
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-brand-light/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-brand-medium/15 rounded-full blur-3xl pointer-events-none" />
+      {/* Digital Integration & Certification Section */}
+      <section className="py-16 md:py-24 bg-brand-dark text-white relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(#10b981_1px,transparent_1px)] [background-size:24px_24px] opacity-10 pointer-events-none" />
 
-        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-14 md:mb-16">
-            <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 text-brand-light border border-white/15 text-xs font-bold uppercase tracking-widest mb-4">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              {isAr ? 'اعتماد وتكامل حكومي فوري' : 'Government Accredited & Integrated'}
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl mb-12 md:mb-16">
+            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 mb-4">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              {isAr ? 'اعتمادات حكومية رسمية' : 'Official Government Endorsements'}
             </span>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-white mb-4 leading-tight">
+            <h2 className="text-3xl sm:text-4xl font-serif font-bold text-white mb-4">
               {isAr
-                ? 'التكامل والاعتماد الرقمي'
+                ? 'التكامل والاعتماد الرقمي المعتمد'
                 : 'Digital Integration & Certification'}
             </h2>
             <p className="text-base sm:text-lg text-white/70 leading-relaxed">
               {isAr
-                ? 'خدماتنا الطبية معتمدة ومتكاملة رقمياً وبشكل فوري مع المنصات والأنظمة الحكومية السعودية الرسمية.'
-                : 'Our medical services are fully integrated with Saudi government digital platforms.'}
+                ? 'خدماتنا الطبية معتمدة ومتكاملة رقمياً وبشكل فوري مع المنصات والأنظمة الحكومية السعودية الرسمية لضمان سرعة إنجاز معاملاتكم.'
+                : 'Our medical examinations and certifications are digitally integrated with official Saudi government health systems for rapid, automated processing.'}
             </p>
           </div>
 
