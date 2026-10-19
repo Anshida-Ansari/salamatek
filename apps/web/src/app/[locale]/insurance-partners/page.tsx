@@ -74,10 +74,6 @@ export default async function InsurancePartnersPage({ params }: Props) {
     ? 'شركاء التأمين'
     : 'Our Insurance Partners';
 
-  const subtext = isAr
-    ? 'نعمل مع أبرز مزودي خدمات التأمين لنجعل الرعاية الصحية عالية الجودة في متناول الجميع.'
-    : 'We work with leading insurance providers to make quality healthcare more accessible.';
-
   const breadcrumbs = [
     { label: isAr ? 'الرئيسية' : 'Home', href: getLocalizedPath('/', typedLocale) },
     { label: pageTitle },
@@ -87,25 +83,15 @@ export default async function InsurancePartnersPage({ params }: Props) {
     <>
       <PageHero
         locale={typedLocale}
-        badge={pageTitle}
+        badge={isAr ? 'شركاء التأمين' : 'Insurance Network'}
         heading={pageTitle}
-        subtext={subtext}
         imageSrc={heroSetting?.image}
         breadcrumbs={breadcrumbs}
       />
 
-      {/* Insurance Partners Directory Grid — exact homepage content */}
-      <section className="bg-[#F8FAF9] py-16 md:py-24">
+      {/* Insurance Partners Directory Grid — only logos */}
+      <section className="bg-[#F8FAF9] py-14 md:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-14">
-            <h2 className="text-3xl md:text-4xl font-serif font-bold text-brand-dark mb-4">
-              {pageTitle}
-            </h2>
-            <p className="text-base md:text-lg text-text-muted leading-relaxed max-w-2xl mx-auto">
-              {subtext}
-            </p>
-          </div>
-
           <div className="flex flex-wrap justify-center gap-4 sm:gap-5 md:gap-6">
             {INSURANCE_PARTNERS.map((partner, idx) => (
               <div

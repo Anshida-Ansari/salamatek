@@ -5,7 +5,7 @@ import { getLocalizedPath } from '@/lib/utils';
 import { Logo } from './Logo';
 import { contactConfig } from '@/config/contact';
 
-import { ContactForm } from '@/components/forms/ContactForm';
+import { FooterQuickContact } from './FooterQuickContact';
 
 type Props = {
   locale: Locale;
@@ -26,60 +26,11 @@ export function Footer({ locale, t }: Props) {
   // Client-confirmed contact: Bilal Bin Rataeh Street, Al Safa, Safwa 32533 | Tel: 013 664 2193
   const year = new Date().getFullYear();
   const copyright = t.footer.copyright.replace('{year}', String(year));
-  const isAr = locale === 'ar';
 
   return (
     <footer className="bg-brand-dark text-white" role="contentinfo">
-      {/* Contact Section: Send a Message & Interactive Map */}
-      <div className="border-b border-white/10 bg-brand-dark/95">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
-          <div className="max-w-3xl mb-10">
-            <span className="inline-block px-3 py-1 rounded-full bg-emerald-500/15 text-emerald-300 text-xs font-semibold border border-emerald-500/30 mb-3">
-              {isAr ? 'تواصل معنا' : 'Get In Touch'}
-            </span>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-serif font-bold text-white mb-3">
-              {isAr ? 'تواصل معنا مباشرة أو تفضل بزيارتنا' : 'Reach Out to Us or Visit Our Center'}
-            </h2>
-            <p className="text-sm sm:text-base text-white/70 leading-relaxed">
-              {isAr
-                ? 'فريقنا الطبي والإداري جاهز للرد على استفساراتكم وحجز مواعيدكم وتقديم أفضل رعاية ممكنة.'
-                : 'Our healthcare coordinators and team are here to answer your questions, schedule appointments, and provide attentive support.'}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-stretch">
-            {/* Left: Send a message Form */}
-            <div className="lg:col-span-7 flex flex-col justify-center">
-              <ContactForm />
-            </div>
-
-            {/* Right: Interactive Google Map */}
-            <div className="lg:col-span-5 flex flex-col rounded-2xl overflow-hidden border border-white/15 bg-white/5 min-h-[420px] shadow-sm">
-              <div className="p-5 bg-brand-dark/90 border-b border-white/10 flex flex-col gap-1">
-                <h3 className="text-base font-bold text-white">
-                  {isAr ? 'موقعنا على الخريطة' : 'Salamatek Medical Group'}
-                </h3>
-                <p className="text-xs text-white/70">
-                  {contactConfig.address}
-                </p>
-              </div>
-              <div className="flex-1 w-full relative min-h-[340px]">
-                <iframe
-                  src="https://maps.google.com/maps?q=Salamatek%20Medical%20Group,%20Safwa,%20Saudi%20Arabia&t=&z=14&ie=UTF8&iwloc=&output=embed"
-                  width="100%"
-                  height="100%"
-                  style={{ border: 0 }}
-                  allowFullScreen
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  title="Salamatek Medical Group Location"
-                  className="absolute inset-0 w-full h-full"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* Catchy & Compact Contact Section: Quick Message & Location */}
+      <FooterQuickContact locale={locale} />
 
       {/* Main footer grid */}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 lg:py-20">

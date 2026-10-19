@@ -62,7 +62,7 @@ export function Navigation({ locale, t, className, orientation = 'horizontal', o
     <nav
       aria-label="Main navigation"
       className={cn(
-        isVertical ? 'flex flex-col gap-1' : 'flex items-center gap-1 xl:gap-2',
+        isVertical ? 'flex flex-col gap-1' : 'flex items-center gap-0.5 xl:gap-1.5',
         className,
       )}
     >
@@ -81,9 +81,9 @@ export function Navigation({ locale, t, className, orientation = 'horizontal', o
               aria-label="SARC — Industrial Healthcare"
               aria-current={active ? 'page' : undefined}
               className={cn(
-                'relative inline-flex items-center justify-center transition-opacity duration-200 hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 rounded-sm',
+                'relative inline-flex items-center justify-center shrink-0 transition-opacity duration-200 hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 rounded-sm',
                 active && 'opacity-90',
-                isVertical ? 'w-full justify-start px-4 py-2 mt-2' : 'px-2 xl:px-3 py-2'
+                isVertical ? 'w-full justify-start px-4 py-2 mt-2' : 'px-1 xl:px-1.5 py-1'
               )}
             >
               <Image
@@ -91,11 +91,14 @@ export function Navigation({ locale, t, className, orientation = 'horizontal', o
                 alt="SARC"
                 width={120}
                 height={40}
-                className={cn("object-contain transition-transform hover:scale-105", isVertical ? 'w-[140px] h-auto' : 'h-7 xl:h-8 w-auto')}
+                className={cn("object-contain transition-transform hover:scale-105 shrink-0")}
                 style={{
+                  width: isVertical ? '140px' : 'auto',
+                  height: isVertical ? 'auto' : '30px',
+                  minWidth: isVertical ? undefined : '88px',
                   filter: isTransparent ? 'drop-shadow(0 1px 3px rgba(0,0,0,0.6)) brightness(1.15)' : undefined
                 }}
-                priority={false}
+                priority
               />
             </Link>
           );
@@ -103,13 +106,13 @@ export function Navigation({ locale, t, className, orientation = 'horizontal', o
 
         /* ── Regular link with underline indicator ── */
         return (
-          <div key={key} className={cn("relative group", isVertical ? "w-full" : "")}>
+          <div key={key} className={cn("relative group shrink-0", isVertical ? "w-full" : "")}>
             <Link
               href={localizedHref}
               onClick={onLinkClick}
               aria-current={active ? 'page' : undefined}
               className={cn(
-                'relative whitespace-nowrap px-2 xl:px-3 py-2 text-[14px] xl:text-[15px] font-medium transition-colors duration-200 flex items-center gap-1 group/link',
+                'relative whitespace-nowrap px-1.5 xl:px-2 py-1.5 text-[13px] xl:text-[14px] font-medium transition-colors duration-200 flex items-center gap-0.5 group/link',
                 isVertical && 'py-3 px-4 rounded-xl text-base w-full',
                 active
                   ? (isTransparent ? 'text-white font-bold drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]' : 'text-brand-dark font-semibold')
@@ -121,7 +124,7 @@ export function Navigation({ locale, t, className, orientation = 'horizontal', o
               {label}
 
               {dropdown && !isVertical && (
-                <svg className="w-3.5 h-3.5 opacity-70 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-3 h-3 opacity-70 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
                 </svg>
               )}
