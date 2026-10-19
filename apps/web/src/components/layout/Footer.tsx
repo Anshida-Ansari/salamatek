@@ -16,6 +16,7 @@ const EXPLORE_LINKS = [
   { key: 'doctors' as const,      href: '/doctors' },
   { key: 'sarc' as const,         href: '/sarc' },
   { key: 'careers' as const,      href: '/careers' },
+  { key: 'contact' as const,      href: '/contact' },
   { key: 'news' as const,         href: '/news' },
 ];
 
