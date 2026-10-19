@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import type { Locale } from '@/i18n/config';
 import { getLocalizedPath } from '@/lib/utils';
@@ -86,6 +86,50 @@ export function ServicesDirectory({ services, categories, locale }: Props) {
     });
   }, [services, selectedCategory, searchQuery]);
 
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [canScroll, setCanScroll] = useState(false);
+  const [activeDot, setActiveDot] = useState(0);
+  const TOTAL_DOTS = 3;
+
+  const updateScrollState = useCallback(() => {
+    const el = scrollContainerRef.current;
+    if (!el) return;
+    const maxScroll = el.scrollWidth - el.clientWidth;
+    if (maxScroll > 15) {
+      setCanScroll(true);
+      const scrollPos = Math.abs(el.scrollLeft);
+      const progress = Math.min(Math.max(scrollPos / maxScroll, 0), 1);
+      const dot = Math.min(Math.round(progress * (TOTAL_DOTS - 1)), TOTAL_DOTS - 1);
+      setActiveDot(dot);
+    } else {
+      setCanScroll(false);
+      setActiveDot(0);
+    }
+  }, []);
+
+  useEffect(() => {
+    updateScrollState();
+    window.addEventListener('resize', updateScrollState);
+    return () => window.removeEventListener('resize', updateScrollState);
+  }, [updateScrollState]);
+
+  const scrollToDot = (dotIndex: number) => {
+    const el = scrollContainerRef.current;
+    if (!el) return;
+    const maxScroll = el.scrollWidth - el.clientWidth;
+    const target = (dotIndex / (TOTAL_DOTS - 1)) * maxScroll;
+    el.scrollTo({ left: isAr ? -target : target, behavior: 'smooth' });
+    setActiveDot(dotIndex);
+  };
+
+  const scrollByStep = (direction: 'prev' | 'next') => {
+    const el = scrollContainerRef.current;
+    if (!el) return;
+    const step = 260;
+    const offset = direction === 'next' ? step : -step;
+    el.scrollBy({ left: isAr ? -offset : offset, behavior: 'smooth' });
+  };
+
   return (
     <div className="space-y-10">
       {/* Controls: Search & Category Pills */}
@@ -144,60 +188,124 @@ export function ServicesDirectory({ services, categories, locale }: Props) {
           </div>
         </div>
 
-        {/* Category Classification Filter Pills */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none pt-1">
-          {/* All tab */}
-          <button
-            type="button"
-            onClick={() => setSelectedCategory('all')}
-            className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 shrink-0 cursor-pointer ${
-              selectedCategory === 'all'
-                ? 'bg-brand-dark text-white shadow-md shadow-brand-dark/15 ring-2 ring-brand-dark/20'
-                : 'bg-white text-text-muted hover:text-brand-dark hover:bg-surface-mint/60 border border-border/80'
-            }`}
+        {/* Category Classification Filter Carousel */}
+        <div className="relative group/tabs">
+          {/* Previous Arrow Button */}
+          {canScroll && (
+            <button
+              type="button"
+              onClick={() => scrollByStep('prev')}
+              aria-label={isAr ? 'الفئات السابقة' : 'Previous categories'}
+              className="hidden md:flex absolute -start-3.5 top-[22px] -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white shadow-md border border-border/80 items-center justify-center text-text-muted hover:text-brand-dark hover:scale-110 active:scale-95 transition-all cursor-pointer"
+            >
+              <svg className="w-4 h-4 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+          )}
+
+          {/* Category Filter Pills Container without native green scrollbar */}
+          <div
+            ref={scrollContainerRef}
+            onScroll={updateScrollState}
+            className="flex items-center gap-2 overflow-x-auto no-scrollbar scroll-smooth py-1 px-0.5 [&::-webkit-scrollbar]:hidden"
+            style={{
+              scrollbarWidth: 'none',
+              msOverflowStyle: 'none',
+            }}
           >
-            <span>{isAr ? 'جميع الخدمات' : 'All Services'}</span>
-            <span
-              className={`px-2 py-0.5 rounded-full text-[11px] font-bold ${
+            {/* All tab */}
+            <button
+              type="button"
+              onClick={(e) => {
+                setSelectedCategory('all');
+                e.currentTarget.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+              }}
+              className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 shrink-0 cursor-pointer ${
                 selectedCategory === 'all'
-                  ? 'bg-white/20 text-white'
-                  : 'bg-gray-100 text-text-muted'
+                  ? 'bg-brand-dark text-white shadow-md shadow-brand-dark/15 ring-2 ring-brand-dark/20'
+                  : 'bg-white text-text-muted hover:text-brand-dark hover:bg-surface-mint/60 border border-border/80'
               }`}
             >
-              {services.length}
-            </span>
-          </button>
-
-          {/* Dynamic category tabs */}
-          {activeCategories.map((cat) => {
-            const catName = cat.name?.[locale] || cat.name?.en;
-            const count = categoryCounts[cat._id] || 0;
-            const isSelected = selectedCategory === cat._id;
-
-            return (
-              <button
-                key={cat._id}
-                type="button"
-                onClick={() => setSelectedCategory(cat._id)}
-                className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 shrink-0 cursor-pointer ${
-                  isSelected
-                    ? 'bg-brand-dark text-white shadow-md shadow-brand-dark/15 ring-2 ring-brand-dark/20'
-                    : 'bg-white text-text-muted hover:text-brand-dark hover:bg-surface-mint/60 border border-border/80'
+              <span>{isAr ? 'جميع الخدمات' : 'All Services'}</span>
+              <span
+                className={`px-2 py-0.5 rounded-full text-[11px] font-bold ${
+                  selectedCategory === 'all'
+                    ? 'bg-white/20 text-white'
+                    : 'bg-gray-100 text-text-muted'
                 }`}
               >
-                <span>{catName}</span>
-                <span
-                  className={`px-2 py-0.5 rounded-full text-[11px] font-bold ${
+                {services.length}
+              </span>
+            </button>
+
+            {/* Dynamic category tabs */}
+            {activeCategories.map((cat) => {
+              const catName = cat.name?.[locale] || cat.name?.en;
+              const count = categoryCounts[cat._id] || 0;
+              const isSelected = selectedCategory === cat._id;
+
+              return (
+                <button
+                  key={cat._id}
+                  type="button"
+                  onClick={(e) => {
+                    setSelectedCategory(cat._id);
+                    e.currentTarget.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                  }}
+                  className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 shrink-0 cursor-pointer ${
                     isSelected
-                      ? 'bg-white/20 text-white'
-                      : 'bg-gray-100 text-text-muted'
+                      ? 'bg-brand-dark text-white shadow-md shadow-brand-dark/15 ring-2 ring-brand-dark/20'
+                      : 'bg-white text-text-muted hover:text-brand-dark hover:bg-surface-mint/60 border border-border/80'
                   }`}
                 >
-                  {count}
-                </span>
-              </button>
-            );
-          })}
+                  <span>{catName}</span>
+                  <span
+                    className={`px-2 py-0.5 rounded-full text-[11px] font-bold ${
+                      isSelected
+                        ? 'bg-white/20 text-white'
+                        : 'bg-gray-100 text-text-muted'
+                    }`}
+                  >
+                    {count}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Next Arrow Button */}
+          {canScroll && (
+            <button
+              type="button"
+              onClick={() => scrollByStep('next')}
+              aria-label={isAr ? 'الفئات التالية' : 'Next categories'}
+              className="hidden md:flex absolute -end-3.5 top-[22px] -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white shadow-md border border-border/80 items-center justify-center text-text-muted hover:text-brand-dark hover:scale-110 active:scale-95 transition-all cursor-pointer"
+            >
+              <svg className="w-4 h-4 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          )}
+
+          {/* Sleek Modern Indicator Dots replacing the green scrollbar */}
+          {canScroll && (
+            <div className="flex items-center justify-center gap-2 pt-3">
+              {Array.from({ length: TOTAL_DOTS }).map((_, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => scrollToDot(idx)}
+                  aria-label={`${isAr ? 'موضع الفئات' : 'Category view'} ${idx + 1}`}
+                  className={`transition-all duration-300 rounded-full cursor-pointer ${
+                    activeDot === idx
+                      ? 'w-7 h-2 bg-brand-dark shadow-xs'
+                      : 'w-2 h-2 bg-border hover:bg-text-muted/50'
+                  }`}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
