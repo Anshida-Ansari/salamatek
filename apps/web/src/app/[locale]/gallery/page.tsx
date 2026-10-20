@@ -36,6 +36,20 @@ async function getPageHero(pageKey: string) {
   }
 }
 
+async function getDepartments() {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/departments?active=true&limit=100`, {
+      next: { revalidate: 60, tags: ['departments'] }
+    });
+    if (!res.ok) return [];
+    const json = await res.json();
+    return json.data || [];
+  } catch (error) {
+    console.error('Error fetching departments:', error);
+    return [];
+  }
+}
+
 type Props = {
   params: Promise<{ locale: string }>;
 };
@@ -61,8 +75,9 @@ export default async function GalleryPage({ params }: Props) {
   const t = getTranslations(typedLocale);
   const isAr = typedLocale === 'ar';
   
-  const [images, heroSetting] = await Promise.all([
+  const [images, departments, heroSetting] = await Promise.all([
     getGalleryImages(),
+    getDepartments(),
     getPageHero('gallery')
   ]);
 
@@ -80,7 +95,7 @@ export default async function GalleryPage({ params }: Props) {
         ]}
       />
       
-      <GalleryGrid images={images} isAr={isAr} />
+      <GalleryGrid images={images} departments={departments} isAr={isAr} />
     </main>
   );
 }

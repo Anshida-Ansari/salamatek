@@ -8,12 +8,18 @@ import { Loader2, ChevronLeft, Languages } from 'lucide-react';
 import { translateText } from '@/lib/admin/translate';
 import ImageUpload from '@/components/admin/ImageUpload';
 
+interface DepartmentOption {
+  _id: string;
+  name: { en: string; ar: string };
+}
+
 interface FormState {
   imageUrl: string;
   titleEn: string;
   titleAr: string;
   descriptionEn: string;
   descriptionAr: string;
+  departmentId: string;
   order: number;
   active: boolean;
 }
@@ -24,6 +30,7 @@ const emptyForm: FormState = {
   titleAr: '',
   descriptionEn: '',
   descriptionAr: '',
+  departmentId: '',
   order: 0,
   active: true,
 };
@@ -34,7 +41,20 @@ export default function GalleryImageForm({ imageId }: { imageId?: string }) {
   const [isLoading, setIsLoading] = useState(false);
   const [isFetching, setIsFetching] = useState(!!imageId);
   const [isTranslating, setIsTranslating] = useState(false);
+  const [departments, setDepartments] = useState<DepartmentOption[]>([]);
   const [formData, setFormData] = useState<FormState>(emptyForm);
+
+  useEffect(() => {
+    async function loadDepts() {
+      try {
+        const res = await fetchApi('/api/departments?limit=100');
+        setDepartments(res.data ?? []);
+      } catch {
+        // silent fallback
+      }
+    }
+    loadDepts();
+  }, []);
 
   useEffect(() => {
     if (!imageId) return;
@@ -42,12 +62,18 @@ export default function GalleryImageForm({ imageId }: { imageId?: string }) {
       try {
         const res = await fetchApi(`/api/gallery-images/${imageId}`);
         const t = res.data;
+        const deptId =
+          typeof t.departmentId === 'object' && t.departmentId !== null
+            ? t.departmentId._id
+            : t.departmentId ?? '';
+
         setFormData({
           imageUrl: t.imageUrl ?? '',
           titleEn: t.title?.en ?? '',
           titleAr: t.title?.ar ?? '',
           descriptionEn: t.description?.en ?? '',
           descriptionAr: t.description?.ar ?? '',
+          departmentId: deptId,
           order: t.order ?? 0,
           active: t.active !== false,
         });
@@ -103,6 +129,7 @@ export default function GalleryImageForm({ imageId }: { imageId?: string }) {
       imageUrl: formData.imageUrl,
       title: { en: formData.titleEn, ar: formData.titleAr },
       description: { en: formData.descriptionEn, ar: formData.descriptionAr },
+      departmentId: formData.departmentId ? formData.departmentId : null,
       order: formData.order,
       active: formData.active,
     };
@@ -204,9 +231,28 @@ export default function GalleryImageForm({ imageId }: { imageId?: string }) {
         </div>
 
         <div className={sectionClass}>
-          <h3 className="text-base font-semibold text-gray-900 pb-1 border-b border-gray-100">Settings</h3>
+          <h3 className="text-base font-semibold text-gray-900 pb-1 border-b border-gray-100">Settings & Categorization</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-             <div>
+            <div className="sm:col-span-2">
+              <label className={labelClass}>Department (Optional)</label>
+              <select
+                name="departmentId"
+                value={formData.departmentId}
+                onChange={handleChange}
+                className={inputClass}
+              >
+                <option value="">None / General (Center-wide)</option>
+                {departments.map((d) => (
+                  <option key={d._id} value={d._id}>
+                    {d.name.en} — {d.name.ar}
+                  </option>
+                ))}
+              </select>
+              <p className="text-xs text-text-muted mt-1">
+                Assign this photo to a specific department, or leave as General (Center-wide).
+              </p>
+            </div>
+            <div>
               <label className={labelClass}>Display Order</label>
               <input
                 type="number"

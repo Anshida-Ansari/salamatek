@@ -1,9 +1,10 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema, Document, Types } from 'mongoose';
 
 export interface IGalleryImageDocument extends Document {
   imageUrl: string;
   title?: { en: string; ar: string };
   description?: { en: string; ar: string };
+  departmentId?: Types.ObjectId;
   order: number;
   active: boolean;
   createdAt: Date;
@@ -21,6 +22,11 @@ const galleryImageSchema = new Schema(
       en: { type: String },
       ar: { type: String },
     },
+    departmentId: {
+      type: Schema.Types.ObjectId,
+      ref: 'Department',
+      required: false,
+    },
     order: { type: Number, default: 0 },
     active: { type: Boolean, default: true },
   },
@@ -29,5 +35,6 @@ const galleryImageSchema = new Schema(
 
 // Indexes for fast retrieval
 galleryImageSchema.index({ active: 1, order: 1 });
+galleryImageSchema.index({ departmentId: 1 });
 
 export const GalleryImage = mongoose.model<IGalleryImageDocument>('GalleryImage', galleryImageSchema);

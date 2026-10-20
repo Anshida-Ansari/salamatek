@@ -22,8 +22,17 @@ interface GalleryImage {
   _id: string;
   imageUrl: string;
   title: { en: string; ar: string };
+  departmentId?: {
+    _id: string;
+    name: { en: string; ar: string };
+  } | string;
   order: number;
   active: boolean;
+}
+
+interface DepartmentOption {
+  _id: string;
+  name: { en: string; ar: string };
 }
 
 function TableSkeleton() {
@@ -36,15 +45,19 @@ function TableSkeleton() {
   );
 }
 
-function EmptyState() {
+function EmptyState({ filterSelected }: { filterSelected?: boolean }) {
   return (
     <div className="flex flex-col items-center justify-center py-16 px-4 bg-white rounded-xl border border-gray-200">
       <div className="w-16 h-16 bg-surface-mint rounded-2xl flex items-center justify-center mb-4 text-brand-medium">
         <ImageIcon className="w-8 h-8" />
       </div>
-      <h3 className="text-base font-semibold text-text-base mb-1">No images yet</h3>
+      <h3 className="text-base font-semibold text-text-base mb-1">
+        {filterSelected ? 'No images found in this department' : 'No images yet'}
+      </h3>
       <p className="text-sm text-text-muted text-center max-w-xs mb-6">
-        Upload your first image to the gallery.
+        {filterSelected
+          ? 'No images have been assigned to this department yet.'
+          : 'Upload your first image to the gallery.'}
       </p>
       <Link
         href="/admin/dashboard/gallery/new"
@@ -60,6 +73,8 @@ function EmptyState() {
 export default function GalleryPage() {
   const { toast } = useToast();
   const [images, setImages] = useState<GalleryImage[]>([]);
+  const [departments, setDepartments] = useState<DepartmentOption[]>([]);
+  const [selectedDeptFilter, setSelectedDeptFilter] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [togglingId, setTogglingId] = useState<string | null>(null);
@@ -72,8 +87,12 @@ export default function GalleryPage() {
   const loadData = async () => {
     setIsLoading(true);
     try {
-      const res = await fetchApi('/api/gallery-images?limit=1000');
-      setImages(res.data ?? []);
+      const [resImages, resDepts] = await Promise.all([
+        fetchApi('/api/gallery-images?limit=1000'),
+        fetchApi('/api/departments?limit=100'),
+      ]);
+      setImages(resImages.data ?? []);
+      setDepartments(resDepts.data ?? []);
     } catch {
       toast('Failed to load gallery images.', 'error');
     } finally {
@@ -148,6 +167,15 @@ export default function GalleryPage() {
     }
   };
 
+  const filteredImages = images.filter((img) => {
+    if (!selectedDeptFilter) return true;
+    if (selectedDeptFilter === 'unassigned') {
+      return !img.departmentId || (typeof img.departmentId === 'object' && !img.departmentId?._id);
+    }
+    const deptId = typeof img.departmentId === 'object' ? img.departmentId?._id : img.departmentId;
+    return deptId === selectedDeptFilter;
+  });
+
   return (
     <div className="space-y-8">
       {/* Header */}
@@ -220,22 +248,37 @@ export default function GalleryPage() {
 
       {/* Gallery Photos Grid Section */}
       <div className="space-y-4">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <h2 className="text-lg font-bold text-brand-dark font-serif">Uploaded Gallery Photos</h2>
             <span className="text-xs text-text-muted bg-gray-100 px-2.5 py-0.5 rounded-full font-medium">
-              {isLoading ? 'Loading...' : `${images.length} item${images.length !== 1 ? 's' : ''}`}
+              {isLoading ? 'Loading...' : `${filteredImages.length} of ${images.length} item${images.length !== 1 ? 's' : ''}`}
             </span>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <label className="text-xs text-text-muted font-medium">Filter Department:</label>
+            <select
+              value={selectedDeptFilter}
+              onChange={(e) => setSelectedDeptFilter(e.target.value)}
+              className="text-xs bg-white border border-border rounded-xl px-3 py-1.5 font-medium text-text-base focus:outline-none focus:ring-2 focus:ring-brand"
+            >
+              <option value="">All Departments ({images.length})</option>
+              <option value="unassigned">General / Center-wide</option>
+              {departments.map((d) => (
+                <option key={d._id} value={d._id}>{d.name.en}</option>
+              ))}
+            </select>
           </div>
         </div>
 
         {isLoading ? (
           <TableSkeleton />
-        ) : images.length === 0 ? (
-          <EmptyState />
+        ) : filteredImages.length === 0 ? (
+          <EmptyState filterSelected={!!selectedDeptFilter} />
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {images.map((img) => (
+            {filteredImages.map((img) => (
               <div key={img._id} className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm group">
                 <div className="relative aspect-[4/3]">
                   <Image
@@ -261,30 +304,43 @@ export default function GalleryPage() {
                   </div>
                 </div>
                 <div className="p-4 flex flex-col gap-2">
-                  <div className="flex justify-between items-start">
+                  <div className="flex justify-between items-start gap-2">
                     <span className="text-sm font-semibold text-gray-800 line-clamp-1">
                       {img.title?.en || 'No title'}
                     </span>
-                    <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-md">Order: {img.order}</span>
+                    <span className="text-xs text-gray-500 bg-gray-100 px-2 py-0.5 rounded-md shrink-0">#{img.order}</span>
                   </div>
-                  <button
-                    onClick={() => handleToggleActive(img._id, img.active)}
-                    disabled={togglingId === img._id}
-                    className={`inline-flex w-fit items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold transition ${
-                      img.active
-                        ? 'bg-green-100 text-green-700 hover:bg-green-200'
-                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                    } disabled:opacity-50`}
-                  >
-                    {togglingId === img._id ? (
-                      <Loader2 className="w-3 h-3 animate-spin" />
-                    ) : img.active ? (
-                      <CheckCircle2 className="w-3 h-3" />
+
+                  <div className="flex items-center justify-between gap-2 pt-1">
+                    {typeof img.departmentId === 'object' && img.departmentId?.name ? (
+                      <span className="text-[11px] font-semibold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200/60 line-clamp-1">
+                        {img.departmentId.name.en}
+                      </span>
                     ) : (
-                      <XCircle className="w-3 h-3" />
+                      <span className="text-[11px] font-medium text-gray-500 bg-gray-100 px-2 py-0.5 rounded">
+                        General
+                      </span>
                     )}
-                    {img.active ? 'Active' : 'Hidden'}
-                  </button>
+
+                    <button
+                      onClick={() => handleToggleActive(img._id, img.active)}
+                      disabled={togglingId === img._id}
+                      className={`inline-flex w-fit items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold transition ${
+                        img.active
+                          ? 'bg-green-100 text-green-700 hover:bg-green-200'
+                          : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                      } disabled:opacity-50`}
+                    >
+                      {togglingId === img._id ? (
+                        <Loader2 className="w-3 h-3 animate-spin" />
+                      ) : img.active ? (
+                        <CheckCircle2 className="w-3 h-3" />
+                      ) : (
+                        <XCircle className="w-3 h-3" />
+                      )}
+                      {img.active ? 'Active' : 'Hidden'}
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}

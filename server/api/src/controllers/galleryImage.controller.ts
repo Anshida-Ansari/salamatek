@@ -4,11 +4,19 @@ import { GalleryImage } from '../models/GalleryImage';
 // Get all gallery images
 export const getGalleryImages = async (req: Request, res: Response) => {
   try {
-    const { active, limit = 100 } = req.query;
+    const { active, departmentId, limit = 100 } = req.query;
     const query: any = {};
     if (active !== undefined) query.active = active === 'true';
+    if (departmentId) {
+      if (departmentId === 'null' || departmentId === 'unassigned') {
+        query.departmentId = { $in: [null, undefined] };
+      } else {
+        query.departmentId = departmentId;
+      }
+    }
 
     const images = await GalleryImage.find(query)
+      .populate('departmentId', 'name slug active')
       .sort({ order: 1, createdAt: -1 })
       .limit(Number(limit));
 
@@ -22,7 +30,7 @@ export const getGalleryImages = async (req: Request, res: Response) => {
 // Get single gallery image
 export const getGalleryImage = async (req: Request, res: Response): Promise<void> => {
   try {
-    const image = await GalleryImage.findById(req.params.id);
+    const image = await GalleryImage.findById(req.params.id).populate('departmentId', 'name slug active');
     if (!image) {
       res.status(404).json({ success: false, error: 'Gallery Image not found' });
       return;
@@ -37,8 +45,13 @@ export const getGalleryImage = async (req: Request, res: Response): Promise<void
 // Create new gallery image
 export const createGalleryImage = async (req: Request, res: Response) => {
   try {
-    const image = await GalleryImage.create(req.body);
-    res.status(201).json({ success: true, data: image });
+    const payload = { ...req.body };
+    if (!payload.departmentId || payload.departmentId === '') {
+      delete payload.departmentId;
+    }
+    const image = await GalleryImage.create(payload);
+    const populated = await GalleryImage.findById(image._id).populate('departmentId', 'name slug active');
+    res.status(201).json({ success: true, data: populated || image });
   } catch (error: any) {
     console.error('Error creating gallery image:', error);
     res.status(400).json({ success: false, error: error.message });
@@ -48,10 +61,19 @@ export const createGalleryImage = async (req: Request, res: Response) => {
 // Update gallery image
 export const updateGalleryImage = async (req: Request, res: Response): Promise<void> => {
   try {
-    const image = await GalleryImage.findByIdAndUpdate(req.params.id, req.body, {
+    const updateData: any = { ...req.body };
+    const updateOp: any = {};
+
+    if (updateData.departmentId === '' || updateData.departmentId === null) {
+      delete updateData.departmentId;
+      updateOp.$unset = { departmentId: 1 };
+    }
+    updateOp.$set = updateData;
+
+    const image = await GalleryImage.findByIdAndUpdate(req.params.id, updateOp, {
       new: true,
       runValidators: true,
-    });
+    }).populate('departmentId', 'name slug active');
     if (!image) {
       res.status(404).json({ success: false, error: 'Gallery Image not found' });
       return;
