@@ -68,22 +68,80 @@ export default async function ContactPage({ params }: Props) {
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-full bg-[#8E2829]/10 flex items-center justify-center flex-shrink-0 text-[#8E2829]">
+                  <div className="w-12 h-12 rounded-full bg-emerald-500/10 flex items-center justify-center flex-shrink-0 text-emerald-700">
                     <Phone className="w-6 h-6" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-gray-900">{isRtl ? 'الهاتف' : 'Phone'}</h4>
-                    <p className="text-gray-600 mt-1" dir="ltr">{contactConfig.phone}</p>
+                    <h4 className="font-bold text-gray-900">{isRtl ? 'الهاتف وأرقام التواصل' : 'Phone & Direct Contacts'}</h4>
+                    <div className="mt-1 space-y-1" dir="ltr">
+                      <div>
+                        <a href="tel:0136642193" className="text-gray-900 hover:text-emerald-700 font-medium block">
+                          013 664 2193
+                        </a>
+                        <span className="text-xs text-gray-500 block">
+                          {isRtl ? 'الهاتف الثابت / المواعيد' : 'Landline / Appointments'}
+                        </span>
+                      </div>
+                      <div className="pt-1">
+                        <span className="text-xs font-semibold text-gray-500 block">
+                          {isRtl ? 'الجوال والطوارئ:' : 'Direct & Emergency:'}
+                        </span>
+                        <a href="tel:+966532963521" className="text-emerald-700 hover:underline font-semibold block text-sm">
+                          +966 53 296 3521
+                        </a>
+                        <a href="tel:+966557400450" className="text-gray-800 hover:text-emerald-700 block text-sm">
+                          +966 55 740 0450
+                        </a>
+                        <a href="tel:+966553504004" className="text-gray-800 hover:text-emerald-700 block text-sm">
+                          +966 55 350 4004
+                        </a>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-full bg-[#8E2829]/10 flex items-center justify-center flex-shrink-0 text-[#8E2829]">
+                  <div className="w-12 h-12 rounded-full bg-emerald-500/10 flex items-center justify-center flex-shrink-0 text-emerald-700">
                     <Mail className="w-6 h-6" />
                   </div>
                   <div>
                     <h4 className="font-bold text-gray-900">{isRtl ? 'البريد الإلكتروني' : 'Email'}</h4>
-                    <p className="text-gray-600 mt-1">{contactConfig.email}</p>
+                    <a href={`mailto:${contactConfig.email}`} className="text-gray-600 hover:text-emerald-700 hover:underline mt-1 block" dir="ltr">
+                      {contactConfig.email}
+                    </a>
+                  </div>
+                </div>
+
+                {/* Social & WhatsApp Direct Channels */}
+                <div className="pt-4 border-t border-gray-200">
+                  <h4 className="font-bold text-gray-900 text-sm mb-3">
+                    {isRtl ? 'قنوات التواصل المباشر' : 'Direct Social & Messaging'}
+                  </h4>
+                  <div className="flex flex-wrap gap-2">
+                    <a
+                      href={`https://wa.me/${contactConfig.whatsappNumber}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#25D366] text-white text-xs font-semibold hover:bg-[#1ebe5c] transition-colors shadow-sm"
+                    >
+                      <span>WhatsApp (+966 53 296 3521)</span>
+                    </a>
+                    <a
+                      href={contactConfig.social.instagram}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-gradient-to-tr from-amber-500 via-pink-500 to-purple-600 text-white text-xs font-semibold hover:opacity-90 transition-opacity shadow-sm"
+                    >
+                      <span>Instagram</span>
+                    </a>
+                    <a
+                      href={contactConfig.social.snapchat}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#FFFC00] text-black text-xs font-semibold hover:bg-yellow-400 transition-colors shadow-sm border border-black/10"
+                    >
+                      <span>Snapchat</span>
+                    </a>
                   </div>
                 </div>
               </div>
