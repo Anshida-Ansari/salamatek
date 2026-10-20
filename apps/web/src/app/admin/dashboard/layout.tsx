@@ -153,7 +153,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <p className="text-[10px] uppercase tracking-widest text-brand-pale/70 font-bold px-3 mb-2 mt-1">
           Management
         </p>
-        {navigation.slice(0, 13).map((item) => {
+        {navigation.filter((item) => !item.disabled).map((item) => {
           const isActive =
             pathname === item.href ||
             (item.href !== '/admin/dashboard' && pathname.startsWith(item.href));
@@ -183,7 +183,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <p className="text-[10px] uppercase tracking-widest text-brand-pale/50 font-bold px-3 mb-2 mt-6">
           Upcoming
         </p>
-        {navigation.slice(13).map((item) => {
+        {navigation.filter((item) => item.disabled).map((item) => {
           const Icon = item.icon;
           return (
             <div

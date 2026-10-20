@@ -16,7 +16,7 @@ async function getPageHero(pageKey: string) {
     const apiUrl =
       (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api';
     const res = await fetch(`${apiUrl}/page-heroes/${pageKey}`, {
-      next: { revalidate: 60, tags: ['page-heroes'] },
+      cache: 'no-store',
     });
     if (!res.ok) return null;
     const json = await res.json();
@@ -85,7 +85,8 @@ export default async function OpticalBrandsPage({ params }: Props) {
         locale={typedLocale}
         badge={isAr ? 'العلامات التجارية للبصريات' : 'Optical Center'}
         heading={pageTitle}
-        imageSrc={heroSetting?.image}
+        imageSrc={heroSetting?.image || '/images/compressed/paragon-14.jpg'}
+        imageAlt={pageTitle}
         breadcrumbs={breadcrumbs}
       />
 

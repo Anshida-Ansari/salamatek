@@ -13,6 +13,8 @@ const PAGE_KEYS = [
   { id: 'services',      label: 'Services Index' },
   { id: 'doctors',       label: 'Doctors Index' },
   { id: 'health-packages', label: 'Health Packages Index' },
+  { id: 'optical-brands', label: 'Optical Brands Page' },
+  { id: 'insurance-partners', label: 'Insurance Partners Page' },
   { id: 'gallery',       label: 'Gallery Page' },
   { id: 'news',          label: 'News & Blog Index' },
   { id: 'careers',       label: 'Careers Index' },
@@ -196,7 +198,16 @@ export default function SiteSettingsPage() {
             /* ── All other pages: single hero image ── */
             <div className="space-y-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Hero Image</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  {selectedPage === 'optical-brands'
+                    ? 'Optical Brands Banner Image'
+                    : selectedPage === 'insurance-partners'
+                    ? 'Insurance Partners Banner Image'
+                    : 'Hero Banner Image'}
+                </label>
+                <p className="text-xs text-gray-400 mb-3">
+                  Upload, replace, or update the banner image displayed at the top of this page. Supports JPG, PNG, and WebP up to 20MB.
+                </p>
                 <ImageUpload
                   value={formData.image}
                   onChange={(url) => setFormData({ ...formData, image: url })}

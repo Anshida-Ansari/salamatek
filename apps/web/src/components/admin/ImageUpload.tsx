@@ -62,21 +62,61 @@ export default function ImageUpload({ value, onChange, className = '' }: ImageUp
   return (
     <div className={`space-y-3 ${className}`}>
       {value ? (
-        <div className="relative w-full max-w-sm aspect-video bg-gray-50 border border-gray-200 rounded-xl overflow-hidden group">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={value}
-            alt="Uploaded preview"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center backdrop-blur-sm">
+        <div className="space-y-2">
+          <div className="relative w-full max-w-sm aspect-video bg-gray-50 border border-gray-200 rounded-xl overflow-hidden group shadow-xs">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={value}
+              alt="Uploaded preview"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center gap-2 backdrop-blur-xs">
+              <label className="bg-white text-brand-dark hover:bg-brand-pale text-xs font-semibold px-3 py-1.5 rounded-lg transition cursor-pointer flex items-center gap-1.5 shadow">
+                <UploadCloud className="w-3.5 h-3.5 text-brand" />
+                <span>Replace</span>
+                <input
+                  type="file"
+                  className="hidden"
+                  accept="image/png, image/jpeg, image/webp"
+                  onChange={handleUpload}
+                  disabled={isUploading}
+                />
+              </label>
+              <button
+                type="button"
+                onClick={() => onChange('')}
+                className="bg-red-600/90 hover:bg-red-700 text-white p-1.5 rounded-lg transition shadow"
+                title="Remove image"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+            {isUploading && (
+              <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center text-white gap-2">
+                <Loader2 className="w-6 h-6 animate-spin text-white" />
+                <span className="text-xs font-semibold">Uploading replacement...</span>
+              </div>
+            )}
+          </div>
+          <div className="flex items-center gap-3">
+            <label className="inline-flex items-center gap-1.5 text-xs text-brand font-semibold hover:underline cursor-pointer">
+              <UploadCloud className="w-3.5 h-3.5" />
+              <span>Replace Image</span>
+              <input
+                type="file"
+                className="hidden"
+                accept="image/png, image/jpeg, image/webp"
+                onChange={handleUpload}
+                disabled={isUploading}
+              />
+            </label>
+            <span className="text-gray-300">•</span>
             <button
               type="button"
               onClick={() => onChange('')}
-              className="bg-white/20 hover:bg-white/30 text-white p-2 rounded-full transition"
-              title="Remove image"
+              className="text-xs text-red-500 hover:text-red-700 font-medium transition"
             >
-              <X className="w-5 h-5" />
+              Remove
             </button>
           </div>
         </div>

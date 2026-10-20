@@ -17,7 +17,7 @@ async function getPageHero(pageKey: string) {
     const apiUrl =
       (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api';
     const res = await fetch(`${apiUrl}/page-heroes/${pageKey}`, {
-      next: { revalidate: 60, tags: ['page-heroes'] },
+      cache: 'no-store',
     });
     if (!res.ok) return null;
     const json = await res.json();
@@ -92,7 +92,8 @@ export default async function InsurancePartnersPage({ params }: Props) {
         locale={typedLocale}
         badge={isAr ? 'شركاء التأمين' : 'Insurance Network'}
         heading={pageTitle}
-        imageSrc={heroSetting?.image}
+        imageSrc={heroSetting?.image || '/images/hospital/reception.jpg'}
+        imageAlt={pageTitle}
         breadcrumbs={breadcrumbs}
       />
 
