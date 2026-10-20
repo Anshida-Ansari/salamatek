@@ -96,29 +96,13 @@ export default async function InsurancePartnersPage({ params }: Props) {
         breadcrumbs={breadcrumbs}
       />
 
-      {/* Insurance Partners Directory Grid — only logos */}
-      <section className="bg-[#F8FAF9] py-14 md:py-20" aria-label={isAr ? 'قائمة شركات التأمين المعتمدة' : 'Accepted Insurance Providers'}>
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap justify-center gap-4 sm:gap-5 md:gap-6">
-            {INSURANCE_PARTNERS.map((partner, idx) => (
-              <div
-                key={idx}
-                className="w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-0.85rem)] md:w-[calc(25%-1.125rem)] lg:w-[calc(20%-1.2rem)] xl:w-[calc(16.666%-1.25rem)]"
-              >
-                <InsuranceLogo partner={partner} />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Insurance Information Inquiry Service */}
+      {/* 1. Official CHI Insurance Information Inquiry Service (Top Feature Section) */}
       <section
-        className="bg-white py-14 md:py-20 border-t border-border/70"
+        className="bg-white py-10 sm:py-14 border-b border-border/60"
         aria-labelledby="chi-inquiry-heading"
       >
-        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-50/60 via-white to-teal-50/40 p-6 sm:p-8 md:p-10 border border-emerald-900/10 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-6 md:gap-8">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-50/70 via-white to-teal-50/50 p-6 sm:p-8 md:p-10 border border-emerald-900/10 shadow-sm flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 lg:gap-8">
             <div className="flex-1 space-y-3">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100/70 border border-emerald-200/60 text-emerald-800 text-xs font-semibold">
                 <ShieldCheck className="w-4 h-4 text-emerald-700 shrink-0" />
@@ -136,23 +120,57 @@ export default async function InsurancePartnersPage({ params }: Props) {
                 {p.inquiryDescription}
               </p>
 
-              <p className="text-xs text-gray-500 pt-1">
+              <p className="text-xs text-gray-500 pt-0.5">
                 {p.inquiryNote}
               </p>
             </div>
 
-            <div className="w-full md:w-auto shrink-0 pt-2 md:pt-0">
+            <div className="w-full lg:w-auto shrink-0 pt-2 lg:pt-0">
               <a
                 href={chiUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full md:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl bg-brand text-white font-semibold text-sm sm:text-base hover:bg-brand-dark shadow-sm hover:shadow-md transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl bg-brand text-white font-semibold text-sm sm:text-base hover:bg-brand-dark shadow-sm hover:shadow-md transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
                 aria-label={`${p.inquiryBtn} (${isAr ? 'يفتح في علامة تبويب جديدة' : 'opens in a new tab'})`}
               >
                 <span>{p.inquiryBtn}</span>
                 <ExternalLink className="w-4 h-4 shrink-0 transition-transform group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5" />
               </a>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 2. Insurance Partners Directory Grid */}
+      <section
+        className="bg-[#F8FAF9] py-14 md:py-20"
+        aria-label={isAr ? 'قائمة شركات التأمين المعتمدة' : 'Accepted Insurance Providers'}
+      >
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          {/* Section Subheading */}
+          <div className="text-center max-w-2xl mx-auto mb-10 md:mb-14">
+            <span className="inline-block px-3 py-1 rounded-full bg-emerald-100/70 text-emerald-800 text-xs font-semibold mb-2.5">
+              {isAr ? 'الشبكة المعتمدة' : 'Accepted Network'}
+            </span>
+            <h3 className="text-2xl sm:text-3xl font-bold text-brand-dark tracking-tight">
+              {isAr ? 'شبكة شركات التأمين المعتمدة لدى سلامتك' : 'Accepted Insurance Network at Salamatek'}
+            </h3>
+            <p className="mt-2 text-sm sm:text-base text-gray-600">
+              {isAr
+                ? 'نتعاون مع نخبة من كبرى شركات التأمين في المملكة لضمان حصولكم على رعاية صحية سلسة وشاملة.'
+                : 'Partnered with leading health insurance providers across the Kingdom to offer seamless, comprehensive coverage.'}
+            </p>
+          </div>
+
+          <div className="flex flex-wrap justify-center gap-4 sm:gap-5 md:gap-6">
+            {INSURANCE_PARTNERS.map((partner, idx) => (
+              <div
+                key={idx}
+                className="w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-0.85rem)] md:w-[calc(25%-1.125rem)] lg:w-[calc(20%-1.2rem)] xl:w-[calc(16.666%-1.25rem)]"
+              >
+                <InsuranceLogo partner={partner} />
+              </div>
+            ))}
           </div>
         </div>
       </section>
