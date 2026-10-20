@@ -63,7 +63,7 @@ export default async function LocaleLayout({ children, params }: Props) {
           {children}
         </main>
         <Footer locale={typedLocale} t={t} />
-        <WhatsAppCTA />
+        <WhatsAppCTA locale={typedLocale} isRtl={dir === 'rtl'} />
         <PromoPopup />
         <GlobalLoaderProvider />
       </div>
