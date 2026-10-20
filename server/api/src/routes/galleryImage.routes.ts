@@ -18,6 +18,6 @@ router.route('/:id').get(getGalleryImage);
 router.use(protect);
 
 router.route('/').post(createGalleryImage);
-router.route('/:id').put(updateGalleryImage).delete(deleteGalleryImage);
+router.route('/:id').put(updateGalleryImage).patch(updateGalleryImage).delete(deleteGalleryImage);
 
 export default router;
