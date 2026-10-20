@@ -55,13 +55,13 @@ export function Footer({ locale, t }: Props) {
           <div className="lg:col-span-4 space-y-4">
             <Link
               href={getLocalizedPath('/', locale)}
-              className="inline-flex items-center bg-white px-3.5 py-2 rounded-xl shadow-sm border border-white/20 transition-transform hover:scale-[1.02]"
+              className="inline-flex items-center transition-opacity hover:opacity-90"
               aria-label={isAr ? 'مجمع سلامتك الطبي — الرئيسية' : 'Salamatek Medical Center — Home'}
             >
               <img
                 src="/images/new-logo-transparent.png"
                 alt="Salamatek Medical Center"
-                className="h-9 sm:h-10 w-auto object-contain"
+                className="h-10 sm:h-12 w-auto object-contain"
               />
             </Link>
 
