@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
+import { ShieldCheck, ExternalLink } from 'lucide-react';
 import { isValidLocale, type Locale } from '@/i18n/config';
 import { getTranslations } from '@/i18n';
 import { getLocalizedPath } from '@/lib/utils';
@@ -67,6 +68,8 @@ export default async function InsurancePartnersPage({ params }: Props) {
 
   const typedLocale = locale as Locale;
   const isAr = typedLocale === 'ar';
+  const t = getTranslations(typedLocale);
+  const p = t.pages.insurancePartners;
 
   const heroSetting = await getPageHero('insurance-partners');
 
@@ -79,6 +82,10 @@ export default async function InsurancePartnersPage({ params }: Props) {
     { label: pageTitle },
   ];
 
+  const chiUrl = isAr
+    ? 'https://www.chi.gov.sa/ar/ServicesDirectory/pages/eservices-checkinsurance.aspx'
+    : 'https://www.chi.gov.sa/en/ServicesDirectory/pages/eservices-checkinsurance.aspx';
+
   return (
     <>
       <PageHero
@@ -90,7 +97,7 @@ export default async function InsurancePartnersPage({ params }: Props) {
       />
 
       {/* Insurance Partners Directory Grid — only logos */}
-      <section className="bg-[#F8FAF9] py-14 md:py-20">
+      <section className="bg-[#F8FAF9] py-14 md:py-20" aria-label={isAr ? 'قائمة شركات التأمين المعتمدة' : 'Accepted Insurance Providers'}>
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap justify-center gap-4 sm:gap-5 md:gap-6">
             {INSURANCE_PARTNERS.map((partner, idx) => (
@@ -101,6 +108,51 @@ export default async function InsurancePartnersPage({ params }: Props) {
                 <InsuranceLogo partner={partner} />
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Insurance Information Inquiry Service */}
+      <section
+        className="bg-white py-14 md:py-20 border-t border-border/70"
+        aria-labelledby="chi-inquiry-heading"
+      >
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-50/60 via-white to-teal-50/40 p-6 sm:p-8 md:p-10 border border-emerald-900/10 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-6 md:gap-8">
+            <div className="flex-1 space-y-3">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100/70 border border-emerald-200/60 text-emerald-800 text-xs font-semibold">
+                <ShieldCheck className="w-4 h-4 text-emerald-700 shrink-0" />
+                <span>{p.inquiryBadge}</span>
+              </div>
+
+              <h2
+                id="chi-inquiry-heading"
+                className="text-xl sm:text-2xl md:text-3xl font-bold text-brand-dark tracking-tight"
+              >
+                {p.inquiryTitle}
+              </h2>
+
+              <p className="text-sm sm:text-base text-gray-600 leading-relaxed max-w-2xl">
+                {p.inquiryDescription}
+              </p>
+
+              <p className="text-xs text-gray-500 pt-1">
+                {p.inquiryNote}
+              </p>
+            </div>
+
+            <div className="w-full md:w-auto shrink-0 pt-2 md:pt-0">
+              <a
+                href={chiUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full md:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl bg-brand text-white font-semibold text-sm sm:text-base hover:bg-brand-dark shadow-sm hover:shadow-md transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+                aria-label={`${p.inquiryBtn} (${isAr ? 'يفتح في علامة تبويب جديدة' : 'opens in a new tab'})`}
+              >
+                <span>{p.inquiryBtn}</span>
+                <ExternalLink className="w-4 h-4 shrink-0 transition-transform group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5" />
+              </a>
+            </div>
           </div>
         </div>
       </section>

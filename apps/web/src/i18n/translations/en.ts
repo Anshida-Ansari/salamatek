@@ -241,6 +241,11 @@ export const en = {
     insurancePartners: {
       title: 'Insurance Partners — Salamatek Medical Centre',
       description: 'Explore our accepted insurance providers and medical insurance partners for seamless healthcare coverage.',
+      inquiryTitle: 'Insurance Information Inquiry Service',
+      inquiryDescription: 'You can verify your health insurance validity, coverage details, and policy status directly through the official Council of Health Insurance (CHI) inquiry portal.',
+      inquiryBadge: 'Official CHI Service',
+      inquiryBtn: 'Inquire About Insurance',
+      inquiryNote: 'Council of Health Insurance (CHI) — Kingdom of Saudi Arabia',
     },
     careers:     { title: 'Careers' },
     news:        { title: 'News & Insights' },
