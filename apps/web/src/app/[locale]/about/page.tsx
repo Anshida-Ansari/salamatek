@@ -19,18 +19,13 @@ import {
   CheckCircle2,
   Award,
   Medal,
+  ExternalLink,
 } from 'lucide-react';
 
 
 
 // ─── Certifications & Awards Content ─────────────────────────────────────────
 const CERTIFICATES_EN = [
-  {
-    title: 'CBAHI Accreditation Certificate',
-    org: 'Saudi Central Board for Accreditation of Healthcare Institutions (CBAHI)',
-    date: 'Validity: 02-Feb-2026 to 01-Feb-2029',
-    image: '/images/certificates/cbahi.png',
-  },
   {
     title: 'ISO 9001:2015 (Quality Management System)',
     org: 'TNV Quality Management',
@@ -47,12 +42,6 @@ const CERTIFICATES_EN = [
 
 const CERTIFICATES_AR = [
   {
-    title: 'شهادة اعتماد المركز السعودي (سباهي)',
-    org: 'المركز السعودي لاعتماد المنشآت الصحية (CBAHI)',
-    date: 'صالح من 02-02-2026 إلى 01-02-2029',
-    image: '/images/certificates/cbahi.png',
-  },
-  {
     title: 'آيزو 9001:2015 (نظام إدارة الجودة)',
     org: 'TNV Quality Management',
     date: 'تاريخ الإصدار: 2025/07/11',
@@ -64,14 +53,6 @@ const CERTIFICATES_AR = [
     date: 'صالح من 22-07-2026 إلى 21-07-2027',
     image: '/images/certificates/duns.png',
   },
-];
-
-const AWARDS_EN = [
-  'CBAHI Accredited — National Standards for Ambulatory Care Centers (Saudi Central Board for Accreditation of Healthcare Institutions)',
-];
-
-const AWARDS_AR = [
-  'الاعتماد الوطني لمعايير المراكز والمجمعات الطبية الخارجية من المركز السعودي لاعتماد المنشآت الصحية (سباهي)',
 ];
 
 // ─── Chairman's Message Content ──────────────────────────────────────────────
@@ -152,7 +133,6 @@ export default async function AboutPage({ params }: Props) {
   const isAr = typedLocale === 'ar';
   const chairman = isAr ? CHAIRMAN_MESSAGE_AR : CHAIRMAN_MESSAGE_EN;
   const certificates = isAr ? CERTIFICATES_AR : CERTIFICATES_EN;
-  const awards = isAr ? AWARDS_AR : AWARDS_EN;
 
   // Fetch admin-managed about hero image (falls back to local exterior.jpg)
   let aboutHeroImage = '/images/hospital/exterior.jpg';
@@ -438,31 +418,30 @@ export default async function AboutPage({ params }: Props) {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 max-w-5xl mx-auto">
             {certificates.map((cert, idx) => (
               <div
                 key={idx}
-                className="bg-[#F8FAF9] border border-border rounded-3xl p-6 sm:p-7 flex flex-col items-center text-center shadow-xs hover:shadow-card-hover hover:border-brand-pale transition-all group"
+                className="bg-[#F8FAF9] border border-border rounded-3xl p-6 sm:p-8 flex flex-col items-center text-center shadow-xs hover:shadow-card-hover transition-all group"
               >
                 <a
                   href={cert.image}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="relative w-full aspect-[3/4] mb-6 bg-white rounded-2xl overflow-hidden border border-border group-hover:border-brand-medium/40 transition-colors block cursor-zoom-in"
+                  className="relative w-full aspect-[4/3] mb-8 bg-white rounded-2xl overflow-hidden border border-border group-hover:border-brand-medium/40 transition-colors block cursor-zoom-in"
                   title={isAr ? 'اضغط لعرض الشهادة بالحجم الكامل' : 'Click to view full certificate'}
                 >
                   <Image
                     src={cert.image}
                     alt={cert.title}
                     fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    className="object-contain p-3 transition-transform duration-300 group-hover:scale-[1.02]"
+                    className="object-contain p-4 transition-transform duration-300 group-hover:scale-105"
                   />
                   <div className="absolute bottom-2 end-2 bg-brand-dark/75 hover:bg-brand-dark text-white text-[11px] font-medium px-2 py-1 rounded-lg backdrop-blur-xs opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 shadow-xs">
                     <span>{isAr ? 'عرض الشهادة' : 'View Full'}</span>
                   </div>
                 </a>
-                <h3 className="text-lg font-serif font-bold text-brand-dark mb-1.5 leading-snug">{cert.title}</h3>
+                <h3 className="text-xl font-serif font-bold text-brand-dark mb-2">{cert.title}</h3>
                 <p className="text-sm font-semibold text-brand mb-1">{cert.org}</p>
                 <p className="text-xs text-text-muted mt-auto pt-2">{cert.date}</p>
               </div>
@@ -487,17 +466,84 @@ export default async function AboutPage({ params }: Props) {
           </div>
 
           <div className="max-w-4xl mx-auto">
-            <div className="grid grid-cols-1 gap-4">
-              {awards.map((award, idx) => (
-                <div key={idx} className="bg-white border border-border rounded-2xl p-5 sm:p-6 flex items-center gap-4 sm:gap-6 shadow-sm hover:shadow-md transition-shadow">
-                  <div className="w-12 h-12 sm:w-14 sm:h-14 shrink-0 rounded-full bg-amber-50 border border-amber-100 flex items-center justify-center">
-                    <Medal className="w-6 h-6 sm:w-7 sm:h-7 text-amber-500" />
+            {/* CBAHI Accreditation Featured Certificate Card */}
+            <div className="bg-white border border-border rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm hover:shadow-card-hover transition-all">
+              <div className="flex flex-col md:flex-row items-center gap-8 md:gap-10">
+                {/* Certificate Document Preview */}
+                <div className="w-full sm:w-72 md:w-80 shrink-0">
+                  <a
+                    href="/images/certificates/cbahi.png"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="relative w-full aspect-[3/4] bg-[#F8FAF9] rounded-2xl overflow-hidden border border-border group block cursor-zoom-in shadow-xs hover:border-brand-medium/50 transition-colors"
+                    title={isAr ? 'اضغط لعرض شهادة سباهي بالحجم الكامل' : 'Click to view full CBAHI certificate'}
+                  >
+                    <Image
+                      src="/images/certificates/cbahi.png"
+                      alt={isAr ? 'شهادة اعتماد سباهي - مجمع سلامتك الطبي' : 'CBAHI Accreditation Certificate - Salamatek Medical Center'}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 320px"
+                      className="object-contain p-3 transition-transform duration-300 group-hover:scale-[1.03]"
+                    />
+                    <div className="absolute inset-0 bg-brand-dark/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                      <span className="text-xs font-semibold px-3 py-1.5 rounded-xl bg-white/95 text-brand-dark shadow-sm">
+                        {isAr ? 'عرض الشهادة كاملة' : 'View Full Certificate'}
+                      </span>
+                    </div>
+                  </a>
+                </div>
+
+                {/* Details */}
+                <div className="flex-1 space-y-4 text-center md:text-start">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-50 border border-amber-200/60 text-amber-900 text-xs font-bold">
+                    <Medal className="w-4 h-4 text-amber-500 shrink-0" />
+                    <span>{isAr ? 'اعتماد وطني معتمد' : 'Official National Accreditation'}</span>
                   </div>
+
                   <div>
-                    <h3 className="text-base sm:text-lg font-bold text-brand-dark leading-snug">{award}</h3>
+                    <h3 className="text-xl sm:text-2xl font-serif font-bold text-brand-dark leading-snug">
+                      {isAr
+                        ? 'شهادة اعتماد المركز السعودي لاعتماد المنشآت الصحية (سباهي)'
+                        : 'CBAHI Accreditation Certificate'}
+                    </h3>
+                    <p className="text-sm font-semibold text-brand mt-1.5">
+                      {isAr
+                        ? 'المركز السعودي لاعتماد المنشآت الصحية (CBAHI)'
+                        : 'Saudi Central Board for Accreditation of Healthcare Institutions'}
+                    </p>
+                  </div>
+
+                  <p className="text-sm text-text-muted leading-relaxed">
+                    {isAr
+                      ? 'اجتياز متطلبات الاعتماد وفق المعايير الوطنية للمراكز والمجمعات الطبية الخارجية، تأكيداً على التزام مجمع سلامتك الطبي بصفوى - القطيف بأعلى معايير الرعاية الصحية وسلامة المرضى.'
+                      : 'Certified that Salamatek Medical Center Company has met the accreditation requirement of the National Standards for Ambulatory Care Centers, reflecting our commitment to the highest quality of healthcare and patient safety.'}
+                  </p>
+
+                  <div className="pt-2 border-t border-border/60 flex flex-wrap items-center justify-center md:justify-start gap-4 text-xs text-text-muted">
+                    <span className="inline-flex items-center gap-1.5 font-medium text-brand-dark">
+                      <span className="text-gray-400">{isAr ? 'فترة الصلاحية:' : 'Validity:'}</span>
+                      <span>02 Feb 2026 – 01 Feb 2029</span>
+                    </span>
+                    <span className="text-gray-300">•</span>
+                    <span className="inline-flex items-center gap-1.5 font-medium text-brand-dark">
+                      <span className="text-gray-400">{isAr ? 'رقم المرجع:' : 'Ref:'}</span>
+                      <span>EST/PVT/AMB/154071</span>
+                    </span>
+                  </div>
+
+                  <div className="pt-2">
+                    <a
+                      href="/images/certificates/cbahi.png"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-brand text-white hover:bg-brand-medium text-xs font-semibold rounded-xl transition shadow-xs cursor-pointer"
+                    >
+                      <span>{isAr ? 'فتح الشهادة الرسمية' : 'View Official Certificate'}</span>
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </a>
                   </div>
                 </div>
-              ))}
+              </div>
             </div>
           </div>
         </div>
