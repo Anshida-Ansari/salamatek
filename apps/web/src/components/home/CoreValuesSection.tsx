@@ -23,7 +23,7 @@ export function CoreValuesSection({ locale }: Props) {
 
   return (
     <section
-      className="bg-brand-dark py-16 md:py-24 overflow-hidden"
+      className="bg-brand-dark py-16 md:py-24 overflow-hidden relative"
       aria-labelledby="core-values-heading"
       id="core-values"
       dir={isRtl ? 'rtl' : 'ltr'}

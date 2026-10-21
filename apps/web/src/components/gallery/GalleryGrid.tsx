@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import Image from 'next/image';
-import { X, ChevronLeft, ChevronRight, ZoomIn, Building2, LayoutGrid, Stethoscope } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight, ZoomIn, ChevronDown } from 'lucide-react';
 
 export interface DepartmentItem {
   _id: string;
@@ -59,21 +59,19 @@ export function GalleryGrid({ images, departments = [], isAr }: GalleryGridProps
     return { deptCounts: counts, unassignedCount: unassigned };
   }, [images]);
 
-  // Construct tabs: "All", "General" (if any unassigned), then departments with photos
+  // Construct clean professional tabs (no inventory numbers)
   const tabs = useMemo(() => {
-    const list: Array<{ id: string; label: string; count: number }> = [
+    const list: Array<{ id: string; label: string }> = [
       {
         id: 'all',
-        label: isAr ? 'جميع الأقسام' : 'All Photos',
-        count: images.length,
+        label: isAr ? 'جميع الأقسام' : 'All',
       },
     ];
 
     if (unassignedCount > 0) {
       list.push({
         id: 'general',
-        label: isAr ? 'المرافق والمركز' : 'General & Facilities',
-        count: unassignedCount,
+        label: isAr ? 'المرافق والمركز' : 'Facilities & Center',
       });
     }
 
@@ -84,13 +82,12 @@ export function GalleryGrid({ images, departments = [], isAr }: GalleryGridProps
         list.push({
           id: dept._id,
           label: isAr ? dept.name.ar : formatTitle(dept.name.en, false),
-          count,
         });
       }
     });
 
     return list;
-  }, [images.length, unassignedCount, departments, deptCounts, isAr]);
+  }, [unassignedCount, departments, deptCounts, isAr]);
 
   // Filter images by current tab
   const filteredImages = useMemo(() => {
@@ -151,90 +148,59 @@ export function GalleryGrid({ images, departments = [], isAr }: GalleryGridProps
   return (
     <section className="py-10 md:py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        {/* Modern Segmented Filter Section */}
+        {/* Professional Segmented Filter Navigation */}
         {tabs.length > 1 && (
-          <div className="space-y-4">
-            {/* Filter Pills with wrap layout and no horizontal scrollbar */}
-            <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-2.5 max-w-5xl mx-auto">
+          <div className="flex justify-center">
+            {/* Mobile Native-Styled Selector */}
+            <div className="w-full max-w-xs sm:hidden">
+              <label htmlFor="gallery-department-select" className="sr-only">
+                {isAr ? 'تصفية حسب القسم' : 'Filter by Department'}
+              </label>
+              <div className="relative">
+                <select
+                  id="gallery-department-select"
+                  value={activeTab}
+                  onChange={(e) => handleSelectTab(e.target.value)}
+                  className="w-full appearance-none bg-white border border-border/90 rounded-2xl px-4 py-3 text-sm font-semibold text-brand-dark shadow-xs focus:outline-none focus:ring-2 focus:ring-brand/20 pr-10 rtl:pr-4 rtl:pl-10 cursor-pointer"
+                >
+                  {tabs.map((tab) => (
+                    <option key={tab.id} value={tab.id}>
+                      {tab.label}
+                    </option>
+                  ))}
+                </select>
+                <ChevronDown className="absolute end-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted pointer-events-none" />
+              </div>
+            </div>
+
+            {/* Desktop & Tablet Segmented Capsule Nav */}
+            <nav
+              className="hidden sm:inline-flex flex-wrap items-center justify-center gap-1.5 p-1.5 bg-white border border-border/80 rounded-full shadow-xs max-w-4xl mx-auto"
+              aria-label={isAr ? 'أقسام المعرض' : 'Gallery filter'}
+            >
               {tabs.map((tab) => {
                 const isActive = activeTab === tab.id;
-                const Icon =
-                  tab.id === 'all'
-                    ? LayoutGrid
-                    : tab.id === 'general'
-                    ? Building2
-                    : Stethoscope;
-
                 return (
                   <button
                     key={tab.id}
                     onClick={() => handleSelectTab(tab.id)}
-                    className={`group relative inline-flex items-center gap-2 px-4 py-2 sm:px-4.5 sm:py-2.5 rounded-2xl text-xs sm:text-sm transition-all duration-200 cursor-pointer ${
+                    className={`px-5 py-2 rounded-full text-xs md:text-sm font-medium transition-all duration-200 cursor-pointer whitespace-nowrap ${
                       isActive
-                        ? 'bg-brand text-white shadow-md shadow-brand/20 ring-1 ring-brand-medium font-semibold'
-                        : 'bg-white text-gray-700 hover:text-brand-dark hover:bg-emerald-50/70 border border-gray-200/80 hover:border-brand/30 shadow-2xs font-medium'
+                        ? 'bg-brand text-white shadow-xs font-semibold'
+                        : 'text-text-muted hover:text-brand-dark hover:bg-surface-mint/50'
                     }`}
                   >
-                    <Icon
-                      className={`w-3.5 h-3.5 shrink-0 transition-colors ${
-                        isActive ? 'text-brand-light' : 'text-gray-400 group-hover:text-brand'
-                      }`}
-                    />
-                    <span>{tab.label}</span>
-                    <span
-                      className={`text-[11px] font-bold px-2 py-0.5 rounded-full transition-colors ${
-                        isActive
-                          ? 'bg-white/20 text-white'
-                          : 'bg-gray-100 text-gray-500 group-hover:bg-emerald-100 group-hover:text-brand-dark'
-                      }`}
-                    >
-                      {tab.count}
-                    </span>
+                    {tab.label}
                   </button>
                 );
               })}
-            </div>
-
-            {/* Filter Count & Department Indicator */}
-            <div className="text-center">
-              <p className="text-xs text-text-muted">
-                {isAr ? (
-                  <>
-                    عرض <span className="font-bold text-brand-dark">{filteredImages.length}</span> صورة
-                    {activeTab !== 'all' && (
-                      <>
-                        {' '}في قسم{' '}
-                        <span className="font-bold text-brand">
-                          {tabs.find((t) => t.id === activeTab)?.label}
-                        </span>
-                      </>
-                    )}
-                  </>
-                ) : (
-                  <>
-                    Showing <span className="font-bold text-brand-dark">{filteredImages.length}</span> photo
-                    {filteredImages.length !== 1 ? 's' : ''}
-                    {activeTab !== 'all' && (
-                      <>
-                        {' '}in{' '}
-                        <span className="font-bold text-brand">
-                          {tabs.find((t) => t.id === activeTab)?.label}
-                        </span>
-                      </>
-                    )}
-                  </>
-                )}
-              </p>
-            </div>
+            </nav>
           </div>
         )}
 
         {/* Empty state for filtered tab */}
         {filteredImages.length === 0 ? (
           <div className="py-20 text-center bg-white rounded-3xl border border-border/70 p-8 max-w-md mx-auto shadow-xs">
-            <div className="w-12 h-12 rounded-2xl bg-surface-mint text-brand flex items-center justify-center mx-auto mb-3 shadow-xs">
-              <Building2 className="w-6 h-6" />
-            </div>
             <h3 className="text-base font-bold text-brand-dark mb-1">
               {isAr ? 'لا توجد صور في هذا القسم حالياً' : 'No photos in this department yet'}
             </h3>
@@ -245,9 +211,8 @@ export function GalleryGrid({ images, departments = [], isAr }: GalleryGridProps
             </p>
             <button
               onClick={() => handleSelectTab('all')}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-brand text-white text-xs font-semibold rounded-xl hover:bg-brand-medium transition cursor-pointer"
+              className="inline-flex items-center gap-2 px-5 py-2 bg-brand text-white text-xs font-semibold rounded-full hover:bg-brand-medium transition cursor-pointer"
             >
-              <LayoutGrid className="w-3.5 h-3.5" />
               <span>{isAr ? 'عرض جميع الصور' : 'View All Photos'}</span>
             </button>
           </div>
@@ -281,9 +246,8 @@ export function GalleryGrid({ images, departments = [], isAr }: GalleryGridProps
                   {/* Department Badge */}
                   {deptName && (
                     <div className="absolute top-3 start-3 z-10">
-                      <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-brand-dark/80 text-white backdrop-blur-md border border-white/20 shadow-xs flex items-center gap-1.5">
-                        <span className="w-1.5 h-1.5 rounded-full bg-brand-light"></span>
-                        <span>{deptName}</span>
+                      <span className="text-[11px] font-medium px-2.5 py-1 rounded-full bg-black/50 text-white backdrop-blur-md border border-white/20 shadow-xs">
+                        {deptName}
                       </span>
                     </div>
                   )}

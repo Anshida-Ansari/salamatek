@@ -6,6 +6,7 @@ import type { Locale } from '@/i18n/config';
 import { getTranslations } from '@/i18n';
 import { getLocalizedPath } from '@/lib/utils';
 import { PageHero } from '@/components/shared/PageHero';
+import { CoreValuesSection } from '@/components/home/CoreValuesSection';
 import {
   Quote,
   Target,
@@ -405,6 +406,8 @@ export default async function AboutPage({ params }: Props) {
         </div>
       </section>
 
+      {/* ── 5. Core Values ───────────────────────────────────────────────── */}
+      <CoreValuesSection locale={typedLocale} t={t} />
 
       {/* ── 6. Accreditations & Certifications ────────────────────────────── */}
       <section id="accreditations-heading" className="bg-white py-16 md:py-24 border-b border-border">
