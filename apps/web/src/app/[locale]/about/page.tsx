@@ -26,40 +26,52 @@ import {
 // ─── Certifications & Awards Content ─────────────────────────────────────────
 const CERTIFICATES_EN = [
   {
+    title: 'CBAHI Accreditation Certificate',
+    org: 'Saudi Central Board for Accreditation of Healthcare Institutions (CBAHI)',
+    date: 'Validity: 02-Feb-2026 to 01-Feb-2029',
+    image: '/images/certificates/cbahi.png',
+  },
+  {
+    title: 'ISO 9001:2015 (Quality Management System)',
+    org: 'TNV Quality Management',
+    date: 'Issued: 11/07/2025',
+    image: '/images/certificates/iso.jpg',
+  },
+  {
     title: 'D-U-N-S® Registered™',
     org: 'Dun & Bradstreet',
     date: 'Validity: 22-Jul-26 to 21-Jul-27',
     image: '/images/certificates/duns.png',
   },
-  {
-    title: 'ISO 9001:2015 (Quality Management System)',
-    org: 'TNV',
-    date: 'Issued: 11/07/2025',
-    image: '/images/certificates/iso.jpg',
-  },
 ];
 
 const CERTIFICATES_AR = [
+  {
+    title: 'شهادة اعتماد المركز السعودي (سباهي)',
+    org: 'المركز السعودي لاعتماد المنشآت الصحية (CBAHI)',
+    date: 'صالح من 02-02-2026 إلى 01-02-2029',
+    image: '/images/certificates/cbahi.png',
+  },
+  {
+    title: 'آيزو 9001:2015 (نظام إدارة الجودة)',
+    org: 'TNV Quality Management',
+    date: 'تاريخ الإصدار: 2025/07/11',
+    image: '/images/certificates/iso.jpg',
+  },
   {
     title: 'مسجل في D-U-N-S®',
     org: 'Dun & Bradstreet',
     date: 'صالح من 22-07-2026 إلى 21-07-2027',
     image: '/images/certificates/duns.png',
   },
-  {
-    title: 'آيزو 9001:2015 (نظام إدارة الجودة)',
-    org: 'TNV',
-    date: 'تاريخ الإصدار: 2025/07/11',
-    image: '/images/certificates/iso.jpg',
-  },
 ];
 
 const AWARDS_EN = [
-  'CBAHI Accredited (Saudi Central Board for Accreditation of Healthcare Institutions)',
+  'CBAHI Accredited — National Standards for Ambulatory Care Centers (Saudi Central Board for Accreditation of Healthcare Institutions)',
 ];
 
 const AWARDS_AR = [
-  'معتمد من المركز السعودي لاعتماد المنشآت الصحية (سباهي)',
+  'الاعتماد الوطني لمعايير المراكز والمجمعات الطبية الخارجية من المركز السعودي لاعتماد المنشآت الصحية (سباهي)',
 ];
 
 // ─── Chairman's Message Content ──────────────────────────────────────────────
@@ -426,20 +438,33 @@ export default async function AboutPage({ params }: Props) {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-7xl mx-auto">
             {certificates.map((cert, idx) => (
-              <div key={idx} className="bg-[#F8FAF9] border border-border rounded-3xl p-6 sm:p-8 flex flex-col items-center text-center shadow-sm hover:shadow-card-hover transition-all">
-                <div className="relative w-full aspect-[4/3] mb-8 bg-white rounded-2xl overflow-hidden border border-border">
+              <div
+                key={idx}
+                className="bg-[#F8FAF9] border border-border rounded-3xl p-6 sm:p-7 flex flex-col items-center text-center shadow-xs hover:shadow-card-hover hover:border-brand-pale transition-all group"
+              >
+                <a
+                  href={cert.image}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="relative w-full aspect-[3/4] mb-6 bg-white rounded-2xl overflow-hidden border border-border group-hover:border-brand-medium/40 transition-colors block cursor-zoom-in"
+                  title={isAr ? 'اضغط لعرض الشهادة بالحجم الكامل' : 'Click to view full certificate'}
+                >
                   <Image
                     src={cert.image}
                     alt={cert.title}
                     fill
-                    className="object-contain p-4"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-contain p-3 transition-transform duration-300 group-hover:scale-[1.02]"
                   />
-                </div>
-                <h3 className="text-xl font-serif font-bold text-brand-dark mb-2">{cert.title}</h3>
+                  <div className="absolute bottom-2 end-2 bg-brand-dark/75 hover:bg-brand-dark text-white text-[11px] font-medium px-2 py-1 rounded-lg backdrop-blur-xs opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 shadow-xs">
+                    <span>{isAr ? 'عرض الشهادة' : 'View Full'}</span>
+                  </div>
+                </a>
+                <h3 className="text-lg font-serif font-bold text-brand-dark mb-1.5 leading-snug">{cert.title}</h3>
                 <p className="text-sm font-semibold text-brand mb-1">{cert.org}</p>
-                <p className="text-xs text-text-muted">{cert.date}</p>
+                <p className="text-xs text-text-muted mt-auto pt-2">{cert.date}</p>
               </div>
             ))}
           </div>
