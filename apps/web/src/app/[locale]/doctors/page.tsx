@@ -5,8 +5,7 @@ import { notFound } from 'next/navigation';
 import { getTranslations } from '@/i18n';
 import { isValidLocale, type Locale } from '@/i18n/config';
 import { getLocalizedPath } from '@/lib/utils';
-import { contactConfig } from '@/config/contact';
-import { User, MessageCircle, ArrowRight } from 'lucide-react';
+import { User, ArrowRight } from 'lucide-react';
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -44,8 +43,6 @@ export default async function DoctorsPage({ params }: Props) {
   const typedLocale = locale as Locale;
   const isAr = typedLocale === 'ar';
   const doctors = await getDoctors();
-
-  const defaultWa = contactConfig.whatsappNumber;
 
   return (
     <main className="min-h-screen bg-[#F8FAF9]">
@@ -100,14 +97,6 @@ export default async function DoctorsPage({ params }: Props) {
                 const deptName = doc.departmentId?.name?.[typedLocale] || doc.departmentId?.name?.en;
                 const docNat = doc.nationality?.[typedLocale] || doc.nationality?.en;
                 const hasExp = typeof doc.experienceYears === 'number' && doc.experienceYears > 0;
-
-                // WhatsApp URL: use doctor's configured WhatsApp if present, else default clinic WhatsApp
-                const rawWa = (doc.whatsapp && String(doc.whatsapp).trim()) || defaultWa;
-                const cleanWa = rawWa.replace(/[^0-9]/g, '');
-                const waMessage = isAr
-                  ? `السلام عليكم، أود حجز موعد مع ${docName}`
-                  : `Hello, I would like to book an appointment with ${docName}`;
-                const waUrl = `https://wa.me/${cleanWa}?text=${encodeURIComponent(waMessage)}`;
 
                 return (
                   <div
@@ -173,26 +162,15 @@ export default async function DoctorsPage({ params }: Props) {
                         </div>
                       )}
 
-                      {/* Card Action Buttons: View Profile + Consult Doctor (WhatsApp directly) */}
-                      <div className="mt-auto pt-5 border-t border-border/60 flex items-center gap-2.5">
+                      {/* Card Action Button: View Profile */}
+                      <div className="mt-auto pt-5 border-t border-border/60">
                         <Link
                           href={getLocalizedPath(`/doctors/${doc.slug}`, typedLocale)}
-                          className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl bg-gray-100 hover:bg-gray-200/80 text-brand-dark text-xs font-semibold transition-colors"
+                          className="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-gray-100 hover:bg-surface-mint hover:text-brand-dark text-brand-dark text-xs sm:text-sm font-semibold transition-colors"
                         >
-                          <span>{isAr ? 'عرض الملف' : 'View Profile'}</span>
-                          <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180" />
+                          <span>{isAr ? 'عرض الملف الشخصي' : 'View Profile'}</span>
+                          <ArrowRight className="w-4 h-4 rtl:rotate-180" />
                         </Link>
-
-                        <a
-                          href={waUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-xl bg-brand hover:bg-brand-medium text-white text-xs font-semibold transition-colors shadow-xs shrink-0 cursor-pointer"
-                          title={isAr ? 'استشارة الطبيب عبر واتساب' : 'Consult Doctor on WhatsApp'}
-                        >
-                          <MessageCircle className="w-3.5 h-3.5 text-brand-light" />
-                          <span>{isAr ? 'استشارة' : 'Consult'}</span>
-                        </a>
                       </div>
                     </div>
                   </div>
