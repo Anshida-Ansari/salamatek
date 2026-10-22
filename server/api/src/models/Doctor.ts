@@ -14,6 +14,7 @@ export interface IDoctor extends Document {
   nationality?: { en: string; ar: string };
   clinicalDuties?: { en: string; ar: string };
   remarks?: { en: string; ar: string };
+  whatsapp?: string;
   active: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -70,6 +71,7 @@ const doctorSchema = new Schema(
       en: { type: String },
       ar: { type: String },
     },
+    whatsapp: { type: String, trim: true },
     image: { type: String },
     active: { type: Boolean, default: true },
   },

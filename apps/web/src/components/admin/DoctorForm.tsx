@@ -35,6 +35,7 @@ interface FormState {
   languagesAr: string;
   bioEn: string;
   bioAr: string;
+  whatsapp: string;
   image: string;
   active: boolean;
 }
@@ -61,6 +62,7 @@ const emptyForm: FormState = {
   languagesAr: '',
   bioEn: '',
   bioAr: '',
+  whatsapp: '',
   image: '',
   active: true,
 };
@@ -105,6 +107,7 @@ export default function DoctorForm({ doctorId }: { doctorId?: string }) {
             languagesAr: d.languages?.ar?.join(', ') ?? '',
             bioEn: d.bio?.en ?? '',
             bioAr: d.bio?.ar ?? '',
+            whatsapp: d.whatsapp ?? '',
             image: d.image ?? '',
             active: d.active !== false,
           });
@@ -211,6 +214,7 @@ export default function DoctorForm({ doctorId }: { doctorId?: string }) {
           .filter(Boolean),
       },
       bio: { en: formData.bioEn, ar: formData.bioAr },
+      whatsapp: formData.whatsapp.trim() || undefined,
       image: formData.image || undefined,
       active: formData.active,
     };
@@ -436,7 +440,7 @@ export default function DoctorForm({ doctorId }: { doctorId?: string }) {
             />
           </div>
 
-          <div className="sm:col-span-2">
+          <div>
             <label className={labelClass}>Experience (Years)</label>
             <input
               type="number"
@@ -446,6 +450,23 @@ export default function DoctorForm({ doctorId }: { doctorId?: string }) {
               min="0"
               max="60"
               placeholder="e.g. 15"
+              className={inputClass}
+            />
+          </div>
+
+          <div>
+            <label className={labelClass}>
+              WhatsApp Number for Appointments
+              <span className="text-xs font-normal text-gray-400 block sm:inline sm:ms-1">
+                (optional)
+              </span>
+            </label>
+            <input
+              type="text"
+              name="whatsapp"
+              value={formData.whatsapp}
+              onChange={handleChange}
+              placeholder="e.g. 966532963521"
               className={inputClass}
             />
           </div>
