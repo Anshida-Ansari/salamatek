@@ -51,6 +51,11 @@ export function CoreValuesSection({ locale }: Props) {
           >
             {isRtl ? 'القيم الجوهرية' : 'Core Values'}
           </h2>
+          <p className="text-sm md:text-base text-brand-pale/80 mt-3 max-w-xl mx-auto leading-relaxed">
+            {isRtl
+              ? 'المبادئ التي تجسد التزامنا الراسخ بالتميز في الرعاية الصحية.'
+              : 'Guided by our enduring commitment to Excellence in Healthcare.'}
+          </p>
         </div>
 
         {/* ── Horizontal SALAMATEK row ────────────────────────────── */}

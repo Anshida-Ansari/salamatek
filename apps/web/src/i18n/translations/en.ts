@@ -1,6 +1,6 @@
 export const en = {
   meta: {
-    siteName: 'Salamatek Medical Centre',
+    siteName: 'Salamatek Medical Center — Excellence in Healthcare',
     siteDescription:
       'Complete family healthcare in Safwa, Eastern Province. Experienced specialists, advanced technology and compassionate care.',
   },
@@ -28,7 +28,7 @@ export const en = {
     aboutDropdownAccreditations: 'Accreditations & Certifications',
   },
   footer: {
-    tagline:      'Complete family healthcare in Safwa, Eastern Province.',
+    tagline:      'Excellence in Healthcare',
     aboutText:    'Dedicated to providing exceptional family and clinical healthcare services with 24/7 emergency care, specialized clinics, and modern diagnostics in Safwa.',
     quickLinks:   'Quick Links',
     contactInfo:  'Contact Information',
@@ -87,7 +87,7 @@ export const en = {
       title:       'Salamatek Medical Centre — Safwa',
       description: 'Complete family healthcare in Safwa, Eastern Province. Experienced specialists, advanced technology and compassionate care — open 24 hours.',
       // Hero
-      heroEyebrow:    'Care that feels personal',
+      heroEyebrow:    'Salamatek Medical Center • Excellence in Healthcare',
       heroHeading1Num: '40',
       heroHeading1Text: ' Years of excellence',
       heroHeading2:   'in health care.',
@@ -180,7 +180,7 @@ export const en = {
     about: {
       title:       'About Salamatek Medical Centre',
       description: 'Learn about Salamatek Medical Centre — our mission, vision, values and the story of how we have been serving families in Safwa for over 40 years.',
-      heroBadge:      'Our Story',
+      heroBadge:      'Our Story • Excellence in Healthcare',
       heroHeading:    'Built on care.\nDriven by purpose.',
       heroSubtext:    'For over 40 years, Salamatek Medical Centre has been Safwa\'s trusted healthcare partner — combining modern medicine with genuine human care.',
       introHeading:   'A destination for complete family care.',

@@ -32,7 +32,7 @@ export default async function ContactPage({ params }: Props) {
     <main className="min-h-screen bg-slate-50">
       <PageHero 
         locale={locale as any}
-        badge={title}
+        badge={isRtl ? 'التميز في الرعاية الصحية' : 'Excellence in Healthcare'}
         heading={title}
         subtext={description}
         imageSrc="https://images.unsplash.com/photo-1516387938699-a93567ec168e?q=80&w=2071&auto=format&fit=crop"
