@@ -89,7 +89,7 @@ export const en = {
       // Hero
       heroEyebrow:    'Salamatek Medical Center • Excellence in Healthcare',
       heroHeading1Num: '40',
-      heroHeading1Text: ' Years of excellence',
+      heroHeading1Text: ' Years of service',
       heroHeading2:   'in health care.',
       heroSubtext:    'Trusted healthcare for generations of families in Safwa.',
       heroCtaPrimary: 'Book an appointment',

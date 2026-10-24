@@ -66,28 +66,29 @@ export function WhatsAppCTA({ className = '', variant = 'floating', text, locale
     );
   }
 
-  // Floating variant: Vertical stack with Snapchat, Instagram, and WhatsApp
-  // Uniform compact circle (46px x 46px), matching icon sizes (w-5 h-5), and tight spacing (gap-2)
+  // Floating variant: Vertical stack with WhatsApp (1st), Instagram (2nd), and Snapchat (3rd)
+  // Floating variant: Vertical stack with WhatsApp (1st), Instagram (2nd), and Snapchat (3rd)
+  // Positioned at right-center (vertically centered on the right edge of the screen)
   return (
     <aside
       aria-label={isRtl ? 'قنوات التواصل المباشر السريعة' : 'Quick Social & Messaging Channels'}
-      className={`fixed bottom-6 ${isRtl ? 'left-5 sm:left-6' : 'right-5 sm:right-6'} z-50 flex flex-col items-center gap-2${className ? ` ${className}` : ''}`}
+      className={`fixed top-1/2 -translate-y-1/2 right-4 sm:right-5 z-50 flex flex-col items-center gap-2.5${className ? ` ${className}` : ''}`}
     >
-      {/* 1. Snapchat Floating Button */}
+      {/* 1. WhatsApp Floating Button */}
       <a
-        href={contactConfig.social.snapchat}
+        href={waUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="relative group flex items-center justify-center w-[46px] h-[46px] rounded-full bg-[#FFFC00] text-black shadow-md hover:scale-105 hover:shadow-lg transition-all duration-200 border border-black/10 shrink-0"
-        aria-label="Snapchat"
+        className="relative group flex items-center justify-center w-[46px] h-[46px] rounded-full bg-[#25D366] text-white shadow-md hover:scale-105 hover:shadow-lg hover:bg-[#1ebe5c] transition-all duration-200 shrink-0"
+        aria-label={defaultWaText}
       >
-        <SnapchatIcon className="w-5 h-5" />
+        <WhatsAppIcon className="w-5 h-5" />
 
         {/* Tooltip */}
         <span
-          className={`absolute ${isRtl ? 'left-full ml-2.5' : 'right-full mr-2.5'} px-2 py-1 bg-gray-900/90 text-white text-[11px] font-semibold rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap shadow-md`}
+          className="absolute right-full mr-3 px-2 py-1 bg-gray-900/90 text-white text-[11px] font-semibold rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap shadow-md"
         >
-          {isRtl ? 'سناب شات' : 'Snapchat'}
+          {defaultWaText}
         </span>
       </a>
 
@@ -103,27 +104,27 @@ export function WhatsAppCTA({ className = '', variant = 'floating', text, locale
 
         {/* Tooltip */}
         <span
-          className={`absolute ${isRtl ? 'left-full ml-2.5' : 'right-full mr-2.5'} px-2 py-1 bg-gray-900/90 text-white text-[11px] font-semibold rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap shadow-md`}
+          className="absolute right-full mr-3 px-2 py-1 bg-gray-900/90 text-white text-[11px] font-semibold rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap shadow-md"
         >
           {isRtl ? 'إنستغرام' : 'Instagram'}
         </span>
       </a>
 
-      {/* 3. WhatsApp Floating Button */}
+      {/* 3. Snapchat Floating Button */}
       <a
-        href={waUrl}
+        href={contactConfig.social.snapchat}
         target="_blank"
         rel="noopener noreferrer"
-        className="relative group flex items-center justify-center w-[46px] h-[46px] rounded-full bg-[#25D366] text-white shadow-md hover:scale-105 hover:shadow-lg hover:bg-[#1ebe5c] transition-all duration-200 shrink-0"
-        aria-label={defaultWaText}
+        className="relative group flex items-center justify-center w-[46px] h-[46px] rounded-full bg-[#FFFC00] text-black shadow-md hover:scale-105 hover:shadow-lg transition-all duration-200 border border-black/10 shrink-0"
+        aria-label="Snapchat"
       >
-        <WhatsAppIcon className="w-5 h-5" />
+        <SnapchatIcon className="w-5 h-5" />
 
         {/* Tooltip */}
         <span
-          className={`absolute ${isRtl ? 'left-full ml-2.5' : 'right-full mr-2.5'} px-2 py-1 bg-gray-900/90 text-white text-[11px] font-semibold rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap shadow-md`}
+          className="absolute right-full mr-3 px-2 py-1 bg-gray-900/90 text-white text-[11px] font-semibold rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap shadow-md"
         >
-          {defaultWaText}
+          {isRtl ? 'سناب شات' : 'Snapchat'}
         </span>
       </a>
     </aside>

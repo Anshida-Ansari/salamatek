@@ -91,7 +91,7 @@ export const ar: Translations = {
       // Hero
       heroEyebrow:    'مجمع سلامتك الطبي • التميز في الرعاية الصحية',
       heroHeading1Num: '٤٠',
-      heroHeading1Text: ' عامًا من التميز ',
+      heroHeading1Text: ' عامًا من الخدمة ',
       heroHeading2:   'في الرعاية الصحية.',
       heroSubtext:    'رعاية صحية موثوقة لأجيال من العائلات في صفوى.',
       heroCtaPrimary: 'احجز موعدًا',

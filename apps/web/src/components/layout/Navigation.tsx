@@ -30,11 +30,11 @@ const NAV_ITEMS: NavItem[] = [
   { key: 'services',     href: '/services' },
   { key: 'doctors',      href: '/doctors' },
   { key: 'packages',     href: '/health-packages' },
-  { key: 'sarc',         href: '/sarc', sarc: true },
-  { key: 'opticalBrands',href: '/optical-brands' },
   { key: 'insurancePartners', href: '/insurance-partners' },
   { key: 'news',         href: '/news' },
   { key: 'gallery',      href: '/gallery' },
+  { key: 'sarc',         href: '/sarc', sarc: true },
+  { key: 'opticalBrands',href: '/optical-brands' },
 ];
 
 type Props = {
