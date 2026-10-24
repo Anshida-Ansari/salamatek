@@ -5,7 +5,7 @@ export const INSURANCE_PARTNERS = [
   { name: 'GULF UNION', image: 'gulfunion.png' },
   { name: 'GIG', image: 'gig.png' },
   { name: 'MALATH', image: 'malath.png' },
-  { name: 'ALRAJHI', image: 'al-rajhi.webp' },
+  { name: 'AL RAJHI TAKAFUL', image: 'al-rajhi.png' },
   { name: 'SAICO', image: 'saico.png' },
   { name: 'WALA', image: 'wala.jpg' },
   { name: 'ARABIA', image: 'arabia.jpg' },

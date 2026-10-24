@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { isValidLocale, type Locale } from '@/i18n/config';
 import { getLocalizedPath } from '@/lib/utils';
 import { CTASection } from '@/components/shared/CTASection';
+import { SARCEnquiryForm } from '@/components/forms/SARCEnquiryForm';
 import Image from 'next/image';
 
 type Props = {
@@ -363,47 +364,3 @@ export default async function SARCPage({ params }: Props) {
   );
 }
 
-// ────────────────────────────────────────────────────────
-// SARC Enquiry Form (client component)
-// ────────────────────────────────────────────────────────
-function SARCEnquiryForm({ locale: _locale, isAr }: { locale: Locale; isAr: boolean }) {
-  const t = isAr ? tSarc.ar : tSarc.en;
-  return (
-    <div className="bg-[#FAF7F2] rounded-3xl p-8 md:p-12 border border-[#EFECE5] shadow-sm">
-      <form
-        action={`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/sarc-enquiries`}
-        method="POST"
-        className="space-y-6"
-        onSubmit={undefined}
-      >
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          <div>
-            <label className="block text-sm font-semibold text-slate-900 mb-2">{t.form.company} <span className="text-[#E05522]">*</span></label>
-            <input type="text" name="companyName" required className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#E05522]/40" placeholder={isAr ? "مثال: أرامكو السعودية" : "e.g. Saudi Aramco"} />
-          </div>
-          <div>
-            <label className="block text-sm font-semibold text-slate-900 mb-2">{t.form.person} <span className="text-[#E05522]">*</span></label>
-            <input type="text" name="contactName" required className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#E05522]/40" placeholder={isAr ? "الاسم الكامل" : "Full Name"} />
-          </div>
-          <div>
-            <label className="block text-sm font-semibold text-slate-900 mb-2">{t.form.email} <span className="text-[#E05522]">*</span></label>
-            <input type="email" name="email" required className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#E05522]/40" placeholder="contact@company.com" />
-          </div>
-          <div>
-            <label className="block text-sm font-semibold text-slate-900 mb-2">{t.form.phone}</label>
-            <input type="tel" name="phone" className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#E05522]/40" placeholder="+966 5X XXX XXXX" />
-          </div>
-        </div>
-
-        <div>
-          <label className="block text-sm font-semibold text-slate-900 mb-2">{t.form.details}</label>
-          <textarea name="message" rows={4} className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#E05522]/40 resize-none" placeholder={t.form.detailsPlaceholder} />
-        </div>
-
-        <button type="submit" className="w-full py-4 rounded-xl bg-[#E05522] text-white font-bold text-sm hover:bg-[#B8441A] transition-colors shadow-md">
-          {t.form.submit}
-        </button>
-      </form>
-    </div>
-  );
-}

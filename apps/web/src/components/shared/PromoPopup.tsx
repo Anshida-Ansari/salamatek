@@ -86,7 +86,7 @@ export function PromoPopup() {
             onClick={() => setIsOpen(false)}
             className="inline-flex items-center justify-center w-full sm:w-auto px-8 py-3.5 bg-brand-red hover:bg-brand-red-dark text-white font-semibold rounded-xl shadow-md hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5 group"
           >
-            Visit Salamatek Online
+            Package Purchase
             <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </Link>
           

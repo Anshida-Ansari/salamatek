@@ -48,7 +48,12 @@ export const getSarcEnquiryById = asyncHandler(async (req: Request, res: Respons
 });
 
 export const createSarcEnquiry = asyncHandler(async (req: Request, res: Response): Promise<void> => {
-  const enquiry = await SarcEnquiry.create(req.body);
+  const payload = {
+    ...req.body,
+    contactPerson: req.body.contactPerson || req.body.contactName,
+    serviceRequired: req.body.serviceRequired || 'Full Industrial Healthcare Support',
+  };
+  const enquiry = await SarcEnquiry.create(payload);
   res.status(201).json({ success: true, data: enquiry });
 });
 

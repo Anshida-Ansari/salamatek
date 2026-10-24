@@ -121,12 +121,16 @@ export const updateNewsSchema = z.object({
 // Sarc Enquiry
 export const createSarcEnquirySchema = z.object({
   body: z.object({
-    companyName: z.string().min(1),
-    contactPerson: z.string().min(1),
-    email: z.string().email(),
-    phone: z.string().min(1),
-    serviceRequired: z.string().min(1),
+    companyName: z.string().min(1, 'Company name is required'),
+    contactPerson: z.string().optional(),
+    contactName: z.string().optional(),
+    email: z.string().email('Invalid email address'),
+    phone: z.string().min(1, 'Phone number is required'),
+    serviceRequired: z.string().optional(),
     message: z.string().optional().or(z.literal('')),
+  }).refine((data) => !!(data.contactPerson || data.contactName), {
+    message: 'Contact person is required',
+    path: ['contactPerson'],
   }),
 });
 
