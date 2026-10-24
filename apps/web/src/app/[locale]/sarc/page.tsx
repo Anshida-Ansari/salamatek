@@ -13,12 +13,21 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   if (!isValidLocale(locale)) return {};
+  const isAr = locale === 'ar';
   return {
-    title: 'SARC — Site & Remote Clinical Services | {t.hero.salamatek}',
-    description: 'SARC is the industrial healthcare division of Salamatek Medical Center. We provide on-site clinics, mobile medical units, qualified medical staff and ambulance services to worksites across Saudi Arabia.',
+    title: isAr
+      ? 'سارك — خدمات الرعاية السريرية الميدانية والنائية | مجمع سلامتك الطبي'
+      : 'SARC — Site & Remote Clinical Services | Salamatek Medical Center',
+    description: isAr
+      ? 'سارك هو قسم الرعاية الصحية الصناعية في مجمع سلامتك الطبي. نوفر عيادات في مواقع العمل ووحدات متنقلة وطواقم طبية وسيارات إسعاف لمواقع المشاريع في جميع أنحاء المملكة.'
+      : 'SARC is the industrial healthcare division of Salamatek Medical Center. We provide on-site clinics, mobile medical units, qualified medical staff and ambulance services to worksites across Saudi Arabia.',
     openGraph: {
-      title: 'SARC — Industrial Healthcare Division | Salamatek',
-      description: 'On-site medical teams, clinics and ambulances built around {t.hero.title3}',
+      title: isAr
+        ? 'سارك — قسم الرعاية الصحية الصناعية | مجمع سلامتك الطبي'
+        : 'SARC — Industrial Healthcare Division | Salamatek',
+      description: isAr
+        ? 'فرق طبية وعيادات وسيارات إسعاف في موقع العمل منتشرة حول قوتك العاملة.'
+        : 'On-site medical teams, clinics and ambulances built around your workforce.',
       type: 'website',
     },
   };
@@ -40,15 +49,90 @@ const tSarc = {
     cta: { heading: 'تحتاج إلى دعم طبي في الموقع؟', subtext: 'تواصل مع فريق سارك اليوم للحصول على عرض مخصص.', btn: 'ابدأ الآن' }
   },
   en: {
-    hero: { divisionOf: '{t.hero.divisionOf}', salamatek: 'Salamatek Medical Center', subtitle: '{t.hero.subtitle}', title1: 'Medical teams', title2: 'deployed around', title3: 'your workforce.', desc: '{t.hero.desc}', reqProposal: '{t.hero.reqProposal}', exploreCap: '{t.hero.exploreCap}', features: ['{t.hero.features[0]}', '{t.hero.features[1]}', '{t.hero.features[2]}'] },
-    services: { tag: '{t.services.tag}', title1: 'A complete work-site', title2: 'healthcare team.', desc: '{t.services.desc}', items: [ { num: '01', title: 'Qualified doctors', desc: 'Physicians selected and mobilized to support the medical needs of industrial work sites.' }, { num: '02', title: 'Nursing teams', desc: 'Professional nurses scheduled around workforce size, shifts and site coverage requirements.' }, { num: '03', title: 'Paramedical staff', desc: 'Additional medical personnel configured to match the project scope and operating environment.' }, { num: '04', title: 'Ambulance services', desc: 'Ambulance coverage and supporting medical services for a more complete work-site healthcare environment.' } ] },
-    factors: { tag: '{t.factors.tag}', title1: 'Not a fixed package.', title2: 'A team designed for the site.', link: '{t.factors.link}', items: [ { num: '01', title: 'Workforce headcount', desc: 'Coverage planned around the number of workers on site.' }, { num: '02', title: 'Shift pattern', desc: 'Personnel scheduled around working hours and rotation needs.' }, { num: '03', title: 'Site environment', desc: 'Scope shaped by location, access and operational risk.' }, { num: '04', title: 'Client requirements', desc: 'Deployment aligned to the project\'s medical-service brief.' } ] },
-    capabilities: { tag: '{t.capabilities.tag}', title1: 'Full-spectrum care', title2: 'at every worksite.', items: [ { title: 'Equipping Clinics', icon: '🏥', desc: 'Remote medical clinics set up at your worksite with the latest equipment. Our team fully manages and operates the clinic to international standards.' }, { title: 'Enhanced Worker Safety', icon: '🦺', desc: 'Immediate on-site access to medical attention for injuries and illnesses — minimizing project delays and keeping productivity high.' }, { title: 'Employee Health Services', icon: '❤️', desc: 'Customized health programs tailored to the construction industry that promote worker well-being and address underlying medical conditions.' }, { title: 'Follow-Up & Case Management', icon: '📋', desc: 'Our team works closely with off-site medical staff to ensure injured workers receive appropriate treatment and follow-up appointments.' }, { title: 'On-Site Services', icon: '⛑️', desc: 'Medical expertise delivered directly to your site, staffed by experienced professionals for immediate treatment of injuries and minor illnesses.' }, { title: 'Mobile Medical Services', icon: '🚑', desc: 'Flexible mobile units that bring essential medical services to any project location — wherever your construction site is located.' } ], bottomDesc: '{t.capabilities.bottomDesc}' },
-    readiness: { tag: '{t.readiness.tag}', title1: 'Prepared before', title2: 'they reach the site.', desc: '{t.readiness.desc}', card1: { title: 'Clinical team preparation', desc: 'Structured training and team coordination' }, card2: { title: 'Emergency readiness', desc: 'Hands-on response practice' }, card3: { title: 'On-site clinical capability', desc: 'Equipped for the work environment' } },
-    coverage: { tag: '{t.coverage.tag}', title1: 'Healthcare coverage', title2: 'where work happens.', desc: '{t.coverage.desc}', items: ['Energy & industrial sites', 'Construction & infrastructure', 'Manufacturing facilities', 'Remote project locations'] },
-    form: { tag: '{t.form.tag}', title: 'Let\'s Build Your Site Medical Team', desc: '{t.form.desc}', company: 'Company Name', person: 'Contact Person', email: 'Email Address', phone: 'Phone Number', details: 'Project Details', detailsPlaceholder: 'Tell us about your project location, duration, and specific medical requirements...', submit: 'Send Enquiry' },
-    cta: { heading: 'Need on-site medical support?', subtext: 'Contact the SARC team today for a tailored proposal.', btn: 'Get Started' }
-  }
+    hero: {
+      divisionOf: 'A Division of',
+      salamatek: 'Salamatek Medical Center',
+      subtitle: 'Industrial Healthcare Manpower',
+      title1: 'Medical teams',
+      title2: 'deployed around',
+      title3: 'your workforce.',
+      desc: 'SARC simplifies healthcare at work sites by providing qualified doctors, nurses, paramedical staff, ambulance services and other medical support tailored to each client company.',
+      reqProposal: 'Request a staffing proposal',
+      exploreCap: 'Explore capabilities',
+      features: ['Work-site healthcare', 'Qualified personnel', 'Tailored deployment'],
+    },
+    services: {
+      tag: 'What SARC Provides',
+      title1: 'A complete work-site',
+      title2: 'healthcare team.',
+      desc: 'Each solution is shaped around client needs, from essential clinical manpower to broader on-site medical support.',
+      items: [
+        { num: '01', title: 'Qualified doctors', desc: 'Physicians selected and mobilized to support the medical needs of industrial work sites.' },
+        { num: '02', title: 'Nursing teams', desc: 'Professional nurses scheduled around workforce size, shifts and site coverage requirements.' },
+        { num: '03', title: 'Paramedical staff', desc: 'Additional medical personnel configured to match the project scope and operating environment.' },
+        { num: '04', title: 'Ambulance services', desc: 'Ambulance coverage and supporting medical services for a more complete work-site healthcare environment.' },
+      ],
+    },
+    factors: {
+      tag: 'Workforce-based staffing',
+      title1: 'Not a fixed package.',
+      title2: 'A team designed for the site.',
+      link: 'Discuss your site requirements',
+      items: [
+        { num: '01', title: 'Workforce headcount', desc: 'Coverage planned around the number of workers on site.' },
+        { num: '02', title: 'Shift pattern', desc: 'Personnel scheduled around working hours and rotation needs.' },
+        { num: '03', title: 'Site environment', desc: 'Scope shaped by location, access and operational risk.' },
+        { num: '04', title: 'Client requirements', desc: "Deployment aligned to the project's medical-service brief." },
+      ],
+    },
+    capabilities: {
+      tag: 'What we do',
+      title1: 'Full-spectrum care',
+      title2: 'at every worksite.',
+      items: [
+        { title: 'Equipping Clinics', icon: '🏥', desc: 'Remote medical clinics set up at your worksite with the latest equipment. Our team fully manages and operates the clinic to international standards.' },
+        { title: 'Enhanced Worker Safety', icon: '🦺', desc: 'Immediate on-site access to medical attention for injuries and illnesses — minimizing project delays and keeping productivity high.' },
+        { title: 'Employee Health Services', icon: '❤️', desc: 'Customized health programs tailored to the construction industry that promote worker well-being and address underlying medical conditions.' },
+        { title: 'Follow-Up & Case Management', icon: '📋', desc: 'Our team works closely with off-site medical staff to ensure injured workers receive appropriate treatment and follow-up appointments.' },
+        { title: 'On-Site Services', icon: '⛑️', desc: 'Medical expertise delivered directly to your site, staffed by experienced professionals for immediate treatment of injuries and minor illnesses.' },
+        { title: 'Mobile Medical Services', icon: '🚑', desc: 'Flexible mobile units that bring essential medical services to any project location — wherever your construction site is located.' },
+      ],
+      bottomDesc: 'Improved access to immediate care — SARC brings healthcare directly to the worksite, ensuring first aid response is always available where it matters most.',
+    },
+    readiness: {
+      tag: 'Real people. Real readiness.',
+      title1: 'Prepared before',
+      title2: 'they reach the site.',
+      desc: 'SARC teams combine professional medical staffing with practical preparation for work-site healthcare, emergency response and coordinated patient care.',
+      card1: { title: 'Clinical team preparation', desc: 'Structured training and team coordination' },
+      card2: { title: 'Emergency readiness', desc: 'Hands-on response practice' },
+      card3: { title: 'On-site clinical capability', desc: 'Equipped for the work environment' },
+    },
+    coverage: {
+      tag: 'Where we support',
+      title1: 'Healthcare coverage',
+      title2: 'where work happens.',
+      desc: 'Flexible medical manpower for demanding industrial and project environments.',
+      items: ['Energy & industrial sites', 'Construction & infrastructure', 'Manufacturing facilities', 'Remote project locations'],
+    },
+    form: {
+      tag: 'Contact SARC',
+      title: "Let's Build Your Site Medical Team",
+      desc: 'Tell us about your project requirements and we will design a staffing solution.',
+      company: 'Company Name',
+      person: 'Contact Person',
+      email: 'Email Address',
+      phone: 'Phone Number',
+      details: 'Project Details',
+      detailsPlaceholder: 'Tell us about your project location, duration, and specific medical requirements...',
+      submit: 'Send Enquiry',
+    },
+    cta: {
+      heading: 'Need on-site medical support?',
+      subtext: 'Contact the SARC team today for a tailored proposal.',
+      btn: 'Get Started',
+    },
+  },
 };
 
 
@@ -89,26 +173,26 @@ export default async function SARCPage({ params }: Props) {
                 <div className="h-10 w-px bg-white/25 flex-shrink-0" />
                 <div className="flex flex-col gap-0.5">
                   <span className="text-[9px] font-semibold text-white/50 uppercase tracking-[0.18em] leading-none">
-                    A Division of
+                    {t.hero.divisionOf}
                   </span>
                   <span className="text-[11px] font-bold text-white/90 uppercase tracking-widest leading-tight">
-                    Salamatek Medical Center
+                    {t.hero.salamatek}
                   </span>
                 </div>
               </div>
 
               <p className="text-[#E05522] text-[11px] font-bold uppercase tracking-[0.2em] mb-5">
-                Industrial Healthcare Manpower
+                {t.hero.subtitle}
               </p>
 
               <h1 className="text-5xl md:text-6xl lg:text-[64px] font-serif font-bold text-white leading-[1.08] mb-6">
                 {t.hero.title1}<br />
                 {t.hero.title2}<br />
-                <span className="italic text-[#E05522]">your workforce.</span>
+                <span className="italic text-[#E05522]">{t.hero.title3}</span>
               </h1>
 
               <p className="text-base text-white/65 mb-8 leading-relaxed max-w-md">
-                SARC simplifies healthcare at work sites by providing qualified doctors, nurses, paramedical staff, ambulance services and other medical support tailored to each client company.
+                {t.hero.desc}
               </p>
 
               <div className="flex flex-wrap items-center gap-3 mb-8">
@@ -116,28 +200,28 @@ export default async function SARCPage({ params }: Props) {
                   href="#enquire"
                   className="px-7 py-3.5 rounded-xl bg-[#E05522] text-white text-sm font-bold hover:bg-[#B8441A] transition-colors shadow-lg"
                 >
-                  Request a staffing proposal
+                  {t.hero.reqProposal}
                 </a>
                 <a
                   href="#services"
                   className="px-7 py-3.5 rounded-xl border border-white/20 text-white text-sm font-semibold hover:bg-white/10 transition-colors"
                 >
-                  Explore capabilities
+                  {t.hero.exploreCap}
                 </a>
               </div>
 
               <div className="flex flex-wrap items-center gap-5 text-[11px] text-white/45 font-medium">
                 <span className="flex items-center gap-1.5">
                   <svg className="w-3.5 h-3.5 text-[#E05522]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" /></svg>
-                  Work-site healthcare
+                  {t.hero.features[0]}
                 </span>
                 <span className="flex items-center gap-1.5">
                   <svg className="w-3.5 h-3.5 text-[#E05522]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" /></svg>
-                  Qualified personnel
+                  {t.hero.features[1]}
                 </span>
                 <span className="flex items-center gap-1.5">
                   <svg className="w-3.5 h-3.5 text-[#E05522]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" /></svg>
-                  Tailored deployment
+                  {t.hero.features[2]}
                 </span>
               </div>
             </div>
@@ -167,14 +251,14 @@ export default async function SARCPage({ params }: Props) {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-start mb-16">
             <div className="lg:col-span-5">
-              <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">What SARC Provides</p>
+              <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">{t.services.tag}</p>
               <h2 className="text-4xl md:text-5xl font-serif font-bold text-slate-900 leading-tight">
                 {t.services.title1}<br />{t.services.title2}
               </h2>
             </div>
             <div className="lg:col-span-6 lg:col-start-7 lg:pt-8">
               <p className="text-lg text-slate-500 leading-relaxed max-w-lg">
-                Each solution is shaped around client needs, from essential clinical manpower to broader on-site medical support.
+                {t.services.desc}
               </p>
             </div>
           </div>
@@ -198,13 +282,13 @@ export default async function SARCPage({ params }: Props) {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8">
             <div className="lg:col-span-4">
-              <p className="text-xs font-bold uppercase tracking-widest text-[#E05522] mb-4">Workforce-based staffing</p>
+              <p className="text-xs font-bold uppercase tracking-widest text-[#E05522] mb-4">{t.factors.tag}</p>
               <h2 className="text-4xl md:text-5xl font-serif font-bold text-slate-900 leading-tight mb-8">
                 {t.factors.title1}<br />{t.factors.title2}
               </h2>
               <a href="#enquire" className="inline-flex items-center text-[#E05522] font-semibold text-sm hover:text-[#B8441A] group">
-                Discuss your site requirements
-                <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                {t.factors.link}
+                <svg className="w-4 h-4 ml-2 rtl:mr-2 rtl:ml-0 rtl:rotate-180 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
               </a>
             </div>
             
@@ -231,7 +315,7 @@ export default async function SARCPage({ params }: Props) {
 
           {/* Section header */}
           <div className="max-w-2xl mb-16">
-            <p className="text-[#E05522] text-[11px] font-bold uppercase tracking-[0.2em] mb-4">What we do</p>
+            <p className="text-[#E05522] text-[11px] font-bold uppercase tracking-[0.2em] mb-4">{t.capabilities.tag}</p>
             <h2 className="text-4xl md:text-5xl font-serif font-bold text-white leading-tight">
               {t.capabilities.title1}<br /><span className="italic text-[#E05522]">{t.capabilities.title2}</span>
             </h2>
@@ -252,7 +336,7 @@ export default async function SARCPage({ params }: Props) {
           {/* Bottom call-out */}
           <div className="mt-14 pt-10 border-t border-white/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
             <p className="text-white/70 text-base max-w-xl leading-relaxed">
-              Improved access to immediate care — SARC brings healthcare directly to the worksite, ensuring first aid response is always available where it matters most.
+              {t.capabilities.bottomDesc}
             </p>
             <a href="#enquire" className="flex-shrink-0 px-7 py-3.5 rounded-xl bg-[#E05522] text-white text-sm font-bold hover:bg-[#B8441A] transition-colors shadow-lg whitespace-nowrap">
               {t.hero.reqProposal}
@@ -266,14 +350,14 @@ export default async function SARCPage({ params }: Props) {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 mb-16">
             <div className="lg:col-span-6">
-              <p className="text-xs font-bold uppercase tracking-widest text-[#E05522] mb-4">Real people. Real readiness.</p>
+              <p className="text-xs font-bold uppercase tracking-widest text-[#E05522] mb-4">{t.readiness.tag}</p>
               <h2 className="text-4xl md:text-5xl font-serif font-bold text-slate-900 leading-tight">
                 {t.readiness.title1}<br />{t.readiness.title2}
               </h2>
             </div>
             <div className="lg:col-span-5 lg:col-start-8 lg:pt-8">
               <p className="text-base text-slate-600 leading-relaxed">
-                SARC teams combine professional medical staffing with practical preparation for work-site healthcare, emergency response and coordinated patient care.
+                {t.readiness.desc}
               </p>
             </div>
           </div>
@@ -318,13 +402,13 @@ export default async function SARCPage({ params }: Props) {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             <div>
-              <p className="text-xs font-bold uppercase tracking-widest text-[#E05522] mb-4">Where we support</p>
+              <p className="text-xs font-bold uppercase tracking-widest text-[#E05522] mb-4">{t.coverage.tag}</p>
               <h2 className="text-4xl md:text-5xl font-serif font-bold text-white leading-tight">
                 {t.coverage.title1}<br />{t.coverage.title2}
               </h2>
             </div>
             <div className="lg:pt-8">
-              <p className="text-white/70 max-w-sm">Flexible medical manpower for demanding industrial and project environments.</p>
+              <p className="text-white/70 max-w-sm">{t.coverage.desc}</p>
             </div>
           </div>
           
@@ -341,12 +425,12 @@ export default async function SARCPage({ params }: Props) {
       <section id="enquire" className="bg-white py-24">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <p className="text-xs font-bold uppercase tracking-widest text-[#E05522] mb-4">Contact SARC</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-[#E05522] mb-4">{t.form.tag}</p>
             <h2 className="text-4xl font-serif font-bold text-slate-900 mb-4">
               {t.form.title}
             </h2>
             <p className="text-lg text-slate-500">
-              Tell us about your project requirements and we will design a staffing solution.
+              {t.form.desc}
             </p>
           </div>
           <SARCEnquiryForm locale={typedLocale} isAr={isAr} />

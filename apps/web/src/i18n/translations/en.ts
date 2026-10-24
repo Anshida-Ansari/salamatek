@@ -87,6 +87,7 @@ export const en = {
       title:       'Salamatek Medical Centre — Safwa',
       description: 'Complete family healthcare in Safwa, Eastern Province. Experienced specialists, advanced technology and compassionate care — open 24 hours.',
       // Hero
+      heroSlogan:     'Excellence in health care',
       heroEyebrow:    'Salamatek Medical Center • Excellence in Healthcare',
       heroHeading1Num: '40',
       heroHeading1Text: ' Years of service',

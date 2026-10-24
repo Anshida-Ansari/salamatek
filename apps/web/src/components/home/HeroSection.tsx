@@ -32,6 +32,30 @@ export function HeroSection({ locale, t, heroImages }: Props) {
     >
       <HeroCarouselBackground images={carouselImages} locale={locale} />
 
+      {/* Slogan Banner Badge (matches reference placement below header accreditation group) */}
+      <div className="absolute top-24 sm:top-26 md:top-28 inset-x-0 z-20 pointer-events-none">
+        <div className="mx-auto max-w-[1600px] w-full px-4 sm:px-6 lg:px-8 xl:px-12 flex justify-end rtl:justify-start">
+          <div
+            className="pointer-events-auto relative inline-flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-2.5 md:px-6 md:py-3 rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#D81B26] via-[#E5232F] to-[#C8101E] text-white shadow-[0_8px_24px_rgba(200,16,30,0.38)] border border-white/20 backdrop-blur-sm transition-all duration-300 hover:scale-105 select-none"
+            role="status"
+            aria-label={p.heroSlogan}
+          >
+            <span className="text-xs sm:text-sm md:text-base lg:text-lg font-bold tracking-wide leading-none whitespace-nowrap drop-shadow-sm font-sans rtl:font-arabic">
+              {p.heroSlogan}
+            </span>
+            {/* Subtle sparkle accent from reference badge */}
+            <svg
+              className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white/85 shrink-0"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
+            </svg>
+          </div>
+        </div>
+      </div>
+
       {/* Content */}
       <div className="relative z-10 mx-auto max-w-[1600px] w-full px-4 sm:px-6 lg:px-8 xl:px-12 pb-0 pointer-events-none mt-auto">
         <div className="max-w-2xl pt-20 sm:pt-24 pb-8 sm:pb-12 pointer-events-auto">

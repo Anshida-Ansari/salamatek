@@ -3,16 +3,31 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { X, Users, Heart, ShieldCheck, ArrowRight } from "lucide-react";
 
 export function PromoPopup() {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
+  const isAr = pathname?.startsWith('/ar');
 
-  // Use useEffect to prevent hydration mismatch since we are rendering a modal
+  // Open on initial mount
   useEffect(() => {
-    // The user requested the modal to appear every time someone checks the website.
-    // So we don't check sessionStorage/localStorage. We just open it on mount.
     setIsOpen(true);
+  }, []);
+
+  // Open when navigated to health-packages
+  useEffect(() => {
+    if (pathname?.includes('/health-packages')) {
+      setIsOpen(true);
+    }
+  }, [pathname]);
+
+  // Listen for custom open event (e.g. clicking Packages in navbar)
+  useEffect(() => {
+    const handleOpen = () => setIsOpen(true);
+    window.addEventListener('open-promo-popup', handleOpen);
+    return () => window.removeEventListener('open-promo-popup', handleOpen);
   }, []);
 
   if (!isOpen) return null;
@@ -24,8 +39,8 @@ export function PromoPopup() {
         {/* Close Button */}
         <button
           onClick={() => setIsOpen(false)}
-          className="absolute top-4 right-4 z-20 p-2 bg-white/80 hover:bg-white text-gray-800 rounded-full transition-colors shadow-sm"
-          aria-label="Close"
+          className="absolute top-4 end-4 z-20 p-2 bg-white/80 hover:bg-white text-gray-800 rounded-full transition-colors shadow-sm"
+          aria-label={isAr ? "إغلاق" : "Close"}
         >
           <X className="w-5 h-5" />
         </button>
@@ -46,15 +61,15 @@ export function PromoPopup() {
           </div>
 
           <p className="text-brand-DEFAULT font-bold tracking-widest text-xs uppercase mb-3">
-            Trusted Care Since 1985
+            {isAr ? "رعاية موثوقة منذ عام 1985" : "Trusted Care Since 1985"}
           </p>
           
           <h2 className="text-3xl md:text-5xl font-serif font-bold text-brand-dark mb-4 leading-tight">
-            Your Health,<br />Our Priority
+            {isAr ? <>صحتكم،<br />أولويتنا</> : <>Your Health,<br />Our Priority</>}
           </h2>
           
           <p className="text-text-muted text-lg mb-8 max-w-sm">
-            Experience quality healthcare at Salamatek Medical Center.
+            {isAr ? "تجربة رعاية صحية متميزة في مجمع سلامتك الطبي." : "Experience quality healthcare at Salamatek Medical Center."}
           </p>
 
           {/* Features Row */}
@@ -63,34 +78,40 @@ export function PromoPopup() {
               <div className="w-10 h-10 rounded-full bg-brand-pale/30 flex items-center justify-center mb-2 text-brand-DEFAULT">
                 <Users className="w-5 h-5" />
               </div>
-              <span className="text-xs font-semibold text-brand-dark">Experienced Specialists</span>
+              <span className="text-xs font-semibold text-brand-dark">
+                {isAr ? "أطباء متخصصون" : "Experienced Specialists"}
+              </span>
             </div>
             <div className="flex flex-col items-center text-center max-w-[80px]">
               <div className="w-10 h-10 rounded-full bg-brand-pale/30 flex items-center justify-center mb-2 text-brand-DEFAULT">
                 <Heart className="w-5 h-5" />
               </div>
-              <span className="text-xs font-semibold text-brand-dark">Comprehensive Care</span>
+              <span className="text-xs font-semibold text-brand-dark">
+                {isAr ? "رعاية شاملة" : "Comprehensive Care"}
+              </span>
             </div>
             <div className="flex flex-col items-center text-center max-w-[80px]">
               <div className="w-10 h-10 rounded-full bg-brand-pale/30 flex items-center justify-center mb-2 text-brand-DEFAULT">
                 <ShieldCheck className="w-5 h-5" />
               </div>
-              <span className="text-xs font-semibold text-brand-dark">Trusted by Generations</span>
+              <span className="text-xs font-semibold text-brand-dark">
+                {isAr ? "ثقة عبر الأجيال" : "Trusted by Generations"}
+              </span>
             </div>
           </div>
           
           <Link 
-            href="https://salamatekonline.com/en/" 
+            href={isAr ? "https://salamatekonline.com/ar/" : "https://salamatekonline.com/en/"} 
             target="_blank" 
             rel="noopener noreferrer"
             onClick={() => setIsOpen(false)}
             className="inline-flex items-center justify-center w-full sm:w-auto px-8 py-3.5 bg-brand-red hover:bg-brand-red-dark text-white font-semibold rounded-xl shadow-md hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5 group"
           >
-            Package Purchase
-            <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            {isAr ? "شراء الباقة" : "Package Purchase"}
+            <ArrowRight className="ms-2 w-5 h-5 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 rtl:rotate-180 transition-transform" />
           </Link>
           
-          <p className="mt-4 text-xs text-text-subtle text-center sm:text-left">
+          <p className="mt-4 text-xs text-text-subtle text-center sm:text-left rtl:sm:text-right">
             salamatekonline.com
           </p>
         </div>
@@ -103,14 +124,16 @@ export function PromoPopup() {
               src="/promo-bg.jpg"
               alt="Salamatek Medical Center Background"
               fill
-              className="object-cover rounded-l-3xl shadow-[-10px_0_30px_rgba(0,0,0,0.1)]"
+              className="object-cover rounded-l-3xl rtl:rounded-r-3xl rtl:rounded-l-none shadow-[-10px_0_30px_rgba(0,0,0,0.1)]"
               priority
             />
             {/* Optional overlay gradient for the image */}
-            <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/40 to-transparent rounded-l-3xl"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/40 to-transparent rounded-l-3xl rtl:rounded-r-3xl rtl:rounded-l-none"></div>
             
-            <div className="absolute bottom-6 right-6 text-white text-right">
-              <p className="font-serif italic text-2xl drop-shadow-md">Care that feels personal</p>
+            <div className="absolute bottom-6 end-6 text-white text-end">
+              <p className="font-serif italic text-2xl drop-shadow-md">
+                {isAr ? "رعاية تلامس قلوبكم" : "Care that feels personal"}
+              </p>
             </div>
           </div>
         </div>

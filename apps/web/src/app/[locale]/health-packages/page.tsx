@@ -78,7 +78,7 @@ export default async function HealthPackagesPage({ params }: Props) {
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center rounded-xl bg-white px-6 py-4 text-base font-bold text-[#123f2f] shadow-lg transition-transform hover:-translate-y-1 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#123f2f]"
               >
-                {typedLocale === 'ar' ? 'الذهاب للمنصة' : 'Go to Platform'}
+                {typedLocale === 'ar' ? 'شراء الباقة' : 'Package Purchase'}
                 <svg className="ml-2 w-5 h-5 rtl:mr-2 rtl:ml-0 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                 </svg>

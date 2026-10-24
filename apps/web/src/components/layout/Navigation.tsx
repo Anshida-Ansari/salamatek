@@ -109,7 +109,12 @@ export function Navigation({ locale, t, className, orientation = 'horizontal', o
           <div key={key} className={cn("relative group shrink-0", isVertical ? "w-full" : "")}>
             <Link
               href={localizedHref}
-              onClick={onLinkClick}
+              onClick={() => {
+                if (key === 'packages') {
+                  window.dispatchEvent(new CustomEvent('open-promo-popup'));
+                }
+                onLinkClick?.();
+              }}
               aria-current={active ? 'page' : undefined}
               className={cn(
                 'relative whitespace-nowrap px-1.5 xl:px-2 py-1.5 text-[13px] xl:text-[14px] font-medium transition-colors duration-200 flex items-center gap-0.5 group/link',
