@@ -143,11 +143,35 @@ export default async function SARCPage({ params }: Props) {
   const typedLocale = locale as Locale;
   const isAr = typedLocale === 'ar';
   const t = isAr ? tSarc.ar : tSarc.en;
+  const sloganText = isAr ? 'التميز في الرعاية الصحية' : 'Excellence in health care';
 
   return (
     <>
       {/* ── 1. Hero ─────────────────────────────────────────────── */}
       <section className="relative min-h-screen flex flex-col justify-center pt-20 pb-16 md:pt-24 md:pb-20 overflow-hidden bg-gradient-to-br from-[#712316] to-[#3B1408]">
+        {/* Slogan Banner Badge */}
+        <div className="absolute top-24 sm:top-26 inset-x-0 z-20 pointer-events-none">
+          <div className="mx-auto max-w-7xl w-full px-4 sm:px-6 lg:px-8 flex justify-end rtl:justify-start">
+            <div
+              className="pointer-events-auto relative inline-flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 sm:px-4 sm:py-2 md:px-5 md:py-2.5 rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#D81B26] via-[#E5232F] to-[#C8101E] text-white shadow-[0_8px_24px_rgba(200,16,30,0.38)] border border-white/20 backdrop-blur-sm transition-all duration-300 hover:scale-105 select-none"
+              role="status"
+              aria-label={sloganText}
+            >
+              <span className="text-[11px] sm:text-xs md:text-sm lg:text-base font-bold tracking-wide leading-none whitespace-nowrap drop-shadow-sm font-sans rtl:font-arabic">
+                {sloganText}
+              </span>
+              <svg
+                className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white/85 shrink-0"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
+              </svg>
+            </div>
+          </div>
+        </div>
+
         {/* Soft red glow */}
         <div className="absolute top-0 right-0 w-[700px] h-[700px] bg-[#E05522] opacity-10 rounded-full blur-[120px] -translate-y-1/3 translate-x-1/4" />
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#E05522] opacity-5 rounded-full blur-[80px] translate-y-1/3 -translate-x-1/4" />
