@@ -11,6 +11,7 @@ type NavItem = {
   key: keyof Translations['nav'];
   href: string;
   sarc?: boolean;
+  optical?: boolean;
   dropdown?: { key: keyof Translations['nav']; href: string }[];
 };
 
@@ -34,7 +35,7 @@ const NAV_ITEMS: NavItem[] = [
   { key: 'news',         href: '/news' },
   { key: 'gallery',      href: '/gallery' },
   { key: 'sarc',         href: '/sarc', sarc: true },
-  { key: 'opticalBrands',href: '/optical-brands' },
+  { key: 'opticalBrands',href: '/optical-brands', optical: true },
 ];
 
 type Props = {
@@ -66,7 +67,7 @@ export function Navigation({ locale, t, className, orientation = 'horizontal', o
         className,
       )}
     >
-      {NAV_ITEMS.map(({ key, href, sarc, dropdown }) => {
+      {NAV_ITEMS.map(({ key, href, sarc, optical, dropdown }) => {
         const localizedHref = getLocalizedPath(href, locale);
         const active = isActive(href);
         const label = t.nav[key] as string;
@@ -96,6 +97,39 @@ export function Navigation({ locale, t, className, orientation = 'horizontal', o
                   width: isVertical ? '140px' : 'auto',
                   height: isVertical ? 'auto' : '30px',
                   minWidth: isVertical ? undefined : '88px',
+                  filter: isTransparent ? 'drop-shadow(0 1px 3px rgba(0,0,0,0.6)) brightness(1.15)' : undefined
+                }}
+                priority
+              />
+            </Link>
+          );
+        }
+
+        /* ── Optical logo link ── */
+        if (optical) {
+          return (
+            <Link
+              key={key}
+              href={localizedHref}
+              onClick={onLinkClick}
+              aria-label={label || 'Salamatek Store'}
+              aria-current={active ? 'page' : undefined}
+              className={cn(
+                'relative inline-flex items-center justify-center shrink-0 transition-opacity duration-200 hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 rounded-sm',
+                active && 'opacity-90',
+                isVertical ? 'w-full justify-start px-4 py-2 mt-2' : 'px-1 xl:px-1.5 py-1'
+              )}
+            >
+              <Image
+                src="/images/salamatek-store-logo.png"
+                alt="Salamatek Store - Optical"
+                width={120}
+                height={48}
+                className={cn("object-contain transition-transform hover:scale-105 shrink-0")}
+                style={{
+                  width: isVertical ? '140px' : 'auto',
+                  height: isVertical ? 'auto' : '32px',
+                  maxHeight: isVertical ? '56px' : '32px',
                   filter: isTransparent ? 'drop-shadow(0 1px 3px rgba(0,0,0,0.6)) brightness(1.15)' : undefined
                 }}
                 priority
