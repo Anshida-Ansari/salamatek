@@ -28,7 +28,7 @@ function InstagramIcon({ className = 'w-5 h-5' }: { className?: string }) {
 function SnapchatIcon({ className = 'w-5 h-5' }: { className?: string }) {
   return (
     <svg className={className} fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M12 2.25c-3.6 0-5.75 2.5-5.75 5.8 0 .85.18 1.7.42 2.38-.63.2-1.63.6-1.87 1.52-.15.57.13 1.1.68 1.31.1.04.23.07.37.09-.16.37-.44.86-.94 1.15-.56.31-1.01.26-1.25.67-.18.3-.05.68.3 1.03.59.57 1.41.74 2.3.82.24.02.45.15.56.36.3.61.77 1.16 1.79 1.3.49.07 1.12-.05 1.74-.24.42-.13.86-.13 1.28 0 .61.19 1.24.31 1.73.24 1.02-.14 1.49-.69 1.79-1.3.11-.21.32-.34.56-.36.89-.08 1.71-.25 2.3-.82.35-.35.48-.73.3-1.03-.24-.41-.69-.36-1.25-.67-.5-.29-.78-.78-.94-1.15.14-.02.27-.05.37-.09.55-.21.83-.74.68-1.31-.24-.92-1.24-1.32-1.87-1.52.24-.68.42-1.53.42-2.38 0-3.3-2.15-5.8-5.75-5.8z" />
+      <path d="M12.16 2.05c-3.64 0-5.74 2.5-5.74 5.76 0 .86.18 1.7.42 2.38-.63.2-1.63.6-1.87 1.52-.16.57.12 1.1.67 1.31.11.04.24.07.38.09-.16.37-.44.86-.94 1.15-.56.31-1.02.26-1.25.67-.19.3-.06.68.29 1.03.6.57 1.42.74 2.31.82.24.02.45.15.56.36.3.61.77 1.16 1.79 1.3.49.07 1.12-.05 1.74-.24.42-.13.86-.13 1.28 0 .61.19 1.24.31 1.73.24 1.02-.14 1.49-.69 1.79-1.3.11-.21.32-.34.56-.36.89-.08 1.71-.25 2.3-.82.35-.35.48-.73.29-1.03-.23-.41-.69-.36-1.25-.67-.5-.29-.78-.78-.94-1.15.14-.02.27-.05.38-.09.55-.21.83-.74.67-1.31-.24-.92-1.24-1.32-1.87-1.52.24-.68.42-1.52.42-2.38 0-3.26-2.1-5.76-5.74-5.76z" />
     </svg>
   );
 }
@@ -44,9 +44,9 @@ export function WhatsAppCTA({ className = '', variant = 'floating', text, locale
         href={waUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className={`inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-[#25D366] hover:bg-[#1ebe5c] text-white font-bold rounded-lg transition-colors shadow-sm${className ? ` ${className}` : ''}`}
+        className={`inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-brand-dark hover:bg-brand-medium text-white font-bold rounded-lg transition-colors shadow-sm${className ? ` ${className}` : ''}`}
       >
-        <WhatsAppIcon className="w-5 h-5" />
+        <WhatsAppIcon className="w-5 h-5 text-white" />
         {defaultWaText}
       </a>
     );
@@ -58,71 +58,78 @@ export function WhatsAppCTA({ className = '', variant = 'floating', text, locale
         href={waUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className={`inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#25D366] hover:bg-[#1ebe5c] text-white transition-colors${className ? ` ${className}` : ''}`}
+        className={`inline-flex items-center justify-center w-10 h-10 rounded-full bg-brand-dark hover:bg-brand-medium text-white transition-colors${className ? ` ${className}` : ''}`}
         aria-label={defaultWaText}
       >
-        <WhatsAppIcon className="w-5 h-5" />
+        <WhatsAppIcon className="w-5 h-5 text-white" />
       </a>
     );
   }
 
-  // Floating variant: Vertical stack with WhatsApp (1st), Instagram (2nd), and Snapchat (3rd)
-  // Floating variant: Vertical stack with WhatsApp (1st), Instagram (2nd), and Snapchat (3rd)
-  // Positioned at right-center (vertically centered on the right edge of the screen)
+  // Floating variant: Matching the reference image style
+  // Vertical edge dock attached flush to the screen edge with Salamatek dark green tabs,
+  // inset white circular discs, and dark green icons.
+  // Exactly 3 icons in exact order: 1. WhatsApp, 2. Instagram, 3. Snapchat
   return (
     <aside
       aria-label={isRtl ? 'قنوات التواصل المباشر السريعة' : 'Quick Social & Messaging Channels'}
-      className={`fixed top-1/2 -translate-y-1/2 right-4 sm:right-5 z-50 flex flex-col items-center gap-2.5${className ? ` ${className}` : ''}`}
+      className={`fixed top-1/2 -translate-y-1/2 right-0 z-50 flex flex-col items-end gap-1.5 sm:gap-2 select-none${className ? ` ${className}` : ''}`}
     >
-      {/* 1. WhatsApp Floating Button */}
+      {/* 1. WhatsApp Tab */}
       <a
         href={waUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="relative group flex items-center justify-center w-[46px] h-[46px] rounded-full bg-[#25D366] text-white shadow-md hover:scale-105 hover:shadow-lg hover:bg-[#1ebe5c] transition-all duration-200 shrink-0"
+        className="group relative flex items-center justify-start pl-2 sm:pl-2.5 pr-1 sm:pr-1.5 h-11 sm:h-[48px] w-12 sm:w-[54px] bg-brand-dark hover:bg-brand-medium text-white rounded-l-full shadow-[-3px_3px_10px_rgba(0,0,0,0.18)] transition-all duration-200 hover:-translate-x-1 sm:hover:-translate-x-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 shrink-0"
         aria-label={defaultWaText}
       >
-        <WhatsAppIcon className="w-5 h-5" />
+        <div className="w-[32px] h-[32px] sm:w-[38px] sm:h-[38px] rounded-full bg-white flex items-center justify-center shrink-0 shadow-[0_2px_5px_rgba(0,0,0,0.22)] transition-transform duration-200 group-hover:scale-105">
+          <WhatsAppIcon className="w-4 h-4 sm:w-5 sm:h-5 text-brand-dark" />
+        </div>
 
         {/* Tooltip */}
         <span
-          className="absolute right-full mr-3 px-2 py-1 bg-gray-900/90 text-white text-[11px] font-semibold rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap shadow-md"
+          className="absolute right-full mr-2.5 sm:mr-3 px-2.5 py-1 bg-brand-dark/95 text-white text-[11px] sm:text-xs font-semibold rounded-md shadow-lg border border-white/10 opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none whitespace-nowrap"
         >
           {defaultWaText}
         </span>
       </a>
 
-      {/* 2. Instagram Floating Button */}
+      {/* 2. Instagram Tab */}
       <a
         href={contactConfig.social.instagram}
         target="_blank"
         rel="noopener noreferrer"
-        className="relative group flex items-center justify-center w-[46px] h-[46px] rounded-full bg-gradient-to-tr from-amber-500 via-pink-500 to-purple-600 text-white shadow-md hover:scale-105 hover:shadow-lg transition-all duration-200 shrink-0"
+        className="group relative flex items-center justify-start pl-2 sm:pl-2.5 pr-1 sm:pr-1.5 h-11 sm:h-[48px] w-12 sm:w-[54px] bg-brand-dark hover:bg-brand-medium text-white rounded-l-full shadow-[-3px_3px_10px_rgba(0,0,0,0.18)] transition-all duration-200 hover:-translate-x-1 sm:hover:-translate-x-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 shrink-0"
         aria-label="Instagram"
       >
-        <InstagramIcon className="w-5 h-5" />
+        <div className="w-[32px] h-[32px] sm:w-[38px] sm:h-[38px] rounded-full bg-white flex items-center justify-center shrink-0 shadow-[0_2px_5px_rgba(0,0,0,0.22)] transition-transform duration-200 group-hover:scale-105">
+          <InstagramIcon className="w-4 h-4 sm:w-5 sm:h-5 text-brand-dark" />
+        </div>
 
         {/* Tooltip */}
         <span
-          className="absolute right-full mr-3 px-2 py-1 bg-gray-900/90 text-white text-[11px] font-semibold rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap shadow-md"
+          className="absolute right-full mr-2.5 sm:mr-3 px-2.5 py-1 bg-brand-dark/95 text-white text-[11px] sm:text-xs font-semibold rounded-md shadow-lg border border-white/10 opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none whitespace-nowrap"
         >
           {isRtl ? 'إنستغرام' : 'Instagram'}
         </span>
       </a>
 
-      {/* 3. Snapchat Floating Button */}
+      {/* 3. Snapchat Tab */}
       <a
         href={contactConfig.social.snapchat}
         target="_blank"
         rel="noopener noreferrer"
-        className="relative group flex items-center justify-center w-[46px] h-[46px] rounded-full bg-[#FFFC00] text-black shadow-md hover:scale-105 hover:shadow-lg transition-all duration-200 border border-black/10 shrink-0"
+        className="group relative flex items-center justify-start pl-2 sm:pl-2.5 pr-1 sm:pr-1.5 h-11 sm:h-[48px] w-12 sm:w-[54px] bg-brand-dark hover:bg-brand-medium text-white rounded-l-full shadow-[-3px_3px_10px_rgba(0,0,0,0.18)] transition-all duration-200 hover:-translate-x-1 sm:hover:-translate-x-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 shrink-0"
         aria-label="Snapchat"
       >
-        <SnapchatIcon className="w-5 h-5" />
+        <div className="w-[32px] h-[32px] sm:w-[38px] sm:h-[38px] rounded-full bg-white flex items-center justify-center shrink-0 shadow-[0_2px_5px_rgba(0,0,0,0.22)] transition-transform duration-200 group-hover:scale-105">
+          <SnapchatIcon className="w-4 h-4 sm:w-5 sm:h-5 text-brand-dark" />
+        </div>
 
         {/* Tooltip */}
         <span
-          className="absolute right-full mr-3 px-2 py-1 bg-gray-900/90 text-white text-[11px] font-semibold rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap shadow-md"
+          className="absolute right-full mr-2.5 sm:mr-3 px-2.5 py-1 bg-brand-dark/95 text-white text-[11px] sm:text-xs font-semibold rounded-md shadow-lg border border-white/10 opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none whitespace-nowrap"
         >
           {isRtl ? 'سناب شات' : 'Snapchat'}
         </span>
