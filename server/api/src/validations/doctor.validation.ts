@@ -17,6 +17,7 @@ export const createDoctorSchema = z.object({
     remarks: optionalBilingualStringSchema,
     whatsapp: z.string().optional().or(z.literal('')),
     image: z.string().url().optional().or(z.literal('')),
+    order: z.number().int().optional(),
     active: z.boolean().optional(),
   }),
 });
@@ -40,6 +41,7 @@ export const updateDoctorSchema = z.object({
     remarks: optionalBilingualStringSchema,
     whatsapp: z.string().optional().or(z.literal('')),
     image: z.string().url().optional().or(z.literal('')),
+    order: z.number().int().optional(),
     active: z.boolean().optional(),
   }),
 });

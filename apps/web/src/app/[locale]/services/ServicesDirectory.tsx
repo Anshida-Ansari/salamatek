@@ -1,9 +1,9 @@
 'use client';
 
 import { useState, useMemo, useRef, useEffect, useCallback } from 'react';
-import Link from 'next/link';
 import type { Locale } from '@/i18n/config';
-import { getLocalizedPath } from '@/lib/utils';
+import { contactConfig } from '@/config/contact';
+import { MessageCircle } from 'lucide-react';
 
 type Category = {
   _id: string;
@@ -354,9 +354,8 @@ export function ServicesDirectory({ services, categories, locale }: Props) {
             const categoryName = categoryObj?.name?.[locale] || categoryObj?.name?.en;
 
             return (
-              <Link
+              <div
                 key={service._id}
-                href={getLocalizedPath(`/services/${service.slug}`, locale)}
                 className="group flex flex-col bg-white rounded-3xl overflow-hidden border border-border/70 hover:border-brand-pale/80 shadow-[0_4px_20px_rgb(0,0,0,0.03)] hover:shadow-[0_16px_36px_rgb(0,0,0,0.08)] hover:-translate-y-1 transition-all duration-300"
               >
                 {/* Image & Category Floating Tag */}
@@ -433,27 +432,24 @@ export function ServicesDirectory({ services, categories, locale }: Props) {
                     </div>
                   )}
 
-                  {/* Footer link */}
-                  <div className="mt-auto pt-2 flex items-center justify-between text-sm font-semibold text-brand group-hover:text-brand-dark transition-colors">
-                    <span>{isAr ? 'تفاصيل الخدمة' : 'View Service'}</span>
-                    <div className="w-8 h-8 rounded-full bg-surface-mint flex items-center justify-center text-brand group-hover:bg-brand group-hover:text-white transition-all duration-300">
-                      <svg
-                        className="w-4 h-4 rtl:rotate-180 transition-transform group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M14 5l7 7m0 0l-7 7m7-7H3"
-                        />
-                      </svg>
-                    </div>
+                  {/* Card Action / Direct Booking & Inquiry */}
+                  <div className="mt-auto pt-4 border-t border-border/50">
+                    <a
+                      href={`https://wa.me/${contactConfig.whatsappNumber}?text=${encodeURIComponent(
+                        isAr
+                          ? `مرحباً، أود الاستفسار وحجز موعد لخدمة: ${name}`
+                          : `Hello, I would like to inquire about booking: ${name}`
+                      )}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-surface-mint text-brand-dark font-semibold text-xs sm:text-sm hover:bg-brand hover:text-white transition-all duration-300 border border-brand-pale/50"
+                    >
+                      <MessageCircle className="w-4 h-4 text-emerald-600 group-hover:text-white transition-colors" />
+                      <span>{isAr ? 'حجز موعد / استفسار' : 'Book / Inquire'}</span>
+                    </a>
                   </div>
                 </div>
-              </Link>
+              </div>
             );
           })}
         </div>

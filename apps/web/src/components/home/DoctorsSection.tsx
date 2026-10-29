@@ -30,7 +30,7 @@ export function DoctorsSection({ locale, t, departments }: Props) {
           <div className="relative">
             <div className="relative rounded-3xl overflow-hidden aspect-[4/5] max-h-[600px] w-full">
               <Image
-                src="/images/hospital/reception.jpg"
+                src="/images/doctor-patient.jpg"
                 alt={
                   locale === 'ar'
                     ? 'طبيب يفحص مريضًا في مجمع سلامتك الطبي'

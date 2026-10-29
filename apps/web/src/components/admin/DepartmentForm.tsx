@@ -17,6 +17,7 @@ interface FormState {
   descriptionEn: string;
   descriptionAr: string;
   image: string;
+  order: string;
   active: boolean;
 }
 
@@ -29,6 +30,7 @@ const emptyForm: FormState = {
   descriptionEn: '',
   descriptionAr: '',
   image: '',
+  order: '0',
   active: true,
 };
 
@@ -55,6 +57,7 @@ export default function DepartmentForm({ departmentId }: { departmentId?: string
           descriptionEn: d.description?.en ?? '',
           descriptionAr: d.description?.ar ?? '',
           image: d.image ?? '',
+          order: d.order !== undefined && d.order !== null ? String(d.order) : '0',
           active: d.active !== false,
         });
       } catch {
@@ -114,6 +117,7 @@ export default function DepartmentForm({ departmentId }: { departmentId?: string
       subheading: { en: formData.subheadingEn, ar: formData.subheadingAr },
       description: { en: formData.descriptionEn, ar: formData.descriptionAr },
       image: formData.image || undefined,
+      order: formData.order !== '' ? Number(formData.order) : 0,
       active: formData.active,
     };
 
@@ -297,6 +301,21 @@ export default function DepartmentForm({ departmentId }: { departmentId?: string
               onChange={(url) => setFormData(prev => ({ ...prev, image: url }))} 
             />
           </div>
+          <div>
+            <label className={labelClass}>Display Order</label>
+            <input
+              type="number"
+              name="order"
+              value={formData.order}
+              onChange={handleChange}
+              placeholder="0"
+              className={inputClass}
+            />
+            <p className="text-xs text-text-muted mt-1.5">
+              Controls display priority across the website (lower numbers appear first).
+            </p>
+          </div>
+
           <div className="flex items-center gap-3">
             <input
               id="active"

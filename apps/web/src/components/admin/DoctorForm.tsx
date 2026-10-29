@@ -37,6 +37,7 @@ interface FormState {
   bioAr: string;
   whatsapp: string;
   image: string;
+  order: string;
   active: boolean;
 }
 
@@ -64,6 +65,7 @@ const emptyForm: FormState = {
   bioAr: '',
   whatsapp: '',
   image: '',
+  order: '0',
   active: true,
 };
 
@@ -109,6 +111,7 @@ export default function DoctorForm({ doctorId }: { doctorId?: string }) {
             bioAr: d.bio?.ar ?? '',
             whatsapp: d.whatsapp ?? '',
             image: d.image ?? '',
+            order: d.order !== undefined && d.order !== null ? String(d.order) : '0',
             active: d.active !== false,
           });
         }
@@ -216,6 +219,7 @@ export default function DoctorForm({ doctorId }: { doctorId?: string }) {
       bio: { en: formData.bioEn, ar: formData.bioAr },
       whatsapp: formData.whatsapp.trim() || undefined,
       image: formData.image || undefined,
+      order: formData.order !== '' ? Number(formData.order) : 0,
       active: formData.active,
     };
 
@@ -619,6 +623,21 @@ export default function DoctorForm({ doctorId }: { doctorId?: string }) {
             />
             <p className="text-xs text-gray-400 mt-1.5">
               Enter an image URL. Cloud storage integration (Cloudinary/S3) will be added in a later phase.
+            </p>
+          </div>
+
+          <div>
+            <label className={labelClass}>Display Order</label>
+            <input
+              type="number"
+              name="order"
+              value={formData.order}
+              onChange={handleChange}
+              placeholder="0"
+              className={inputClass}
+            />
+            <p className="text-xs text-text-muted mt-1.5">
+              Display priority on the public website (lower numbers appear first).
             </p>
           </div>
 

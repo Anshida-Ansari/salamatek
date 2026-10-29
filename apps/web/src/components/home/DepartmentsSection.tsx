@@ -22,9 +22,59 @@ async function getDepartments() {
   }
 }
 
+// Exact order required for departments
+const DEPARTMENT_SLUG_ORDER = [
+  'internal-medicine',        // 1. Internal Medicine
+  'general-medicine',         // 2. General Medicine
+  'obstetrics-gynaecology',   // 3. Obstetrics and Gynaecology
+  'paediatrics',              // 4. Pediatrics
+  'dermatology-cosmetology',  // 5. Derma
+  'cosmetology',              // 6. Cosmotology
+  'ophthalmology',            // 7. Ophthalmology
+  'orthopaedics',             // 8. Orthopedics
+  'orthodontics',             // 9. Orthodontics
+  'ent',                      // 10. ENT
+  'general-surgeon',          // 11. General Surgeon
+  'dental',                   // 12. Dental
+  'physiotherapy',            // 13. Physiotherapy
+  'laboratory',               // 14. Laboratory
+  'radiology',                // 15. Radiology
+  'pharmacy',                 // 16. Pharmacy
+  'iqama-baladia',            // 17. IQAMA/BALADIYA Medical Departmen
+];
+
+function sortDepartments(list: any[]): any[] {
+  return [...list].sort((a: any, b: any) => {
+    const idxA = DEPARTMENT_SLUG_ORDER.indexOf(a.slug);
+    const idxB = DEPARTMENT_SLUG_ORDER.indexOf(b.slug);
+    if (idxA !== -1 && idxB !== -1) return idxA - idxB;
+    if (idxA !== -1) return -1;
+    if (idxB !== -1) return 1;
+    return (a.order ?? 999) - (b.order ?? 999);
+  });
+}
+
 // SVG icons for departments
 function DeptIcon({ slug }: { slug: string }) {
   const icons: Record<string, React.ReactNode> = {
+    'internal-medicine': (
+      <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+    ),
+    'general-medicine': (
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+    ),
+    'obstetrics-gynaecology': (
+      <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+    ),
+    paediatrics: (
+      <path strokeLinecap="round" strokeLinejoin="round" d="M15.182 16.318A4.486 4.486 0 0012.016 15a4.486 4.486 0 00-3.198 1.318M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm-.375 0h.008v.015h-.008V9.75zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75zm-.375 0h.008v.015h-.008V9.75z" />
+    ),
+    'dermatology-cosmetology': (
+      <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
+    ),
+    cosmetology: (
+      <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
+    ),
     dermatology: (
       <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
     ),
@@ -33,12 +83,6 @@ function DeptIcon({ slug }: { slug: string }) {
     ),
     ophthalmology: (
       <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-    ),
-    'womens-health': (
-      <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
-    ),
-    'general-medicine': (
-      <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
     ),
     laboratory: (
       <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714a2.25 2.25 0 001.357 2.059l.096.04a3.75 3.75 0 012.44 4.023 6.75 6.75 0 01-6.726 6.016h-.09A6.75 6.75 0 016.25 15.52a3.75 3.75 0 012.44-4.023l.096-.04a2.25 2.25 0 001.357-2.059V3.104" />
@@ -88,7 +132,8 @@ function ArrowIcon({ className = '' }: { className?: string }) {
 
 export async function DepartmentsSection({ locale, t }: Props) {
   const p = t.pages.home;
-  const featured = await getDepartments();
+  const depts = await getDepartments();
+  const featured = sortDepartments(depts);
 
   return (
     <section

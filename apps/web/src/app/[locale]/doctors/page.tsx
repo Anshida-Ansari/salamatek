@@ -11,6 +11,55 @@ type Props = {
   params: Promise<{ locale: string }>;
 };
 
+// Exact order required for all doctors (Specialists 1-18 followed by GPs 1-13)
+const DOCTOR_SLUG_ORDER = [
+  // Specialist Doctors (in exact order 1-18)
+  'dr-abdel-nasser',       // 1. Dr. Abdul Nasser – ENT
+  'dr-khaled-mohammed',    // 2. Dr. Khalid Mohamed – Internist
+  'dr-ali-mahjoub',        // 3. Dr. Ali Mehagob – Internist
+  'dr-hanna-saleh',        // 4. Dr. Hana – GYNC
+  'dr-khadeja-mohammed',   // 5. Dr. Khadeeja – GYNC
+  'dr-mohamed-elassal',    // 6. Dr. Mohammed Elassal – Pedia
+  'dr-amaal-hassan',       // 7. Dr. Amal Hassan – Pedia
+  'dr-aya-elrashidy',      // 8. Dr. Aya Elrashidy – Derma
+  'dr-ahmed-mohamed',      // 9. Dr. Ahamed Mohammed – Optho
+  'dr-hossameldin-sayed',  // 10. Dr. Hossam – Orthopedia
+  'dr-samer-helani',       // 11. Dr. Samir – Orthodontics
+  'dr-ibrahim-adeeb',      // 12. Dr. Ibrahim – Surgery
+  'dr-noor-alamin-hebal',  // 13. Dr. Noor – Dental
+  'dr-ali-mohamed-osman',  // 14. Dr. Ali Mohmed – Dental
+  'dr-fadel-alsadah',      // 15. Dr. Fadel – Dental
+  'dr-hassan-belal',       // 16. Dr. Hasan Belal – Radiology
+  'dr-enaam-elsagheer',    // 17. Dr. Enam – Physio
+  'dr-amira-ashraf',       // 18. Dr. Amira – Lab Specialist
+
+  // GP Doctors (in exact order 1-13)
+  'dr-khalid-issa',            // 19 (GP 1). Dr. Khalid
+  'dr-sara-ali',               // 20 (GP 2). Dr. Sara
+  'dr-umer-nasweef',           // 21 (GP 3). Dr. Umer
+  'dr-muhammad-yaqoob-khan',   // 22 (GP 4). Dr. Yakoob
+  'dr-basil-badawi',           // 23 (GP 5). Dr. Basil
+  'dr-reda-zaki',              // 24 (GP 6). Dr. Reda
+  'dr-miada-mohammed',         // 25 (GP 7). Dr. Miada
+  'dr-asim-osman',             // 26 (GP 8). Dr. Asim
+  'dr-abdalla-ali',            // 27 (GP 9). Dr. Abdallah Ali
+  'dr-shamseldin-mohammed',    // 28 (GP 10). Dr. Shamseldin
+  'dr-hassan-abdulla-omer',    // 29 (GP 11). Dr. Hassan Abdullah Omer
+  'dr-mohammed-izzeldin',      // 30 (GP 12). Dr. Mohammed Izzeldin
+  'dr-mohammed-amir',          // 31 (GP 13). Dr. Mohammed Amir
+];
+
+function sortDoctors(list: any[]): any[] {
+  return [...list].sort((a: any, b: any) => {
+    const idxA = DOCTOR_SLUG_ORDER.indexOf(a.slug);
+    const idxB = DOCTOR_SLUG_ORDER.indexOf(b.slug);
+    if (idxA !== -1 && idxB !== -1) return idxA - idxB;
+    if (idxA !== -1) return -1;
+    if (idxB !== -1) return 1;
+    return (a.order ?? 999) - (b.order ?? 999);
+  });
+}
+
 async function getDoctors() {
   try {
     const apiUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api';
@@ -22,6 +71,20 @@ async function getDoctors() {
     return json.data || [];
   } catch (error) {
     return [];
+  }
+}
+
+async function getPageHero(pageKey: string) {
+  try {
+    const apiUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api';
+    const res = await fetch(`${apiUrl}/page-heroes/${pageKey}`, {
+      next: { revalidate: 60 },
+    });
+    if (!res.ok) return null;
+    const json = await res.json();
+    return json.data || null;
+  } catch (error) {
+    return null;
   }
 }
 
@@ -43,12 +106,38 @@ export default async function DoctorsPage({ params }: Props) {
   const typedLocale = locale as Locale;
   const isAr = typedLocale === 'ar';
   const sloganText = isAr ? 'التميز في الرعاية الصحية' : 'Excellence in health care';
-  const doctors = await getDoctors();
+  const [doctors, heroSetting] = await Promise.all([
+    getDoctors(),
+    getPageHero('doctors'),
+  ]);
+  const heroImage = heroSetting?.image || '/images/doctor-patient.jpg';
+  const sortedDoctors = sortDoctors(doctors);
 
   return (
     <main className="min-h-screen bg-[#F8FAF9]">
-      {/* ── 1. Clean Healthcare-Themed Banner (No doctor photo in background) ── */}
-      <section className="relative bg-gradient-to-br from-brand-dark via-[#0C3528] to-[#08221A] text-white pt-24 pb-14 md:pt-28 md:pb-20 overflow-hidden">
+      {/* ── 1. Hero Banner with Background Image ── */}
+      <section className="relative bg-brand-dark text-white pt-24 pb-14 md:pt-28 md:pb-20 overflow-hidden">
+        {/* Background Image */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src={heroImage}
+            alt={isAr ? 'أطباؤنا ومتخصصونا' : 'Our Doctors & Specialists'}
+            fill
+            sizes="100vw"
+            priority
+            className="object-cover object-center"
+          />
+          <div
+            className="absolute inset-0"
+            style={{
+              background: isAr
+                ? 'linear-gradient(to left, rgba(8,34,26,0.94) 0%, rgba(12,53,40,0.85) 50%, rgba(8,34,26,0.72) 100%)'
+                : 'linear-gradient(to right, rgba(8,34,26,0.94) 0%, rgba(12,53,40,0.85) 50%, rgba(8,34,26,0.72) 100%)',
+            }}
+            aria-hidden="true"
+          />
+        </div>
+
         {/* Slogan Banner Badge */}
         <div className="absolute top-24 sm:top-26 inset-x-0 z-20 pointer-events-none">
           <div className="mx-auto max-w-7xl w-full px-4 sm:px-6 lg:px-8 flex justify-end rtl:justify-start">
@@ -72,11 +161,7 @@ export default async function DoctorsPage({ params }: Props) {
           </div>
         </div>
 
-        {/* Subtle decorative glow accents */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-brand/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-80 h-80 bg-brand-light/10 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center sm:text-start">
+        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center sm:text-start">
           {/* Breadcrumbs */}
           <nav className="mb-4 flex items-center justify-center sm:justify-start gap-2 text-xs text-brand-pale/75" aria-label="Breadcrumbs">
             <Link href={getLocalizedPath('/', typedLocale)} className="hover:text-white transition-colors">
@@ -101,10 +186,10 @@ export default async function DoctorsPage({ params }: Props) {
         </div>
       </section>
 
-      {/* ── 2. Doctor Directory Grid ────────────────────────────────────── */}
+      {/* ── 2. Unified Doctor Directory Grid ──────────────────────────────── */}
       <section className="py-14 md:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          {doctors.length === 0 ? (
+          {sortedDoctors.length === 0 ? (
             <div className="text-center py-20 text-text-muted bg-white rounded-3xl border border-border/70 p-8 max-w-md mx-auto">
               <p className="text-base font-semibold text-brand-dark mb-1">
                 {isAr ? 'لا يوجد أطباء حالياً' : 'No doctors found'}
@@ -115,7 +200,7 @@ export default async function DoctorsPage({ params }: Props) {
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-              {doctors.map((doc: any) => {
+              {sortedDoctors.map((doc: any) => {
                 const docName = doc.name[typedLocale] || doc.name.en;
                 const docDesignation = doc.designation?.[typedLocale] || doc.designation?.en;
                 const deptName = doc.departmentId?.name?.[typedLocale] || doc.departmentId?.name?.en;

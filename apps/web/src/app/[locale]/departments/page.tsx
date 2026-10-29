@@ -55,6 +55,38 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
+// Exact order required for departments
+const DEPARTMENT_SLUG_ORDER = [
+  'internal-medicine',        // 1. Internal Medicine
+  'general-medicine',         // 2. General Medicine
+  'obstetrics-gynaecology',   // 3. Obstetrics and Gynaecology
+  'paediatrics',              // 4. Pediatrics
+  'dermatology-cosmetology',  // 5. Derma
+  'cosmetology',              // 6. Cosmotology
+  'ophthalmology',            // 7. Ophthalmology
+  'orthopaedics',             // 8. Orthopedics
+  'orthodontics',             // 9. Orthodontics
+  'ent',                      // 10. ENT
+  'general-surgeon',          // 11. General Surgeon
+  'dental',                   // 12. Dental
+  'physiotherapy',            // 13. Physiotherapy
+  'laboratory',               // 14. Laboratory
+  'radiology',                // 15. Radiology
+  'pharmacy',                 // 16. Pharmacy
+  'iqama-baladia',            // 17. IQAMA/BALADIYA Medical Departmen
+];
+
+function sortDepartments(list: any[]): any[] {
+  return [...list].sort((a: any, b: any) => {
+    const idxA = DEPARTMENT_SLUG_ORDER.indexOf(a.slug);
+    const idxB = DEPARTMENT_SLUG_ORDER.indexOf(b.slug);
+    if (idxA !== -1 && idxB !== -1) return idxA - idxB;
+    if (idxA !== -1) return -1;
+    if (idxB !== -1) return 1;
+    return (a.order ?? 999) - (b.order ?? 999);
+  });
+}
+
 export default async function DepartmentsPage({ params }: Props) {
   const { locale } = await params;
   if (!isValidLocale(locale)) notFound();
@@ -67,6 +99,7 @@ export default async function DepartmentsPage({ params }: Props) {
     getDepartments(),
     getPageHero('departments')
   ]);
+  const sortedDepts = sortDepartments(depts);
 
   return (
     <>
@@ -81,7 +114,7 @@ export default async function DepartmentsPage({ params }: Props) {
       <section className="py-16 md:py-24 bg-surface-light">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {depts.map((d: any) => (
+            {sortedDepts.map((d: any) => (
               <Link
                 key={d._id}
                 href={getLocalizedPath(`/departments/${d.slug}`, typedLocale)}

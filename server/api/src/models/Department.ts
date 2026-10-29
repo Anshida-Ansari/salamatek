@@ -6,6 +6,7 @@ export interface IDepartment extends Document {
   subheading?: { en: string; ar: string };
   description?: { en: string; ar: string };
   image?: string;
+  order?: number;
   active: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -33,6 +34,7 @@ const departmentSchema = new Schema(
       ar: { type: String },
     },
     image: { type: String },
+    order: { type: Number, default: 0 },
     active: { type: Boolean, default: true },
   },
   { timestamps: true }
@@ -40,5 +42,6 @@ const departmentSchema = new Schema(
 
 // Indexes
 departmentSchema.index({ active: 1 });
+departmentSchema.index({ order: 1 });
 
 export const Department = mongoose.model<IDepartment>('Department', departmentSchema);

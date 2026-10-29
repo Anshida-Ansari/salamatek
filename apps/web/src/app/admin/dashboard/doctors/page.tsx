@@ -24,6 +24,7 @@ interface Doctor {
   departmentId?: { name?: { en: string } };
   experienceYears?: number;
   nationality?: { en?: string; ar?: string };
+  order?: number;
   active: boolean;
   image?: string;
 }
@@ -197,6 +198,9 @@ export default function DoctorsPage() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-gray-100 bg-gray-50">
+                    <th className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider px-6 py-3.5 w-16">
+                      #
+                    </th>
                     <th className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider px-6 py-3.5">
                       Doctor
                     </th>
@@ -217,6 +221,9 @@ export default function DoctorsPage() {
                 <tbody className="divide-y divide-gray-100">
                   {doctors.map((doctor) => (
                     <tr key={doctor._id} className="hover:bg-gray-50 transition-colors">
+                      <td className="px-6 py-4 text-xs font-semibold text-gray-500">
+                        {doctor.order ?? '—'}
+                      </td>
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
                           <div className="relative w-10 h-10 flex-shrink-0">

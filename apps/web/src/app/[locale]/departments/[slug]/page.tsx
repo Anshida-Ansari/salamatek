@@ -12,6 +12,37 @@ type Props = {
   params: Promise<{ locale: string; slug: string }>;
 };
 
+const DEPARTMENT_SLUG_ORDER = [
+  'internal-medicine',
+  'general-medicine',
+  'obstetrics-gynaecology',
+  'paediatrics',
+  'dermatology-cosmetology',
+  'cosmetology',
+  'ophthalmology',
+  'orthopaedics',
+  'orthodontics',
+  'ent',
+  'general-surgeon',
+  'dental',
+  'physiotherapy',
+  'laboratory',
+  'radiology',
+  'pharmacy',
+  'iqama-baladia',
+];
+
+function sortDepartments(list: any[]): any[] {
+  return [...list].sort((a: any, b: any) => {
+    const idxA = DEPARTMENT_SLUG_ORDER.indexOf(a.slug);
+    const idxB = DEPARTMENT_SLUG_ORDER.indexOf(b.slug);
+    if (idxA !== -1 && idxB !== -1) return idxA - idxB;
+    if (idxA !== -1) return -1;
+    if (idxB !== -1) return 1;
+    return (a.order ?? 999) - (b.order ?? 999);
+  });
+}
+
 async function getDepartments() {
   try {
     const apiUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api';
@@ -169,23 +200,19 @@ export default async function DepartmentDetailPage({ params }: Props) {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {services.map((service: any) => (
-                  <Link
+                  <div
                     key={service._id}
-                    href={getLocalizedPath(`/services/${service.slug}`, typedLocale)}
-                    className="group bg-white p-6 rounded-2xl border border-border hover:border-brand hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-all duration-300 relative overflow-hidden"
+                    className="bg-white p-6 rounded-2xl border border-border/80 shadow-xs hover:border-brand-pale/90 hover:shadow-card transition-all duration-300 relative overflow-hidden flex flex-col justify-between"
                   >
-                    <div className="absolute top-0 end-0 p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-brand">
-                      <svg className="w-5 h-5 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                      </svg>
+                    <div>
+                      <h3 className="text-xl font-bold text-brand-dark mb-3">
+                        {service.name[typedLocale] || service.name.en}
+                      </h3>
+                      <p className="text-base text-text-muted leading-relaxed line-clamp-3">
+                        {service.description?.[typedLocale] || service.description?.en || ''}
+                      </p>
                     </div>
-                    <h3 className="text-xl font-bold text-brand-dark mb-3 pe-8 group-hover:text-brand transition-colors">
-                      {service.name[typedLocale] || service.name.en}
-                    </h3>
-                    <p className="text-base text-text-muted leading-relaxed line-clamp-3">
-                      {service.description?.[typedLocale] || service.description?.en || ''}
-                    </p>
-                  </Link>
+                  </div>
                 ))}
               </div>
             </div>
@@ -286,7 +313,7 @@ export default async function DepartmentDetailPage({ params }: Props) {
             {isAr ? 'أقسام أخرى' : 'Other Departments'}
           </p>
           <div className="flex flex-wrap gap-3">
-            {depts
+            {sortDepartments(depts)
               .filter((d: any) => d._id !== dept._id)
               .slice(0, 5)
               .map((d: any) => (

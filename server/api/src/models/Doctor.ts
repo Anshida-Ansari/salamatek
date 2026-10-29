@@ -15,6 +15,7 @@ export interface IDoctor extends Document {
   clinicalDuties?: { en: string; ar: string };
   remarks?: { en: string; ar: string };
   whatsapp?: string;
+  order?: number;
   active: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -72,6 +73,7 @@ const doctorSchema = new Schema(
       ar: { type: String },
     },
     whatsapp: { type: String, trim: true },
+    order: { type: Number, default: 0 },
     image: { type: String },
     active: { type: Boolean, default: true },
   },
@@ -81,5 +83,6 @@ const doctorSchema = new Schema(
 // Indexes
 doctorSchema.index({ active: 1 });
 doctorSchema.index({ departmentId: 1 });
+doctorSchema.index({ order: 1 });
 
 export const Doctor = mongoose.model<IDoctor>('Doctor', doctorSchema);

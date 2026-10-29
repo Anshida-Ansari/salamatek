@@ -8,6 +8,7 @@ export const createDepartmentSchema = z.object({
     subheading: optionalBilingualStringSchema,
     description: optionalBilingualStringSchema,
     image: z.string().url().optional().or(z.literal('')),
+    order: z.number().int().optional(),
     active: z.boolean().optional(),
   }),
 });
@@ -22,6 +23,7 @@ export const updateDepartmentSchema = z.object({
     subheading: optionalBilingualStringSchema,
     description: optionalBilingualStringSchema,
     image: z.string().url().optional().or(z.literal('')),
+    order: z.number().int().optional(),
     active: z.boolean().optional(),
   }),
 });

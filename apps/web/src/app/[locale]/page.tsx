@@ -44,6 +44,37 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
+const DEPARTMENT_SLUG_ORDER = [
+  'internal-medicine',
+  'general-medicine',
+  'obstetrics-gynaecology',
+  'paediatrics',
+  'dermatology-cosmetology',
+  'cosmetology',
+  'ophthalmology',
+  'orthopaedics',
+  'orthodontics',
+  'ent',
+  'general-surgeon',
+  'dental',
+  'physiotherapy',
+  'laboratory',
+  'radiology',
+  'pharmacy',
+  'iqama-baladia',
+];
+
+function sortDepartments(list: any[]): any[] {
+  return [...list].sort((a: any, b: any) => {
+    const idxA = DEPARTMENT_SLUG_ORDER.indexOf(a.slug);
+    const idxB = DEPARTMENT_SLUG_ORDER.indexOf(b.slug);
+    if (idxA !== -1 && idxB !== -1) return idxA - idxB;
+    if (idxA !== -1) return -1;
+    if (idxB !== -1) return 1;
+    return (a.order ?? 999) - (b.order ?? 999);
+  });
+}
+
 async function getDepartments() {
   try {
     const apiUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api';
@@ -126,7 +157,7 @@ export default async function HomePage({ params }: Props) {
       <DepartmentsSection locale={locale} t={t} />
 
       {/* 4. Doctors */}
-      <DoctorsSection locale={locale} t={t} departments={depts} />
+      <DoctorsSection locale={locale} t={t} departments={sortDepartments(depts)} />
 
       {/* 5. Core Values — SALAMATEK letter design */}
       <CoreValuesSection locale={locale} t={t} />

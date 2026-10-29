@@ -20,6 +20,7 @@ interface Department {
   _id: string;
   name: { en: string; ar: string };
   slug: string;
+  order?: number;
   active: boolean;
   image?: string;
 }
@@ -179,6 +180,9 @@ export default function DepartmentsPage() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-gray-100 bg-gray-50">
+                  <th className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider px-6 py-3.5 w-16">
+                    #
+                  </th>
                   <th className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider px-6 py-3.5">
                     Department
                   </th>
@@ -196,6 +200,9 @@ export default function DepartmentsPage() {
               <tbody className="divide-y divide-gray-100">
                 {departments.map((dept) => (
                   <tr key={dept._id} className="hover:bg-gray-50 transition-colors">
+                    <td className="px-6 py-4 text-xs font-semibold text-gray-500">
+                      {dept.order ?? '—'}
+                    </td>
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
                         {dept.image ? (
