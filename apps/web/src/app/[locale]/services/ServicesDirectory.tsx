@@ -30,6 +30,35 @@ type Props = {
   locale: Locale;
 };
 
+// Exact order required for all services (1-14)
+const SERVICE_SLUG_ORDER = [
+  'ambulance-service',                 // 1. Ambulance Service
+  'home-care-service',                  // 2. Home Care Service
+  'pre-employment-medical',             // 3. Pre-Employment Medical
+  'iqama-medical',                      // 4. Iqama (Residency) Medical
+  'food-handler-medical',               // 5. Food Handler Medical / Baladiya Card
+  'periodic-renewal-medical',           // 6. Periodic (Renewal) Medical
+  'fisherman-medical-certificate',      // 7. Fisherman Medical Certificate
+  'medical-fitness-general',            // 8. Medical Fitness General
+  'driving-license-medical',            // 9. Driving License Medical
+  'visa-medical',                       // 10. Visa Medical
+  'travel-medical',                     // 11. Travel Medical
+  'umrah-hajj-medical',                 // 12. Umrah / Hajj Medical
+  'digital-integration-certification',  // 13. Digital Integration & Certification
+  'on-going-medical-fitness',           // 14. Ongoing Medical Fitness
+];
+
+function sortServices<T extends { slug: string; order?: number }>(list: T[]): T[] {
+  return [...list].sort((a, b) => {
+    const idxA = SERVICE_SLUG_ORDER.indexOf(a.slug);
+    const idxB = SERVICE_SLUG_ORDER.indexOf(b.slug);
+    if (idxA !== -1 && idxB !== -1) return idxA - idxB;
+    if (idxA !== -1) return -1;
+    if (idxB !== -1) return 1;
+    return (a.order ?? 999) - (b.order ?? 999);
+  });
+}
+
 export function ServicesDirectory({ services, categories, locale }: Props) {
   const isAr = locale === 'ar';
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
@@ -54,7 +83,7 @@ export function ServicesDirectory({ services, categories, locale }: Props) {
 
   // Filtered services
   const filteredServices = useMemo(() => {
-    return services.filter((service) => {
+    const list = services.filter((service) => {
       // Category filter
       if (selectedCategory !== 'all') {
         const catId =
@@ -84,6 +113,8 @@ export function ServicesDirectory({ services, categories, locale }: Props) {
 
       return true;
     });
+
+    return sortServices(list);
   }, [services, selectedCategory, searchQuery]);
 
   const scrollContainerRef = useRef<HTMLDivElement>(null);

@@ -21,6 +21,7 @@ interface Service {
   _id: string;
   name: { en: string; ar: string };
   slug: string;
+  order?: number;
   active: boolean;
   categoryId?: { name?: { en: string; ar?: string }; slug?: string };
   departmentId?: { name?: { en: string } };
@@ -193,6 +194,9 @@ export default function ServicesPage() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-gray-100 bg-gray-50">
+                  <th className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider px-6 py-3.5 w-16">
+                    #
+                  </th>
                   <th className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider px-6 py-3.5">
                     Service
                   </th>
@@ -213,6 +217,9 @@ export default function ServicesPage() {
               <tbody className="divide-y divide-gray-100">
                 {services.map((svc) => (
                   <tr key={svc._id} className="hover:bg-gray-50 transition-colors">
+                    <td className="px-6 py-4 text-xs font-semibold text-gray-500">
+                      {svc.order ?? '—'}
+                    </td>
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
                         {svc.image ? (
