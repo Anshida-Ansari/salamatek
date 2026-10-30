@@ -10,7 +10,7 @@ export const INSURANCE_PARTNERS = [
   { name: 'WALA', image: 'wala.jpg' },
   { name: 'ARABIA', image: 'arabia.jpg' },
   { name: 'ALLIED', image: 'allied.jpg' },
-  { name: 'AL JAZEERA', image: 'al-jazeera.jpg' },
+  { name: 'AL JAZEERA', image: 'al-jazeera.png' },
   { name: 'AL ETIHAD', image: 'al-etihad.png' },
   { name: 'ARABIAN SHIELD', image: 'arabian-shield.jpg' },
   { name: 'AL SAGAR', image: 'al-sagar.jpg' },
@@ -25,6 +25,9 @@ export const INSURANCE_PARTNERS = [
   { name: 'TCS (TOTAL CARE SAUDI)', image: 'tcs.png' },
   { name: 'SNC (SAUDI NEXTCARE)', image: 'nextcare.png' },
   { name: 'GLOBEMED', image: 'globemed.jpg' },
+  { name: 'UNITED COOPERATIVE ASSURANCE', image: 'united-cooperative.png' },
+  { name: 'LIVA', image: 'liva.png' },
+  { name: 'TAMAYAH', image: 'tamayah.png' },
 ];
 
 export const OPTICAL_BRANDS = [
