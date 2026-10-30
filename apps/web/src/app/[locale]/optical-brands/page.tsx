@@ -91,39 +91,39 @@ export default async function OpticalBrandsPage({ params }: Props) {
   /* ── 6 Featured Categories Matching the Reference Image ── */
   const OPTICAL_CATEGORIES = [
     {
-      id: 'eye-exam',
-      label: isAr ? 'فحص وتشخيص النظر' : 'Category-1',
-      title: isAr ? 'فحص العيون الشامل' : 'Clinical Eye Exam',
-      image: '/images/optical-categories/eye-exam-ar.jpg',
-    },
-    {
-      id: 'lab',
-      label: isAr ? 'مختبر تفصيل العدسات' : 'Category-1',
-      title: isAr ? 'مختبر تركيب العدسات' : 'Precision Optical Lab',
-      image: '/images/optical-categories/lab-ar.jpg',
-    },
-    {
-      id: 'lenses',
-      label: isAr ? 'العدسات والتقنيات' : 'Category-3',
-      title: isAr ? 'العدسات والطلاءات المتقدمة' : 'Advanced Optical Lenses',
-      image: '/images/optical-categories/lenses.jpg',
-    },
-    {
       id: 'frames',
-      label: isAr ? 'إطارات النظارات' : 'FRAMES',
+      label: isAr ? 'إطارات النظارات' : 'Frames',
       title: isAr ? 'إطارات النظارات الطبية' : 'Designer Optical Frames',
       image: '/images/optical-categories/frames.jpg',
     },
     {
+      id: 'lense',
+      label: isAr ? 'العدسات' : 'Lense',
+      title: isAr ? 'العدسات والتقنيات' : 'Optical Lenses',
+      image: '/images/optical-categories/lab.jpg',
+    },
+    {
+      id: 'contact-lense',
+      label: isAr ? 'العدسات اللاصقة' : 'Contact Lense',
+      title: isAr ? 'العدسات اللاصقة الطبية والتجميلية' : 'Contact Lenses',
+      image: '/images/optical-categories/lenses.jpg',
+    },
+    {
+      id: 'eye-exam',
+      label: isAr ? 'فحص النظر' : 'Eye Examination',
+      title: isAr ? 'فحص العيون الشامل' : 'Clinical Eye Exam',
+      image: '/images/optical-categories/eye-exam.jpg',
+    },
+    {
       id: 'sunglasses',
-      label: isAr ? 'النظارات الشمسية' : 'SUNGLASSES',
+      label: isAr ? 'النظارات الشمسية' : 'Sunglasses',
       title: isAr ? 'النظارات الشمسية الفاخرة' : 'Polarized Sunglasses',
       image: '/images/optical-categories/sunglasses.jpg',
       active: true,
     },
     {
       id: 'rimless',
-      label: isAr ? 'نظارات بدون إطار' : 'FRAMELESS SPECS',
+      label: isAr ? 'نظارات بدون إطار' : 'Frameless Specs',
       title: isAr ? 'نظارات بدون إطار تيتانيوم' : 'Frameless Titanium Specs',
       image: '/images/optical-categories/rimless.jpg',
     },
