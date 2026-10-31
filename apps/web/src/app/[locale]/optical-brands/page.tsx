@@ -35,6 +35,24 @@ async function getPageHero(pageKey: string) {
   }
 }
 
+async function getOpticalBrands() {
+  try {
+    const apiUrl =
+      (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api';
+    const res = await fetch(`${apiUrl}/optical-brands?active=true`, {
+      cache: 'no-store',
+    });
+    if (!res.ok) return OPTICAL_BRANDS;
+    const json = await res.json();
+    if (Array.isArray(json.data) && json.data.length > 0) {
+      return json.data;
+    }
+    return OPTICAL_BRANDS;
+  } catch {
+    return OPTICAL_BRANDS;
+  }
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   if (!isValidLocale(locale)) return {};
@@ -55,7 +73,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 function BrandLogoCard({ brand }: { brand: { name: string; image: string } }) {
-  const logoUrl = `/images/opticals/${brand.image}`;
+  const isExternalOrAbsolute =
+    brand.image.startsWith('http://') ||
+    brand.image.startsWith('https://') ||
+    brand.image.startsWith('/');
+  const logoUrl = isExternalOrAbsolute ? brand.image : `/images/opticals/${brand.image}`;
 
   return (
     <div className="relative w-full h-20 sm:h-24 md:h-28 flex items-center justify-center transition-all duration-300 group overflow-hidden bg-white rounded-2xl p-3 border border-border/70 hover:border-brand-medium/50 shadow-xs hover:shadow-card hover:-translate-y-1">
@@ -77,7 +99,10 @@ export default async function OpticalBrandsPage({ params }: Props) {
   const typedLocale = locale as Locale;
   const isAr = typedLocale === 'ar';
 
-  const heroSetting = await getPageHero('optical-brands');
+  const [heroSetting, brands] = await Promise.all([
+    getPageHero('optical-brands'),
+    getOpticalBrands(),
+  ]);
 
   const pageTitle = isAr
     ? 'سلامتك للبصريات'
@@ -295,9 +320,9 @@ export default async function OpticalBrandsPage({ params }: Props) {
 
           {/* Brands Logo Grid */}
           <div className="flex flex-wrap justify-center gap-3 sm:gap-4 md:gap-5">
-            {OPTICAL_BRANDS.map((brand, idx) => (
+            {brands.map((brand: any, idx: number) => (
               <div
-                key={idx}
+                key={brand._id || brand.name || idx}
                 className="w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-0.75rem)] md:w-[calc(25%-1rem)] lg:w-[calc(20%-1rem)] xl:w-[calc(16.666%-1rem)]"
               >
                 <BrandLogoCard brand={brand} />

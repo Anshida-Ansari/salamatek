@@ -24,6 +24,8 @@ import {
   MessageSquare,
   Image as ImageIcon,
   Layers,
+  Glasses,
+  ShieldCheck,
 } from 'lucide-react';
 
 interface NavItem {
@@ -50,6 +52,8 @@ const segmentLabels: Record<string, string> = {
   'site-settings':        'Site Settings',
   testimonials:           'Testimonials',
   gallery:                'Gallery',
+  'optical-brands':       'Optical Brands',
+  'insurance-partners':   'Insurance Partners',
 };
 
 const navigation: NavItem[] = [
@@ -61,6 +65,8 @@ const navigation: NavItem[] = [
   { name: 'Packages & Offers', href: '/admin/dashboard/health-packages', icon: Package },
   { name: 'Careers', href: '/admin/dashboard/careers', icon: Briefcase },
   { name: 'News & Blog', href: '/admin/dashboard/news', icon: FileText },
+  { name: 'Optical Brands', href: '/admin/dashboard/optical-brands', icon: Glasses },
+  { name: 'Insurance Partners', href: '/admin/dashboard/insurance-partners', icon: ShieldCheck },
   { name: 'SARC Enquiries', href: '/admin/dashboard/sarc-enquiries', icon: HeartHandshake },
   { name: 'Job Applications', href: '/admin/dashboard/job-applications', icon: FileText },
   { name: 'Contact Enquiries', href: '/admin/dashboard/contact-enquiries', icon: Mail },

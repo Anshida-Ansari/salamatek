@@ -17,6 +17,8 @@ import contactEnquiryRoutes from './routes/contactEnquiry.routes';
 import pageHeroRoutes from './routes/pageHeroSetting.routes';
 import testimonialRoutes from './routes/testimonial.routes';
 import galleryImageRoutes from './routes/galleryImage.routes';
+import opticalBrandRoutes from './routes/opticalBrand.routes';
+import insurancePartnerRoutes from './routes/insurancePartner.routes';
 import { errorHandler, notFound } from './middlewares/errorHandler';
 
 export function createApp(): Application {
@@ -90,6 +92,8 @@ export function createApp(): Application {
   app.use('/api/page-heroes', apiLimiter, pageHeroRoutes);
   app.use('/api/testimonials', apiLimiter, testimonialRoutes);
   app.use('/api/gallery-images', apiLimiter, galleryImageRoutes);
+  app.use('/api/optical-brands', apiLimiter, opticalBrandRoutes);
+  app.use('/api/insurance-partners', apiLimiter, insurancePartnerRoutes);
 
   // ─── Error handling ─────────────────────────────────────────────────────────
   app.use(notFound);

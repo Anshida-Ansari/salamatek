@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import type { Locale } from '@/i18n/config';
 import type { Translations } from '@/i18n';
@@ -41,7 +42,11 @@ const OPTICAL_BRANDS = [
 ];
 
 function BrandLogo({ brand }: { brand: { name: string; image: string } }) {
-  const logoUrl = `/images/opticals/${brand.image}`;
+  const isExternalOrAbsolute =
+    brand.image.startsWith('http://') ||
+    brand.image.startsWith('https://') ||
+    brand.image.startsWith('/');
+  const logoUrl = isExternalOrAbsolute ? brand.image : `/images/opticals/${brand.image}`;
 
   return (
     <div className="relative w-full h-20 md:h-24 flex items-center justify-center transition-all duration-300 group overflow-hidden">
@@ -57,6 +62,24 @@ function BrandLogo({ brand }: { brand: { name: string; image: string } }) {
 }
 
 export function OpticalBrandsSection({ locale }: Props) {
+  const [brands, setBrands] = useState<{ name: string; image: string; _id?: string }[]>(OPTICAL_BRANDS);
+
+  useEffect(() => {
+    const fetchBrands = async () => {
+      try {
+        const apiUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api';
+        const res = await fetch(`${apiUrl}/optical-brands?active=true`);
+        if (!res.ok) return;
+        const json = await res.json();
+        if (Array.isArray(json.data) && json.data.length > 0) {
+          setBrands(json.data);
+        }
+      } catch {
+        // Fallback to static constant
+      }
+    };
+    fetchBrands();
+  }, []);
   return (
     <section className="bg-[#F8FAF9] py-16 md:py-24 border-t border-brand-dark/5">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -81,9 +104,9 @@ export function OpticalBrandsSection({ locale }: Props) {
           Uses flex-wrap with center justification so the last row is always perfectly balanced.
         */}
         <div className="flex flex-wrap justify-center gap-4 sm:gap-5 md:gap-6">
-          {OPTICAL_BRANDS.map((brand, idx) => (
+          {brands.map((brand, idx) => (
             <div 
-              key={idx} 
+              key={brand._id || brand.name || idx} 
               className="w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-0.85rem)] md:w-[calc(25%-1.125rem)] lg:w-[calc(20%-1.2rem)] xl:w-[calc(16.666%-1.25rem)]"
             >
               <BrandLogo brand={brand} />

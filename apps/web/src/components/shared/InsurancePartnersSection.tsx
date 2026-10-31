@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { ShieldCheck } from 'lucide-react';
 import { INSURANCE_PARTNERS } from '@/lib/constants';
@@ -10,7 +11,11 @@ interface Props {
 }
 
 function InsuranceLogo({ partner }: { partner: { name: string; image: string } }) {
-  const logoUrl = `/images/insurance/${partner.image}`;
+  const isExternalOrAbsolute =
+    partner.image.startsWith('http://') ||
+    partner.image.startsWith('https://') ||
+    partner.image.startsWith('/');
+  const logoUrl = isExternalOrAbsolute ? partner.image : `/images/insurance/${partner.image}`;
 
   return (
     <div className="relative w-full h-20 md:h-24 flex items-center justify-center transition-all duration-300 group overflow-hidden">
@@ -26,6 +31,24 @@ function InsuranceLogo({ partner }: { partner: { name: string; image: string } }
 }
 
 export function InsurancePartnersSection({ isAr = false }: Props) {
+  const [partners, setPartners] = useState<{ name: string; image: string; _id?: string }[]>(INSURANCE_PARTNERS);
+
+  useEffect(() => {
+    const fetchPartners = async () => {
+      try {
+        const apiUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api';
+        const res = await fetch(`${apiUrl}/insurance-partners?active=true`);
+        if (!res.ok) return;
+        const json = await res.json();
+        if (Array.isArray(json.data) && json.data.length > 0) {
+          setPartners(json.data);
+        }
+      } catch {
+        // Fallback to static constant
+      }
+    };
+    fetchPartners();
+  }, []);
   const heading = isAr ? 'شركاء التأمين' : 'Our Insurance Partners';
   const subtext = isAr
     ? 'نعمل مع أبرز مزودي خدمات التأمين لنجعل الرعاية الصحية عالية الجودة في متناول الجميع.'
@@ -56,9 +79,9 @@ export function InsurancePartnersSection({ isAr = false }: Props) {
           Uses flex-wrap with center justification so the last row is always perfectly balanced.
         */}
         <div className="flex flex-wrap justify-center gap-4 sm:gap-5 md:gap-6">
-          {INSURANCE_PARTNERS.map((partner, idx) => (
+          {partners.map((partner, idx) => (
             <div 
-              key={idx} 
+              key={partner._id || partner.name || idx} 
               className="w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-0.85rem)] md:w-[calc(25%-1.125rem)] lg:w-[calc(20%-1.2rem)] xl:w-[calc(16.666%-1.25rem)]"
             >
               <InsuranceLogo partner={partner} />

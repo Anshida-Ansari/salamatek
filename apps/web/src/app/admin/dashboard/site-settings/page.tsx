@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { fetchApi } from '@/lib/admin/api';
 import { useToast } from '@/components/admin/ToastProvider';
 import ImageUpload from '@/components/admin/ImageUpload';
@@ -143,6 +144,36 @@ export default function SiteSettingsPage() {
               Save Changes
             </button>
           </div>
+
+          {selectedPage === 'optical-brands' && (
+            <div className="mb-6 p-4 rounded-xl bg-surface-mint/50 border border-brand/20 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <p className="text-sm font-bold text-brand-dark">Looking to add or manage Optical Brand logos?</p>
+                <p className="text-xs text-text-muted mt-0.5">Upload new optical brand logos through the dedicated Optical Brands manager.</p>
+              </div>
+              <Link
+                href="/admin/dashboard/optical-brands"
+                className="px-4 py-2 bg-brand text-white text-xs font-semibold rounded-xl hover:bg-brand-medium transition shrink-0 inline-flex items-center gap-1.5"
+              >
+                Manage Brand Logos &rarr;
+              </Link>
+            </div>
+          )}
+
+          {selectedPage === 'insurance-partners' && (
+            <div className="mb-6 p-4 rounded-xl bg-surface-mint/50 border border-brand/20 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <p className="text-sm font-bold text-brand-dark">Looking to add or manage Insurance Partner logos?</p>
+                <p className="text-xs text-text-muted mt-0.5">Upload new insurance logos through the dedicated Insurance Partners manager.</p>
+              </div>
+              <Link
+                href="/admin/dashboard/insurance-partners"
+                className="px-4 py-2 bg-brand text-white text-xs font-semibold rounded-xl hover:bg-brand-medium transition shrink-0 inline-flex items-center gap-1.5"
+              >
+                Manage Insurance Logos &rarr;
+              </Link>
+            </div>
+          )}
 
           {isLoading ? (
             <div className="flex items-center justify-center h-64">

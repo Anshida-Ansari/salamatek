@@ -27,6 +27,24 @@ async function getPageHero(pageKey: string) {
   }
 }
 
+async function getInsurancePartners() {
+  try {
+    const apiUrl =
+      (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api';
+    const res = await fetch(`${apiUrl}/insurance-partners?active=true`, {
+      cache: 'no-store',
+    });
+    if (!res.ok) return INSURANCE_PARTNERS;
+    const json = await res.json();
+    if (Array.isArray(json.data) && json.data.length > 0) {
+      return json.data;
+    }
+    return INSURANCE_PARTNERS;
+  } catch {
+    return INSURANCE_PARTNERS;
+  }
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   if (!isValidLocale(locale)) return {};
@@ -47,7 +65,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 function InsuranceLogo({ partner }: { partner: { name: string; image: string } }) {
-  const logoUrl = `/images/insurance/${partner.image}`;
+  const isExternalOrAbsolute =
+    partner.image.startsWith('http://') ||
+    partner.image.startsWith('https://') ||
+    partner.image.startsWith('/');
+  const logoUrl = isExternalOrAbsolute ? partner.image : `/images/insurance/${partner.image}`;
 
   return (
     <div className="relative w-full h-20 md:h-24 flex items-center justify-center transition-all duration-300 group overflow-hidden bg-white rounded-2xl p-2 border border-border/70 hover:border-brand-pale/80 shadow-xs hover:shadow-card hover:-translate-y-1">
@@ -71,7 +93,10 @@ export default async function InsurancePartnersPage({ params }: Props) {
   const t = getTranslations(typedLocale);
   const p = t.pages.insurancePartners;
 
-  const heroSetting = await getPageHero('insurance-partners');
+  const [heroSetting, partners] = await Promise.all([
+    getPageHero('insurance-partners'),
+    getInsurancePartners(),
+  ]);
 
   const pageTitle = isAr
     ? 'شركاء التأمين'
@@ -164,9 +189,9 @@ export default async function InsurancePartnersPage({ params }: Props) {
           </div>
 
           <div className="flex flex-wrap justify-center gap-4 sm:gap-5 md:gap-6">
-            {INSURANCE_PARTNERS.map((partner, idx) => (
+            {partners.map((partner: any, idx: number) => (
               <div
-                key={idx}
+                key={partner._id || partner.name || idx}
                 className="w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-0.85rem)] md:w-[calc(25%-1.125rem)] lg:w-[calc(20%-1.2rem)] xl:w-[calc(16.666%-1.25rem)]"
               >
                 <InsuranceLogo partner={partner} />
