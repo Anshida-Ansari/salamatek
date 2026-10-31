@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import type { Locale } from '@/i18n/config';
 import type { Translations } from '@/i18n';
 import { getLocalizedPath } from '@/lib/utils';
@@ -40,22 +41,19 @@ export function HeroSection({ locale, t, heroImages, contactSettings }: Props) {
       <div className="absolute top-24 sm:top-26 md:top-28 inset-x-0 z-20 pointer-events-none">
         <div className="mx-auto max-w-[1600px] w-full px-4 sm:px-6 lg:px-8 xl:px-12 flex justify-end rtl:justify-start">
           <div
-            className="pointer-events-auto relative inline-flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-2.5 md:px-6 md:py-3 rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#D81B26] via-[#E5232F] to-[#C8101E] text-white shadow-[0_8px_24px_rgba(200,16,30,0.38)] border border-white/20 backdrop-blur-sm transition-all duration-300 hover:scale-105 select-none"
+            className="pointer-events-auto relative inline-flex items-center transition-all duration-300 hover:scale-105 select-none drop-shadow-[0_8px_20px_rgba(200,16,30,0.35)]"
             role="status"
-            aria-label={p.heroSlogan}
+            aria-label={p.heroSlogan || 'Excellence in Healthcare'}
           >
-            <span className="text-xs sm:text-sm md:text-base lg:text-lg font-bold tracking-wide leading-none whitespace-nowrap drop-shadow-sm font-sans rtl:font-arabic">
-              {p.heroSlogan}
-            </span>
-            {/* Subtle sparkle accent from reference badge */}
-            <svg
-              className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white/85 shrink-0"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
-            </svg>
+            <Image
+              src="/images/excellence-slogan.png"
+              alt={p.heroSlogan || 'Excellence In Health Care'}
+              width={260}
+              height={65}
+              className="h-9 sm:h-11 md:h-12 lg:h-13 w-auto object-contain"
+              priority
+              suppressHydrationWarning
+            />
           </div>
         </div>
       </div>
