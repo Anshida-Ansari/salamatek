@@ -21,3 +21,4 @@ router.route('/').post(createOpticalBrand);
 router.route('/:id').put(updateOpticalBrand).patch(updateOpticalBrand).delete(deleteOpticalBrand);
 
 export default router;
+

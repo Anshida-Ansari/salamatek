@@ -21,7 +21,7 @@ function InsuranceLogo({ partner }: { partner: { name: string; image: string } }
     <div className="relative w-full h-20 md:h-24 flex items-center justify-center transition-all duration-300 group overflow-hidden">
       <Image
         src={logoUrl}
-        alt={`${partner.name} Logo`}
+        alt={`${partner.name || 'Partner'} Logo`}
         fill
         sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw"
         className="object-contain p-2 md:p-4 transition-transform duration-500 ease-out group-hover:scale-[1.05] mix-blend-multiply"

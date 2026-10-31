@@ -622,7 +622,7 @@ export default function DoctorForm({ doctorId }: { doctorId?: string }) {
               onChange={(url) => setFormData(prev => ({ ...prev, image: url }))} 
             />
             <p className="text-xs text-gray-400 mt-1.5">
-              Enter an image URL. Cloud storage integration (Cloudinary/S3) will be added in a later phase.
+              Upload a photo or enter an image URL.
             </p>
           </div>
 

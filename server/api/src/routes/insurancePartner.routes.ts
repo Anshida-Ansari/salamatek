@@ -21,3 +21,4 @@ router.route('/').post(createInsurancePartner);
 router.route('/:id').put(updateInsurancePartner).patch(updateInsurancePartner).delete(deleteInsurancePartner);
 
 export default router;
+

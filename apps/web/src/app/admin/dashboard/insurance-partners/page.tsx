@@ -112,12 +112,8 @@ export default function InsurancePartnersAdminPage() {
   // Add partner (Additive - preserves all existing records)
   const handleAddPartner = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newName.trim()) {
-      toast('Please enter company/partner name.', 'error');
-      return;
-    }
     if (!newImage.trim()) {
-      toast('Please upload an insurance partner logo via Cloudinary.', 'error');
+      toast('Please upload an insurance partner logo.', 'error');
       return;
     }
 
@@ -138,7 +134,7 @@ export default function InsurancePartnersAdminPage() {
       });
 
       if (res && res.data) {
-        toast(`Partner "${res.data.name}" added successfully alongside existing logos!`, 'success');
+        toast(res.data.name ? `Partner "${res.data.name}" added successfully!` : 'Insurance partner logo added successfully!', 'success');
         // Add to local state
         setPartners((prev) => [...prev, res.data]);
         // Reset form
@@ -255,16 +251,29 @@ export default function InsurancePartnersAdminPage() {
           </div>
 
           <form onSubmit={handleAddPartner} className="space-y-5">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              {/* Partner Name */}
+            {/* Logo Image Upload */}
+            <div className="space-y-1.5">
+              <label className="block text-xs font-bold uppercase tracking-wider text-gray-700">
+                Upload Logo Image <span className="text-red-500">*</span>
+              </label>
+              <p className="text-xs text-text-muted mb-2">
+                Upload a clear company logo (PNG, JPG, WebP, or SVG). Supports up to 20MB.
+              </p>
+              <ImageUpload
+                value={newImage}
+                onChange={(url) => setNewImage(url)}
+              />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-1">
+              {/* Partner Name (Optional) */}
               <div className="space-y-1.5">
-                <label className="block text-xs font-bold uppercase tracking-wider text-gray-700">
-                  Company / Network Name <span className="text-red-500">*</span>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-gray-700">
+                  Company / Network Name (Optional)
                 </label>
                 <input
                   type="text"
-                  required
-                  placeholder="e.g. Allianz, MedNet, AXA"
+                  placeholder="e.g. Allianz, MedNet, AXA (or leave blank)"
                   value={newName}
                   onChange={(e) => setNewName(e.target.value)}
                   className="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand"
@@ -273,7 +282,7 @@ export default function InsurancePartnersAdminPage() {
 
               {/* Display Order */}
               <div className="space-y-1.5">
-                <label className="block text-xs font-bold uppercase tracking-wider text-gray-700">
+                <label className="block text-xs font-semibold uppercase tracking-wider text-gray-700">
                   Display Order (Optional)
                 </label>
                 <input
@@ -284,20 +293,6 @@ export default function InsurancePartnersAdminPage() {
                   className="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand"
                 />
               </div>
-            </div>
-
-            {/* Logo Image Upload via Cloudinary */}
-            <div className="space-y-1.5">
-              <label className="block text-xs font-bold uppercase tracking-wider text-gray-700">
-                Partner Logo Image (Cloudinary) <span className="text-red-500">*</span>
-              </label>
-              <p className="text-xs text-text-muted mb-2">
-                Upload a clear company logo (PNG, JPG, or SVG). Supports up to 20MB.
-              </p>
-              <ImageUpload
-                value={newImage}
-                onChange={(url) => setNewImage(url)}
-              />
             </div>
 
             {/* Active Toggle */}
@@ -325,7 +320,7 @@ export default function InsurancePartnersAdminPage() {
               </button>
               <button
                 type="submit"
-                disabled={isSubmitting || !newName.trim() || !newImage.trim()}
+                disabled={isSubmitting || !newImage.trim()}
                 className="inline-flex items-center gap-2 px-5 py-2 bg-brand hover:bg-brand-medium text-white text-sm font-semibold rounded-xl transition shadow-xs disabled:opacity-50 cursor-pointer"
               >
                 {isSubmitting ? (
@@ -472,8 +467,8 @@ export default function InsurancePartnersAdminPage() {
                   </div>
 
                   {/* Partner Name */}
-                  <p className="text-xs font-bold text-brand-dark text-center truncate mb-3" title={partner.name}>
-                    {partner.name}
+                  <p className="text-xs font-bold text-brand-dark text-center truncate mb-3" title={partner.name || 'Insurance Partner'}>
+                    {partner.name || 'Insurance Partner'}
                   </p>
 
                   {/* Action Bar */}
@@ -526,3 +521,4 @@ export default function InsurancePartnersAdminPage() {
     </div>
   );
 }
+

@@ -85,12 +85,8 @@ export const createOpticalBrand = async (req: Request, res: Response): Promise<v
   try {
     const { name, image, active, order } = req.body;
 
-    if (!name || !name.trim()) {
-      res.status(400).json({ success: false, error: 'Brand name is required' });
-      return;
-    }
     if (!image || !image.trim()) {
-      res.status(400).json({ success: false, error: 'Brand logo image is required' });
+      res.status(400).json({ success: false, error: 'Logo image is required' });
       return;
     }
 
@@ -101,7 +97,7 @@ export const createOpticalBrand = async (req: Request, res: Response): Promise<v
     }
 
     const brand = await OpticalBrand.create({
-      name: name.trim(),
+      name: (name || '').trim(),
       image: image.trim(),
       order: calculatedOrder,
       active: active !== undefined ? Boolean(active) : true,
@@ -157,3 +153,4 @@ export const deleteOpticalBrand = async (req: Request, res: Response): Promise<v
     res.status(500).json({ success: false, error: 'Server Error' });
   }
 };
+

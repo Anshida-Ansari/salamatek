@@ -27,7 +27,7 @@ export default function ImageUpload({ value, onChange, className = '' }: ImageUp
     const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
 
     if (!cloudName || !uploadPreset) {
-      setError('Cloudinary is not configured. Please add keys to .env.local');
+      setError('Image service is not configured. Please add keys to .env.local');
       return;
     }
 

@@ -83,7 +83,7 @@ function BrandLogoCard({ brand }: { brand: { name: string; image: string } }) {
     <div className="relative w-full h-20 sm:h-24 md:h-28 flex items-center justify-center transition-all duration-300 group overflow-hidden bg-white rounded-2xl p-3 border border-border/70 hover:border-brand-medium/50 shadow-xs hover:shadow-card hover:-translate-y-1">
       <Image
         src={logoUrl}
-        alt={`${brand.name} Logo`}
+        alt={`${brand.name || 'Brand'} Logo`}
         fill
         sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw"
         className="object-contain p-2 md:p-3 transition-transform duration-500 ease-out group-hover:scale-105 mix-blend-multiply"

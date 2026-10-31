@@ -112,12 +112,8 @@ export default function OpticalBrandsAdminPage() {
   // Add brand (Additive - preserves all existing records)
   const handleAddBrand = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newName.trim()) {
-      toast('Please enter brand name.', 'error');
-      return;
-    }
     if (!newImage.trim()) {
-      toast('Please upload a brand logo via Cloudinary.', 'error');
+      toast('Please upload a brand logo.', 'error');
       return;
     }
 
@@ -138,7 +134,7 @@ export default function OpticalBrandsAdminPage() {
       });
 
       if (res && res.data) {
-        toast(`Brand "${res.data.name}" added successfully alongside existing logos!`, 'success');
+        toast(res.data.name ? `Brand "${res.data.name}" added successfully!` : 'Brand logo added successfully!', 'success');
         // Add to local state
         setBrands((prev) => [...prev, res.data]);
         // Reset form
@@ -255,16 +251,29 @@ export default function OpticalBrandsAdminPage() {
           </div>
 
           <form onSubmit={handleAddBrand} className="space-y-5">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              {/* Brand Name */}
+            {/* Logo Image Upload */}
+            <div className="space-y-1.5">
+              <label className="block text-xs font-bold uppercase tracking-wider text-gray-700">
+                Upload Logo Image <span className="text-red-500">*</span>
+              </label>
+              <p className="text-xs text-text-muted mb-2">
+                Upload a transparent PNG, JPG, WebP, or SVG logo. Supports up to 20MB.
+              </p>
+              <ImageUpload
+                value={newImage}
+                onChange={(url) => setNewImage(url)}
+              />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-1">
+              {/* Brand Name (Optional) */}
               <div className="space-y-1.5">
-                <label className="block text-xs font-bold uppercase tracking-wider text-gray-700">
-                  Brand Name <span className="text-red-500">*</span>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-gray-700">
+                  Brand Name (Optional)
                 </label>
                 <input
                   type="text"
-                  required
-                  placeholder="e.g. Tom Ford, Persol, Lindberg"
+                  placeholder="e.g. Tom Ford, Persol, Lindberg (or leave blank)"
                   value={newName}
                   onChange={(e) => setNewName(e.target.value)}
                   className="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand"
@@ -273,7 +282,7 @@ export default function OpticalBrandsAdminPage() {
 
               {/* Display Order */}
               <div className="space-y-1.5">
-                <label className="block text-xs font-bold uppercase tracking-wider text-gray-700">
+                <label className="block text-xs font-semibold uppercase tracking-wider text-gray-700">
                   Display Order (Optional)
                 </label>
                 <input
@@ -284,20 +293,6 @@ export default function OpticalBrandsAdminPage() {
                   className="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand"
                 />
               </div>
-            </div>
-
-            {/* Logo Image Upload via Cloudinary */}
-            <div className="space-y-1.5">
-              <label className="block text-xs font-bold uppercase tracking-wider text-gray-700">
-                Brand Logo Image (Cloudinary) <span className="text-red-500">*</span>
-              </label>
-              <p className="text-xs text-text-muted mb-2">
-                Upload a transparent PNG, JPG, or SVG logo. Supports up to 20MB.
-              </p>
-              <ImageUpload
-                value={newImage}
-                onChange={(url) => setNewImage(url)}
-              />
             </div>
 
             {/* Active Toggle */}
@@ -325,7 +320,7 @@ export default function OpticalBrandsAdminPage() {
               </button>
               <button
                 type="submit"
-                disabled={isSubmitting || !newName.trim() || !newImage.trim()}
+                disabled={isSubmitting || !newImage.trim()}
                 className="inline-flex items-center gap-2 px-5 py-2 bg-brand hover:bg-brand-medium text-white text-sm font-semibold rounded-xl transition shadow-xs disabled:opacity-50 cursor-pointer"
               >
                 {isSubmitting ? (
@@ -472,8 +467,8 @@ export default function OpticalBrandsAdminPage() {
                   </div>
 
                   {/* Brand Name */}
-                  <p className="text-xs font-bold text-brand-dark text-center truncate mb-3" title={brand.name}>
-                    {brand.name}
+                  <p className="text-xs font-bold text-brand-dark text-center truncate mb-3" title={brand.name || 'Brand Logo'}>
+                    {brand.name || 'Brand Logo'}
                   </p>
 
                   {/* Action Bar */}
@@ -526,3 +521,4 @@ export default function OpticalBrandsAdminPage() {
     </div>
   );
 }
+

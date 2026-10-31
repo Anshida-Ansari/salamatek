@@ -1,7 +1,7 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IInsurancePartnerDocument extends Document {
-  name: string;
+  name?: string;
   image: string;
   order: number;
   active: boolean;
@@ -12,7 +12,7 @@ export interface IInsurancePartnerDocument extends Document {
 
 const insurancePartnerSchema = new Schema(
   {
-    name: { type: String, required: true, trim: true },
+    name: { type: String, default: '', trim: true },
     image: { type: String, required: true, trim: true },
     order: { type: Number, default: 0 },
     active: { type: Boolean, default: true },
@@ -26,3 +26,4 @@ insurancePartnerSchema.index({ active: 1, order: 1 });
 insurancePartnerSchema.index({ createdAt: -1 });
 
 export const InsurancePartner = mongoose.model<IInsurancePartnerDocument>('InsurancePartner', insurancePartnerSchema);
+

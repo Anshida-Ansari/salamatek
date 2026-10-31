@@ -86,12 +86,8 @@ export const createInsurancePartner = async (req: Request, res: Response): Promi
   try {
     const { name, image, active, order } = req.body;
 
-    if (!name || !name.trim()) {
-      res.status(400).json({ success: false, error: 'Partner name is required' });
-      return;
-    }
     if (!image || !image.trim()) {
-      res.status(400).json({ success: false, error: 'Partner logo image is required' });
+      res.status(400).json({ success: false, error: 'Logo image is required' });
       return;
     }
 
@@ -102,7 +98,7 @@ export const createInsurancePartner = async (req: Request, res: Response): Promi
     }
 
     const partner = await InsurancePartner.create({
-      name: name.trim(),
+      name: (name || '').trim(),
       image: image.trim(),
       order: calculatedOrder,
       active: active !== undefined ? Boolean(active) : true,
@@ -158,3 +154,4 @@ export const deleteInsurancePartner = async (req: Request, res: Response): Promi
     res.status(500).json({ success: false, error: 'Server Error' });
   }
 };
+
