@@ -6,14 +6,14 @@ import { getTranslations } from '@/i18n';
 import { getLocalizedPath } from '@/lib/utils';
 import { PageHero } from '@/components/shared/PageHero';
 import { OPTICAL_BRANDS } from '@/lib/constants';
-import { contactConfig } from '@/config/contact';
 import { 
   Eye, 
   Clock, 
   Wrench, 
   Sparkles, 
-  ArrowRight,
   MessageCircle,
+  Phone,
+  MapPin,
 } from 'lucide-react';
 
 type Props = {
@@ -103,6 +103,10 @@ export default async function OpticalBrandsPage({ params }: Props) {
     getPageHero('optical-brands'),
     getOpticalBrands(),
   ]);
+
+  const contactNumber = heroSetting?.contactNumber || '+966 55 929 3222';
+  const cleanPhone = contactNumber.replace(/[^0-9+]/g, '');
+  const mapUrl = heroSetting?.mapUrl || 'https://maps.app.goo.gl/NCs1qV9fBLEpk9YK9?g_st=aw';
 
   const pageTitle = isAr
     ? 'سلامتك للبصريات'
@@ -333,7 +337,7 @@ export default async function OpticalBrandsPage({ params }: Props) {
         </div>
       </section>
 
-      {/* ── 5. Optical Consultation & Booking Banner ── */}
+      {/* ── 5. Optical Consultation & Contact Banner ── */}
       <section className="bg-gradient-to-br from-brand-dark via-[#0C3528] to-[#08221A] text-white py-14 md:py-20 overflow-hidden relative">
         {/* Glow decoration */}
         <div className="absolute top-0 right-0 w-96 h-96 bg-brand-light/10 rounded-full blur-3xl pointer-events-none" />
@@ -343,7 +347,7 @@ export default async function OpticalBrandsPage({ params }: Props) {
           <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
             <div className="max-w-2xl">
               <span className="inline-block px-3.5 py-1 rounded-full bg-white/10 text-brand-pale text-xs font-semibold tracking-wider uppercase mb-3 border border-white/10">
-                {isAr ? 'استشارة وفحص النظر' : 'Optical Consultations'}
+                {isAr ? 'استشارة وفحص النظر' : 'Optical Consultations & Contact'}
               </span>
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold text-white tracking-tight leading-tight">
                 {isAr
@@ -353,31 +357,45 @@ export default async function OpticalBrandsPage({ params }: Props) {
               <p className="mt-3 text-sm sm:text-base text-brand-pale/85 leading-relaxed">
                 {isAr
                   ? 'تفضل بزيارة مركز البصريات في مجمع سلامتك الطبي، أو تواصل معنا مباشرة لحجز موعد واستشارة أخصائي البصريات.'
-                  : 'Visit Salamatek Optical Center or chat directly with our licensed optometrists and eyewear consultants.'}
+                  : 'Visit Salamatek Optical Center or contact us directly to schedule an appointment and consult with our specialists.'}
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row items-center gap-3.5 shrink-0 w-full sm:w-auto">
+            <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3.5 shrink-0 w-full sm:w-auto">
+              {/* Clickable Phone Call */}
               <a
-                href={`https://wa.me/${contactConfig.whatsappNumber}?text=${encodeURIComponent(
+                href={`tel:${cleanPhone}`}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl bg-brand hover:bg-brand-medium text-white font-bold text-sm transition-all shadow-md hover:scale-105 active:scale-95 duration-200"
+                aria-label={isAr ? `اتصل بنا على ${contactNumber}` : `Call us at ${contactNumber}`}
+              >
+                <Phone className="w-4 h-4 shrink-0 text-white" />
+                <span dir="ltr">{contactNumber}</span>
+              </a>
+
+              {/* Clickable Google Maps Location Link */}
+              <a
+                href={mapUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-sm border border-white/20 transition-all hover:scale-105 active:scale-95 duration-200"
+                aria-label={isAr ? 'موقع المركز على خريطة جوجل' : 'View Optical Center on Google Maps'}
+              >
+                <MapPin className="w-4 h-4 shrink-0 text-brand-light" />
+                <span>{isAr ? 'موقع المركز (خرائط Google)' : 'Google Maps Location'}</span>
+              </a>
+
+              {/* Clickable WhatsApp */}
+              <a
+                href={`https://wa.me/${cleanPhone.replace('+', '')}?text=${encodeURIComponent(
                   isAr ? 'مرحباً، أود الاستفسار عن خدمات ونظارات مركز البصريات' : 'Hello, I would like to inquire about Salamatek Optical services and frames'
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-brand text-white font-bold text-sm hover:bg-brand-medium transition-colors shadow-md hover:scale-105 active:scale-95 duration-200"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm transition-all shadow-md hover:scale-105 active:scale-95 duration-200"
+                aria-label={isAr ? 'تواصل عبر واتساب' : 'Chat on WhatsApp'}
               >
                 <MessageCircle className="w-4 h-4 shrink-0" />
-                <span>{isAr ? 'تواصل عبر واتساب' : 'Chat on WhatsApp'}</span>
-              </a>
-
-              <a
-                href={contactConfig.mapsLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-sm border border-white/20 transition-colors"
-              >
-                <ArrowRight className="w-4 h-4 shrink-0 rtl:rotate-180" />
-                <span>{isAr ? 'موقع المركز' : 'Visit Optical Center'}</span>
+                <span>{isAr ? 'واتساب' : 'WhatsApp'}</span>
               </a>
             </div>
           </div>

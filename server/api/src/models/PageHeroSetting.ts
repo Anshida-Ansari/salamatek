@@ -6,6 +6,8 @@ export interface IPageHeroSetting extends Document {
   images?: string[];
   heading?: { en: string; ar: string };
   subtext?: { en: string; ar: string };
+  contactNumber?: string;
+  mapUrl?: string;
   updatedAt: Date;
 }
 
@@ -26,6 +28,16 @@ const pageHeroSettingSchema = new Schema(
     subtext: {
       en: { type: String },
       ar: { type: String },
+    },
+    contactNumber: {
+      type: String,
+      default: '+966 55 929 3222',
+      trim: true,
+    },
+    mapUrl: {
+      type: String,
+      default: 'https://maps.app.goo.gl/NCs1qV9fBLEpk9YK9?g_st=aw',
+      trim: true,
     },
   },
   { timestamps: true }

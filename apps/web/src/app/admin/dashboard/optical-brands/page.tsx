@@ -17,6 +17,8 @@ import {
   Search,
   Sparkles,
   ExternalLink,
+  Phone,
+  MapPin,
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -59,6 +61,11 @@ export default function OpticalBrandsAdminPage() {
   const [isBannerLoading, setIsBannerLoading] = useState(true);
   const [isBannerSaving, setIsBannerSaving] = useState(false);
 
+  // Opticals Contact & Location Settings
+  const [contactNumber, setContactNumber] = useState('+966 55 929 3222');
+  const [mapUrl, setMapUrl] = useState('https://maps.app.goo.gl/NCs1qV9fBLEpk9YK9?g_st=aw');
+  const [isContactSaving, setIsContactSaving] = useState(false);
+
   // Load optical brands & banner hero
   const loadData = async () => {
     setIsLoading(true);
@@ -74,12 +81,14 @@ export default function OpticalBrandsAdminPage() {
     }
   };
 
-  const loadBanner = async () => {
+  const loadHeroAndSettings = async () => {
     setIsBannerLoading(true);
     try {
       const res = await fetchApi('/api/page-heroes/optical-brands');
-      if (res && res.data && res.data.image) {
-        setBannerImage(res.data.image);
+      if (res && res.data) {
+        if (res.data.image) setBannerImage(res.data.image);
+        if (res.data.contactNumber) setContactNumber(res.data.contactNumber);
+        if (res.data.mapUrl) setMapUrl(res.data.mapUrl);
       }
     } catch {
       // ignore
@@ -90,7 +99,7 @@ export default function OpticalBrandsAdminPage() {
 
   useEffect(() => {
     loadData();
-    loadBanner();
+    loadHeroAndSettings();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -106,6 +115,25 @@ export default function OpticalBrandsAdminPage() {
       toast('Failed to save hero banner.', 'error');
     } finally {
       setIsBannerSaving(false);
+    }
+  };
+
+  const handleSaveContact = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    setIsContactSaving(true);
+    try {
+      await fetchApi('/api/page-heroes/optical-brands', {
+        method: 'PATCH',
+        body: JSON.stringify({
+          contactNumber: contactNumber.trim(),
+          mapUrl: mapUrl.trim(),
+        }),
+      });
+      toast('Opticals contact number and location saved successfully.', 'success');
+    } catch {
+      toast('Failed to save contact information.', 'error');
+    } finally {
+      setIsContactSaving(false);
     }
   };
 
@@ -385,6 +413,98 @@ export default function OpticalBrandsAdminPage() {
               />
             </div>
           )}
+        </div>
+      </div>
+
+      {/* ── Optical Center Contact & Location Settings ── */}
+      <div className="bg-white rounded-2xl border border-gray-100 shadow-xs overflow-hidden">
+        <div className="p-5 sm:p-6 bg-gradient-to-r from-surface-mint/30 to-white border-b border-gray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="flex items-start sm:items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-brand text-white flex items-center justify-center shrink-0 shadow-xs">
+              <Phone className="w-5 h-5" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h2 className="text-base font-bold text-brand-dark">Optical Center Contact & Location</h2>
+                <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-surface-mint text-brand-dark border border-brand/10">
+                  Public Contact Info
+                </span>
+              </div>
+              <p className="text-xs text-text-muted mt-0.5">
+                Update the official contact number and Google Maps location shown on the Opticals page.
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={handleSaveContact}
+            disabled={isContactSaving || isBannerLoading}
+            className="flex items-center justify-center gap-2 px-4 py-2 bg-brand text-white rounded-xl hover:bg-brand-medium disabled:opacity-50 text-sm font-semibold transition shadow-xs cursor-pointer shrink-0"
+          >
+            {isContactSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+            Save Contact Info
+          </button>
+        </div>
+
+        <div className="p-5 sm:p-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl">
+            {/* Contact Number */}
+            <div className="space-y-2">
+              <label className="block text-xs font-semibold uppercase tracking-wider text-text-muted">
+                Contact Number (Calling & WhatsApp)
+              </label>
+              <div className="relative">
+                <Phone className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                <input
+                  type="text"
+                  value={contactNumber}
+                  onChange={(e) => setContactNumber(e.target.value)}
+                  placeholder="+966 55 929 3222"
+                  className="w-full pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand font-mono"
+                />
+              </div>
+              <p className="text-[11px] text-gray-500 flex items-center justify-between">
+                <span>Clickable on public website for direct phone calls and WhatsApp chats.</span>
+                {contactNumber && (
+                  <a
+                    href={`tel:${contactNumber.replace(/[^0-9+]/g, '')}`}
+                    className="text-brand hover:underline font-semibold ml-2 inline-flex items-center gap-1"
+                  >
+                    Test Call <ExternalLink className="w-3 h-3" />
+                  </a>
+                )}
+              </p>
+            </div>
+
+            {/* Google Maps Link */}
+            <div className="space-y-2">
+              <label className="block text-xs font-semibold uppercase tracking-wider text-text-muted">
+                Google Maps Location URL
+              </label>
+              <div className="relative">
+                <MapPin className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                <input
+                  type="url"
+                  value={mapUrl}
+                  onChange={(e) => setMapUrl(e.target.value)}
+                  placeholder="https://maps.app.goo.gl/..."
+                  className="w-full pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand font-mono"
+                />
+              </div>
+              <p className="text-[11px] text-gray-500 flex items-center justify-between">
+                <span>Opens directly in Google Maps for patients visiting the optical center.</span>
+                {mapUrl && (
+                  <a
+                    href={mapUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-brand hover:underline font-semibold ml-2 inline-flex items-center gap-1"
+                  >
+                    Open Map <ExternalLink className="w-3 h-3" />
+                  </a>
+                )}
+              </p>
+            </div>
+          </div>
         </div>
       </div>
 

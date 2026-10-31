@@ -121,10 +121,10 @@ export function Navigation({ locale, t, className, orientation = 'horizontal', o
               )}
             >
               <Image
-                src="/images/salamatek-store-logo.png"
-                alt="Salamatek Store - Optical"
-                width={120}
-                height={48}
+                src="/images/salamatek-opticals-logo.png"
+                alt="Salamatek Opticals"
+                width={130}
+                height={40}
                 className={cn("object-contain transition-transform hover:scale-105 shrink-0")}
                 style={{
                   width: isVertical ? '140px' : 'auto',
