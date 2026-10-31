@@ -107,6 +107,7 @@ export default async function OpticalBrandsPage({ params }: Props) {
   const contactNumber = heroSetting?.contactNumber || '+966 55 929 3222';
   const cleanPhone = contactNumber.replace(/[^0-9+]/g, '');
   const mapUrl = heroSetting?.mapUrl || 'https://maps.app.goo.gl/NCs1qV9fBLEpk9YK9?g_st=aw';
+  const shortLocation = heroSetting?.shortLocation || (isAr ? 'صفوى' : 'Safwa');
 
   const pageTitle = isAr
     ? 'سلامتك للبصريات'
@@ -346,9 +347,16 @@ export default async function OpticalBrandsPage({ params }: Props) {
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center sm:text-start">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
             <div className="max-w-2xl">
-              <span className="inline-block px-3.5 py-1 rounded-full bg-white/10 text-brand-pale text-xs font-semibold tracking-wider uppercase mb-3 border border-white/10">
-                {isAr ? 'استشارة وفحص النظر' : 'Optical Consultations & Contact'}
-              </span>
+              <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 mb-3">
+                <span className="inline-block px-3.5 py-1 rounded-full bg-white/10 text-brand-pale text-xs font-semibold tracking-wider uppercase border border-white/10">
+                  {isAr ? 'استشارة وفحص النظر' : 'Optical Consultations'}
+                </span>
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-semibold border border-emerald-500/30">
+                  <MapPin className="w-3.5 h-3.5 shrink-0" />
+                  <span>{isAr ? `الموقع: ${shortLocation}` : `Location: ${shortLocation}`}</span>
+                </span>
+              </div>
+
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold text-white tracking-tight leading-tight">
                 {isAr
                   ? 'هل تبحث عن النظارة المثالية أو ترغب في فحص نظرك؟'
@@ -356,8 +364,8 @@ export default async function OpticalBrandsPage({ params }: Props) {
               </h2>
               <p className="mt-3 text-sm sm:text-base text-brand-pale/85 leading-relaxed">
                 {isAr
-                  ? 'تفضل بزيارة مركز البصريات في مجمع سلامتك الطبي، أو تواصل معنا مباشرة لحجز موعد واستشارة أخصائي البصريات.'
-                  : 'Visit Salamatek Optical Center or contact us directly to schedule an appointment and consult with our specialists.'}
+                  ? `تفضل بزيارة مركز سلامتك للبصريات (${shortLocation})، أو تواصل معنا مباشرة لحجز موعد واستشارة أخصائي البصريات.`
+                  : `Visit Salamatek Optical Center (${shortLocation}) or contact us directly to schedule an appointment and consult with our specialists.`}
               </p>
             </div>
 
@@ -372,16 +380,16 @@ export default async function OpticalBrandsPage({ params }: Props) {
                 <span dir="ltr">{contactNumber}</span>
               </a>
 
-              {/* Clickable Google Maps Location Link */}
+              {/* Clickable Google Maps Location Link (Short text) */}
               <a
                 href={mapUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-sm border border-white/20 transition-all hover:scale-105 active:scale-95 duration-200"
-                aria-label={isAr ? 'موقع المركز على خريطة جوجل' : 'View Optical Center on Google Maps'}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-sm border border-white/20 transition-all hover:scale-105 active:scale-95 duration-200"
+                aria-label={isAr ? `الموقع: ${shortLocation}` : `Location: ${shortLocation}`}
               >
                 <MapPin className="w-4 h-4 shrink-0 text-brand-light" />
-                <span>{isAr ? 'موقع المركز (خرائط Google)' : 'Google Maps Location'}</span>
+                <span>{isAr ? `الموقع: ${shortLocation}` : `Location: ${shortLocation}`}</span>
               </a>
 
               {/* Clickable WhatsApp */}

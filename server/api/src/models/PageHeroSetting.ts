@@ -7,6 +7,7 @@ export interface IPageHeroSetting extends Document {
   heading?: { en: string; ar: string };
   subtext?: { en: string; ar: string };
   contactNumber?: string;
+  shortLocation?: string;
   mapUrl?: string;
   updatedAt: Date;
 }
@@ -32,6 +33,11 @@ const pageHeroSettingSchema = new Schema(
     contactNumber: {
       type: String,
       default: '+966 55 929 3222',
+      trim: true,
+    },
+    shortLocation: {
+      type: String,
+      default: 'Safwa',
       trim: true,
     },
     mapUrl: {

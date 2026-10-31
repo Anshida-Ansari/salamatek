@@ -63,6 +63,7 @@ export default function OpticalBrandsAdminPage() {
 
   // Opticals Contact & Location Settings
   const [contactNumber, setContactNumber] = useState('+966 55 929 3222');
+  const [shortLocation, setShortLocation] = useState('Safwa');
   const [mapUrl, setMapUrl] = useState('https://maps.app.goo.gl/NCs1qV9fBLEpk9YK9?g_st=aw');
   const [isContactSaving, setIsContactSaving] = useState(false);
 
@@ -88,6 +89,7 @@ export default function OpticalBrandsAdminPage() {
       if (res && res.data) {
         if (res.data.image) setBannerImage(res.data.image);
         if (res.data.contactNumber) setContactNumber(res.data.contactNumber);
+        if (res.data.shortLocation) setShortLocation(res.data.shortLocation);
         if (res.data.mapUrl) setMapUrl(res.data.mapUrl);
       }
     } catch {
@@ -126,6 +128,7 @@ export default function OpticalBrandsAdminPage() {
         method: 'PATCH',
         body: JSON.stringify({
           contactNumber: contactNumber.trim(),
+          shortLocation: shortLocation.trim(),
           mapUrl: mapUrl.trim(),
         }),
       });
@@ -446,7 +449,7 @@ export default function OpticalBrandsAdminPage() {
         </div>
 
         <div className="p-5 sm:p-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl">
             {/* Contact Number */}
             <div className="space-y-2">
               <label className="block text-xs font-semibold uppercase tracking-wider text-text-muted">
@@ -463,7 +466,7 @@ export default function OpticalBrandsAdminPage() {
                 />
               </div>
               <p className="text-[11px] text-gray-500 flex items-center justify-between">
-                <span>Clickable on public website for direct phone calls and WhatsApp chats.</span>
+                <span>Clickable on public website.</span>
                 {contactNumber && (
                   <a
                     href={`tel:${contactNumber.replace(/[^0-9+]/g, '')}`}
@@ -472,6 +475,26 @@ export default function OpticalBrandsAdminPage() {
                     Test Call <ExternalLink className="w-3 h-3" />
                   </a>
                 )}
+              </p>
+            </div>
+
+            {/* Short Location Name */}
+            <div className="space-y-2">
+              <label className="block text-xs font-semibold uppercase tracking-wider text-text-muted">
+                Short Location Name
+              </label>
+              <div className="relative">
+                <MapPin className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                <input
+                  type="text"
+                  value={shortLocation}
+                  onChange={(e) => setShortLocation(e.target.value)}
+                  placeholder="Safwa"
+                  className="w-full pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand"
+                />
+              </div>
+              <p className="text-[11px] text-gray-500">
+                Shown as short location badge (e.g. Safwa) in the optical section.
               </p>
             </div>
 
@@ -491,7 +514,7 @@ export default function OpticalBrandsAdminPage() {
                 />
               </div>
               <p className="text-[11px] text-gray-500 flex items-center justify-between">
-                <span>Opens directly in Google Maps for patients visiting the optical center.</span>
+                <span>Opens in Google Maps.</span>
                 {mapUrl && (
                   <a
                     href={mapUrl}

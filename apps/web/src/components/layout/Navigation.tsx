@@ -112,7 +112,7 @@ export function Navigation({ locale, t, className, orientation = 'horizontal', o
               key={key}
               href={localizedHref}
               onClick={onLinkClick}
-              aria-label={label || 'Salamatek Store'}
+              aria-label={label || 'Salamatek Opticals'}
               aria-current={active ? 'page' : undefined}
               className={cn(
                 'relative inline-flex items-center justify-center shrink-0 transition-opacity duration-200 hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 rounded-sm',
@@ -123,13 +123,14 @@ export function Navigation({ locale, t, className, orientation = 'horizontal', o
               <Image
                 src="/images/salamatek-opticals-logo.png"
                 alt="Salamatek Opticals"
-                width={130}
-                height={40}
+                width={88}
+                height={22}
                 className={cn("object-contain transition-transform hover:scale-105 shrink-0")}
                 style={{
-                  width: isVertical ? '140px' : 'auto',
-                  height: isVertical ? 'auto' : '32px',
-                  maxHeight: isVertical ? '56px' : '32px',
+                  width: isVertical ? '110px' : 'auto',
+                  height: isVertical ? 'auto' : '20px',
+                  maxHeight: isVertical ? '32px' : '20px',
+                  maxWidth: isVertical ? '110px' : '84px',
                   filter: isTransparent ? 'drop-shadow(0 1px 3px rgba(0,0,0,0.6)) brightness(1.15)' : undefined
                 }}
                 priority
