@@ -188,3 +188,4 @@ const contactSettingSchema = new Schema<IContactSetting>(
 );
 
 export const ContactSetting = mongoose.model<IContactSetting>('ContactSetting', contactSettingSchema);
+

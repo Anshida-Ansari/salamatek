@@ -64,3 +64,4 @@ export function useContactSettings(): ContactSettings {
   const context = useContext(ContactContext);
   return context || contactConfig;
 }
+

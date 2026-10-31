@@ -72,8 +72,39 @@ export function Navigation({ locale, t, className, orientation = 'horizontal', o
         const active = isActive(href);
         const label = t.nav[key] as string;
 
-        /* ── SARC logo link ── */
+        /* ── SARC logo link / mobile button ── */
         if (sarc) {
+          if (isVertical) {
+            return (
+              <Link
+                key={key}
+                href={localizedHref}
+                onClick={onLinkClick}
+                aria-label="SARC — Industrial Healthcare"
+                aria-current={active ? 'page' : undefined}
+                className={cn(
+                  'group w-full flex items-center justify-between px-4 py-3 rounded-xl bg-white border border-border shadow-xs hover:border-brand-medium/60 hover:shadow-sm transition-all duration-200 mt-2.5',
+                  active && 'border-brand-medium bg-brand-mint/20 ring-1 ring-brand-medium/20',
+                )}
+                dir="ltr"
+              >
+                <div className="flex items-center justify-start h-8 shrink-0">
+                  <Image
+                    src="/images/sarc-logo-transparent.png"
+                    alt="SARC"
+                    width={72}
+                    height={32}
+                    className="h-7 w-auto object-contain transition-transform group-hover:scale-105"
+                    priority
+                  />
+                </div>
+                <span className="text-sm font-semibold text-brand-dark group-hover:text-brand transition-colors">
+                  {locale === 'ar' ? 'سارك' : 'SARC'}
+                </span>
+              </Link>
+            );
+          }
+
           return (
             <Link
               key={key}
@@ -82,9 +113,8 @@ export function Navigation({ locale, t, className, orientation = 'horizontal', o
               aria-label="SARC — Industrial Healthcare"
               aria-current={active ? 'page' : undefined}
               className={cn(
-                'relative inline-flex items-center justify-center shrink-0 transition-opacity duration-200 hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 rounded-sm',
+                'relative inline-flex items-center justify-center shrink-0 transition-opacity duration-200 hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 rounded-sm px-1 xl:px-1.5 py-1',
                 active && 'opacity-90',
-                isVertical ? 'w-full justify-start px-4 py-2 mt-2' : 'px-1 xl:px-1.5 py-1'
               )}
             >
               <Image
@@ -92,12 +122,12 @@ export function Navigation({ locale, t, className, orientation = 'horizontal', o
                 alt="SARC"
                 width={120}
                 height={40}
-                className={cn("object-contain transition-transform hover:scale-105 shrink-0")}
+                className="object-contain transition-transform hover:scale-105 shrink-0"
                 style={{
-                  width: isVertical ? '140px' : 'auto',
-                  height: isVertical ? 'auto' : '30px',
-                  minWidth: isVertical ? undefined : '88px',
-                  filter: isTransparent ? 'drop-shadow(0 1px 3px rgba(0,0,0,0.6)) brightness(1.15)' : undefined
+                  width: 'auto',
+                  height: '30px',
+                  maxHeight: '30px',
+                  filter: isTransparent ? 'drop-shadow(0 1px 3px rgba(0,0,0,0.6)) brightness(1.15)' : undefined,
                 }}
                 priority
               />
@@ -105,8 +135,40 @@ export function Navigation({ locale, t, className, orientation = 'horizontal', o
           );
         }
 
-        /* ── Optical logo link ── */
+        /* ── Optical logo link / mobile button ── */
         if (optical) {
+          if (isVertical) {
+            return (
+              <Link
+                key={key}
+                href={localizedHref}
+                onClick={onLinkClick}
+                aria-label={locale === 'ar' ? 'سلامتك للبصريات' : 'Salamatek Opticals'}
+                aria-current={active ? 'page' : undefined}
+                className={cn(
+                  'group w-full flex items-center justify-between px-4 py-3 rounded-xl bg-white border border-border shadow-xs hover:border-brand-medium/60 hover:shadow-sm transition-all duration-200 mt-2',
+                  active && 'border-brand-medium bg-brand-mint/20 ring-1 ring-brand-medium/20',
+                )}
+                dir="ltr"
+              >
+                <div className="flex items-center justify-start h-8 shrink-0">
+                  <Image
+                    src="/images/salamatek-opticals-logo.png"
+                    alt="Salamatek Opticals"
+                    width={72}
+                    height={38}
+                    className="h-7 w-auto object-contain transition-transform group-hover:scale-105"
+                    priority
+                    suppressHydrationWarning
+                  />
+                </div>
+                <span className="text-sm font-semibold text-brand-dark group-hover:text-brand transition-colors">
+                  {locale === 'ar' ? 'سلامتك للبصريات' : 'Salamatek Opticals'}
+                </span>
+              </Link>
+            );
+          }
+
           return (
             <Link
               key={key}
@@ -115,25 +177,24 @@ export function Navigation({ locale, t, className, orientation = 'horizontal', o
               aria-label={label || 'Salamatek Opticals'}
               aria-current={active ? 'page' : undefined}
               className={cn(
-                'relative inline-flex items-center justify-center shrink-0 transition-opacity duration-200 hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 rounded-sm',
+                'relative inline-flex items-center justify-center shrink-0 transition-opacity duration-200 hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 rounded-sm px-1 xl:px-1.5 py-1',
                 active && 'opacity-90',
-                isVertical ? 'w-full justify-start px-4 py-2 mt-2' : 'px-1 xl:px-1.5 py-1'
               )}
             >
               <Image
                 src="/images/salamatek-opticals-logo.png"
                 alt="Salamatek Opticals"
-                width={88}
-                height={22}
-                className={cn("object-contain transition-transform hover:scale-105 shrink-0")}
+                width={100}
+                height={54}
+                className="object-contain transition-transform hover:scale-105 shrink-0"
                 style={{
-                  width: isVertical ? '110px' : 'auto',
-                  height: isVertical ? 'auto' : '20px',
-                  maxHeight: isVertical ? '32px' : '20px',
-                  maxWidth: isVertical ? '110px' : '84px',
-                  filter: isTransparent ? 'drop-shadow(0 1px 3px rgba(0,0,0,0.6)) brightness(1.15)' : undefined
+                  width: 'auto',
+                  height: '30px',
+                  maxHeight: '30px',
+                  filter: isTransparent ? 'drop-shadow(0 1px 3px rgba(0,0,0,0.6)) brightness(1.15)' : undefined,
                 }}
                 priority
+                suppressHydrationWarning
               />
             </Link>
           );

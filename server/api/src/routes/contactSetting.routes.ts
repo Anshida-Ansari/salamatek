@@ -16,3 +16,4 @@ router.put('/', updateContactSettings);
 router.patch('/', updateContactSettings);
 
 export default router;
+

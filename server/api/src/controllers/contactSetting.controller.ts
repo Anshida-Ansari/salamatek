@@ -72,3 +72,4 @@ export const updateContactSettings = asyncHandler(async (req: Request, res: Resp
     message: 'Global contact settings updated successfully',
   });
 });
+
