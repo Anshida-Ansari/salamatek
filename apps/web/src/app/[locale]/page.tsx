@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { isValidLocale } from '@/i18n/config';
 import type { Locale } from '@/i18n/config';
 import { getTranslations } from '@/i18n';
+import { getContactSettings } from '@/lib/contact';
 
 // Homepage section components
 import { HeroSection } from '@/components/home/HeroSection';
@@ -138,17 +139,18 @@ export default async function HomePage({ params }: Props) {
   const t = getTranslations(locale as Locale);
 
   // Fetch all data in parallel
-  const [depts, testimonials, heroImages, sarcImage] = await Promise.all([
+  const [depts, testimonials, heroImages, sarcImage, contactSettings] = await Promise.all([
     getDepartments(),
     getTestimonials(),
     getPageHeroImages('home'),
     getPageHeroImage('sarc'),
+    getContactSettings(),
   ]);
 
   return (
     <>
       {/* 1. Hero — dynamic images from CMS, falls back to local hospital images */}
-      <HeroSection locale={locale} t={t} heroImages={heroImages} />
+      <HeroSection locale={locale} t={t} heroImages={heroImages} contactSettings={contactSettings} />
 
       {/* 2. About / Welcome */}
       <AboutSection locale={locale} t={t} />
@@ -175,7 +177,7 @@ export default async function HomePage({ params }: Props) {
       <TestimonialsSection locale={locale} t={t} testimonials={testimonials} />
 
       {/* 10. Appointment */}
-      <AppointmentSection locale={locale} t={t} />
+      <AppointmentSection locale={locale} t={t} contactSettings={contactSettings} />
     </>
   );
 }

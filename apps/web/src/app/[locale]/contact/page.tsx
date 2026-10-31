@@ -4,8 +4,8 @@ import { isValidLocale } from '@/i18n/config';
 import type { Locale } from '@/i18n/config';
 import { getTranslations } from '@/i18n';
 import { PageHero } from '@/components/shared/PageHero';
-import { contactConfig } from '@/config/contact';
-import { MapPin, Phone, Mail } from 'lucide-react';
+import { getContactSettings, getTelLink, getMailtoLink, getWhatsAppLink } from '@/lib/contact';
+import { MapPin, Phone, Mail, Globe } from 'lucide-react';
 import { ContactForm } from '@/components/forms/ContactForm';
 
 type Props = { params: Promise<{ locale: string }> };
@@ -21,12 +21,15 @@ export default async function ContactPage({ params }: Props) {
   if (!isValidLocale(locale)) notFound();
   
   const isRtl = locale === 'ar';
+  const contact = await getContactSettings();
   
   // Hardcoding text for simplicity, using i18n where available
   const title = isRtl ? 'اتصل بنا' : 'Contact Us';
   const description = isRtl 
     ? 'نحن هنا لمساعدتك. تواصل معنا لأي استفسارات أو تعليقات، أو لطلب عرض سعر لخدماتنا.'
     : 'We are here to help. Reach out to us for any inquiries, feedback, or to request a proposal for our services.';
+
+  const displayAddress = isRtl ? (contact.addressAr || contact.address) : contact.address;
 
   return (
     <main className="min-h-screen bg-slate-50">
@@ -54,19 +57,23 @@ export default async function ContactPage({ params }: Props) {
               </div>
 
               <div className="space-y-6">
+                {/* Physical Address */}
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 rounded-full bg-[#8E2829]/10 flex items-center justify-center flex-shrink-0 text-[#8E2829]">
                     <MapPin className="w-6 h-6" />
                   </div>
                   <div>
                     <h4 className="font-bold text-gray-900">{isRtl ? 'العنوان' : 'Address'}</h4>
-                    <p className="text-gray-600 mt-1">{contactConfig.address}</p>
-                    <a href={contactConfig.mapsLink} target="_blank" rel="noopener noreferrer" className="inline-block mt-2 text-sm font-semibold text-[#8E2829] hover:underline">
-                      {isRtl ? 'احصل على الاتجاهات' : 'Get Directions'}
-                    </a>
+                    <p className="text-gray-600 mt-1">{displayAddress}</p>
+                    {contact.mapsLink && (
+                      <a href={contact.mapsLink} target="_blank" rel="noopener noreferrer" className="inline-block mt-2 text-sm font-semibold text-[#8E2829] hover:underline">
+                        {isRtl ? 'احصل على الاتجاهات (Google Maps)' : 'Get Directions (Google Maps)'}
+                      </a>
+                    )}
                   </div>
                 </div>
 
+                {/* Phone & Direct Contacts */}
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 rounded-full bg-emerald-500/10 flex items-center justify-center flex-shrink-0 text-emerald-700">
                     <Phone className="w-6 h-6" />
@@ -74,43 +81,84 @@ export default async function ContactPage({ params }: Props) {
                   <div>
                     <h4 className="font-bold text-gray-900">{isRtl ? 'الهاتف وأرقام التواصل' : 'Phone & Direct Contacts'}</h4>
                     <div className="mt-1 space-y-1" dir="ltr">
-                      <div>
-                        <a href="tel:0136642193" className="text-gray-900 hover:text-emerald-700 font-medium block">
-                          013 664 2193
-                        </a>
-                        <span className="text-xs text-gray-500 block">
-                          {isRtl ? 'الهاتف الثابت / المواعيد' : 'Landline / Appointments'}
-                        </span>
-                      </div>
+                      {contact.phone && (
+                        <div>
+                          <a href={getTelLink(contact.phone)} className="text-gray-900 hover:text-emerald-700 font-medium block">
+                            {contact.phone}
+                          </a>
+                          <span className="text-xs text-gray-500 block">
+                            {isRtl ? 'الهاتف الثابت / المواعيد' : 'Landline / Appointments'}
+                          </span>
+                        </div>
+                      )}
+
                       <div className="pt-1">
                         <span className="text-xs font-semibold text-gray-500 block">
                           {isRtl ? 'الجوال والطوارئ:' : 'Direct & Emergency:'}
                         </span>
-                        <a href="tel:+966532963521" className="text-emerald-700 hover:underline font-semibold block text-sm">
-                          +966 53 296 3521
-                        </a>
-                        <a href="tel:+966557400450" className="text-gray-800 hover:text-emerald-700 block text-sm">
-                          +966 55 740 0450
-                        </a>
-                        <a href="tel:+966553504004" className="text-gray-800 hover:text-emerald-700 block text-sm">
-                          +966 55 350 4004
-                        </a>
+                        {contact.emergencyPhone && (
+                          <a href={getTelLink(contact.emergencyPhone)} className="text-emerald-700 hover:underline font-semibold block text-sm">
+                            {contact.emergencyPhone}
+                          </a>
+                        )}
+                        {contact.additionalPhones?.map((phone, idx) => (
+                          <a key={idx} href={getTelLink(phone)} className="text-gray-800 hover:text-emerald-700 block text-sm">
+                            {phone}
+                          </a>
+                        ))}
                       </div>
                     </div>
                   </div>
                 </div>
 
+                {/* Email Address */}
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 rounded-full bg-emerald-500/10 flex items-center justify-center flex-shrink-0 text-emerald-700">
                     <Mail className="w-6 h-6" />
                   </div>
                   <div>
                     <h4 className="font-bold text-gray-900">{isRtl ? 'البريد الإلكتروني' : 'Email'}</h4>
-                    <a href={`mailto:${contactConfig.email}`} className="text-gray-600 hover:text-emerald-700 hover:underline mt-1 block" dir="ltr">
-                      {contactConfig.email}
+                    <a href={getMailtoLink(contact.email)} className="text-gray-600 hover:text-emerald-700 hover:underline mt-1 block" dir="ltr">
+                      {contact.email}
                     </a>
+                    {contact.additionalEmails?.map((em, idx) => (
+                      <a key={idx} href={getMailtoLink(em)} className="text-gray-600 hover:text-emerald-700 hover:underline mt-1 block text-sm" dir="ltr">
+                        {em}
+                      </a>
+                    ))}
                   </div>
                 </div>
+
+                {/* Dynamic Custom Fields (if configured) */}
+                {contact.customFields && contact.customFields.length > 0 && (
+                  <div className="space-y-4 pt-2">
+                    {contact.customFields.map((field) => (
+                      <div key={field.key} className="flex items-start gap-4">
+                        <div className="w-12 h-12 rounded-full bg-blue-500/10 flex items-center justify-center flex-shrink-0 text-blue-700">
+                          <Globe className="w-6 h-6" />
+                        </div>
+                        <div>
+                          <h4 className="font-bold text-gray-900">{isRtl ? field.labelAr : field.labelEn}</h4>
+                          {field.type === 'phone' ? (
+                            <a href={getTelLink(field.value)} className="text-gray-700 hover:underline block text-sm" dir="ltr">
+                              {field.value}
+                            </a>
+                          ) : field.type === 'email' ? (
+                            <a href={getMailtoLink(field.value)} className="text-gray-700 hover:underline block text-sm" dir="ltr">
+                              {field.value}
+                            </a>
+                          ) : field.type === 'url' ? (
+                            <a href={field.value} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline block text-sm break-all">
+                              {field.value}
+                            </a>
+                          ) : (
+                            <p className="text-gray-600 text-sm mt-0.5">{field.value}</p>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
 
                 {/* Social & WhatsApp Direct Channels */}
                 <div className="pt-4 border-t border-gray-200">
@@ -118,30 +166,86 @@ export default async function ContactPage({ params }: Props) {
                     {isRtl ? 'قنوات التواصل المباشر' : 'Direct Social & Messaging'}
                   </h4>
                   <div className="flex flex-wrap gap-2">
-                    <a
-                      href={`https://wa.me/${contactConfig.whatsappNumber}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#25D366] text-white text-xs font-semibold hover:bg-[#1ebe5c] transition-colors shadow-sm"
-                    >
-                      <span>WhatsApp (+966 53 296 3521)</span>
-                    </a>
-                    <a
-                      href={contactConfig.social.instagram}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-gradient-to-tr from-amber-500 via-pink-500 to-purple-600 text-white text-xs font-semibold hover:opacity-90 transition-opacity shadow-sm"
-                    >
-                      <span>Instagram</span>
-                    </a>
-                    <a
-                      href={contactConfig.social.snapchat}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#FFFC00] text-black text-xs font-semibold hover:bg-yellow-400 transition-colors shadow-sm border border-black/10"
-                    >
-                      <span>Snapchat</span>
-                    </a>
+                    {contact.whatsappNumber && (
+                      <a
+                        href={getWhatsAppLink(contact.whatsappNumber)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#25D366] text-white text-xs font-semibold hover:bg-[#1ebe5c] transition-colors shadow-sm"
+                      >
+                        <span>WhatsApp ({contact.whatsappDisplay || contact.whatsappNumber})</span>
+                      </a>
+                    )}
+                    {contact.social?.instagram && (
+                      <a
+                        href={contact.social.instagram}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-gradient-to-tr from-amber-500 via-pink-500 to-purple-600 text-white text-xs font-semibold hover:opacity-90 transition-opacity shadow-sm"
+                      >
+                        <span>Instagram</span>
+                      </a>
+                    )}
+                    {contact.social?.snapchat && (
+                      <a
+                        href={contact.social.snapchat}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#FFFC00] text-black text-xs font-semibold hover:bg-yellow-400 transition-colors shadow-sm border border-black/10"
+                      >
+                        <span>Snapchat</span>
+                      </a>
+                    )}
+                    {contact.social?.facebook && (
+                      <a
+                        href={contact.social.facebook}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#1877F2] text-white text-xs font-semibold hover:opacity-90 transition-opacity shadow-sm"
+                      >
+                        <span>Facebook</span>
+                      </a>
+                    )}
+                    {contact.social?.linkedin && (
+                      <a
+                        href={contact.social.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#0A66C2] text-white text-xs font-semibold hover:opacity-90 transition-opacity shadow-sm"
+                      >
+                        <span>LinkedIn</span>
+                      </a>
+                    )}
+                    {contact.social?.youtube && (
+                      <a
+                        href={contact.social.youtube}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#FF0000] text-white text-xs font-semibold hover:opacity-90 transition-opacity shadow-sm"
+                      >
+                        <span>YouTube</span>
+                      </a>
+                    )}
+                    {contact.social?.tiktok && (
+                      <a
+                        href={contact.social.tiktok}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-black text-white text-xs font-semibold hover:opacity-80 transition-opacity shadow-sm"
+                      >
+                        <span>TikTok</span>
+                      </a>
+                    )}
+                    {contact.social?.twitter && (
+                      <a
+                        href={contact.social.twitter}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-gray-900 text-white text-xs font-semibold hover:opacity-80 transition-opacity shadow-sm"
+                      >
+                        <span>X (Twitter)</span>
+                      </a>
+                    )}
                   </div>
                 </div>
               </div>

@@ -7,7 +7,8 @@ import type { Translations } from '@/i18n';
 import { cn } from '@/lib/utils';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { Navigation } from './Navigation';
-import { contactConfig } from '@/config/contact';
+import { useContactSettings } from '@/components/providers/ContactProvider';
+import { getWhatsAppLink } from '@/lib/contact';
 
 type Props = {
   isOpen: boolean;
@@ -17,8 +18,16 @@ type Props = {
 };
 
 export function MobileMenu({ isOpen, onClose, locale, t }: Props) {
+  const contact = useContactSettings();
   const menuRef = useRef<HTMLDivElement>(null);
   const firstFocusableRef = useRef<HTMLButtonElement>(null);
+
+  const instagramUrl = contact.social?.instagram || 'https://www.instagram.com/salamatek_medical';
+  const snapchatUrl = contact.social?.snapchat || 'https://www.snapchat.com/add/salamatekmed';
+  const whatsappMsg = locale === 'ar'
+    ? 'مرحباً، أود الاستفسار عن حجز موعد في مجمع سلامتك الطبي.'
+    : 'Hello, I would like to enquire about booking an appointment at Salamatek Medical Centre.';
+  const waUrl = getWhatsAppLink(contact.whatsappNumber || '966532963521', whatsappMsg);
 
   const handleKeyDown = useCallback((e: KeyboardEvent): void => {
     if (e.key === 'Escape') onClose();
@@ -112,7 +121,7 @@ export function MobileMenu({ isOpen, onClose, locale, t }: Props) {
         {/* Footer */}
         <div className="px-4 py-5 border-t border-border space-y-2.5">
           <a
-            href={`https://wa.me/${contactConfig.whatsappNumber}?text=Hello%2C%20I%20would%20like%20to%20enquire%20about%20booking%20an%20appointment%20at%20Salamatek%20Medical%20Centre.`}
+            href={waUrl}
             target="_blank"
             rel="noopener noreferrer"
             onClick={onClose}
@@ -129,7 +138,7 @@ export function MobileMenu({ isOpen, onClose, locale, t }: Props) {
           {/* Social Channels: Instagram & Snapchat */}
           <div className="grid grid-cols-2 gap-2">
             <a
-              href={contactConfig.social.instagram}
+              href={instagramUrl}
               target="_blank"
               rel="noopener noreferrer"
               onClick={onClose}
@@ -142,7 +151,7 @@ export function MobileMenu({ isOpen, onClose, locale, t }: Props) {
             </a>
 
             <a
-              href={contactConfig.social.snapchat}
+              href={snapchatUrl}
               target="_blank"
               rel="noopener noreferrer"
               onClick={onClose}

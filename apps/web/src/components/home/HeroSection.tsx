@@ -2,7 +2,8 @@ import Link from 'next/link';
 import type { Locale } from '@/i18n/config';
 import type { Translations } from '@/i18n';
 import { getLocalizedPath } from '@/lib/utils';
-import { contactConfig } from '@/config/contact';
+import { contactConfig, type ContactSettings } from '@/config/contact';
+import { getWhatsAppLink } from '@/lib/contact';
 import HeroCarouselBackground from './HeroCarouselBackground';
 
 type Props = {
@@ -10,10 +11,13 @@ type Props = {
   t: Translations;
   /** Admin-managed carousel image URLs from CMS — falls back to local hospital images when empty */
   heroImages?: string[];
+  contactSettings?: ContactSettings;
 };
 
-export function HeroSection({ locale, t, heroImages }: Props) {
+export function HeroSection({ locale, t, heroImages, contactSettings }: Props) {
   const p = t.pages.home;
+  const waNumber = contactSettings?.whatsappNumber || contactConfig.whatsappNumber;
+  const waUrl = getWhatsAppLink(waNumber);
   
   // Use admin-managed images if any are configured; otherwise fall back to local images.
   const carouselImages = heroImages && heroImages.length > 0
@@ -85,7 +89,7 @@ export function HeroSection({ locale, t, heroImages }: Props) {
           {/* CTAs */}
           <div className="flex flex-wrap items-center gap-3 drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]">
             <a
-              href={`https://wa.me/${contactConfig.whatsappNumber}`}
+              href={waUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center px-6 py-3 rounded-lg bg-brand-red text-white text-sm font-semibold hover:bg-brand-red-dark transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-red focus-visible:ring-offset-2"

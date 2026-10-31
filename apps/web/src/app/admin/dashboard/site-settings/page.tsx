@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { fetchApi } from '@/lib/admin/api';
 import { useToast } from '@/components/admin/ToastProvider';
 import ImageUpload from '@/components/admin/ImageUpload';
-import { Loader2, Settings2, Save, Plus, Trash2 } from 'lucide-react';
+import { Loader2, Settings2, Save, Plus, Trash2, Phone } from 'lucide-react';
 
 const PAGE_KEYS = [
   { id: 'home',          label: 'Home Hero (Landing Page)' },
@@ -109,6 +109,27 @@ export default function SiteSettingsPage() {
             Manage dynamic hero sections for public pages
           </p>
         </div>
+      </div>
+
+      {/* Global Contact Info Quick Access Banner */}
+      <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-surface-mint via-surface-mint/60 to-white border border-brand/20 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xs">
+        <div className="flex items-center gap-3.5">
+          <div className="w-10 h-10 rounded-xl bg-brand text-white flex items-center justify-center shrink-0 shadow-xs">
+            <Phone className="w-5 h-5" />
+          </div>
+          <div>
+            <h3 className="text-sm sm:text-base font-bold text-brand-dark">Global Contact Information Management</h3>
+            <p className="text-xs text-text-muted mt-0.5">
+              Manage phone numbers, emails, addresses, Google Maps links, WhatsApp, and social media across the entire site.
+            </p>
+          </div>
+        </div>
+        <Link
+          href="/admin/dashboard/contact-settings"
+          className="px-5 py-2.5 bg-brand hover:bg-brand-medium text-white text-xs font-bold rounded-xl transition shadow-xs inline-flex items-center gap-2 shrink-0 cursor-pointer"
+        >
+          Manage Contact Details &rarr;
+        </Link>
       </div>
 
       <div className="flex flex-col md:flex-row gap-8">

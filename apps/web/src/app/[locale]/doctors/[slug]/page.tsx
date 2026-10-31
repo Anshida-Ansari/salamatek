@@ -7,6 +7,7 @@ import type { Locale } from '@/i18n/config';
 import { getTranslations } from '@/i18n';
 import { getLocalizedPath } from '@/lib/utils';
 import { contactConfig } from '@/config/contact';
+import { getContactSettings } from '@/lib/contact';
 import { Stethoscope, User, MessageCircle } from 'lucide-react';
 
 type Props = {
@@ -125,7 +126,10 @@ export default async function DoctorDetailPage({ params }: Props) {
   const { locale, slug } = await params;
   if (!isValidLocale(locale)) notFound();
 
-  const doctors = await getDoctors();
+  const [doctors, contactSettings] = await Promise.all([
+    getDoctors(),
+    getContactSettings(),
+  ]);
   const doc = doctors.find((d: any) => d.slug === slug);
   if (!doc) notFound();
 
@@ -158,7 +162,7 @@ export default async function DoctorDetailPage({ params }: Props) {
   const hasRemarks = parsedRemarks.length > 0;
 
   // WhatsApp appointment target: use doctor-specific WhatsApp if configured by admin, else default clinic WhatsApp
-  const rawWa = (doc.whatsapp && String(doc.whatsapp).trim()) || contactConfig.whatsappNumber;
+  const rawWa = (doc.whatsapp && String(doc.whatsapp).trim()) || contactSettings.whatsappNumber || contactConfig.whatsappNumber;
   const cleanWa = rawWa.replace(/[^0-9]/g, '');
   const waMessage = isAr
     ? `السلام عليكم، أود حجز موعد مع ${name}`

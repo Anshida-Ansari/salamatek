@@ -19,6 +19,7 @@ import testimonialRoutes from './routes/testimonial.routes';
 import galleryImageRoutes from './routes/galleryImage.routes';
 import opticalBrandRoutes from './routes/opticalBrand.routes';
 import insurancePartnerRoutes from './routes/insurancePartner.routes';
+import contactSettingRoutes from './routes/contactSetting.routes';
 import { errorHandler, notFound } from './middlewares/errorHandler';
 
 export function createApp(): Application {
@@ -94,6 +95,7 @@ export function createApp(): Application {
   app.use('/api/gallery-images', apiLimiter, galleryImageRoutes);
   app.use('/api/optical-brands', apiLimiter, opticalBrandRoutes);
   app.use('/api/insurance-partners', apiLimiter, insurancePartnerRoutes);
+  app.use('/api/contact-settings', apiLimiter, contactSettingRoutes);
 
   // ─── Error handling ─────────────────────────────────────────────────────────
   app.use(notFound);

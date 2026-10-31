@@ -26,6 +26,7 @@ import {
   Layers,
   Glasses,
   ShieldCheck,
+  Phone,
 } from 'lucide-react';
 
 interface NavItem {
@@ -49,6 +50,7 @@ const segmentLabels: Record<string, string> = {
   'job-applications':     'Job Applications',
   'contact-enquiries':    'Contact Enquiries',
   'appointment-enquiries':'Appointment Enquiries',
+  'contact-settings':     'Contact Information',
   'site-settings':        'Site Settings',
   testimonials:           'Testimonials',
   gallery:                'Gallery',
@@ -67,6 +69,7 @@ const navigation: NavItem[] = [
   { name: 'News & Blog', href: '/admin/dashboard/news', icon: FileText },
   { name: 'Optical Brands', href: '/admin/dashboard/optical-brands', icon: Glasses },
   { name: 'Insurance Partners', href: '/admin/dashboard/insurance-partners', icon: ShieldCheck },
+  { name: 'Contact Information', href: '/admin/dashboard/contact-settings', icon: Phone },
   { name: 'SARC Enquiries', href: '/admin/dashboard/sarc-enquiries', icon: HeartHandshake },
   { name: 'Job Applications', href: '/admin/dashboard/job-applications', icon: FileText },
   { name: 'Contact Enquiries', href: '/admin/dashboard/contact-enquiries', icon: Mail },

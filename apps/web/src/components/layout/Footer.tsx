@@ -10,11 +10,13 @@ import {
 import type { Locale } from '@/i18n/config';
 import type { Translations } from '@/i18n';
 import { getLocalizedPath } from '@/lib/utils';
-import { contactConfig } from '@/config/contact';
+import { contactConfig, type ContactSettings } from '@/config/contact';
+import { getTelLink, getMailtoLink } from '@/lib/contact';
 
 type Props = {
   locale: Locale;
   t: Translations;
+  contactSettings?: ContactSettings;
 };
 
 /**
@@ -33,10 +35,26 @@ const QUICK_LINKS = [
   { key: 'contact' as const,           href: '/contact' },
 ] as const;
 
-export function Footer({ locale, t }: Props) {
+export function Footer({ locale, t, contactSettings }: Props) {
   const isAr = locale === 'ar';
   const year = new Date().getFullYear();
   const copyright = t.footer.copyright.replace('{year}', String(year));
+
+  const contact = {
+    ...contactConfig,
+    ...(contactSettings || {}),
+  };
+
+  const address = isAr
+    ? (contact.addressAr || t.footer.address)
+    : (contact.address || t.footer.address);
+
+  const emergencyHours = isAr
+    ? (contact.workingHoursAr || t.footer.emergency247)
+    : (contact.workingHoursEn || t.footer.emergency247);
+
+  const mapEmbedUrl = contact.mapsEmbedUrl?.trim()
+    || "https://maps.google.com/maps?q=Salamatek%20Medical%20Group,%20Safwa,%20Saudi%20Arabia&t=&z=14&ie=UTF8&iwloc=&output=embed";
 
   return (
     <footer
@@ -153,7 +171,7 @@ export function Footer({ locale, t }: Props) {
               <div className="flex items-start gap-2.5">
                 <MapPin className="w-4 h-4 text-emerald-400 shrink-0 mt-1" />
                 <p className="text-white/75 leading-relaxed text-xs sm:text-sm">
-                  {t.footer.address}
+                  {address}
                 </p>
               </div>
 
@@ -163,11 +181,11 @@ export function Footer({ locale, t }: Props) {
                 <div className="space-y-1.5">
                   <div>
                     <a
-                      href="tel:0136642193"
+                      href={getTelLink(contact.phone)}
                       className="text-white/90 hover:text-white font-medium hover:underline transition-colors block text-xs sm:text-sm"
                       dir="ltr"
                     >
-                      013 664 2193
+                      {contact.phone}
                     </a>
                     <span className="text-[11px] text-white/50 block">
                       {isAr ? 'الهاتف الثابت / المواعيد' : 'Landline / Appointments'}
@@ -177,24 +195,23 @@ export function Footer({ locale, t }: Props) {
                   {/* Additional Mobile & Emergency Contacts */}
                   <div>
                     <div className="space-y-0.5" dir="ltr">
-                      <a
-                        href="tel:+966532963521"
-                        className="text-emerald-300 hover:text-emerald-200 font-semibold hover:underline transition-colors block text-xs sm:text-sm"
-                      >
-                        +966 53 296 3521
-                      </a>
-                      <a
-                        href="tel:+966557400450"
-                        className="text-white/85 hover:text-white font-medium hover:underline transition-colors block text-xs sm:text-sm"
-                      >
-                        +966 55 740 0450
-                      </a>
-                      <a
-                        href="tel:+966553504004"
-                        className="text-white/85 hover:text-white font-medium hover:underline transition-colors block text-xs sm:text-sm"
-                      >
-                        +966 55 350 4004
-                      </a>
+                      {contact.emergencyPhone && (
+                        <a
+                          href={getTelLink(contact.emergencyPhone)}
+                          className="text-emerald-300 hover:text-emerald-200 font-semibold hover:underline transition-colors block text-xs sm:text-sm"
+                        >
+                          {contact.emergencyPhone}
+                        </a>
+                      )}
+                      {contact.additionalPhones?.map((phone, idx) => (
+                        <a
+                          key={idx}
+                          href={getTelLink(phone)}
+                          className="text-white/85 hover:text-white font-medium hover:underline transition-colors block text-xs sm:text-sm"
+                        >
+                          {phone}
+                        </a>
+                      ))}
                     </div>
                     <span className="text-[11px] text-white/50 block mt-0.5">
                       {isAr ? 'أرقام التواصل والطوارئ' : 'Direct & Emergency Contacts'}
@@ -207,11 +224,11 @@ export function Footer({ locale, t }: Props) {
               <div className="flex items-center gap-2.5">
                 <Mail className="w-4 h-4 text-emerald-400 shrink-0" />
                 <a
-                  href={`mailto:${contactConfig.email}`}
+                  href={getMailtoLink(contact.email)}
                   className="text-white/80 hover:text-white hover:underline transition-colors text-xs sm:text-sm break-all"
                   dir="ltr"
                 >
-                  {contactConfig.email}
+                  {contact.email}
                 </a>
               </div>
 
@@ -219,7 +236,7 @@ export function Footer({ locale, t }: Props) {
               <div className="flex items-center gap-2.5 pt-2 border-t border-white/10">
                 <Clock className="w-4 h-4 text-emerald-400 shrink-0" />
                 <span className="text-xs text-emerald-300 font-medium">
-                  {t.footer.emergency247}
+                  {emergencyHours}
                 </span>
               </div>
             </div>
@@ -239,7 +256,7 @@ export function Footer({ locale, t }: Props) {
               {/* Responsive Compact Interactive Map Embed */}
               <div className="relative w-full h-[170px] bg-slate-900">
                 <iframe
-                  src="https://maps.google.com/maps?q=Salamatek%20Medical%20Group,%20Safwa,%20Saudi%20Arabia&t=&z=14&ie=UTF8&iwloc=&output=embed"
+                  src={mapEmbedUrl}
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}
@@ -255,15 +272,15 @@ export function Footer({ locale, t }: Props) {
               <div className="p-3 bg-brand-dark/95 border-t border-white/10 flex items-center justify-between gap-2">
                 <div className="min-w-0">
                   <p className="text-xs font-semibold text-white truncate">
-                    {isAr ? 'صفوى، المنطقة الشرقية' : 'Safwa, Eastern Province'}
+                    {isAr ? (contact.shortLocationAr || 'صفوى') : (contact.shortLocation || 'Safwa')}
                   </p>
                   <p className="text-[11px] text-white/60 truncate">
-                    {isAr ? 'شارع بلال بن رباح' : 'Belal Ibn Rabah St'}
+                    {address}
                   </p>
                 </div>
 
                 <a
-                  href={contactConfig.mapsLink}
+                  href={contact.mapsLink}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="shrink-0 inline-flex items-center gap-1 px-2.5 py-1.5 rounded-md bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/30 text-xs font-medium transition-colors"

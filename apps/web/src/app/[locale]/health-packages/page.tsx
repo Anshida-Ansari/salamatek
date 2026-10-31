@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import { getTranslations } from '@/i18n';
 import { isValidLocale, type Locale } from '@/i18n/config';
 import { PageHero } from '@/components/shared/PageHero';
-import { contactConfig } from '@/config/contact';
+import { getContactSettings, getWhatsAppLink } from '@/lib/contact';
 import {
   CheckCircle2,
   Clock,
@@ -79,9 +79,10 @@ export default async function HealthPackagesPage({ params }: Props) {
   const t = getTranslations(typedLocale);
   const p = t.pages.healthPackages;
 
-  const [heroSetting, packages] = await Promise.all([
+  const [heroSetting, packages, contactSettings] = await Promise.all([
     getPageHero('health-packages'),
     getHealthPackages(),
+    getContactSettings(),
   ]);
 
   return (
@@ -119,12 +120,12 @@ export default async function HealthPackagesPage({ params }: Props) {
                 const included = pkg.includedItems?.[typedLocale] || pkg.includedItems?.en || [];
                 const validity = pkg.validity?.[typedLocale] || pkg.validity?.en;
 
-                const whatsappMsg = encodeURIComponent(
+                const whatsappUrl = getWhatsAppLink(
+                  contactSettings.whatsappNumber || '966532963521',
                   isAr
                     ? `مرحباً، أود الاستفسار وحجز باقة "${title}" في مجمع سلامتك الطبي.`
                     : `Hello, I would like to inquire about and book the "${title}" package at Salamatek Medical Centre.`
                 );
-                const whatsappUrl = `https://wa.me/${contactConfig.whatsappNumber}?text=${whatsappMsg}`;
 
                 return (
                   <div

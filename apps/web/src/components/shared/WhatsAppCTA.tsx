@@ -1,4 +1,7 @@
-import { contactConfig } from '@/config/contact';
+'use client';
+
+import { useContactSettings } from '@/components/providers/ContactProvider';
+import { getWhatsAppLink } from '@/lib/contact';
 
 interface WhatsAppCTAProps {
   className?: string;
@@ -34,9 +37,13 @@ function SnapchatIcon({ className = 'w-5 h-5' }: { className?: string }) {
 }
 
 export function WhatsAppCTA({ className = '', variant = 'floating', text, locale, isRtl: isRtlProp }: WhatsAppCTAProps) {
+  const contact = useContactSettings();
   const isRtl = isRtlProp ?? (locale === 'ar');
-  const waUrl = `https://wa.me/${contactConfig.whatsappNumber}`;
+  const waUrl = getWhatsAppLink(contact.whatsappNumber || '966532963521');
   const defaultWaText = text || (isRtl ? 'تواصل عبر واتساب' : 'Chat on WhatsApp');
+
+  const instagramUrl = contact.social?.instagram || 'https://www.instagram.com/salamatek_medical';
+  const snapchatUrl = contact.social?.snapchat || 'https://www.snapchat.com/add/salamatekmed';
 
   if (variant === 'inline') {
     return (
@@ -97,7 +104,7 @@ export function WhatsAppCTA({ className = '', variant = 'floating', text, locale
 
       {/* 2. Instagram Tab */}
       <a
-        href={contactConfig.social.instagram}
+        href={instagramUrl}
         target="_blank"
         rel="noopener noreferrer"
         className="group relative flex items-center justify-start pl-2 sm:pl-2.5 pr-1 sm:pr-1.5 h-11 sm:h-[48px] w-12 sm:w-[54px] bg-brand-dark hover:bg-brand-medium text-white rounded-l-full shadow-[-3px_3px_10px_rgba(0,0,0,0.18)] transition-all duration-200 hover:-translate-x-1 sm:hover:-translate-x-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 shrink-0"
@@ -117,7 +124,7 @@ export function WhatsAppCTA({ className = '', variant = 'floating', text, locale
 
       {/* 3. Snapchat Tab */}
       <a
-        href={contactConfig.social.snapchat}
+        href={snapchatUrl}
         target="_blank"
         rel="noopener noreferrer"
         className="group relative flex items-center justify-start pl-2 sm:pl-2.5 pr-1 sm:pr-1.5 h-11 sm:h-[48px] w-12 sm:w-[54px] bg-brand-dark hover:bg-brand-medium text-white rounded-l-full shadow-[-3px_3px_10px_rgba(0,0,0,0.18)] transition-all duration-200 hover:-translate-x-1 sm:hover:-translate-x-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 shrink-0"

@@ -1,21 +1,24 @@
 import type { Locale } from '@/i18n/config';
 import type { Translations } from '@/i18n';
 import Image from 'next/image';
-import { contactConfig } from '@/config/contact';
+import { contactConfig, type ContactSettings } from '@/config/contact';
+import { getWhatsAppLink } from '@/lib/contact';
 
 type Props = {
   locale: Locale;
   t: Translations;
+  contactSettings?: ContactSettings;
 };
 
-const WA_MSG_EN = 'Hello%2C%20I%20would%20like%20to%20enquire%20about%20booking%20an%20appointment%20at%20Salamatek%20Medical%20Centre.';
-const WA_MSG_AR = '%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%D8%8C%20%D8%A3%D9%88%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D8%AD%D8%AC%D8%B2%20%D9%85%D9%88%D8%B9%D8%AF%20%D9%81%D9%8A%20%D9%85%D8%AC%D9%85%D8%B9%20%D8%B3%D9%84%D8%A7%D9%85%D8%AA%D9%83%20%D8%A7%D9%84%D8%B7%D8%A8%D9%8A.';
+const WA_MSG_EN = 'Hello, I would like to enquire about booking an appointment at Salamatek Medical Centre.';
+const WA_MSG_AR = 'مرحباً، أود الاستفسار عن حجز موعد في مجمع سلامتك الطبي.';
 
-export function AppointmentSection({ locale, t }: Props) {
+export function AppointmentSection({ locale, t, contactSettings }: Props) {
   const p = t.pages.home;
   const isAr = locale === 'ar';
   const waMsg = isAr ? WA_MSG_AR : WA_MSG_EN;
-  const waUrl = `https://wa.me/${contactConfig.whatsappNumber}?text=${waMsg}`;
+  const waNumber = contactSettings?.whatsappNumber || contactConfig.whatsappNumber;
+  const waUrl = getWhatsAppLink(waNumber, waMsg);
 
   return (
     <section

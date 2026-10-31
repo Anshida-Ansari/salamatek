@@ -2,7 +2,8 @@
 
 import { useState, useMemo, useRef, useEffect, useCallback } from 'react';
 import type { Locale } from '@/i18n/config';
-import { contactConfig } from '@/config/contact';
+import { useContactSettings } from '@/components/providers/ContactProvider';
+import { getWhatsAppLink } from '@/lib/contact';
 import { MessageCircle } from 'lucide-react';
 
 type Category = {
@@ -60,6 +61,7 @@ function sortServices<T extends { slug: string; order?: number }>(list: T[]): T[
 }
 
 export function ServicesDirectory({ services, categories, locale }: Props) {
+  const contact = useContactSettings();
   const isAr = locale === 'ar';
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -466,11 +468,12 @@ export function ServicesDirectory({ services, categories, locale }: Props) {
                   {/* Card Action / Direct Booking & Inquiry */}
                   <div className="mt-auto pt-4 border-t border-border/50">
                     <a
-                      href={`https://wa.me/${contactConfig.whatsappNumber}?text=${encodeURIComponent(
+                      href={getWhatsAppLink(
+                        contact.whatsappNumber || '966532963521',
                         isAr
                           ? `مرحباً، أود الاستفسار وحجز موعد لخدمة: ${name}`
                           : `Hello, I would like to inquire about booking: ${name}`
-                      )}`}
+                      )}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-surface-mint text-brand-dark font-semibold text-xs sm:text-sm hover:bg-brand hover:text-white transition-all duration-300 border border-brand-pale/50"

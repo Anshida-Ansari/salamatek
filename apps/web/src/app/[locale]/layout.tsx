@@ -9,6 +9,8 @@ import { HtmlAttributes } from '@/components/layout/HtmlAttributes';
 import { WhatsAppCTA } from '@/components/shared/WhatsAppCTA';
 import { PromoPopup } from '@/components/shared/PromoPopup';
 import { GlobalLoaderProvider } from '@/components/shared/GlobalLoaderProvider';
+import { ContactProvider } from '@/components/providers/ContactProvider';
+import { getContactSettings } from '@/lib/contact';
 
 export function generateStaticParams(): Array<{ locale: string }> {
   return LOCALES.map((locale) => ({ locale }));
@@ -53,20 +55,23 @@ export default async function LocaleLayout({ children, params }: Props) {
   const typedLocale = locale as Locale;
   const dir = LOCALE_DIR[typedLocale];
   const t = getTranslations(typedLocale);
+  const contactSettings = await getContactSettings();
 
   return (
     <>
       <HtmlAttributes locale={typedLocale} dir={dir} />
-      <div className={`min-h-screen flex flex-col ${dir === 'rtl' ? 'font-arabic' : 'font-sans'}`} dir={dir} lang={typedLocale}>
-        <Header locale={typedLocale} t={t} />
-        <main id="main-content" className="flex-1" tabIndex={-1}>
-          {children}
-        </main>
-        <Footer locale={typedLocale} t={t} />
-        <WhatsAppCTA locale={typedLocale} isRtl={dir === 'rtl'} />
-        <PromoPopup />
-        <GlobalLoaderProvider />
-      </div>
+      <ContactProvider initialSettings={contactSettings}>
+        <div className={`min-h-screen flex flex-col ${dir === 'rtl' ? 'font-arabic' : 'font-sans'}`} dir={dir} lang={typedLocale}>
+          <Header locale={typedLocale} t={t} />
+          <main id="main-content" className="flex-1" tabIndex={-1}>
+            {children}
+          </main>
+          <Footer locale={typedLocale} t={t} contactSettings={contactSettings} />
+          <WhatsAppCTA locale={typedLocale} isRtl={dir === 'rtl'} />
+          <PromoPopup />
+          <GlobalLoaderProvider />
+        </div>
+      </ContactProvider>
     </>
   );
 }
