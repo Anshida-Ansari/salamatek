@@ -19,6 +19,8 @@ import {
   ExternalLink,
   Phone,
   MapPin,
+  Edit2,
+  X,
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -55,6 +57,56 @@ export default function OpticalBrandsAdminPage() {
   const [newOrder, setNewOrder] = useState<number | ''>('');
   const [newActive, setNewActive] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Edit brand modal state
+  const [editingBrand, setEditingBrand] = useState<OpticalBrandItem | null>(null);
+  const [editName, setEditName] = useState('');
+  const [editImage, setEditImage] = useState('');
+  const [editOrder, setEditOrder] = useState<number | ''>('');
+  const [editActive, setEditActive] = useState(true);
+  const [isUpdating, setIsUpdating] = useState(false);
+
+  const handleOpenEdit = (brand: OpticalBrandItem) => {
+    setEditingBrand(brand);
+    setEditName(brand.name || '');
+    setEditImage(brand.image || '');
+    setEditOrder(brand.order !== undefined ? brand.order : '');
+    setEditActive(brand.active !== false);
+  };
+
+  const handleUpdateBrand = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingBrand?._id) return;
+    if (!editImage || !editImage.trim()) {
+      toast('Please upload or provide a brand logo image.', 'error');
+      return;
+    }
+
+    setIsUpdating(true);
+    try {
+      const res = await fetchApi(`/api/optical-brands/${editingBrand._id}`, {
+        method: 'PUT',
+        body: JSON.stringify({
+          name: editName.trim(),
+          image: editImage.trim(),
+          order: editOrder === '' ? undefined : Number(editOrder),
+          active: editActive,
+        }),
+      });
+
+      if (res && res.data) {
+        toast(`"${editName || 'Brand'}" updated successfully.`, 'success');
+        setBrands((prev) =>
+          prev.map((b) => (b._id === editingBrand._id ? res.data : b))
+        );
+        setEditingBrand(null);
+      }
+    } catch {
+      toast('Failed to update brand.', 'error');
+    } finally {
+      setIsUpdating(false);
+    }
+  };
 
   // Hero banner management
   const [bannerImage, setBannerImage] = useState('');
@@ -638,22 +690,36 @@ export default function OpticalBrandsAdminPage() {
                       <span>{brand.active !== false ? 'Live' : 'Hidden'}</span>
                     </button>
 
-                    {/* Delete button (available for all database records) */}
-                    {brand._id && (
-                      <button
-                        type="button"
-                        onClick={() => handleDeleteBrand(brand._id, brand.name)}
-                        disabled={deletingId === brand._id}
-                        className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition"
-                        title="Remove brand"
-                      >
-                        {deletingId === brand._id ? (
-                          <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                        ) : (
-                          <Trash2 className="w-3.5 h-3.5" />
-                        )}
-                      </button>
-                    )}
+                    <div className="flex items-center gap-1">
+                      {/* Edit button */}
+                      {brand._id && (
+                        <button
+                          type="button"
+                          onClick={() => handleOpenEdit(brand)}
+                          className="p-1.5 text-gray-400 hover:text-brand hover:bg-brand-mint/40 rounded-lg transition"
+                          title="Edit brand name or logo"
+                        >
+                          <Edit2 className="w-3.5 h-3.5" />
+                        </button>
+                      )}
+
+                      {/* Delete button (available for all database records) */}
+                      {brand._id && (
+                        <button
+                          type="button"
+                          onClick={() => handleDeleteBrand(brand._id, brand.name)}
+                          disabled={deletingId === brand._id}
+                          className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition"
+                          title="Remove brand"
+                        >
+                          {deletingId === brand._id ? (
+                            <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                          ) : (
+                            <Trash2 className="w-3.5 h-3.5" />
+                          )}
+                        </button>
+                      )}
+                    </div>
                   </div>
                 </div>
               );
@@ -661,6 +727,109 @@ export default function OpticalBrandsAdminPage() {
           </div>
         )}
       </div>
+
+      {/* ── Edit Brand Modal ── */}
+      {editingBrand && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs">
+          <div className="bg-white rounded-2xl shadow-xl border border-gray-100 max-w-lg w-full p-6 space-y-5 animate-in fade-in zoom-in-95 duration-150">
+            <div className="flex items-center justify-between pb-3 border-b border-gray-100">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-lg bg-brand/10 text-brand flex items-center justify-center">
+                  <Edit2 className="w-4 h-4" />
+                </div>
+                <h3 className="font-bold text-brand-dark text-base">Edit Optical Brand</h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setEditingBrand(null)}
+                className="p-1.5 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-gray-100"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleUpdateBrand} className="space-y-4">
+              <div>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-text-muted mb-1.5">
+                  Brand Name <span className="text-gray-400 font-normal">(displayed below logo)</span>
+                </label>
+                <input
+                  type="text"
+                  value={editName}
+                  onChange={(e) => setEditName(e.target.value)}
+                  placeholder="e.g. Ray ban, Gucci, Prada"
+                  className="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-text-muted mb-1.5">
+                  Brand Logo Image *
+                </label>
+                <ImageUpload
+                  value={editImage}
+                  onChange={(url) => setEditImage(url)}
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-text-muted mb-1.5">
+                    Display Order
+                  </label>
+                  <input
+                    type="number"
+                    value={editOrder}
+                    onChange={(e) => setEditOrder(e.target.value === '' ? '' : Number(e.target.value))}
+                    className="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-text-muted mb-1.5">
+                    Status
+                  </label>
+                  <select
+                    value={editActive ? 'active' : 'hidden'}
+                    onChange={(e) => setEditActive(e.target.value === 'active')}
+                    className="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand bg-white"
+                  >
+                    <option value="active">Active (Visible)</option>
+                    <option value="hidden">Hidden</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-end gap-2.5 pt-3 border-t border-gray-100">
+                <button
+                  type="button"
+                  onClick={() => setEditingBrand(null)}
+                  className="px-4 py-2 text-xs font-semibold text-gray-600 hover:bg-gray-100 rounded-xl transition"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={isUpdating}
+                  className="inline-flex items-center gap-2 px-5 py-2 text-xs font-bold text-white bg-brand hover:bg-brand-dark rounded-xl transition shadow-xs disabled:opacity-50"
+                >
+                  {isUpdating ? (
+                    <>
+                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                      Saving...
+                    </>
+                  ) : (
+                    <>
+                      <Save className="w-3.5 h-3.5" />
+                      Save Changes
+                    </>
+                  )}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

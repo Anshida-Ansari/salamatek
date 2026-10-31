@@ -49,14 +49,26 @@ function BrandLogo({ brand }: { brand: { name: string; image: string } }) {
   const logoUrl = isExternalOrAbsolute ? brand.image : `/images/opticals/${brand.image}`;
 
   return (
-    <div className="relative w-full h-20 md:h-24 flex items-center justify-center transition-all duration-300 group overflow-hidden">
-      <Image
-        src={logoUrl}
-        alt={`${brand.name || 'Brand'} Logo`}
-        fill
-        sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw"
-        className="object-contain p-2 md:p-4 transition-transform duration-500 ease-out group-hover:scale-[1.05] mix-blend-multiply"
-      />
+    <div className="group bg-white rounded-2xl p-3 sm:p-3.5 border border-border/70 hover:border-brand-medium/50 shadow-xs hover:shadow-card hover:-translate-y-1 transition-all duration-300 flex flex-col items-center justify-between h-full min-h-[120px] sm:min-h-[136px]">
+      <div className="relative w-full h-16 sm:h-20 flex items-center justify-center overflow-hidden">
+        <Image
+          src={logoUrl}
+          alt={`${brand.name || 'Brand'} Logo`}
+          fill
+          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw"
+          className="object-contain p-1.5 sm:p-2 transition-transform duration-500 ease-out group-hover:scale-105 mix-blend-multiply"
+        />
+      </div>
+      {brand.name && (
+        <div className="w-full pt-2 mt-auto border-t border-gray-100">
+          <p
+            className="text-xs sm:text-[13px] font-semibold text-brand-dark text-center truncate group-hover:text-brand transition-colors tracking-tight"
+            title={brand.name}
+          >
+            {brand.name}
+          </p>
+        </div>
+      )}
     </div>
   );
 }
