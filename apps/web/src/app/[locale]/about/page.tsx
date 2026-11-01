@@ -409,51 +409,7 @@ export default async function AboutPage({ params }: Props) {
       {/* ── 5. Core Values ───────────────────────────────────────────────── */}
       <CoreValuesSection locale={typedLocale} t={t} />
 
-      {/* ── 6. Accreditations & Certifications ────────────────────────────── */}
-      <section id="accreditations-heading" className="bg-white py-16 md:py-24 border-b border-border">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <span className="inline-block px-3.5 py-1 rounded-full bg-surface-mint text-brand-dark text-xs font-bold tracking-wider uppercase mb-3">
-              {isAr ? 'الاعتمادات والشهادات' : 'Global Standards'}
-            </span>
-            <h2 className="text-2xl sm:text-3xl font-serif font-bold text-brand-dark">
-              {isAr ? 'اعتماداتنا وشهاداتنا' : 'Our Accreditations & Certifications'}
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 max-w-5xl mx-auto">
-            {certificates.map((cert, idx) => (
-              <div
-                key={idx}
-                className="bg-[#F8FAF9] border border-border rounded-3xl p-6 sm:p-8 flex flex-col items-center text-center shadow-xs hover:shadow-card-hover transition-all group"
-              >
-                <a
-                  href={cert.image}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="relative w-full aspect-[4/3] mb-8 bg-white rounded-2xl overflow-hidden border border-border group-hover:border-brand-medium/40 transition-colors block cursor-zoom-in"
-                  title={isAr ? 'اضغط لعرض الشهادة بالحجم الكامل' : 'Click to view full certificate'}
-                >
-                  <Image
-                    src={cert.image}
-                    alt={cert.title}
-                    fill
-                    className="object-contain p-4 transition-transform duration-300 group-hover:scale-105"
-                  />
-                  <div className="absolute bottom-2 end-2 bg-brand-dark/75 hover:bg-brand-dark text-white text-[11px] font-medium px-2 py-1 rounded-lg backdrop-blur-xs opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 shadow-xs">
-                    <span>{isAr ? 'عرض الشهادة' : 'View Full'}</span>
-                  </div>
-                </a>
-                <h3 className="text-xl font-serif font-bold text-brand-dark mb-2">{cert.title}</h3>
-                <p className="text-sm font-semibold text-brand mb-1">{cert.org}</p>
-                <p className="text-xs text-text-muted mt-auto pt-2">{cert.date}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── 7. Awards & Recognition ───────────────────────────────────────── */}
+      {/* ── 6. Awards & Recognition (CBAHI) ──────────────────────────────── */}
       <section className="bg-[#F8FAF9] py-16 md:py-24 border-b border-border">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-12">
@@ -548,6 +504,50 @@ export default async function AboutPage({ params }: Props) {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 7. Accreditations & Certifications ────────────────────────────── */}
+      <section id="accreditations-heading" className="bg-white py-16 md:py-24 border-b border-border">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-2xl mx-auto mb-12">
+            <span className="inline-block px-3.5 py-1 rounded-full bg-surface-mint text-brand-dark text-xs font-bold tracking-wider uppercase mb-3">
+              {isAr ? 'الاعتمادات والشهادات' : 'Global Standards'}
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-serif font-bold text-brand-dark">
+              {isAr ? 'اعتماداتنا وشهاداتنا' : 'Our Accreditations & Certifications'}
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 max-w-5xl mx-auto">
+            {certificates.map((cert, idx) => (
+              <div
+                key={idx}
+                className="bg-[#F8FAF9] border border-border rounded-3xl p-6 sm:p-8 flex flex-col items-center text-center shadow-xs hover:shadow-card-hover transition-all group"
+              >
+                <a
+                  href={cert.image}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="relative w-full aspect-[4/3] mb-8 bg-white rounded-2xl overflow-hidden border border-border group-hover:border-brand-medium/40 transition-colors block cursor-zoom-in"
+                  title={isAr ? 'اضغط لعرض الشهادة بالحجم الكامل' : 'Click to view full certificate'}
+                >
+                  <Image
+                    src={cert.image}
+                    alt={cert.title}
+                    fill
+                    className="object-contain p-4 transition-transform duration-300 group-hover:scale-105"
+                  />
+                  <div className="absolute bottom-2 end-2 bg-brand-dark/75 hover:bg-brand-dark text-white text-[11px] font-medium px-2 py-1 rounded-lg backdrop-blur-xs opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 shadow-xs">
+                    <span>{isAr ? 'عرض الشهادة' : 'View Full'}</span>
+                  </div>
+                </a>
+                <h3 className="text-xl font-serif font-bold text-brand-dark mb-2">{cert.title}</h3>
+                <p className="text-sm font-semibold text-brand mb-1">{cert.org}</p>
+                <p className="text-xs text-text-muted mt-auto pt-2">{cert.date}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
