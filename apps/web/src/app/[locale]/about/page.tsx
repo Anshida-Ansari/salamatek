@@ -71,7 +71,7 @@ const CHAIRMAN_MESSAGE_EN = {
   ],
   authorName: 'Asaf Muhamed Nechikkadan',
   authorRole: 'Chairman & Managing Director',
-  authorCompany: 'Salamatek Medical Center Company',
+  authorCompany: 'Salamatek Medical Center',
   pillars: [
     'Patient-Centered Care',
     'Clinical Excellence & Safety',
@@ -94,7 +94,7 @@ const CHAIRMAN_MESSAGE_AR = {
   ],
   authorName: 'عساف محمد نيتشيكادان',
   authorRole: 'رئيس مجلس الإدارة والعضو المنتدب',
-  authorCompany: 'شركة مجمع سلامتك الطبي',
+  authorCompany: 'مجمع سلامتك الطبي',
   pillars: [
     'الرعاية المتمحورة حول المريض',
     'التميز السريري والسلامة',
