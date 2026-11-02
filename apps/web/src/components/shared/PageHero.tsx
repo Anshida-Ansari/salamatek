@@ -41,19 +41,19 @@ export function PageHero({
       aria-label={badge}
     >
       {/* Slogan Banner Badge */}
-      <div className="absolute top-24 sm:top-26 inset-x-0 z-20 pointer-events-none">
-        <div className="mx-auto max-w-7xl w-full px-4 sm:px-6 lg:px-8 flex justify-end rtl:justify-start">
+      <div className="absolute top-24 sm:top-26 md:top-28 inset-x-0 z-20 pointer-events-none">
+        <div className="mx-auto max-w-[1600px] w-full px-4 sm:px-6 lg:px-8 xl:px-12 flex justify-end rtl:justify-start">
           <div
             className="pointer-events-auto relative inline-flex items-center transition-all duration-300 hover:scale-105 select-none drop-shadow-[0_8px_20px_rgba(200,16,30,0.35)]"
             role="status"
             aria-label={sloganText || 'Excellence in Healthcare'}
           >
             <Image
-              src="/images/excellence-slogan.png"
+              src="/images/excellence-slogan-v3.png"
               alt={sloganText || 'Excellence In Health Care'}
-              width={220}
-              height={55}
-              className="h-8 sm:h-9 md:h-10 w-auto object-contain"
+              width={260}
+              height={65}
+              className="h-9 sm:h-11 md:h-12 lg:h-13 w-auto object-contain"
               priority
               suppressHydrationWarning
             />

@@ -46,7 +46,7 @@ export function HeroSection({ locale, t, heroImages, contactSettings }: Props) {
             aria-label={p.heroSlogan || 'Excellence in Healthcare'}
           >
             <Image
-              src="/images/excellence-slogan.png"
+              src="/images/excellence-slogan-v3.png"
               alt={p.heroSlogan || 'Excellence In Health Care'}
               width={260}
               height={65}
