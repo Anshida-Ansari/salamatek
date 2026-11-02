@@ -7,7 +7,7 @@ export const metadata: Metadata = {
     default: 'Salamatek Admin',
     template: '%s | Salamatek Admin',
   },
-  description: 'Salamatek Medical Centre — Admin Dashboard',
+  description: 'Salamatek Medical Center — Admin Dashboard',
   robots: {
     index: false,
     follow: false,

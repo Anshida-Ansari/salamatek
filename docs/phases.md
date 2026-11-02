@@ -1,4 +1,4 @@
-# Phase Roadmap — Salamatek Medical Centre
+# Phase Roadmap — Salamatek Medical Center
 
 ## Phase 0 — Monorepo Foundation ✅
 

@@ -9,10 +9,10 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const { locale } = await params;
   const isRtl = locale === 'ar';
   return {
-    title: isRtl ? 'الوظائف | مركز سلامتك الطبي' : 'Careers & Opportunities | Salamatek Medical Centre',
+    title: isRtl ? 'الوظائف | مجمع سلامتك الطبي' : 'Careers & Opportunities | Salamatek Medical Center',
     description: isRtl 
-      ? 'استكشف الفرص الوظيفية المتاحة في مركز سلامتك الطبي وانضم إلى فريق الرعاية الصحية المتميز في صفوى.' 
-      : 'Explore current career opportunities at Salamatek Medical Centre and join our compassionate healthcare team in Safwa.',
+      ? 'استكشف الفرص الوظيفية المتاحة في مجمع سلامتك الطبي وانضم إلى فريق الرعاية الصحية المتميز في صفوى.' 
+      : 'Explore current career opportunities at Salamatek Medical Center and join our compassionate healthcare team in Safwa.',
   };
 }
 
@@ -88,7 +88,7 @@ export default async function CareersPage({ params }: Props) {
           ? 'نبحث دائماً عن الكوادر الطبية والتمريضية والإدارية المتميزة لتقديم رعاية صحية بمعايير عالمية في صفوى والمنطقة الشرقية.' 
           : 'We are always seeking passionate medical, nursing, and administrative professionals dedicated to raising healthcare standards in Safwa.'}
         imageSrc={careersHeroImage}
-        imageAlt="Salamatek Medical Centre"
+        imageAlt={isRtl ? 'مجمع سلامتك الطبي' : 'Salamatek Medical Center'}
         breadcrumbs={[
           { label: isRtl ? 'الرئيسية' : 'Home', href: `/${locale}` },
           { label: isRtl ? 'الوظائف' : 'Careers' },

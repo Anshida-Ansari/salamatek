@@ -81,7 +81,7 @@ export default function DashboardOverview() {
         <div>
           <h1 className="text-2xl sm:text-3xl font-serif font-bold text-brand-dark">Dashboard</h1>
           <p className="text-sm text-text-muted mt-1">
-            Overview of Salamatek Medical Centre content and active records.
+            Overview of Salamatek Medical Center content and active records.
           </p>
         </div>
         <div className="hidden sm:flex items-center gap-2 text-xs font-semibold text-brand-dark bg-surface-mint border border-brand-pale/40 px-3.5 py-2 rounded-xl">

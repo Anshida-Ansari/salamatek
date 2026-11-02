@@ -170,7 +170,7 @@ export default async function AboutPage({ params }: Props) {
         subtext={pa.heroSubtext}
         breadcrumbs={breadcrumbs}
         imageSrc={aboutHeroImage}
-        imageAlt={isAr ? 'مجمع سلامتك الطبي' : 'Salamatek Medical Centre'}
+        imageAlt={isAr ? 'مجمع سلامتك الطبي' : 'Salamatek Medical Center'}
       />
 
       {/* ── 2. Overview & Key Stats ──────────────────────────────────────── */}
@@ -212,7 +212,7 @@ export default async function AboutPage({ params }: Props) {
               <div className="relative rounded-3xl overflow-hidden aspect-[4/3] w-full border border-border shadow-card">
                 <Image
                   src="/images/hospital/entrance.jpg"
-                  alt={isAr ? 'مدخل مجمع سلامتك الطبي' : 'Salamatek Medical Centre entrance'}
+                  alt={isAr ? 'مدخل مجمع سلامتك الطبي' : 'Salamatek Medical Center entrance'}
                   fill
                   sizes="(max-width: 1024px) 100vw, 50vw"
                   className="object-cover object-center"

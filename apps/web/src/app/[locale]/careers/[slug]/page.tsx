@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!career) return { title: 'Not Found' };
   const title = career.title?.[locale] || career.title?.en || 'Career Opportunity';
   return {
-    title: `${title} | Salamatek Medical Centre`,
+    title: `${title} | Salamatek Medical Center`,
     description: career.description?.[locale] || career.description?.en || '',
   };
 }

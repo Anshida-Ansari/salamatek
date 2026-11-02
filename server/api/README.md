@@ -1,6 +1,6 @@
 # Salamatek Backend API
 
-This is the Node.js, Express, and MongoDB backend for the Salamatek Medical Centre.
+This is the Node.js, Express, and MongoDB backend for the Salamatek Medical Center.
 
 ## Requirements
 - Node.js >= 20.0.0

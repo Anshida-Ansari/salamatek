@@ -8,8 +8,8 @@
 // ─── Site metadata ────────────────────────────────────────────────────────────
 
 export const SITE_NAME = {
-  en: 'Salamatek Medical Centre',
-  ar: 'مركز سلامتك الطبي',
+  en: 'Salamatek Medical Center',
+  ar: 'مجمع سلامتك الطبي',
 } as const;
 
 export const SITE_DESCRIPTION = {

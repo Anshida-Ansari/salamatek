@@ -10,7 +10,7 @@ type Props = {
   contactSettings?: ContactSettings;
 };
 
-const WA_MSG_EN = 'Hello, I would like to enquire about booking an appointment at Salamatek Medical Centre.';
+const WA_MSG_EN = 'Hello, I would like to enquire about booking an appointment at Salamatek Medical Center.';
 const WA_MSG_AR = 'مرحباً، أود الاستفسار عن حجز موعد في مجمع سلامتك الطبي.';
 
 export function AppointmentSection({ locale, t, contactSettings }: Props) {

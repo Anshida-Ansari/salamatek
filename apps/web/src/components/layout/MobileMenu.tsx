@@ -26,7 +26,7 @@ export function MobileMenu({ isOpen, onClose, locale, t }: Props) {
   const snapchatUrl = contact.social?.snapchat || 'https://www.snapchat.com/add/salamatekmed';
   const whatsappMsg = locale === 'ar'
     ? 'مرحباً، أود الاستفسار عن حجز موعد في مجمع سلامتك الطبي.'
-    : 'Hello, I would like to enquire about booking an appointment at Salamatek Medical Centre.';
+    : 'Hello, I would like to enquire about booking an appointment at Salamatek Medical Center.';
   const waUrl = getWhatsAppLink(contact.whatsappNumber || '966532963521', whatsappMsg);
 
   const handleKeyDown = useCallback((e: KeyboardEvent): void => {

@@ -34,7 +34,7 @@ export function DoctorsSection({ locale, t, departments }: Props) {
                 alt={
                   locale === 'ar'
                     ? 'طبيب يفحص مريضًا في مجمع سلامتك الطبي'
-                    : 'Doctor examining a patient at Salamatek Medical Centre'
+                    : 'Doctor examining a patient at Salamatek Medical Center'
                 }
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"

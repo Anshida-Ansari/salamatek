@@ -21,7 +21,7 @@ const playfairDisplay = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: 'Salamatek Medical Centre',
+  title: 'Salamatek Medical Center',
   description: 'Complete family healthcare in Safwa, Eastern Province.',
   icons: {
     icon: [

@@ -32,7 +32,7 @@ export function BrandPageLoader({ text, isRtl = false }: Props) {
 
       <div className="text-center space-y-1.5">
         <h3 className="text-base font-serif font-bold text-brand-dark tracking-wide">
-          {isRtl ? 'مركز سلامتك الطبي' : 'Salamatek Medical Centre'}
+          {isRtl ? 'مجمع سلامتك الطبي' : 'Salamatek Medical Center'}
         </h3>
         <p className="text-xs font-medium text-text-muted animate-pulse">
           {text || (isRtl ? 'جاري التحميل...' : 'Loading…')}

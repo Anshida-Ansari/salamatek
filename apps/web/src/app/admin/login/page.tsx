@@ -148,7 +148,7 @@ export default function LoginPage() {
           Salamatek Admin
         </h1>
         <p className="text-white/70 text-sm mt-1">
-          Salamatek Medical Centre Management Portal
+          Salamatek Medical Center Management Portal
         </p>
       </div>
 
@@ -160,7 +160,7 @@ export default function LoginPage() {
       </div>
 
       <p className="relative z-10 text-white/40 text-xs mt-8">
-        Salamatek Medical Centre • Authorized Personnel Only
+        Salamatek Medical Center • Authorized Personnel Only
       </p>
     </div>
   );

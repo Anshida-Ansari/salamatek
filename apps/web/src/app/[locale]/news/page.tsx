@@ -56,8 +56,8 @@ export default async function NewsPage({ params }: Props) {
 
   const defaultHeading = isRtl ? 'أحدث الأخبار والمقالات الطبية' : 'Latest News & Medical Articles';
   const defaultSubtext = isRtl 
-    ? 'ابق على اطلاع بآخر النصائح الصحية والأخبار والتحديثات من مركز سلامتك الطبي.' 
-    : 'Stay updated with the latest health tips, news, and announcements from Salamatek.';
+    ? 'ابق على اطلاع بآخر النصائح الصحية والأخبار والتحديثات من مجمع سلامتك الطبي.' 
+    : 'Stay updated with the latest health tips, news, and announcements from Salamatek Medical Center.';
 
   return (
     <>

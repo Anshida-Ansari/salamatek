@@ -124,7 +124,7 @@ export default async function HealthPackagesPage({ params }: Props) {
                   contactSettings.whatsappNumber || '966532963521',
                   isAr
                     ? `مرحباً، أود الاستفسار وحجز باقة "${title}" في مجمع سلامتك الطبي.`
-                    : `Hello, I would like to inquire about and book the "${title}" package at Salamatek Medical Centre.`
+                    : `Hello, I would like to inquire about and book the "${title}" package at Salamatek Medical Center.`
                 );
 
                 return (

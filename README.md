@@ -1,6 +1,6 @@
-# Salamatek Medical Centre — Monorepo
+# Salamatek Medical Center — Monorepo
 
-A production-ready bilingual (English/Arabic) healthcare website for **Salamatek Medical Centre**, built as a full-stack monorepo.
+A production-ready bilingual (English/Arabic) healthcare website for **Salamatek Medical Center**, built as a full-stack monorepo.
 
 ---
 

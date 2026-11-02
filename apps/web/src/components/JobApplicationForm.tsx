@@ -107,7 +107,7 @@ export default function JobApplicationForm({ careerId, isRtl }: { careerId: stri
         <p className="text-text-muted text-sm leading-relaxed max-w-sm mx-auto">
           {isRtl 
             ? 'شكراً لاهتمامك بالانضمام إلى فريق سلامتك. سيقوم قسم الموارد البشرية بمراجعة طلبك والتواصل معك قريباً.' 
-            : 'Thank you for your interest in joining Salamatek Medical Centre. Our HR team will review your credentials and contact you shortly.'}
+            : 'Thank you for your interest in joining Salamatek Medical Center. Our HR team will review your credentials and contact you shortly.'}
         </p>
       </div>
     );

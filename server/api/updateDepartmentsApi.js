@@ -59,7 +59,7 @@ const departmentsData = [
   {
     nameEn: "RADIOLOGY",
     subheading: "Life offers second chances…Why not take it Safely??",
-    description: "At Salamatek, we have a full-fledged Radiology Wing equipped with advanced and ultra-modern imaging technology and has an innovative and advanced imaging centre in place.\nThe Radiology & Imaging specialists at Salamatek are highly skilled professionals trained in performing complex procedures."
+    description: "At Salamatek, we have a full-fledged Radiology Wing equipped with advanced and ultra-modern imaging technology and has an innovative and advanced imaging center in place.\nThe Radiology & Imaging specialists at Salamatek are highly skilled professionals trained in performing complex procedures."
   },
   {
     nameEn: "PATHOLOGY",

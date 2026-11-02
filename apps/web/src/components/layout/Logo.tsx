@@ -20,7 +20,7 @@ export function Logo({ locale, variant = 'dark', size = 'md', type = 'icon', isT
       <Link
         href={getLocalizedPath('/', locale)}
         className="flex items-center flex-shrink-0 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-medium rounded-lg transition-all duration-300"
-        aria-label="Salamatek Medical Centre — Home"
+        aria-label="Salamatek Medical Center — Home"
       >
         <img
           src="/images/new-logo-transparent.png"
@@ -36,7 +36,7 @@ export function Logo({ locale, variant = 'dark', size = 'md', type = 'icon', isT
     <Link
       href={getLocalizedPath('/', locale)}
       className="flex items-center gap-3 group flex-shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-medium rounded-lg"
-      aria-label="Salamatek Medical Centre — Home"
+      aria-label="Salamatek Medical Center — Home"
     >
       <div
         className={`${sizes[size]} aspect-square rounded-full flex items-center justify-center flex-shrink-0 transition-transform duration-200 group-hover:scale-105 overflow-hidden border-2 ${

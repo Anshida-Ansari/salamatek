@@ -84,7 +84,7 @@ export const en = {
   },
   pages: {
     home: {
-      title:       'Salamatek Medical Centre — Safwa',
+      title:       'Salamatek Medical Center — Safwa',
       description: 'Complete family healthcare in Safwa, Eastern Province. Experienced specialists, advanced technology and compassionate care — open 24 hours.',
       // Hero
       heroSlogan:     'Excellence in health care',
@@ -106,7 +106,7 @@ export const en = {
       // About/Welcome
       aboutEyebrow:    'Welcome to Salamatek',
       aboutHeading:    'Healthcare built around\nthe people we serve.',
-      aboutText:       'Salamatek Medical Centre brings experienced specialists, advanced technology and compassionate care together in one trusted destination. From everyday health needs to specialist treatment, our team is here to make every visit clear, comfortable and personal.',
+      aboutText:       'Salamatek Medical Center brings experienced specialists, advanced technology and compassionate care together in one trusted destination. From everyday health needs to specialist treatment, our team is here to make every visit clear, comfortable and personal.',
       // Departments
       departmentsEyebrow:   'Complete Family Healthcare',
       departmentsHeading:   'Care for every chapter of life.',
@@ -128,7 +128,7 @@ export const en = {
       whyPillar1Desc:       'Dedicated doctors across essential medical specialties.',
       whyPillar2Title:      'Modern technology',
       whyPillar2Desc:       'Advanced equipment supporting accurate, efficient care.',
-      whyPillar3Title:      'One connected centre',
+      whyPillar3Title:      'One connected center',
       whyPillar3Desc:       'Consultation, diagnostics and treatment in one place.',
       // SARC
       sarcEyebrow:          'Industrial Healthcare Manpower',
@@ -176,16 +176,16 @@ export const en = {
       appointmentFieldTimeAfternoon: 'Afternoon',
       appointmentFieldTimeEvening: 'Evening',
       appointmentSubmit:        'Request appointment',
-      appointmentDisclaimer:    'By submitting you agree to be contacted by Salamatek Medical Centre.',
+      appointmentDisclaimer:    'By submitting you agree to be contacted by Salamatek Medical Center.',
     },
     about: {
-      title:       'About Salamatek Medical Centre',
-      description: 'Learn about Salamatek Medical Centre — our mission, vision, values and the story of how we have been serving families in Safwa for over 40 years.',
+      title:       'About Salamatek Medical Center',
+      description: 'Learn about Salamatek Medical Center — our mission, vision, values and the story of how we have been serving families in Safwa for over 40 years.',
       heroBadge:      'Our Story • Excellence in Healthcare',
       heroHeading:    'Built on care.\nDriven by purpose.',
-      heroSubtext:    'For over 40 years, Salamatek Medical Centre has been Safwa\'s trusted healthcare partner — combining modern medicine with genuine human care.',
+      heroSubtext:    'For over 40 years, Salamatek Medical Center has been Safwa\'s trusted healthcare partner — combining modern medicine with genuine human care.',
       introHeading:   'A destination for complete family care.',
-      introText:      'Salamatek Medical Centre offers top-notch medical facilities, bringing renowned world-class services to the community, including a 24/7 Emergency Palliative Care Services Centre for emergency situations. We provide a "One Stop Clinic Services" experience backed by modern infrastructure and quality care.',
+      introText:      'Salamatek Medical Center offers top-notch medical facilities, bringing renowned world-class services to the community, including a 24/7 Emergency Palliative Care Services Center for emergency situations. We provide a "One Stop Clinic Services" experience backed by modern infrastructure and quality care.',
       missionHeading: 'Our Mission',
       missionText:    'To improve the health and quality of life of our patients through comprehensive and compassionate care.',
       visionHeading:  'Our Vision',
@@ -199,8 +199,8 @@ export const en = {
       ctaLink:        'Explore our departments →',
     },
     departments: {
-      title:       'Medical Departments — Salamatek Medical Centre',
-      description: 'Explore the full range of specialist departments at Salamatek Medical Centre, Safwa — from dermatology and dental to ophthalmology and emergency care.',
+      title:       'Medical Departments — Salamatek Medical Center',
+      description: 'Explore the full range of specialist departments at Salamatek Medical Center, Safwa — from dermatology and dental to ophthalmology and emergency care.',
       heroBadge:   'Complete Family Healthcare',
       heroHeading: 'Care for every\nchapter of life.',
       heroSubtext: 'Specialist departments, connected around one seamless patient experience.',
@@ -211,8 +211,8 @@ export const en = {
       ctaBtn:      'Contact our team',
     },
     services: {
-      title:       'Medical Services — Salamatek Medical Centre',
-      description: 'Discover the full range of medical services at Salamatek Medical Centre in Safwa — advanced diagnostics, specialist consultations, emergency care and more.',
+      title:       'Medical Services — Salamatek Medical Center',
+      description: 'Discover the full range of medical services at Salamatek Medical Center in Safwa — advanced diagnostics, specialist consultations, emergency care and more.',
       heroBadge:   'What We Offer',
       heroHeading: 'Advanced care.\nEvery step of the way.',
       heroSubtext: 'From preventive care and diagnostics to specialist treatment and rehabilitation — all under one roof.',
@@ -236,11 +236,11 @@ export const en = {
     },
     sarc:        { title: 'SARC Industrial Healthcare' },
     opticalBrands: {
-      title: 'Optical Brands — Salamatek Medical Centre',
+      title: 'Optical Brands — Salamatek Medical Center',
       description: 'Discover our premium selection of optical frames and sunglasses from world-renowned brands at Salamatek Optical.',
     },
     insurancePartners: {
-      title: 'Insurance Partners — Salamatek Medical Centre',
+      title: 'Insurance Partners — Salamatek Medical Center',
       description: 'Explore our accepted insurance providers and medical insurance partners for seamless healthcare coverage.',
       inquiryTitle: 'Insurance Information Inquiry Service',
       inquiryDescription: 'You can verify your health insurance validity, coverage details, and policy status directly through the official Council of Health Insurance (CHI) inquiry portal.',

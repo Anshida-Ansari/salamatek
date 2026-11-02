@@ -56,7 +56,7 @@ const reviews = [
     name: { en: 'Imran Bashir', ar: 'عمران بشير' },
     rating: 5,
     text: {
-      en: 'Exceptional care and professionalism. Salamatek Medical Centre stands out for its well-trained staff, modern facilities, and patient-first approach. Every visit is met with efficiency, compassion, and high medical standards. A trusted healthcare provider in the Safwa region—highly recommended.',
+      en: 'Exceptional care and professionalism. Salamatek Medical Center stands out for its well-trained staff, modern facilities, and patient-first approach. Every visit is met with efficiency, compassion, and high medical standards. A trusted healthcare provider in the Safwa region—highly recommended.',
       ar: 'رعاية استثنائية واحترافية. يبرز مركز سلامتك الطبي بطاقمه المدرب تدريباً جيداً، ومرافقه الحديثة، ونهجه الذي يضع المريض في المقام الأول. تقابل كل زيارة بالكفاءة والتعاطف والمعايير الطبية العالية. مزود رعاية صحية موثوق به في منطقة صفوى - موصى به بشدة.'
     }
   }
