@@ -45,6 +45,21 @@ async function getInsurancePartners() {
   }
 }
 
+async function getCashDiscountCompanies() {
+  try {
+    const apiUrl =
+      (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000') + '/api';
+    const res = await fetch(`${apiUrl}/cash-discount-companies?active=true`, {
+      cache: 'no-store',
+    });
+    if (!res.ok) return [];
+    const json = await res.json();
+    return Array.isArray(json.data) ? json.data : [];
+  } catch {
+    return [];
+  }
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   if (!isValidLocale(locale)) return {};
@@ -105,9 +120,10 @@ export default async function InsurancePartnersPage({ params }: Props) {
   const t = getTranslations(typedLocale);
   const p = t.pages.insurancePartners;
 
-  const [heroSetting, partners] = await Promise.all([
+  const [heroSetting, partners, cashDiscountCompanies] = await Promise.all([
     getPageHero('insurance-partners'),
     getInsurancePartners(),
+    getCashDiscountCompanies(),
   ]);
 
   const pageTitle = isAr
@@ -210,6 +226,50 @@ export default async function InsurancePartnersPage({ params }: Props) {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* 3. Cash Discount Companies Section */}
+      <section
+        className="bg-white py-14 md:py-20 border-t border-border/60"
+        aria-labelledby="cash-discount-heading"
+        id="cash-discount-companies"
+      >
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          {/* Section Subheading */}
+          <div className="text-center max-w-2xl mx-auto mb-10 md:mb-14">
+            <span className="inline-block px-3 py-1 rounded-full bg-emerald-100/70 text-emerald-800 text-xs font-semibold mb-2.5">
+              {p.cashDiscountBadge}
+            </span>
+            <h3
+              id="cash-discount-heading"
+              className="text-2xl sm:text-3xl font-bold text-brand-dark tracking-tight"
+            >
+              {p.cashDiscountHeading}
+            </h3>
+            <p className="mt-2 text-sm sm:text-base text-gray-600">
+              {p.cashDiscountSubtext}
+            </p>
+          </div>
+
+          {cashDiscountCompanies.length > 0 ? (
+            <div className="flex flex-wrap justify-center gap-4 sm:gap-5 md:gap-6">
+              {cashDiscountCompanies.map((company: any, idx: number) => (
+                <div
+                  key={company._id || company.name || idx}
+                  className="w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-0.85rem)] md:w-[calc(25%-1.125rem)] lg:w-[calc(20%-1.2rem)] xl:w-[calc(16.666%-1.25rem)]"
+                >
+                  <InsuranceLogo partner={company} />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12 px-4 rounded-2xl bg-[#F8FAF9] border border-dashed border-gray-300 max-w-xl mx-auto">
+              <p className="text-sm text-gray-500 font-medium">
+                {p.cashDiscountEmpty}
+              </p>
+            </div>
+          )}
         </div>
       </section>
     </>

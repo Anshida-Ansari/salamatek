@@ -11,6 +11,7 @@ import {
   CheckCircle2,
   XCircle,
   ShieldCheck,
+  BadgePercent,
   Loader2,
   Save,
   Sliders,
@@ -252,6 +253,27 @@ export default function InsurancePartnersAdminPage() {
 
   return (
     <div className="space-y-6">
+      {/* ── Sub Navigation Tabs ── */}
+      <div className="flex items-center gap-2 border-b border-gray-200 pb-3">
+        <Link
+          href="/admin/dashboard/insurance-partners"
+          className="inline-flex items-center gap-2 px-4 py-2 text-sm font-bold text-brand bg-brand/10 rounded-xl transition"
+        >
+          <ShieldCheck className="w-4 h-4 text-brand" />
+          <span>Insurance Partners</span>
+          <span className="ml-1 text-xs px-2 py-0.5 rounded-full bg-brand text-white font-semibold">
+            {partners.length}
+          </span>
+        </Link>
+        <Link
+          href="/admin/dashboard/cash-discount-companies"
+          className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-600 hover:text-brand hover:bg-gray-50 rounded-xl transition"
+        >
+          <BadgePercent className="w-4 h-4 text-gray-400" />
+          <span>Cash Discount Companies</span>
+        </Link>
+      </div>
+
       {/* ── Header ── */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-5 sm:p-6 rounded-2xl border border-gray-100 shadow-xs">
         <div>

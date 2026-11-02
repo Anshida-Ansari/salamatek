@@ -26,6 +26,7 @@ import {
   Layers,
   Glasses,
   ShieldCheck,
+  BadgePercent,
   Phone,
 } from 'lucide-react';
 
@@ -56,6 +57,7 @@ const segmentLabels: Record<string, string> = {
   gallery:                'Gallery',
   'optical-brands':       'Optical Brands',
   'insurance-partners':   'Insurance Partners',
+  'cash-discount-companies': 'Cash Discount Companies',
 };
 
 const navigation: NavItem[] = [
@@ -69,6 +71,7 @@ const navigation: NavItem[] = [
   { name: 'News & Blog', href: '/admin/dashboard/news', icon: FileText },
   { name: 'Optical Brands', href: '/admin/dashboard/optical-brands', icon: Glasses },
   { name: 'Insurance Partners', href: '/admin/dashboard/insurance-partners', icon: ShieldCheck },
+  { name: 'Cash Discounts', href: '/admin/dashboard/cash-discount-companies', icon: BadgePercent },
   { name: 'Contact Information', href: '/admin/dashboard/contact-settings', icon: Phone },
   { name: 'SARC Enquiries', href: '/admin/dashboard/sarc-enquiries', icon: HeartHandshake },
   { name: 'Job Applications', href: '/admin/dashboard/job-applications', icon: FileText },
