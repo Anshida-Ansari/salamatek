@@ -21,3 +21,4 @@ router.route('/').post(createCashDiscountCompany);
 router.route('/:id').put(updateCashDiscountCompany).patch(updateCashDiscountCompany).delete(deleteCashDiscountCompany);
 
 export default router;
+

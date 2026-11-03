@@ -27,3 +27,4 @@ export const CashDiscountCompany = mongoose.model<ICashDiscountCompanyDocument>(
   'CashDiscountCompany',
   cashDiscountCompanySchema
 );
+

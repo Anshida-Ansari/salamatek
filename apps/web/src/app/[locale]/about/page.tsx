@@ -71,7 +71,6 @@ const CHAIRMAN_MESSAGE_EN = {
   ],
   authorName: 'Asaf Muhamed Nechikkadan',
   authorRole: 'Chairman & Managing Director',
-  authorCompany: 'Salamatek Medical Center',
   pillars: [
     'Patient-Centered Care',
     'Clinical Excellence & Safety',
@@ -94,7 +93,6 @@ const CHAIRMAN_MESSAGE_AR = {
   ],
   authorName: 'عساف محمد نيتشيكادان',
   authorRole: 'رئيس مجلس الإدارة والعضو المنتدب',
-  authorCompany: 'مجمع سلامتك الطبي',
   pillars: [
     'الرعاية المتمحورة حول المريض',
     'التميز السريري والسلامة',
@@ -284,9 +282,6 @@ export default async function AboutPage({ params }: Props) {
                     <p className="text-xs sm:text-sm font-medium text-brand-pale mt-1">
                       {chairman.authorRole}
                     </p>
-                    <p className="text-xs text-white/60 mt-0.5 font-sans">
-                      {chairman.authorCompany}
-                    </p>
                   </div>
                 </div>
 
@@ -349,7 +344,7 @@ export default async function AboutPage({ params }: Props) {
                       {chairman.authorName}
                     </p>
                     <p className="text-xs text-text-muted">
-                      {chairman.authorRole} • {chairman.authorCompany}
+                      {chairman.authorRole}
                     </p>
                   </div>
                   <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-brand">

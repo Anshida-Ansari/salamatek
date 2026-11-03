@@ -106,3 +106,4 @@ export const deleteCashDiscountCompany = async (req: Request, res: Response): Pr
     res.status(500).json({ success: false, error: 'Server Error' });
   }
 };
+
