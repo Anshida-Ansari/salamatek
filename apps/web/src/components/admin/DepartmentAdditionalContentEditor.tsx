@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import Image from 'next/image';
 import {
   Plus,
   Trash2,
@@ -15,7 +14,6 @@ import {
   Sparkles,
   Eye,
   X,
-  UploadCloud,
   CheckCircle2,
 } from 'lucide-react';
 import ImageUpload from '@/components/admin/ImageUpload';
@@ -122,9 +120,11 @@ export default function DepartmentAdditionalContentEditor({ blocks, onChange }: 
   const handleMoveUp = (index: number) => {
     if (index <= 0) return;
     const copy = [...blocks];
-    const temp = copy[index - 1];
-    copy[index - 1] = copy[index];
-    copy[index] = temp;
+    const prev = copy[index - 1];
+    const curr = copy[index];
+    if (!prev || !curr) return;
+    copy[index - 1] = curr;
+    copy[index] = prev;
     onChange(copy.map((b, idx) => ({ ...b, order: idx })));
   };
 
@@ -132,9 +132,11 @@ export default function DepartmentAdditionalContentEditor({ blocks, onChange }: 
   const handleMoveDown = (index: number) => {
     if (index >= blocks.length - 1) return;
     const copy = [...blocks];
-    const temp = copy[index + 1];
-    copy[index + 1] = copy[index];
-    copy[index] = temp;
+    const curr = copy[index];
+    const next = copy[index + 1];
+    if (!curr || !next) return;
+    copy[index + 1] = curr;
+    copy[index] = next;
     onChange(copy.map((b, idx) => ({ ...b, order: idx })));
   };
 
@@ -148,7 +150,10 @@ export default function DepartmentAdditionalContentEditor({ blocks, onChange }: 
     updateBlock(id, (prev) => ({
       ...prev,
       type: newType,
-      items: newType === 'bullet_points' && (!prev.items || prev.items.length === 0) ? [{ en: '', ar: '' }] : prev.items,
+      items:
+        newType === 'bullet_points' && (!prev.items || prev.items.length === 0)
+          ? [{ en: '', ar: '' }]
+          : (prev.items || []),
     }));
   };
 
@@ -163,7 +168,12 @@ export default function DepartmentAdditionalContentEditor({ blocks, onChange }: 
   const handleUpdateItem = (blockId: string, itemIndex: number, field: 'en' | 'ar', val: string) => {
     updateBlock(blockId, (prev) => {
       const items = [...(prev.items || [])];
-      items[itemIndex] = { ...items[itemIndex], [field]: val };
+      const target = items[itemIndex];
+      if (!target) return prev;
+      items[itemIndex] = {
+        en: field === 'en' ? val : (target.en || ''),
+        ar: field === 'ar' ? val : (target.ar || ''),
+      };
       return { ...prev, items };
     });
   };
@@ -193,11 +203,13 @@ export default function DepartmentAdditionalContentEditor({ blocks, onChange }: 
   ) => {
     updateBlock(blockId, (prev) => {
       const images = [...(prev.images || [])];
+      const target = images[imageIndex];
+      if (!target) return prev;
       images[imageIndex] = {
-        ...images[imageIndex],
+        url: target.url,
         caption: {
-          ...(images[imageIndex].caption || {}),
-          [field]: val,
+          en: field === 'en' ? val : (target.caption?.en || ''),
+          ar: field === 'ar' ? val : (target.caption?.ar || ''),
         },
       };
       return { ...prev, images };

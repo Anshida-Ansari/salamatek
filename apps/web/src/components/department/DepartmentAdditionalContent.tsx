@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import type { Locale } from '@/i18n/config';
 
 export interface ContentBlockImage {
@@ -98,6 +97,7 @@ export function DepartmentAdditionalContent({ blocks, locale }: Props) {
             const isReversed = sideBySideCount % 2 === 1;
             sideBySideCount++;
             const singleImg = images[0];
+            if (!singleImg) return null;
             const caption = (isAr ? singleImg.caption?.ar : singleImg.caption?.en) || singleImg.caption?.en || singleImg.caption?.ar || '';
 
             return (
@@ -280,6 +280,7 @@ export function DepartmentAdditionalContent({ blocks, locale }: Props) {
           // Single image side-by-side layout
           if (images.length === 1) {
             const singleImg = images[0];
+            if (!singleImg) return null;
             const caption = (isAr ? singleImg.caption?.ar : singleImg.caption?.en) || singleImg.caption?.en || singleImg.caption?.ar || '';
 
             return (
