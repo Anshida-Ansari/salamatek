@@ -7,6 +7,7 @@ import { getTranslations } from '@/i18n';
 import { getLocalizedPath } from '@/lib/utils';
 import { PageHero } from '@/components/shared/PageHero';
 import { CTASection } from '@/components/shared/CTASection';
+import { DepartmentAdditionalContent } from '@/components/department/DepartmentAdditionalContent';
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
@@ -214,6 +215,12 @@ export default async function DepartmentDetailPage({ params }: Props) {
               )}
             </div>
           </div>
+
+          {/* Dynamic Additional Content Sections */}
+          <DepartmentAdditionalContent
+            blocks={dept.additionalContent}
+            locale={typedLocale}
+          />
           
           {/* Services Section */}
           {services.length > 0 && (

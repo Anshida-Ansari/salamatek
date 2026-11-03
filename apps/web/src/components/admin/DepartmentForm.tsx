@@ -7,6 +7,7 @@ import { useToast } from '@/components/admin/ToastProvider';
 import { Loader2, ChevronLeft, Languages } from 'lucide-react';
 import ImageUpload from '@/components/admin/ImageUpload';
 import { translateText } from '@/lib/admin/translate';
+import DepartmentAdditionalContentEditor, { ContentBlock } from '@/components/admin/DepartmentAdditionalContentEditor';
 
 interface FormState {
   nameEn: string;
@@ -19,6 +20,7 @@ interface FormState {
   image: string;
   order: string;
   active: boolean;
+  additionalContent: ContentBlock[];
 }
 
 const emptyForm: FormState = {
@@ -32,6 +34,7 @@ const emptyForm: FormState = {
   image: '',
   order: '0',
   active: true,
+  additionalContent: [],
 };
 
 export default function DepartmentForm({ departmentId }: { departmentId?: string }) {
@@ -59,6 +62,7 @@ export default function DepartmentForm({ departmentId }: { departmentId?: string
           image: d.image ?? '',
           order: d.order !== undefined && d.order !== null ? String(d.order) : '0',
           active: d.active !== false,
+          additionalContent: Array.isArray(d.additionalContent) ? d.additionalContent : [],
         });
       } catch {
         toast('Failed to load department data.', 'error');
@@ -86,17 +90,62 @@ export default function DepartmentForm({ departmentId }: { departmentId?: string
       const [nameAr, subheadingAr, descriptionAr] = await Promise.all([
         translateText(formData.nameEn),
         formData.subheadingEn ? translateText(formData.subheadingEn) : Promise.resolve(''),
-        translateText(formData.descriptionEn)
+        translateText(formData.descriptionEn),
       ]);
 
-      setFormData(prev => ({
+      // Translate additional content blocks if en is provided and ar is empty
+      const translatedBlocks = await Promise.all(
+        formData.additionalContent.map(async (block) => {
+          let headingAr = block.heading?.ar;
+          if (!headingAr && block.heading?.en) {
+            try {
+              headingAr = await translateText(block.heading.en);
+            } catch {
+              // fallback
+            }
+          }
+
+          let descAr = block.description?.ar;
+          if (!descAr && block.description?.en) {
+            try {
+              descAr = await translateText(block.description.en);
+            } catch {
+              // fallback
+            }
+          }
+
+          const items = await Promise.all(
+            (block.items || []).map(async (it) => {
+              let itAr = it.ar;
+              if (!itAr && it.en) {
+                try {
+                  itAr = await translateText(it.en);
+                } catch {
+                  // fallback
+                }
+              }
+              return { en: it.en, ar: itAr || '' };
+            })
+          );
+
+          return {
+            ...block,
+            heading: { en: block.heading?.en || '', ar: headingAr || '' },
+            description: { en: block.description?.en || '', ar: descAr || '' },
+            items,
+          };
+        })
+      );
+
+      setFormData((prev) => ({
         ...prev,
         nameAr,
         subheadingAr: subheadingAr || prev.subheadingAr,
-        descriptionAr
+        descriptionAr,
+        additionalContent: translatedBlocks,
       }));
       toast('Translation completed successfully.', 'success');
-    } catch (error) {
+    } catch {
       toast('Failed to translate text.', 'error');
     } finally {
       setIsTranslating(false);
@@ -119,6 +168,7 @@ export default function DepartmentForm({ departmentId }: { departmentId?: string
       image: formData.image || undefined,
       order: formData.order !== '' ? Number(formData.order) : 0,
       active: formData.active,
+      additionalContent: formData.additionalContent,
     };
 
     try {
@@ -332,6 +382,12 @@ export default function DepartmentForm({ departmentId }: { departmentId?: string
           </div>
         </div>
       </div>
+
+      {/* Additional Content Sections */}
+      <DepartmentAdditionalContentEditor
+        blocks={formData.additionalContent}
+        onChange={(blocks) => setFormData((prev) => ({ ...prev, additionalContent: blocks }))}
+      />
 
       <div className="flex items-center justify-between pt-2">
         <button

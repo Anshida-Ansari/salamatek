@@ -1,6 +1,35 @@
 import { z } from 'zod';
 import { bilingualStringSchema, optionalBilingualStringSchema, paginationQuerySchema, objectIdSchema } from './common.validation';
 
+const contentBlockImageSchema = z.object({
+  url: z.string().min(1, 'Image URL is required'),
+  caption: z
+    .union([
+      z.string().transform((str) => ({ en: str, ar: '' })),
+      optionalBilingualStringSchema,
+    ])
+    .optional()
+    .default({ en: '', ar: '' }),
+});
+
+const contentBlockItemSchema = z.union([
+  z.string().transform((str) => ({ en: str, ar: '' })),
+  z.object({
+    en: z.string().optional().default(''),
+    ar: z.string().optional().default(''),
+  }),
+]);
+
+export const departmentContentBlockSchema = z.object({
+  id: z.string().optional(),
+  type: z.enum(['heading_text', 'bullet_points', 'image_gallery', 'text_images']),
+  heading: optionalBilingualStringSchema,
+  description: optionalBilingualStringSchema,
+  items: z.array(contentBlockItemSchema).optional().default([]),
+  images: z.array(contentBlockImageSchema).optional().default([]),
+  order: z.number().int().optional().default(0),
+});
+
 export const createDepartmentSchema = z.object({
   body: z.object({
     name: bilingualStringSchema,
@@ -10,6 +39,7 @@ export const createDepartmentSchema = z.object({
     image: z.string().url().optional().or(z.literal('')),
     order: z.number().int().optional(),
     active: z.boolean().optional(),
+    additionalContent: z.array(departmentContentBlockSchema).optional(),
   }),
 });
 
@@ -25,6 +55,7 @@ export const updateDepartmentSchema = z.object({
     image: z.string().url().optional().or(z.literal('')),
     order: z.number().int().optional(),
     active: z.boolean().optional(),
+    additionalContent: z.array(departmentContentBlockSchema).optional(),
   }),
 });
 
