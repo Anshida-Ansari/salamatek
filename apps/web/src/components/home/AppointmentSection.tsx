@@ -22,7 +22,7 @@ export function AppointmentSection({ locale, t, contactSettings }: Props) {
 
   return (
     <section
-      className="relative bg-brand-mint py-16 md:py-24 overflow-hidden"
+      className="relative bg-brand-mint py-12 sm:py-16 md:py-24 overflow-hidden"
       aria-labelledby="appointment-heading"
       id="book-appointment"
       dir={isAr ? 'rtl' : 'ltr'}
@@ -37,7 +37,7 @@ export function AppointmentSection({ locale, t, contactSettings }: Props) {
         <div className="bg-white rounded-3xl shadow-card-lg overflow-hidden flex flex-col lg:flex-row">
 
           {/* Image Side */}
-          <div className="lg:w-5/12 relative min-h-[280px] lg:min-h-full bg-brand-light">
+          <div className="lg:w-5/12 relative min-h-[240px] sm:min-h-[280px] lg:min-h-full bg-brand-light">
             <Image
               src="/images/doctor-patient.jpg"
               alt={isAr ? 'طبيب مع مريض' : 'Doctor consulting with patient'}
@@ -46,11 +46,11 @@ export function AppointmentSection({ locale, t, contactSettings }: Props) {
               sizes="(max-width: 1024px) 100vw, 40vw"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-brand-dark/20 to-transparent" />
-            <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
-              <h3 className="text-2xl font-serif font-bold mb-2">
+            <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-8 text-white">
+              <h3 className="text-xl sm:text-2xl font-serif font-bold mb-1.5 sm:mb-2">
                 {isAr ? 'رعاية تثق بها' : 'Care you can trust'}
               </h3>
-              <p className="text-white/80 text-sm leading-relaxed">
+              <p className="text-white/80 text-xs sm:text-sm leading-relaxed">
                 {isAr
                   ? 'فريقنا الطبي جاهز لتقديم أفضل رعاية لك ولعائلتك.'
                   : 'Our medical team is ready to provide the best care for you and your family.'}
@@ -59,20 +59,20 @@ export function AppointmentSection({ locale, t, contactSettings }: Props) {
           </div>
 
           {/* CTA Side */}
-          <div className="lg:w-7/12 flex flex-col justify-center p-8 md:p-12 lg:p-16">
+          <div className="lg:w-7/12 flex flex-col justify-center p-5 sm:p-8 md:p-12 lg:p-16">
 
             {/* Header */}
-            <div className="mb-8">
-              <p className="text-xs font-bold uppercase tracking-widest text-brand-red mb-3">
+            <div className="mb-5 sm:mb-8">
+              <p className="text-xs font-bold uppercase tracking-widest text-brand-red mb-2 sm:mb-3">
                 {isAr ? 'حجز موعد' : 'Book your visit'}
               </p>
               <h2
                 id="appointment-heading"
-                className="text-3xl md:text-display-sm font-serif font-bold text-text-base mb-3 leading-tight"
+                className="text-2xl sm:text-3xl md:text-display-sm font-serif font-bold text-text-base mb-2 sm:mb-3 leading-tight"
               >
                 {p.appointmentHeading}
               </h2>
-              <p className="text-text-muted text-base">
+              <p className="text-text-muted text-sm sm:text-base leading-relaxed">
                 {isAr
                   ? 'تواصل معنا مباشرة عبر واتساب لحجز موعدك مع أحد متخصصينا.'
                   : 'Reach us directly on WhatsApp to book your appointment with one of our specialists.'}
@@ -84,7 +84,7 @@ export function AppointmentSection({ locale, t, contactSettings }: Props) {
               href={waUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-3 w-full sm:w-auto px-8 py-4 rounded-xl bg-[#25D366] text-white text-base font-bold hover:bg-[#1ebe5c] active:bg-[#17a84f] transition-colors duration-150 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366] focus-visible:ring-offset-2"
+              className="inline-flex items-center justify-center gap-2.5 sm:gap-3 w-full sm:w-auto px-6 py-3.5 sm:px-8 sm:py-4 rounded-xl bg-[#25D366] text-white text-sm sm:text-base font-bold hover:bg-[#1ebe5c] active:bg-[#17a84f] transition-colors duration-150 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366] focus-visible:ring-offset-2"
             >
               {/* WhatsApp icon */}
               <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 flex-shrink-0" aria-hidden="true">

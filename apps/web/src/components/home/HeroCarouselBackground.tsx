@@ -80,8 +80,8 @@ export default function HeroCarouselBackground({ images, locale }: Props) {
         aria-hidden="true"
       />
 
-      {/* Navigation arrows */}
-      <div className="absolute top-1/2 -translate-y-1/2 z-20 flex justify-between w-full px-4 md:px-8 lg:px-12 pointer-events-none">
+      {/* Navigation arrows (hidden on mobile phones to prevent cluttering content) */}
+      <div className="hidden sm:flex absolute top-1/2 -translate-y-1/2 z-20 justify-between w-full px-4 md:px-8 lg:px-12 pointer-events-none">
         <button
           onClick={goToPrev}
           className="pointer-events-auto bg-black/40 hover:bg-black/60 text-white border border-white/30 rounded-full p-3 backdrop-blur-sm transition-all focus:outline-none focus:ring-2 focus:ring-brand-light"
@@ -98,8 +98,8 @@ export default function HeroCarouselBackground({ images, locale }: Props) {
         </button>
       </div>
 
-      {/* Indicators */}
-      <div className={`absolute bottom-[30%] right-0 left-0 z-20 flex justify-center gap-3 pointer-events-none ${
+      {/* Indicators (hidden on mobile phones so they do not overlap text) */}
+      <div className={`hidden sm:flex absolute bottom-[30%] right-0 left-0 z-20 justify-center gap-3 pointer-events-none ${
         locale === 'ar' 
           ? 'lg:left-24 lg:right-auto lg:justify-start' 
           : 'lg:right-24 lg:left-auto lg:justify-end'

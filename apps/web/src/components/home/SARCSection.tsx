@@ -21,7 +21,7 @@ export function SARCSection({ locale, t, imageSrc }: Props) {
 
   return (
     <section
-      className="relative py-16 md:py-24 overflow-hidden"
+      className="relative py-12 sm:py-16 md:py-24 overflow-hidden"
       aria-labelledby="sarc-heading"
       id="sarc"
     >
@@ -48,12 +48,12 @@ export function SARCSection({ locale, t, imageSrc }: Props) {
       </div>
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-16 items-start">
 
           {/* Left: Content */}
           <div>
             {/* SARC wordmark */}
-            <div className="inline-flex items-center gap-2 mb-6 px-3 py-1.5 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm">
+            <div className="inline-flex items-center gap-2 mb-4 sm:mb-6 px-3 py-1.5 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm">
               <span className="w-1.5 h-1.5 rounded-full bg-orange-400 flex-shrink-0" aria-hidden="true" />
               <span className="text-xs font-bold uppercase tracking-widest text-white/80">
                 {p.sarcEyebrow}
@@ -62,27 +62,27 @@ export function SARCSection({ locale, t, imageSrc }: Props) {
 
             <h2
               id="sarc-heading"
-              className="text-3xl md:text-display-md font-serif font-bold text-white leading-tight mb-6 whitespace-pre-line"
+              className="text-2xl sm:text-3xl md:text-display-md font-serif font-bold text-white leading-tight mb-4 sm:mb-6 whitespace-pre-line"
             >
               {p.sarcHeading}
             </h2>
 
-            <p className="text-sm md:text-base text-white/70 leading-relaxed mb-8 max-w-md">
+            <p className="text-sm md:text-base text-white/70 leading-relaxed mb-6 sm:mb-8 max-w-md">
               {p.sarcSubtext}
             </p>
 
             {/* CTAs */}
-            <div className="flex flex-wrap items-center gap-4">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
               <Link
                 href={getLocalizedPath('/sarc', locale)}
-                className="inline-flex items-center px-6 py-3 rounded-lg bg-white text-orange-600 text-sm font-bold hover:bg-orange-50 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                className="inline-flex items-center justify-center px-6 py-3 rounded-lg bg-white text-orange-600 text-sm font-bold hover:bg-orange-50 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
               >
                 {t.common.exploreSarc}
                 <svg className="w-4 h-4 ms-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
               </Link>
               <Link
                 href={getLocalizedPath('/sarc#enquire', locale)}
-                className="text-sm font-semibold text-white/80 hover:text-white transition-colors duration-150 underline underline-offset-4"
+                className="text-sm font-semibold text-white/80 hover:text-white transition-colors duration-150 underline underline-offset-4 text-center sm:text-start py-2 sm:py-0"
               >
                 {t.common.requestProposal}
               </Link>

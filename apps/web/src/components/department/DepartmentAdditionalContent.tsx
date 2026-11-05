@@ -46,7 +46,7 @@ export function DepartmentAdditionalContent({ blocks, locale }: Props) {
   let sideBySideCount = 0;
 
   return (
-    <div className="space-y-16 lg:space-y-20 border-t border-border/50 pt-14 lg:pt-16">
+    <div className="space-y-10 sm:space-y-16 lg:space-y-20 border-t border-border/50 pt-10 sm:pt-14 lg:pt-16">
       {sortedBlocks.map((block, idx) => {
         const heading = (isAr ? block.heading?.ar : block.heading?.en) || block.heading?.en || block.heading?.ar || '';
         const desc = (isAr ? block.description?.ar : block.description?.en) || block.description?.en || block.description?.ar || '';
@@ -68,16 +68,16 @@ export function DepartmentAdditionalContent({ blocks, locale }: Props) {
           return (
             <section
               key={block.id || idx}
-              className="space-y-4 max-w-4xl"
+              className="space-y-3 sm:space-y-4 max-w-4xl"
               aria-label={heading || `Section ${idx + 1}`}
             >
               {heading && (
-                <h3 className="text-xl sm:text-2xl md:text-[26px] font-serif font-bold text-brand-dark tracking-tight leading-snug">
+                <h3 className="text-lg sm:text-2xl md:text-[26px] font-serif font-bold text-brand-dark tracking-tight leading-snug">
                   {heading}
                 </h3>
               )}
               {desc && (
-                <div className="text-base sm:text-lg text-text-muted leading-relaxed whitespace-pre-line font-normal">
+                <div className="text-sm sm:text-base md:text-lg text-text-muted leading-relaxed whitespace-pre-line font-normal">
                   {desc}
                 </div>
               )}
@@ -103,30 +103,30 @@ export function DepartmentAdditionalContent({ blocks, locale }: Props) {
             return (
               <section
                 key={block.id || idx}
-                className="space-y-6"
+                className="space-y-4 sm:space-y-6"
                 aria-label={heading || `Section ${idx + 1}`}
               >
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-12 items-start">
                   {/* Points Column */}
                   <div
-                    className={`space-y-4 lg:col-span-7 ${
+                    className={`space-y-3 sm:space-y-4 lg:col-span-7 ${
                       isReversed ? 'lg:order-2' : 'lg:order-1'
                     }`}
                   >
                     {heading && (
-                      <h3 className="text-xl sm:text-2xl md:text-[26px] font-serif font-bold text-brand-dark tracking-tight leading-snug">
+                      <h3 className="text-lg sm:text-2xl md:text-[26px] font-serif font-bold text-brand-dark tracking-tight leading-snug">
                         {heading}
                       </h3>
                     )}
                     {items.length > 0 && (
-                      <ul className="space-y-3.5 sm:space-y-4 pt-1">
+                      <ul className="space-y-2.5 sm:space-y-4 pt-1">
                         {items.map((item, itemIdx) => (
                           <li
                             key={itemIdx}
-                            className="flex items-start gap-3.5 sm:gap-4 text-base sm:text-lg text-gray-700 leading-relaxed font-normal"
+                            className="flex items-start gap-3 sm:gap-4 text-sm sm:text-lg text-gray-700 leading-relaxed font-normal"
                           >
                             <span
-                              className="inline-block w-2 h-2 rounded-full bg-brand shrink-0 mt-2.5"
+                              className="inline-block w-2 h-2 rounded-full bg-brand shrink-0 mt-2 sm:mt-2.5"
                               aria-hidden="true"
                             />
                             <span className="flex-1 leading-relaxed">{item}</span>
@@ -168,23 +168,23 @@ export function DepartmentAdditionalContent({ blocks, locale }: Props) {
           return (
             <section
               key={block.id || idx}
-              className="space-y-5 max-w-4xl"
+              className="space-y-4 sm:space-y-5 max-w-4xl"
               aria-label={heading || `Section ${idx + 1}`}
             >
               {heading && (
-                <h3 className="text-xl sm:text-2xl md:text-[26px] font-serif font-bold text-brand-dark tracking-tight leading-snug">
+                <h3 className="text-lg sm:text-2xl md:text-[26px] font-serif font-bold text-brand-dark tracking-tight leading-snug">
                   {heading}
                 </h3>
               )}
               {items.length > 0 && (
-                <ul className="space-y-3.5 sm:space-y-4 pt-1">
+                <ul className="space-y-2.5 sm:space-y-4 pt-1">
                   {items.map((item, itemIdx) => (
                     <li
                       key={itemIdx}
-                      className="flex items-start gap-3.5 sm:gap-4 text-base sm:text-lg text-gray-700 leading-relaxed font-normal"
+                      className="flex items-start gap-3 sm:gap-4 text-sm sm:text-lg text-gray-700 leading-relaxed font-normal"
                     >
                       <span
-                        className="inline-block w-2 h-2 rounded-full bg-brand shrink-0 mt-2.5"
+                        className="inline-block w-2 h-2 rounded-full bg-brand shrink-0 mt-2 sm:mt-2.5"
                         aria-hidden="true"
                       />
                       <span className="flex-1 leading-relaxed">{item}</span>
@@ -205,16 +205,16 @@ export function DepartmentAdditionalContent({ blocks, locale }: Props) {
           return (
             <section
               key={block.id || idx}
-              className="space-y-6"
+              className="space-y-4 sm:space-y-6"
               aria-label={heading || `Section ${idx + 1}`}
             >
               {heading && (
-                <h3 className="text-xl sm:text-2xl md:text-[26px] font-serif font-bold text-brand-dark tracking-tight leading-snug">
+                <h3 className="text-lg sm:text-2xl md:text-[26px] font-serif font-bold text-brand-dark tracking-tight leading-snug">
                   {heading}
                 </h3>
               )}
               {images.length > 0 && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 pt-1">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8 pt-1">
                   {images.map((img, imgIdx) => {
                     const caption = (isAr ? img.caption?.ar : img.caption?.en) || img.caption?.en || img.caption?.ar || '';
                     return (
@@ -232,7 +232,7 @@ export function DepartmentAdditionalContent({ blocks, locale }: Props) {
                           />
                         </div>
                         {caption && (
-                          <figcaption className="p-4 bg-white border-t border-border/40 text-xs sm:text-sm text-text-muted font-medium leading-snug">
+                          <figcaption className="p-3 sm:p-4 bg-white border-t border-border/40 text-xs sm:text-sm text-text-muted font-medium leading-snug">
                             {caption}
                           </figcaption>
                         )}
@@ -260,16 +260,16 @@ export function DepartmentAdditionalContent({ blocks, locale }: Props) {
             return (
               <section
                 key={block.id || idx}
-                className="space-y-4 max-w-4xl"
+                className="space-y-3 sm:space-y-4 max-w-4xl"
                 aria-label={heading || `Section ${idx + 1}`}
               >
                 {heading && (
-                  <h3 className="text-xl sm:text-2xl md:text-[26px] font-serif font-bold text-brand-dark tracking-tight leading-snug">
+                  <h3 className="text-lg sm:text-2xl md:text-[26px] font-serif font-bold text-brand-dark tracking-tight leading-snug">
                     {heading}
                   </h3>
                 )}
                 {desc && (
-                  <div className="text-base sm:text-lg text-text-muted leading-relaxed whitespace-pre-line font-normal">
+                  <div className="text-sm sm:text-base md:text-lg text-text-muted leading-relaxed whitespace-pre-line font-normal">
                     {desc}
                   </div>
                 )}
@@ -286,23 +286,23 @@ export function DepartmentAdditionalContent({ blocks, locale }: Props) {
             return (
               <section
                 key={block.id || idx}
-                className="space-y-6"
+                className="space-y-4 sm:space-y-6"
                 aria-label={heading || `Section ${idx + 1}`}
               >
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-12 items-center">
                   {/* Text Column */}
                   <div
-                    className={`space-y-4 lg:col-span-7 ${
+                    className={`space-y-3 sm:space-y-4 lg:col-span-7 ${
                       isReversed ? 'lg:order-2' : 'lg:order-1'
                     }`}
                   >
                     {heading && (
-                      <h3 className="text-xl sm:text-2xl md:text-[26px] font-serif font-bold text-brand-dark tracking-tight leading-snug">
+                      <h3 className="text-lg sm:text-2xl md:text-[26px] font-serif font-bold text-brand-dark tracking-tight leading-snug">
                         {heading}
                       </h3>
                     )}
                     {desc && (
-                      <div className="text-base sm:text-lg text-text-muted leading-relaxed whitespace-pre-line font-normal">
+                      <div className="text-sm sm:text-base md:text-lg text-text-muted leading-relaxed whitespace-pre-line font-normal">
                         {desc}
                       </div>
                     )}
@@ -325,7 +325,7 @@ export function DepartmentAdditionalContent({ blocks, locale }: Props) {
                         />
                       </div>
                       {caption && (
-                        <figcaption className="p-3.5 sm:p-4 bg-white border-t border-border/40 text-xs sm:text-sm text-text-muted font-medium leading-snug">
+                        <figcaption className="p-3 sm:p-4 bg-white border-t border-border/40 text-xs sm:text-sm text-text-muted font-medium leading-snug">
                           {caption}
                         </figcaption>
                       )}
@@ -340,23 +340,23 @@ export function DepartmentAdditionalContent({ blocks, locale }: Props) {
           return (
             <section
               key={block.id || idx}
-              className="space-y-6"
+              className="space-y-4 sm:space-y-6"
               aria-label={heading || `Section ${idx + 1}`}
             >
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-12 items-start">
                 {/* Text Column */}
                 <div
-                  className={`space-y-4 lg:col-span-6 ${
+                  className={`space-y-3 sm:space-y-4 lg:col-span-6 ${
                     isReversed ? 'lg:order-2' : 'lg:order-1'
                   }`}
                 >
                   {heading && (
-                    <h3 className="text-xl sm:text-2xl md:text-[26px] font-serif font-bold text-brand-dark tracking-tight leading-snug">
+                    <h3 className="text-lg sm:text-2xl md:text-[26px] font-serif font-bold text-brand-dark tracking-tight leading-snug">
                       {heading}
                     </h3>
                   )}
                   {desc && (
-                    <div className="text-base sm:text-lg text-text-muted leading-relaxed whitespace-pre-line font-normal">
+                    <div className="text-sm sm:text-base md:text-lg text-text-muted leading-relaxed whitespace-pre-line font-normal">
                       {desc}
                     </div>
                   )}

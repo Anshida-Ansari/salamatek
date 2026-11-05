@@ -76,48 +76,48 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
-      <h3 className="text-2xl font-bold mb-6 text-gray-900">
+    <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6 bg-white p-5 sm:p-8 rounded-2xl shadow-sm border border-gray-100">
+      <h3 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-gray-900">
         {isRtl ? 'أرسل لنا رسالة' : 'Send Us A Message'}
       </h3>
       
       {error && (
-        <div className="p-4 bg-red-50 text-red-700 text-sm rounded-lg mb-4">
+        <div className="p-3.5 sm:p-4 bg-red-50 text-red-700 text-xs sm:text-sm rounded-lg mb-4">
           {error}
         </div>
       )}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-1.5">{isRtl ? 'الاسم الكامل' : 'Full Name'} *</label>
-          <input required type="text" name="name" value={formData.name} onChange={handleChange} className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#8E2829] focus:outline-none" />
+          <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-1 sm:mb-1.5">{isRtl ? 'الاسم الكامل' : 'Full Name'} *</label>
+          <input required type="text" name="name" value={formData.name} onChange={handleChange} className="w-full px-3.5 py-2.5 sm:px-4 sm:py-3 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#8E2829] focus:outline-none" />
         </div>
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-1.5">{isRtl ? 'رقم الهاتف' : 'Phone Number'} *</label>
-          <input required type="tel" name="phone" value={formData.phone} onChange={handleChange} className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#8E2829] focus:outline-none" dir="ltr" />
+          <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-1 sm:mb-1.5">{isRtl ? 'رقم الهاتف' : 'Phone Number'} *</label>
+          <input required type="tel" name="phone" value={formData.phone} onChange={handleChange} className="w-full px-3.5 py-2.5 sm:px-4 sm:py-3 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#8E2829] focus:outline-none" dir="ltr" />
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-1.5">{isRtl ? 'البريد الإلكتروني' : 'Email Address'} *</label>
-          <input required type="email" name="email" value={formData.email} onChange={handleChange} className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#8E2829] focus:outline-none" dir="ltr" />
+          <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-1 sm:mb-1.5">{isRtl ? 'البريد الإلكتروني' : 'Email Address'} *</label>
+          <input required type="email" name="email" value={formData.email} onChange={handleChange} className="w-full px-3.5 py-2.5 sm:px-4 sm:py-3 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#8E2829] focus:outline-none" dir="ltr" />
         </div>
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-1.5">{isRtl ? 'الموضوع' : 'Subject'} *</label>
-          <input required type="text" name="subject" value={formData.subject} onChange={handleChange} className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#8E2829] focus:outline-none" />
+          <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-1 sm:mb-1.5">{isRtl ? 'الموضوع' : 'Subject'} *</label>
+          <input required type="text" name="subject" value={formData.subject} onChange={handleChange} className="w-full px-3.5 py-2.5 sm:px-4 sm:py-3 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#8E2829] focus:outline-none" />
         </div>
       </div>
 
       <div>
-        <label className="block text-sm font-semibold text-gray-700 mb-1.5">{isRtl ? 'الرسالة' : 'Message'} *</label>
-        <textarea required name="message" value={formData.message} onChange={handleChange} rows={5} className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#8E2829] focus:outline-none resize-none"></textarea>
+        <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-1 sm:mb-1.5">{isRtl ? 'الرسالة' : 'Message'} *</label>
+        <textarea required name="message" value={formData.message} onChange={handleChange} rows={5} className="w-full px-3.5 py-2.5 sm:px-4 sm:py-3 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#8E2829] focus:outline-none resize-none"></textarea>
       </div>
 
       <button 
         type="submit" 
         disabled={isLoading}
-        className="w-full flex items-center justify-center gap-2 py-4 bg-[#8E2829] hover:bg-[#732021] text-white font-bold rounded-lg transition disabled:opacity-70 text-lg shadow-md"
+        className="w-full flex items-center justify-center gap-2 py-3.5 sm:py-4 bg-[#8E2829] hover:bg-[#732021] text-white font-bold rounded-lg transition disabled:opacity-70 text-base sm:text-lg shadow-md"
       >
         {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5" />}
         {isLoading ? (isRtl ? 'جاري الإرسال...' : 'Sending...') : (isRtl ? 'إرسال الرسالة' : 'Send Message')}

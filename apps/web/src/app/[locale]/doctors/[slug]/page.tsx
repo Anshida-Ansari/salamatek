@@ -202,23 +202,23 @@ export default async function DoctorDetailPage({ params }: Props) {
                   <span>{departmentName}</span>
                 </Link>
               )}
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-white tracking-tight">
+              <h1 className="text-2xl sm:text-4xl lg:text-5xl font-serif font-bold text-white tracking-tight">
                 {name}
               </h1>
               {designation && (
-                <p className="text-base sm:text-lg text-brand-pale mt-1.5 font-medium">
+                <p className="text-sm sm:text-lg text-brand-pale mt-1 font-medium">
                   {designation}
                 </p>
               )}
             </div>
 
             {/* Prominent WhatsApp Action (No contact numbers displayed as text) */}
-            <div className="shrink-0">
+            <div className="shrink-0 w-full sm:w-auto">
               <a
                 href={waUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-brand hover:bg-brand-medium text-white text-sm font-semibold transition-all shadow-md shadow-brand/20 cursor-pointer"
+                className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-brand hover:bg-brand-medium text-white text-sm font-semibold transition-all shadow-md shadow-brand/20 cursor-pointer"
               >
                 <MessageCircle className="w-4 h-4 text-brand-light" />
                 <span>{isAr ? 'استشارة الطبيب' : 'Consult Doctor'}</span>
@@ -229,13 +229,13 @@ export default async function DoctorDetailPage({ params }: Props) {
       </section>
 
       {/* ── 2. Doctor Information Layout (Admin-Provided Data Only) ───────── */}
-      <section className="py-10 md:py-16">
+      <section className="py-8 sm:py-10 md:py-16">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 items-start">
             
             {/* Left Column: Doctor Portrait & Basic Metadata (4 cols) */}
             <div className="md:col-span-5 lg:col-span-4 space-y-5">
-              <div className="bg-white rounded-3xl p-5 border border-border/80 shadow-xs">
+              <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-5 border border-border/80 shadow-xs">
                 {/* Doctor Portrait */}
                 <div className="relative aspect-[3/4] w-full rounded-2xl overflow-hidden bg-surface-mint border border-border/50">
                   {doc.image ? (

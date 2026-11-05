@@ -87,20 +87,20 @@ function InsuranceLogo({ partner }: { partner: { name: string; image: string } }
   const logoUrl = isExternalOrAbsolute ? partner.image : `/images/insurance/${partner.image}`;
 
   return (
-    <div className="group bg-white rounded-2xl p-3 sm:p-3.5 border border-border/70 hover:border-brand-pale/80 shadow-xs hover:shadow-card hover:-translate-y-1 transition-all duration-300 flex flex-col items-center justify-between h-full min-h-[120px] sm:min-h-[136px]">
-      <div className="relative w-full h-16 sm:h-20 flex items-center justify-center overflow-hidden">
+    <div className="group bg-white rounded-2xl p-2.5 sm:p-3.5 border border-border/70 hover:border-brand-pale/80 shadow-xs hover:shadow-card hover:-translate-y-1 transition-all duration-300 flex flex-col items-center justify-between h-full min-h-[110px] sm:min-h-[136px]">
+      <div className="relative w-full h-14 sm:h-20 flex items-center justify-center overflow-hidden">
         <Image
           src={logoUrl}
           alt={`${partner.name || 'Partner'} Logo`}
           fill
           sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw"
-          className="object-contain p-1.5 sm:p-2 transition-transform duration-500 ease-out group-hover:scale-105 mix-blend-multiply"
+          className="object-contain p-1 sm:p-2 transition-transform duration-500 ease-out group-hover:scale-105 mix-blend-multiply"
         />
       </div>
       {partner.name && (
-        <div className="w-full pt-2 mt-auto border-t border-gray-100">
+        <div className="w-full pt-1.5 sm:pt-2 mt-auto border-t border-gray-100">
           <p
-            className="text-xs sm:text-[13px] font-semibold text-brand-dark text-center truncate group-hover:text-brand transition-colors tracking-tight"
+            className="text-[11px] sm:text-[13px] font-semibold text-brand-dark text-center truncate group-hover:text-brand transition-colors tracking-tight"
             title={partner.name}
           >
             {partner.name}
@@ -216,11 +216,11 @@ export default async function InsurancePartnersPage({ params }: Props) {
             </p>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-4 sm:gap-5 md:gap-6">
+          <div className="flex flex-wrap justify-center gap-3 sm:gap-5 md:gap-6">
             {partners.map((partner: any, idx: number) => (
               <div
                 key={partner._id || partner.name || idx}
-                className="w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-0.85rem)] md:w-[calc(25%-1.125rem)] lg:w-[calc(20%-1.2rem)] xl:w-[calc(16.666%-1.25rem)]"
+                className="w-[calc(50%-0.375rem)] sm:w-[calc(33.333%-0.85rem)] md:w-[calc(25%-1.125rem)] lg:w-[calc(20%-1.2rem)] xl:w-[calc(16.666%-1.25rem)]"
               >
                 <InsuranceLogo partner={partner} />
               </div>
@@ -231,33 +231,33 @@ export default async function InsurancePartnersPage({ params }: Props) {
 
       {/* 3. Cash Discount Companies Section */}
       <section
-        className="bg-white py-14 md:py-20 border-t border-border/60"
+        className="bg-white py-10 sm:py-14 md:py-20 border-t border-border/60"
         aria-labelledby="cash-discount-heading"
         id="cash-discount-companies"
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           {/* Section Subheading */}
-          <div className="text-center max-w-2xl mx-auto mb-10 md:mb-14">
-            <span className="inline-block px-3 py-1 rounded-full bg-emerald-100/70 text-emerald-800 text-xs font-semibold mb-2.5">
+          <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-10 md:mb-14">
+            <span className="inline-block px-3 py-1 rounded-full bg-emerald-100/70 text-emerald-800 text-xs font-semibold mb-2 sm:mb-2.5">
               {p.cashDiscountBadge}
             </span>
             <h3
               id="cash-discount-heading"
-              className="text-2xl sm:text-3xl font-bold text-brand-dark tracking-tight"
+              className="text-xl sm:text-2xl md:text-3xl font-bold text-brand-dark tracking-tight"
             >
               {p.cashDiscountHeading}
             </h3>
-            <p className="mt-2 text-sm sm:text-base text-gray-600">
+            <p className="mt-1.5 sm:mt-2 text-xs sm:text-base text-gray-600">
               {p.cashDiscountSubtext}
             </p>
           </div>
 
           {cashDiscountCompanies.length > 0 ? (
-            <div className="flex flex-wrap justify-center gap-4 sm:gap-5 md:gap-6">
+            <div className="flex flex-wrap justify-center gap-3 sm:gap-5 md:gap-6">
               {cashDiscountCompanies.map((company: any, idx: number) => (
                 <div
                   key={company._id || company.name || idx}
-                  className="w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-0.85rem)] md:w-[calc(25%-1.125rem)] lg:w-[calc(20%-1.2rem)] xl:w-[calc(16.666%-1.25rem)]"
+                  className="w-[calc(50%-0.375rem)] sm:w-[calc(33.333%-0.85rem)] md:w-[calc(25%-1.125rem)] lg:w-[calc(20%-1.2rem)] xl:w-[calc(16.666%-1.25rem)]"
                 >
                   <InsuranceLogo partner={company} />
                 </div>

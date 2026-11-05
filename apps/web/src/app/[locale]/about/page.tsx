@@ -221,18 +221,18 @@ export default async function AboutPage({ params }: Props) {
           </div>
 
           {/* Quick Metrics Bar */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mt-14 pt-10 border-t border-border">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 mt-10 sm:mt-14 pt-8 sm:pt-10 border-t border-border">
             {stats.map((stat, idx) => {
               const Icon = stat.icon;
               return (
-                <div key={idx} className="bg-[#F8FAF9] rounded-2xl p-5 border border-border/80 text-center space-y-2">
-                  <div className="w-10 h-10 rounded-xl bg-surface-mint text-brand mx-auto flex items-center justify-center">
-                    <Icon className="w-5 h-5" />
+                <div key={idx} className="bg-[#F8FAF9] rounded-2xl p-3.5 sm:p-5 border border-border/80 text-center space-y-1.5 sm:space-y-2">
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-surface-mint text-brand mx-auto flex items-center justify-center">
+                    <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
                   </div>
-                  <p className="text-2xl sm:text-3xl font-serif font-bold text-brand-dark tabular-nums">
+                  <p className="text-xl sm:text-3xl font-serif font-bold text-brand-dark tabular-nums">
                     {stat.value}
                   </p>
-                  <p className="text-xs sm:text-sm font-medium text-text-muted">
+                  <p className="text-[11px] sm:text-sm font-medium text-text-muted">
                     {stat.label}
                   </p>
                 </div>
@@ -243,7 +243,7 @@ export default async function AboutPage({ params }: Props) {
       </section>
 
       {/* ── 3. Chairman's Message (Executive Address) ────────────────────── */}
-      <section className="bg-[#F8FAF9] py-16 md:py-24 relative overflow-hidden" aria-labelledby="chairman-heading">
+      <section className="bg-[#F8FAF9] py-12 sm:py-16 md:py-24 relative overflow-hidden" aria-labelledby="chairman-heading">
         {/* Subtle ambient lighting */}
         <div className="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-brand/10 blur-3xl pointer-events-none" />
         <div className="absolute -bottom-32 -right-32 w-96 h-96 rounded-full bg-brand-light/10 blur-3xl pointer-events-none" />
@@ -253,10 +253,10 @@ export default async function AboutPage({ params }: Props) {
             <div className="grid grid-cols-1 lg:grid-cols-12">
               
               {/* Executive Sidebar / Signature Card (4 cols) */}
-              <div className="lg:col-span-4 bg-gradient-to-br from-brand-dark via-[#0C3528] to-[#08221A] text-white p-8 sm:p-10 flex flex-col justify-between relative overflow-hidden">
+              <div className="lg:col-span-4 bg-gradient-to-br from-brand-dark via-[#0C3528] to-[#08221A] text-white p-5 sm:p-8 md:p-10 flex flex-col justify-between relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-brand/15 rounded-full blur-2xl pointer-events-none" />
 
-                <div className="relative z-10 space-y-6">
+                <div className="relative z-10 space-y-5 sm:space-y-6">
                   {/* Leadership Badge */}
                   <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 text-brand-pale text-xs font-semibold">
                     <Sparkles className="w-3.5 h-3.5 text-brand-light" />
@@ -264,7 +264,7 @@ export default async function AboutPage({ params }: Props) {
                   </div>
 
                   {/* Brand Monogram Seal */}
-                  <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-3xl bg-white/10 backdrop-blur-md border border-white/20 p-3.5 flex items-center justify-center shadow-lg">
+                  <div className="w-20 h-20 sm:w-28 sm:h-28 rounded-2xl sm:rounded-3xl bg-white/10 backdrop-blur-md border border-white/20 p-3 sm:p-3.5 flex items-center justify-center shadow-lg">
                     <Image
                       src="/images/logo.png"
                       alt="Salamatek Crest"
@@ -286,7 +286,7 @@ export default async function AboutPage({ params }: Props) {
                 </div>
 
                 {/* Core Guiding Pillars */}
-                <div className="relative z-10 pt-8 mt-8 border-t border-white/15 space-y-3">
+                <div className="relative z-10 pt-6 sm:pt-8 mt-6 sm:mt-8 border-t border-white/15 space-y-2.5 sm:space-y-3">
                   <p className="text-[11px] uppercase tracking-widest text-brand-pale font-bold">
                     {isAr ? 'ركائز القيادة الطبية' : 'Leadership Commitments'}
                   </p>
@@ -302,33 +302,33 @@ export default async function AboutPage({ params }: Props) {
               </div>
 
               {/* Main Message Content (8 cols) */}
-              <div className="lg:col-span-8 p-8 sm:p-12 lg:p-14 flex flex-col justify-between">
+              <div className="lg:col-span-8 p-5 sm:p-10 lg:p-14 flex flex-col justify-between">
                 <div>
                   {/* Decorative Quote Icon & Eyebrow */}
-                  <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center justify-between mb-4 sm:mb-6">
                     <span className="text-xs font-bold uppercase tracking-widest text-brand">
                       {chairman.badge}
                     </span>
-                    <Quote className="w-10 h-10 text-surface-mint/80 text-brand-pale/40 rotate-180" />
+                    <Quote className="w-8 h-8 sm:w-10 sm:h-10 text-surface-mint/80 text-brand-pale/40 rotate-180" />
                   </div>
 
                   {/* Opening Headline / Lead */}
                   <h2
                     id="chairman-heading"
-                    className="text-2xl sm:text-3xl font-serif font-bold text-brand-dark leading-snug mb-6"
+                    className="text-xl sm:text-2xl md:text-3xl font-serif font-bold text-brand-dark leading-snug mb-4 sm:mb-6"
                   >
                     &ldquo;{chairman.title}&rdquo;
                   </h2>
 
                   {/* Primary Lead Highlight */}
-                  <div className="bg-surface-mint/60 border-s-4 border-brand p-4 sm:p-5 rounded-r-2xl mb-8">
-                    <p className="text-base sm:text-lg font-serif italic text-brand-dark leading-relaxed font-medium">
+                  <div className="bg-surface-mint/60 border-s-4 border-brand p-3.5 sm:p-5 rounded-r-2xl mb-6 sm:mb-8">
+                    <p className="text-sm sm:text-base md:text-lg font-serif italic text-brand-dark leading-relaxed font-medium">
                       {chairman.lead}
                     </p>
                   </div>
 
                   {/* Letter Body Paragraphs */}
-                  <div className="space-y-4 text-text-muted text-sm sm:text-base leading-relaxed">
+                  <div className="space-y-3.5 sm:space-y-4 text-text-muted text-sm sm:text-base leading-relaxed">
                     {chairman.paragraphs.map((p, idx) => (
                       <p key={idx} className="leading-relaxed">
                         {p}
@@ -338,7 +338,7 @@ export default async function AboutPage({ params }: Props) {
                 </div>
 
                 {/* Sign-off Block */}
-                <div className="mt-10 pt-8 border-t border-border flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div className="mt-8 sm:mt-10 pt-6 sm:pt-8 border-t border-border flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div>
                     <p className="text-sm font-bold text-brand-dark">
                       {chairman.authorName}
@@ -360,10 +360,10 @@ export default async function AboutPage({ params }: Props) {
       </section>
 
       {/* ── 4. Mission + Vision ──────────────────────────────────────────── */}
-      <section className="bg-white py-16 md:py-24 border-b border-border" aria-labelledby="mission-vision-heading">
+      <section className="bg-white py-12 sm:py-16 md:py-24 border-b border-border" aria-labelledby="mission-vision-heading">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <span className="inline-block px-3.5 py-1 rounded-full bg-surface-mint text-brand-dark text-xs font-bold tracking-wider uppercase mb-3">
+          <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-12">
+            <span className="inline-block px-3.5 py-1 rounded-full bg-surface-mint text-brand-dark text-xs font-bold tracking-wider uppercase mb-2 sm:mb-3">
               {isAr ? 'الغاية والوجهة' : 'Our Guiding Compass'}
             </span>
             <h2 id="mission-vision-heading" className="text-2xl sm:text-3xl font-serif font-bold text-brand-dark">
@@ -371,9 +371,9 @@ export default async function AboutPage({ params }: Props) {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
             {/* Mission */}
-            <div className="bg-[#F8FAF9] rounded-3xl border border-border p-8 sm:p-10 shadow-card hover:shadow-card-hover transition-all">
+            <div className="bg-[#F8FAF9] rounded-2xl sm:rounded-3xl border border-border p-6 sm:p-10 shadow-card hover:shadow-card-hover transition-all">
               <div className="w-12 h-12 rounded-2xl bg-surface-mint text-brand flex items-center justify-center mb-6 shadow-sm">
                 <Target className="w-6 h-6" />
               </div>
@@ -386,7 +386,7 @@ export default async function AboutPage({ params }: Props) {
             </div>
 
             {/* Vision */}
-            <div className="bg-brand-dark text-white rounded-3xl p-8 sm:p-10 shadow-card hover:shadow-card-hover transition-all relative overflow-hidden">
+            <div className="bg-brand-dark text-white rounded-2xl sm:rounded-3xl p-6 sm:p-10 shadow-card hover:shadow-card-hover transition-all relative overflow-hidden">
               <div className="w-12 h-12 rounded-2xl bg-white/10 text-brand-light flex items-center justify-center mb-6 shadow-sm border border-white/15">
                 <Compass className="w-6 h-6" />
               </div>
@@ -405,23 +405,23 @@ export default async function AboutPage({ params }: Props) {
       <CoreValuesSection locale={typedLocale} t={t} />
 
       {/* ── 6. Awards & Recognition (CBAHI) ──────────────────────────────── */}
-      <section className="bg-[#F8FAF9] py-16 md:py-24 border-b border-border">
+      <section className="bg-[#F8FAF9] py-12 sm:py-16 md:py-24 border-b border-border">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <div className="w-12 h-12 rounded-full bg-brand/10 text-brand flex items-center justify-center mx-auto mb-4">
+          <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-12">
+            <div className="w-12 h-12 rounded-full bg-brand/10 text-brand flex items-center justify-center mx-auto mb-3 sm:mb-4">
               <Award className="w-6 h-6" />
             </div>
-            <h2 className="text-2xl sm:text-3xl font-serif font-bold text-brand-dark mb-3">
+            <h2 className="text-2xl sm:text-3xl font-serif font-bold text-brand-dark mb-2 sm:mb-3">
               {isAr ? 'الجوائز والتكريم' : 'Awards & Recognition'}
             </h2>
-            <p className="text-sm text-text-muted">
+            <p className="text-xs sm:text-sm text-text-muted">
               {isAr ? 'إنجازاتنا تعكس التزامنا المستمر بالتميز' : 'Our achievements reflect our continuous commitment to excellence.'}
             </p>
           </div>
 
           <div className="max-w-4xl mx-auto">
             {/* CBAHI Accreditation Featured Certificate Card */}
-            <div className="bg-white border border-border rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm hover:shadow-card-hover transition-all">
+            <div className="bg-white border border-border rounded-2xl sm:rounded-3xl p-5 sm:p-8 md:p-10 shadow-sm hover:shadow-card-hover transition-all">
               <div className="flex flex-col md:flex-row items-center gap-8 md:gap-10">
                 {/* Certificate Document Preview */}
                 <div className="w-full sm:w-72 md:w-80 shrink-0">
@@ -504,10 +504,10 @@ export default async function AboutPage({ params }: Props) {
       </section>
 
       {/* ── 7. Accreditations & Certifications ────────────────────────────── */}
-      <section id="accreditations-heading" className="bg-white py-16 md:py-24 border-b border-border">
+      <section id="accreditations-heading" className="bg-white py-12 sm:py-16 md:py-24 border-b border-border">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <span className="inline-block px-3.5 py-1 rounded-full bg-surface-mint text-brand-dark text-xs font-bold tracking-wider uppercase mb-3">
+          <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-12">
+            <span className="inline-block px-3.5 py-1 rounded-full bg-surface-mint text-brand-dark text-xs font-bold tracking-wider uppercase mb-2 sm:mb-3">
               {isAr ? 'الاعتمادات والشهادات' : 'Global Standards'}
             </span>
             <h2 className="text-2xl sm:text-3xl font-serif font-bold text-brand-dark">
@@ -515,17 +515,17 @@ export default async function AboutPage({ params }: Props) {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 max-w-5xl mx-auto">
             {certificates.map((cert, idx) => (
               <div
                 key={idx}
-                className="bg-[#F8FAF9] border border-border rounded-3xl p-6 sm:p-8 flex flex-col items-center text-center shadow-xs hover:shadow-card-hover transition-all group"
+                className="bg-[#F8FAF9] border border-border rounded-2xl sm:rounded-3xl p-4 sm:p-8 flex flex-col items-center text-center shadow-xs hover:shadow-card-hover transition-all group"
               >
                 <a
                   href={cert.image}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="relative w-full aspect-[4/3] mb-8 bg-white rounded-2xl overflow-hidden border border-border group-hover:border-brand-medium/40 transition-colors block cursor-zoom-in"
+                  className="relative w-full aspect-[4/3] mb-5 sm:mb-8 bg-white rounded-2xl overflow-hidden border border-border group-hover:border-brand-medium/40 transition-colors block cursor-zoom-in"
                   title={isAr ? 'اضغط لعرض الشهادة بالحجم الكامل' : 'Click to view full certificate'}
                 >
                   <Image

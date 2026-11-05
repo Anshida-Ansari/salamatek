@@ -392,7 +392,7 @@ export function ServicesDirectory({ services, categories, locale }: Props) {
                 className="group flex flex-col bg-white rounded-3xl overflow-hidden border border-border/70 hover:border-brand-pale/80 shadow-[0_4px_20px_rgb(0,0,0,0.03)] hover:shadow-[0_16px_36px_rgb(0,0,0,0.08)] hover:-translate-y-1 transition-all duration-300"
               >
                 {/* Image & Category Floating Tag */}
-                <div className="relative h-52 sm:h-56 bg-surface-mint overflow-hidden shrink-0">
+                <div className="relative h-44 sm:h-56 bg-surface-mint overflow-hidden shrink-0">
                   {service.image ? (
                     <img
                       src={service.image}
@@ -425,8 +425,8 @@ export function ServicesDirectory({ services, categories, locale }: Props) {
 
                   {/* Floating Category Badge */}
                   {categoryName && (
-                    <div className="absolute top-4 start-4 z-10">
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-white/95 text-brand-dark backdrop-blur-md shadow-sm border border-white/40">
+                    <div className="absolute top-3 sm:top-4 start-3 sm:start-4 z-10">
+                      <span className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full text-[11px] sm:text-xs font-bold bg-white/95 text-brand-dark backdrop-blur-md shadow-sm border border-white/40">
                         <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
                         {categoryName}
                       </span>
@@ -435,8 +435,8 @@ export function ServicesDirectory({ services, categories, locale }: Props) {
                 </div>
 
                 {/* Content Body */}
-                <div className="p-6 sm:p-7 flex flex-col flex-1">
-                  <h3 className="text-xl font-serif font-bold text-brand-dark mb-2.5 group-hover:text-brand transition-colors line-clamp-2">
+                <div className="p-4 sm:p-7 flex flex-col flex-1">
+                  <h3 className="text-lg sm:text-xl font-serif font-bold text-brand-dark mb-2 group-hover:text-brand transition-colors line-clamp-2">
                     {name}
                   </h3>
 

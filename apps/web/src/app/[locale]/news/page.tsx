@@ -69,7 +69,7 @@ export default async function NewsPage({ params }: Props) {
         imageSrc={heroSetting?.image}
       />
 
-      <main className="min-h-screen bg-slate-50 pt-16 pb-24" dir={isRtl ? 'rtl' : 'ltr'}>
+      <main className="min-h-screen bg-slate-50 pt-10 sm:pt-16 pb-16 sm:pb-24" dir={isRtl ? 'rtl' : 'ltr'}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {newsList.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 bg-white rounded-3xl shadow-sm border border-gray-100">
@@ -82,12 +82,12 @@ export default async function NewsPage({ params }: Props) {
             </p>
           </div>
         ) : (
-          <div className="space-y-16">
+          <div className="space-y-10 sm:space-y-16">
             {/* Featured Article */}
             {featured && (
-              <Link href={`/${locale}/news/${featured.slug}`} className="group block bg-white rounded-3xl shadow-lg shadow-gray-200/50 overflow-hidden border border-gray-100 transition-transform hover:-translate-y-1">
+              <Link href={`/${locale}/news/${featured.slug}`} className="group block bg-white rounded-2xl sm:rounded-3xl shadow-lg shadow-gray-200/50 overflow-hidden border border-gray-100 transition-transform hover:-translate-y-1">
                 <div className="grid grid-cols-1 lg:grid-cols-2">
-                  <div className="relative h-64 lg:h-full bg-gray-100 overflow-hidden">
+                  <div className="relative h-56 sm:h-64 lg:h-full bg-gray-100 overflow-hidden">
                     {featured.image ? (
                       <Image src={featured.image} alt={featured.title[locale] || featured.title.en} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
                     ) : (
@@ -96,10 +96,10 @@ export default async function NewsPage({ params }: Props) {
                       </div>
                     )}
                   </div>
-                  <div className="p-8 lg:p-12 flex flex-col justify-center">
-                    <div className="flex items-center gap-4 mb-6 text-sm text-gray-500">
+                  <div className="p-5 sm:p-8 lg:p-12 flex flex-col justify-center">
+                    <div className="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6 text-xs sm:text-sm text-gray-500">
                       {featured.category?.[locale] && (
-                        <span className="bg-blue-50 text-blue-700 font-semibold px-3 py-1 rounded-full">
+                        <span className="bg-blue-50 text-blue-700 font-semibold px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full text-xs">
                           {featured.category[locale]}
                         </span>
                       )}
@@ -108,13 +108,13 @@ export default async function NewsPage({ params }: Props) {
                         {new Date(featured.publishedDate).toLocaleDateString(isRtl ? 'ar-SA' : 'en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
                       </span>
                     </div>
-                    <h2 className="text-3xl font-bold text-gray-900 group-hover:text-blue-600 transition mb-4">
+                    <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 group-hover:text-blue-600 transition mb-3 sm:mb-4">
                       {featured.title[locale] || featured.title.en}
                     </h2>
-                    <p className="text-gray-600 leading-relaxed mb-8">
+                    <p className="text-gray-600 text-sm sm:text-base leading-relaxed mb-6 sm:mb-8">
                       {featured.excerpt[locale] || featured.excerpt.en}
                     </p>
-                    <div className="mt-auto flex items-center gap-2 font-bold text-blue-600">
+                    <div className="mt-auto flex items-center gap-2 font-bold text-blue-600 text-sm sm:text-base">
                       {isRtl ? 'اقرأ المزيد' : 'Read Article'}
                       <ArrowRight className={`w-4 h-4 ${isRtl ? 'rotate-180' : ''}`} />
                     </div>
@@ -125,10 +125,10 @@ export default async function NewsPage({ params }: Props) {
 
             {/* Grid Articles */}
             {regularNews.length > 0 && (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-8">
                 {regularNews.map((article: any) => (
-                  <Link href={`/${locale}/news/${article.slug}`} key={article._id} className="group flex flex-col bg-white rounded-3xl shadow-sm hover:shadow-lg hover:shadow-gray-200/50 overflow-hidden border border-gray-100 transition-all hover:-translate-y-1">
-                    <div className="relative h-56 bg-gray-100 overflow-hidden">
+                  <Link href={`/${locale}/news/${article.slug}`} key={article._id} className="group flex flex-col bg-white rounded-2xl sm:rounded-3xl shadow-sm hover:shadow-lg hover:shadow-gray-200/50 overflow-hidden border border-gray-100 transition-all hover:-translate-y-1">
+                    <div className="relative h-48 sm:h-56 bg-gray-100 overflow-hidden">
                       {article.image ? (
                         <Image src={article.image} alt={article.title[locale] || article.title.en} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
                       ) : (
@@ -137,7 +137,7 @@ export default async function NewsPage({ params }: Props) {
                         </div>
                       )}
                     </div>
-                    <div className="p-6 sm:p-8 flex-1 flex flex-col">
+                    <div className="p-4 sm:p-8 flex-1 flex flex-col">
                       <div className="flex items-center justify-between gap-4 mb-4 text-xs font-medium text-gray-500">
                         {article.category?.[locale] && (
                           <span className="text-blue-600 uppercase tracking-wider">{article.category[locale]}</span>

@@ -148,9 +148,9 @@ export default async function SARCPage({ params }: Props) {
   return (
     <>
       {/* ── 1. Hero ─────────────────────────────────────────────── */}
-      <section className="relative min-h-screen flex flex-col justify-center pt-20 pb-16 md:pt-24 md:pb-20 overflow-hidden bg-gradient-to-br from-[#712316] to-[#3B1408]">
+      <section className="relative min-h-screen flex flex-col justify-center pt-16 pb-12 sm:pt-20 sm:pb-16 md:pt-24 md:pb-20 overflow-hidden bg-gradient-to-br from-[#712316] to-[#3B1408]">
         {/* Slogan Banner Badge */}
-        <div className="absolute top-24 sm:top-26 md:top-28 inset-x-0 z-20 pointer-events-none">
+        <div className="absolute top-[84px] sm:top-24 md:top-28 inset-x-0 z-20 pointer-events-none">
           <div className="mx-auto max-w-[1600px] w-full px-4 sm:px-6 lg:px-8 xl:px-12 flex justify-end rtl:justify-start">
             <div
               className="pointer-events-auto relative inline-flex items-center transition-all duration-300 hover:scale-105 select-none drop-shadow-[0_8px_20px_rgba(200,16,30,0.35)]"
@@ -162,7 +162,7 @@ export default async function SARCPage({ params }: Props) {
                 alt={sloganText || 'Excellence In Health Care'}
                 width={260}
                 height={65}
-                className="h-9 sm:h-11 md:h-12 lg:h-13 w-auto object-contain"
+                className="h-7 sm:h-11 md:h-12 lg:h-13 w-auto object-contain"
                 priority
                 suppressHydrationWarning
               />
@@ -175,13 +175,13 @@ export default async function SARCPage({ params }: Props) {
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#E05522] opacity-5 rounded-full blur-[80px] translate-y-1/3 -translate-x-1/4" />
 
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-16 lg:gap-12 items-center">
 
             {/* Left side content */}
             <div className="flex flex-col">
 
               {/* Logo & Division Lockup — tight horizontal brand badge */}
-              <div className="flex items-center gap-4 mb-8">
+              <div className="flex items-center gap-4 mb-6 sm:mb-8">
                 <div className="flex-shrink-0 w-24 sm:w-28">
                   <Image
                     src="/sarc/sarc-logo-transparent-cropped.png"
@@ -203,30 +203,30 @@ export default async function SARCPage({ params }: Props) {
                 </div>
               </div>
 
-              <p className="text-[#E05522] text-[11px] font-bold uppercase tracking-[0.2em] mb-5">
+              <p className="text-[#E05522] text-[11px] font-bold uppercase tracking-[0.2em] mb-3 sm:mb-5">
                 {t.hero.subtitle}
               </p>
 
-              <h1 className="text-5xl md:text-6xl lg:text-[64px] font-serif font-bold text-white leading-[1.08] mb-6">
+              <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-[64px] font-serif font-bold text-white leading-[1.12] sm:leading-[1.08] mb-4 sm:mb-6">
                 {t.hero.title1}<br />
                 {t.hero.title2}<br />
                 <span className="italic text-[#E05522]">{t.hero.title3}</span>
               </h1>
 
-              <p className="text-base text-white/65 mb-8 leading-relaxed max-w-md">
+              <p className="text-sm sm:text-base text-white/65 mb-6 sm:mb-8 leading-relaxed max-w-md">
                 {t.hero.desc}
               </p>
 
-              <div className="flex flex-wrap items-center gap-3 mb-8">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mb-6 sm:mb-8">
                 <a
                   href="#enquire"
-                  className="px-7 py-3.5 rounded-xl bg-[#E05522] text-white text-sm font-bold hover:bg-[#B8441A] transition-colors shadow-lg"
+                  className="px-7 py-3.5 rounded-xl bg-[#E05522] text-white text-sm font-bold hover:bg-[#B8441A] transition-colors shadow-lg text-center"
                 >
                   {t.hero.reqProposal}
                 </a>
                 <a
                   href="#services"
-                  className="px-7 py-3.5 rounded-xl border border-white/20 text-white text-sm font-semibold hover:bg-white/10 transition-colors"
+                  className="px-7 py-3.5 rounded-xl border border-white/20 text-white text-sm font-semibold hover:bg-white/10 transition-colors text-center"
                 >
                   {t.hero.exploreCap}
                 </a>

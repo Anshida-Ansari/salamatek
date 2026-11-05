@@ -80,20 +80,20 @@ function BrandLogoCard({ brand }: { brand: { name: string; image: string } }) {
   const logoUrl = isExternalOrAbsolute ? brand.image : `/images/opticals/${brand.image}`;
 
   return (
-    <div className="group bg-white rounded-2xl p-3 sm:p-3.5 border border-border/70 hover:border-brand-medium/50 shadow-xs hover:shadow-card hover:-translate-y-1 transition-all duration-300 flex flex-col items-center justify-between h-full min-h-[120px] sm:min-h-[136px]">
-      <div className="relative w-full h-16 sm:h-20 flex items-center justify-center overflow-hidden">
+    <div className="group bg-white rounded-2xl p-2.5 sm:p-3.5 border border-border/70 hover:border-brand-medium/50 shadow-xs hover:shadow-card hover:-translate-y-1 transition-all duration-300 flex flex-col items-center justify-between h-full min-h-[110px] sm:min-h-[136px]">
+      <div className="relative w-full h-14 sm:h-20 flex items-center justify-center overflow-hidden">
         <Image
           src={logoUrl}
           alt={`${brand.name || 'Brand'} Logo`}
           fill
           sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw"
-          className="object-contain p-1.5 sm:p-2 transition-transform duration-500 ease-out group-hover:scale-105 mix-blend-multiply"
+          className="object-contain p-1 sm:p-2 transition-transform duration-500 ease-out group-hover:scale-105 mix-blend-multiply"
         />
       </div>
       {brand.name && (
-        <div className="w-full pt-2 mt-auto border-t border-gray-100">
+        <div className="w-full pt-1.5 sm:pt-2 mt-auto border-t border-gray-100">
           <p
-            className="text-xs sm:text-[13px] font-semibold text-brand-dark text-center truncate group-hover:text-brand transition-colors tracking-tight"
+            className="text-[11px] sm:text-[13px] font-semibold text-brand-dark text-center truncate group-hover:text-brand transition-colors tracking-tight"
             title={brand.name}
           >
             {brand.name}
@@ -221,15 +221,15 @@ export default async function OpticalBrandsPage({ params }: Props) {
       />
 
       {/* ── 2. Featured Optical Categories (Direct match to user reference screenshot) ── */}
-      <section className="py-16 md:py-24 bg-[#FAF9F6]/60 border-b border-border/50">
+      <section className="py-12 sm:py-16 md:py-24 bg-[#FAF9F6]/60 border-b border-border/50">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
           
           {/* Section Header */}
-          <div className="text-center max-w-2xl mx-auto mb-12 md:mb-14">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[#1E3A34] uppercase font-sans">
+          <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-12 md:mb-14">
+            <h2 className="text-xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[#1E3A34] uppercase font-sans">
               {isAr ? 'سلامتك للبصريات' : 'SALAMATEK OPTICAL'}
             </h2>
-            <p className="mt-3 text-xs sm:text-sm md:text-base text-[#6B7280] leading-relaxed max-w-xl mx-auto">
+            <p className="mt-2.5 sm:mt-3 text-xs sm:text-sm md:text-base text-[#6B7280] leading-relaxed max-w-xl mx-auto">
               {isAr
                 ? 'لأكثر من 3 سنوات، نبتكر في عالم رعاية العيون والنظارات الطبية والشمسية لنجمع بين الرؤية المثالية والأناقة العصرية.'
                 : "For over 3 years, we've been leading innovations in eyecare and eyewear while constantly challenging boundaries"}
@@ -237,7 +237,7 @@ export default async function OpticalBrandsPage({ params }: Props) {
           </div>
 
           {/* 3x2 Grid of Cards exactly as shown in reference */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 sm:gap-6 lg:gap-7 items-stretch">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-7 items-stretch">
             {OPTICAL_CATEGORIES.map((cat) => (
               <div
                 key={cat.id}
@@ -272,17 +272,17 @@ export default async function OpticalBrandsPage({ params }: Props) {
       </section>
 
       {/* ── 3. Our Services Section (4 Features from Reference) ── */}
-      <section className="bg-white py-16 md:py-24 border-y border-border/60">
+      <section className="bg-white py-12 sm:py-16 md:py-24 border-y border-border/60">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           
-          <div className="text-center max-w-2xl mx-auto mb-12 md:mb-16">
-            <span className="inline-block px-3.5 py-1 rounded-full bg-brand-mint text-brand-dark text-xs font-bold tracking-widest uppercase mb-3 border border-brand-pale">
+          <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-12 md:mb-16">
+            <span className="inline-block px-3.5 py-1 rounded-full bg-brand-mint text-brand-dark text-xs font-bold tracking-widest uppercase mb-2 sm:mb-3 border border-brand-pale">
               {isAr ? 'خدمات متميزة' : 'Optical Excellence'}
             </span>
-            <h2 className="text-3xl sm:text-4xl font-serif font-bold text-brand-dark tracking-tight">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold text-brand-dark tracking-tight">
               {isAr ? 'خدماتنا' : 'Our Services'}
             </h2>
-            <p className="mt-3 text-sm sm:text-base text-text-muted leading-relaxed">
+            <p className="mt-2.5 sm:mt-3 text-xs sm:text-base text-text-muted leading-relaxed">
               {isAr
                 ? 'خدمات بصرية متكاملة تحت سقف واحد تضمن لكم الراحة والدقة بأعلى المقاييس.'
                 : 'Specialized optical care and on-site support to guarantee precision, comfort, and peace of mind.'}
@@ -290,20 +290,20 @@ export default async function OpticalBrandsPage({ params }: Props) {
           </div>
 
           {/* 4 Service Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-7">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-7">
             {OPTICAL_SERVICES.map((srv, idx) => {
               const IconComp = srv.icon;
               return (
                 <div
                   key={idx}
-                  className="group relative bg-[#F8FAF9] rounded-2xl p-6 border border-border/70 hover:border-brand-pale transition-all duration-300 hover:-translate-y-1 hover:shadow-card text-center flex flex-col items-center"
+                  className="group relative bg-[#F8FAF9] rounded-2xl p-4 sm:p-6 border border-border/70 hover:border-brand-pale transition-all duration-300 hover:-translate-y-1 hover:shadow-card text-center flex flex-col items-center"
                 >
                   {/* Service Icon Badge */}
-                  <div className="w-14 h-14 rounded-2xl bg-white border border-brand-pale/60 flex items-center justify-center text-brand-dark shadow-xs group-hover:bg-brand-dark group-hover:text-white transition-all duration-300 mb-4">
-                    <IconComp className="w-6 h-6 shrink-0 transition-transform duration-300 group-hover:scale-110" />
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-white border border-brand-pale/60 flex items-center justify-center text-brand-dark shadow-xs group-hover:bg-brand-dark group-hover:text-white transition-all duration-300 mb-3 sm:mb-4">
+                    <IconComp className="w-5 h-5 sm:w-6 sm:h-6 shrink-0 transition-transform duration-300 group-hover:scale-110" />
                   </div>
 
-                  <h3 className="text-sm sm:text-base font-bold text-brand-dark mb-2 group-hover:text-brand transition-colors">
+                  <h3 className="text-sm sm:text-base font-bold text-brand-dark mb-1.5 sm:mb-2 group-hover:text-brand transition-colors">
                     {srv.title}
                   </h3>
                   <p className="text-xs text-text-muted leading-relaxed">
@@ -318,17 +318,17 @@ export default async function OpticalBrandsPage({ params }: Props) {
       </section>
 
       {/* ── 4. Our Brands Section (Designer Brand Showcase) ── */}
-      <section className="py-16 md:py-24">
+      <section className="py-12 sm:py-16 md:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           
-          <div className="text-center max-w-3xl mx-auto mb-12 md:mb-16">
-            <span className="inline-block px-3.5 py-1 rounded-full bg-brand-mint text-brand-dark text-xs font-bold tracking-widest uppercase mb-3 border border-brand-pale">
+          <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-12 md:mb-16">
+            <span className="inline-block px-3.5 py-1 rounded-full bg-brand-mint text-brand-dark text-xs font-bold tracking-widest uppercase mb-2 sm:mb-3 border border-brand-pale">
               {isAr ? 'علامات تجارية عالمية' : 'Curated Eyewear'}
             </span>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-brand-dark tracking-tight">
+            <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif font-bold text-brand-dark tracking-tight">
               {isAr ? 'علاماتنا التجارية' : 'Our Brands'}
             </h2>
-            <p className="mt-4 text-sm sm:text-base md:text-lg text-text-muted leading-relaxed max-w-2xl mx-auto">
+            <p className="mt-2.5 sm:mt-4 text-xs sm:text-base md:text-lg text-text-muted leading-relaxed max-w-2xl mx-auto">
               {isAr
                 ? 'اكتشف مجموعتنا المتميزة من النظارات الطبية والشمسية من أشهر بيوت الأزياء والعلامات التجارية العالمية.'
                 : 'Discover our premium selection of optical frames and sunglasses from world-renowned luxury brands.'}
@@ -340,7 +340,7 @@ export default async function OpticalBrandsPage({ params }: Props) {
             {brands.map((brand: any, idx: number) => (
               <div
                 key={brand._id || brand.name || idx}
-                className="w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-0.75rem)] md:w-[calc(25%-1rem)] lg:w-[calc(20%-1rem)] xl:w-[calc(16.666%-1rem)]"
+                className="w-[calc(50%-0.375rem)] sm:w-[calc(33.333%-0.75rem)] md:w-[calc(25%-1rem)] lg:w-[calc(20%-1rem)] xl:w-[calc(16.666%-1rem)]"
               >
                 <BrandLogoCard brand={brand} />
               </div>
@@ -351,7 +351,7 @@ export default async function OpticalBrandsPage({ params }: Props) {
       </section>
 
       {/* ── 5. Optical Consultation & Contact Banner ── */}
-      <section className="bg-gradient-to-br from-brand-dark via-[#0C3528] to-[#08221A] text-white py-14 md:py-20 overflow-hidden relative">
+      <section className="bg-gradient-to-br from-brand-dark via-[#0C3528] to-[#08221A] text-white py-10 sm:py-14 md:py-20 overflow-hidden relative">
         {/* Glow decoration */}
         <div className="absolute top-0 right-0 w-96 h-96 bg-brand-light/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-brand-pale/5 rounded-full blur-3xl pointer-events-none" />

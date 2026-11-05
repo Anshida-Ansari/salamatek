@@ -80,7 +80,7 @@ export function WhatsAppCTA({ className = '', variant = 'floating', text, locale
   return (
     <aside
       aria-label={isRtl ? 'قنوات التواصل المباشر السريعة' : 'Quick Social & Messaging Channels'}
-      className={`fixed top-1/2 -translate-y-1/2 right-0 z-50 flex flex-col items-end gap-1.5 sm:gap-2 select-none${className ? ` ${className}` : ''}`}
+      className={`fixed bottom-6 end-0 sm:bottom-auto sm:top-1/2 sm:-translate-y-1/2 z-50 flex flex-col items-end gap-1.5 sm:gap-2 select-none${className ? ` ${className}` : ''}`}
     >
       {/* 1. WhatsApp Tab */}
       <a

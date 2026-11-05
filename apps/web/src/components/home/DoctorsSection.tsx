@@ -19,12 +19,12 @@ export function DoctorsSection({ locale, t, departments }: Props) {
 
   return (
     <section
-      className="bg-white py-16 md:py-24 overflow-hidden"
+      className="bg-white py-12 sm:py-16 md:py-24 overflow-hidden"
       aria-labelledby="doctors-heading"
       id="doctors"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-16 items-center">
 
           {/* Left: Image with badge */}
           <div className="relative">
@@ -44,38 +44,38 @@ export function DoctorsSection({ locale, t, departments }: Props) {
 
             {/* Floating badge */}
             <div
-              className="absolute bottom-8 end-0 translate-x-4 md:translate-x-6 bg-brand-medium text-white rounded-2xl w-28 h-28 flex flex-col items-center justify-center shadow-card-lg text-center"
+              className="absolute bottom-4 sm:bottom-8 end-3 sm:end-0 sm:translate-x-4 md:translate-x-6 bg-brand-medium text-white rounded-2xl w-24 h-24 sm:w-28 sm:h-28 flex flex-col items-center justify-center shadow-card-lg text-center"
               aria-hidden="true"
             >
-              <p className="text-2xl font-bold font-serif leading-none">{p.doctorsBadgeValue}</p>
-              <p className="text-[10px] leading-snug mt-1 text-white/85 whitespace-pre-line">{p.doctorsBadgeLabel}</p>
+              <p className="text-xl sm:text-2xl font-bold font-serif leading-none">{p.doctorsBadgeValue}</p>
+              <p className="text-[9px] sm:text-[10px] leading-snug mt-1 text-white/85 whitespace-pre-line">{p.doctorsBadgeLabel}</p>
             </div>
           </div>
 
           {/* Right: Content */}
           <div>
-            <p className="text-xs font-bold uppercase tracking-widest text-brand-red mb-4">
+            <p className="text-xs font-bold uppercase tracking-widest text-brand-red mb-2 sm:mb-4">
               {p.doctorsEyebrow}
             </p>
 
             <h2
               id="doctors-heading"
-              className="text-display-md md:text-display-lg font-serif font-bold text-text-base leading-tight mb-4"
+              className="text-2xl sm:text-3xl md:text-display-lg font-serif font-bold text-text-base leading-tight mb-3 sm:mb-4"
             >
               <span className="block">{p.doctorsHeading1}</span>
               <span className="block">{p.doctorsHeading2}</span>
             </h2>
 
-            <p className="text-base text-text-muted leading-relaxed mb-8 max-w-md">
+            <p className="text-sm sm:text-base text-text-muted leading-relaxed mb-6 sm:mb-8 max-w-md">
               {p.doctorsSubtext}
             </p>
 
             {/* Department search widget */}
-            <div className="bg-surface-light border border-border rounded-xl p-4 mb-8 max-w-md">
-              <p className="text-xs font-semibold text-text-muted mb-3">
+            <div className="bg-surface-light border border-border rounded-xl p-3.5 sm:p-4 mb-6 sm:mb-8 max-w-md">
+              <p className="text-xs font-semibold text-text-muted mb-2.5 sm:mb-3">
                 {p.doctorsFindLabel}
               </p>
-              <div className="flex gap-2">
+              <div className="flex flex-col sm:flex-row gap-2">
                 <div className="flex-1 relative">
                   <select
                     id="doctor-search-dept"
@@ -104,7 +104,7 @@ export function DoctorsSection({ locale, t, departments }: Props) {
                       ? getLocalizedPath(`/doctors?dept=${selectedDept}`, locale)
                       : getLocalizedPath('/doctors', locale)
                   }
-                  className="px-4 h-10 rounded-lg bg-brand-dark text-white text-sm font-semibold hover:bg-brand-medium transition-colors duration-150 flex items-center whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-medium"
+                  className="px-4 h-10 rounded-lg bg-brand-dark text-white text-sm font-semibold hover:bg-brand-medium transition-colors duration-150 flex items-center justify-center whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-medium"
                 >
                   {p.doctorsSearchBtn}
                 </Link>

@@ -21,26 +21,26 @@ export function TestimonialsSection({ locale, testimonials }: Props) {
   if (!testimonials || testimonials.length === 0) return null;
 
   return (
-    <section className="bg-surface-mint/30 py-16 md:py-24" aria-labelledby="testimonials-heading">
+    <section className="bg-surface-mint/30 py-12 sm:py-16 md:py-24" aria-labelledby="testimonials-heading">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-2xl mx-auto mb-12 md:mb-16">
-          <p className="text-xs font-bold uppercase tracking-widest text-brand-medium mb-3">
+        <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-12 md:mb-16">
+          <p className="text-xs font-bold uppercase tracking-widest text-brand-medium mb-2 sm:mb-3">
             {locale === 'ar' ? 'آراء المرضى' : 'Patient Stories'}
           </p>
-          <h2 id="testimonials-heading" className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-brand-dark mb-4">
+          <h2 id="testimonials-heading" className="text-2xl sm:text-4xl lg:text-5xl font-serif font-bold text-brand-dark mb-2.5 sm:mb-4">
             {locale === 'ar' ? 'ماذا يقول مرضانا' : 'What Our Patients Say'}
           </h2>
-          <p className="text-base md:text-lg text-text-muted">
+          <p className="text-sm sm:text-base md:text-lg text-text-muted">
             {locale === 'ar' ? 'آراء حقيقية من مجتمعنا.' : 'Genuine feedback from our community.'}
           </p>
         </div>
 
         {/* CSS Scroll Snap Container */}
-        <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 -mx-4 px-4 sm:mx-0 sm:px-0 hide-scrollbar">
+        <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 sm:gap-6 pb-6 sm:pb-8 -mx-4 px-4 sm:mx-0 sm:px-0 hide-scrollbar">
           {testimonials.map((testimonial) => (
             <div
               key={testimonial._id}
-              className="snap-center shrink-0 w-[85vw] sm:w-[400px] lg:w-[calc(33.333333%-1rem)] bg-white rounded-3xl p-6 md:p-8 border border-white shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300 flex flex-col h-full relative group"
+              className="snap-center shrink-0 w-[88vw] max-w-[340px] sm:w-[400px] lg:w-[calc(33.333333%-1rem)] bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-8 border border-white shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300 flex flex-col h-full relative group"
             >
               {/* Google Review Indicator */}
               <div className="absolute top-6 right-6 flex items-center gap-1.5 opacity-60 group-hover:opacity-100 transition-opacity">

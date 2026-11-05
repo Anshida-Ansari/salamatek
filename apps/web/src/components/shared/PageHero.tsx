@@ -37,11 +37,11 @@ export function PageHero({
 
   return (
     <section
-      className="relative bg-brand-dark w-full h-[400px] md:h-[480px] flex flex-col justify-center overflow-hidden pt-20"
+      className="relative bg-brand-dark w-full min-h-[300px] h-auto py-12 sm:py-0 sm:h-[400px] md:h-[480px] flex flex-col justify-center overflow-hidden pt-16 sm:pt-20"
       aria-label={badge}
     >
       {/* Slogan Banner Badge */}
-      <div className="absolute top-24 sm:top-26 md:top-28 inset-x-0 z-20 pointer-events-none">
+      <div className="absolute top-[84px] sm:top-24 md:top-28 inset-x-0 z-20 pointer-events-none">
         <div className="mx-auto max-w-[1600px] w-full px-4 sm:px-6 lg:px-8 xl:px-12 flex justify-end rtl:justify-start">
           <div
             className="pointer-events-auto relative inline-flex items-center transition-all duration-300 hover:scale-105 select-none drop-shadow-[0_8px_20px_rgba(200,16,30,0.35)]"
@@ -53,7 +53,7 @@ export function PageHero({
               alt={sloganText || 'Excellence In Health Care'}
               width={260}
               height={65}
-              className="h-9 sm:h-11 md:h-12 lg:h-13 w-auto object-contain"
+              className="h-7 sm:h-11 md:h-12 lg:h-13 w-auto object-contain"
               priority
               suppressHydrationWarning
             />
@@ -91,7 +91,7 @@ export function PageHero({
       <div className="relative z-10 w-full mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Breadcrumbs */}
         {breadcrumbs && breadcrumbs.length > 0 && (
-          <div className="mb-8">
+          <div className="mb-3 sm:mb-8">
             <Breadcrumbs
               items={breadcrumbs}
               locale={_locale}
@@ -101,18 +101,18 @@ export function PageHero({
         )}
 
         {/* Badge */}
-        <p className="inline-flex items-center text-xs font-bold uppercase tracking-widest text-brand-light mb-5">
+        <p className="inline-flex items-center text-xs font-bold uppercase tracking-widest text-brand-light mb-2 sm:mb-5">
           {badge}
         </p>
 
         {/* Heading */}
-        <h1 className="text-3xl sm:text-4xl md:text-display-md lg:text-display-lg font-serif font-bold text-white leading-tight mb-4 whitespace-pre-line max-w-2xl">
+        <h1 className="text-2xl sm:text-4xl md:text-display-md lg:text-display-lg font-serif font-bold text-white leading-tight mb-3 sm:mb-4 whitespace-pre-line max-w-2xl">
           {heading}
         </h1>
 
         {/* Sub-text */}
         {subtext && (
-          <p className="text-base md:text-lg text-white/65 leading-relaxed max-w-xl">
+          <p className="text-sm sm:text-base md:text-lg text-white/70 leading-relaxed max-w-xl">
             {subtext}
           </p>
         )}

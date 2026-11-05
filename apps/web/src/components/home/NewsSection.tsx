@@ -39,7 +39,7 @@ function NewsCard({
   return (
     <article className={`flex flex-col ${featured ? '' : ''}`}>
       {/* Image */}
-      <div className={`relative overflow-hidden rounded-2xl ${featured ? 'aspect-[4/3]' : 'aspect-[16/10]'} mb-5`}>
+      <div className={`relative overflow-hidden rounded-2xl ${featured ? 'aspect-[4/3]' : 'aspect-[16/10]'} mb-3 sm:mb-5`}>
         <Image
           src={article.image || '/images/placeholder.jpg'}
           alt={article.title[locale] || article.title.en}
@@ -87,20 +87,20 @@ export async function NewsSection({ locale, t }: Props) {
 
   return (
     <section
-      className="bg-white py-16 md:py-24"
+      className="bg-white py-12 sm:py-16 md:py-24"
       aria-labelledby="news-heading"
       id="news"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header row */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 items-start mb-8 sm:mb-12">
           <div>
-            <p className="text-xs font-bold uppercase tracking-widest text-brand-red mb-4">
+            <p className="text-xs font-bold uppercase tracking-widest text-brand-red mb-2 sm:mb-4">
               {p.newsEyebrow}
             </p>
             <h2
               id="news-heading"
-              className="text-display-md md:text-display-lg font-serif font-bold text-text-base leading-tight"
+              className="text-2xl sm:text-3xl md:text-display-lg font-serif font-bold text-text-base leading-tight"
             >
               <span className="block">{p.newsHeading1}</span>
               <span className="block">{p.newsHeading2}</span>

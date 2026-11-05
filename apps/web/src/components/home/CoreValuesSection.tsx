@@ -23,7 +23,7 @@ export function CoreValuesSection({ locale }: Props) {
 
   return (
     <section
-      className="bg-brand-orange-dark py-16 md:py-24 overflow-hidden relative"
+      className="bg-brand-orange-dark py-12 sm:py-16 md:py-24 overflow-hidden relative"
       aria-labelledby="core-values-heading"
       id="core-values"
       dir={isRtl ? 'rtl' : 'ltr'}
@@ -41,17 +41,17 @@ export function CoreValuesSection({ locale }: Props) {
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
         {/* ── Centered heading ───────────────────────────────────── */}
-        <div className="text-center mb-10 md:mb-14">
-          <p className="text-xs font-bold uppercase tracking-widest text-white/85 mb-3">
+        <div className="text-center mb-7 sm:mb-10 md:mb-14">
+          <p className="text-xs font-bold uppercase tracking-widest text-white/85 mb-2 sm:mb-3">
             {isRtl ? 'سلامتك' : 'Salamatek'}
           </p>
           <h2
             id="core-values-heading"
-            className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-white tracking-tight"
+            className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-white tracking-tight"
           >
             {isRtl ? 'القيم الجوهرية' : 'Core Values'}
           </h2>
-          <p className="text-sm md:text-base text-white/90 mt-3 max-w-xl mx-auto leading-relaxed">
+          <p className="text-xs sm:text-base text-white/90 mt-2 sm:mt-3 max-w-xl mx-auto leading-relaxed">
             {isRtl
               ? 'المبادئ التي تجسد التزامنا الراسخ بالتميز في الرعاية الصحية.'
               : 'Guided by our enduring commitment to Excellence in Healthcare.'}
@@ -74,19 +74,19 @@ export function CoreValuesSection({ locale }: Props) {
                 key={i}
                 role="listitem"
                 className={`
-                  flex flex-col items-center text-center px-4 py-8 md:py-10
-                  w-32 sm:w-36 lg:w-auto
+                  flex flex-col items-center text-center px-3 sm:px-4 py-6 sm:py-8 md:py-10
+                  w-28 sm:w-36 lg:w-auto
                   ${i < VALUES.length - 1 ? 'border-e border-white/20' : ''}
                   group hover:bg-white/[0.08] transition-colors duration-200
                 `}
               >
                 {/* Large letter */}
-                <span className="font-serif font-bold text-4xl md:text-5xl text-white leading-none mb-5 group-hover:text-amber-100 transition-colors duration-200">
+                <span className="font-serif font-bold text-3xl sm:text-4xl md:text-5xl text-white leading-none mb-3 sm:mb-5 group-hover:text-amber-100 transition-colors duration-200">
                   {item.letter}
                 </span>
 
                 {/* Connector line */}
-                <div className="w-px h-8 bg-gradient-to-b from-white/50 to-transparent mb-5" aria-hidden="true" />
+                <div className="w-px h-5 sm:h-8 bg-gradient-to-b from-white/50 to-transparent mb-3 sm:mb-5" aria-hidden="true" />
 
                 {/* English value name */}
                 <p className="text-xs md:text-sm font-semibold text-white leading-snug mb-1.5 px-1">

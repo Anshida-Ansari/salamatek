@@ -111,23 +111,23 @@ export default async function DepartmentsPage({ params }: Props) {
         imageSrc={heroSetting?.image}
       />
 
-      <section className="py-16 md:py-24 bg-surface-light">
+      <section className="py-12 sm:py-16 md:py-24 bg-surface-light">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8">
             {sortedDepts.map((d: any) => (
               <Link
                 key={d._id}
                 href={getLocalizedPath(`/departments/${d.slug}`, typedLocale)}
-                className="group flex flex-col bg-white border border-border rounded-2xl p-6 hover:border-brand-pale hover:shadow-card-md transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-medium"
+                className="group flex flex-col bg-white border border-border rounded-2xl p-4 sm:p-6 hover:border-brand-pale hover:shadow-card-md transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-medium"
                 aria-label={`${d.name[typedLocale] || d.name.en} — ${d.description?.[typedLocale] || d.description?.en || ''}`}
               >
                 {d.image ? (
-                  <div className="w-full h-48 mb-5 rounded-xl overflow-hidden relative">
+                  <div className="w-full h-40 sm:h-48 mb-4 sm:mb-5 rounded-xl overflow-hidden relative">
                     <Image src={d.image} alt={d.name[typedLocale] || d.name.en} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300" priority={true} />
                   </div>
                 ) : (
-                  <div className="w-11 h-11 rounded-xl bg-brand-mint flex items-center justify-center text-brand-medium mb-5 group-hover:bg-brand-medium group-hover:text-white transition-colors duration-200">
-                    <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg>
+                  <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-brand-mint flex items-center justify-center text-brand-medium mb-4 sm:mb-5 group-hover:bg-brand-medium group-hover:text-white transition-colors duration-200">
+                    <svg className="w-5 h-5 sm:w-6 sm:h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg>
                   </div>
                 )}
 

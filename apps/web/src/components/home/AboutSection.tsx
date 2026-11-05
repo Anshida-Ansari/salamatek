@@ -14,20 +14,20 @@ export function AboutSection({ locale, t }: Props) {
 
   return (
     <section
-      className="bg-white py-16 md:py-20"
+      className="bg-white py-10 sm:py-16 md:py-20"
       aria-labelledby="about-heading"
       id="about"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-10 lg:gap-16 items-start">
           {/* Left: Eyebrow + Heading */}
           <div>
-            <p className="text-xs font-bold uppercase tracking-widest text-brand-red mb-4">
+            <p className="text-xs font-bold uppercase tracking-widest text-brand-red mb-2 sm:mb-4">
               {p.aboutEyebrow}
             </p>
             <h2
               id="about-heading"
-              className="text-display-md md:text-display-lg font-serif font-bold text-text-base leading-tight whitespace-pre-line"
+              className="text-xl sm:text-display-md md:text-display-lg font-serif font-bold text-text-base leading-snug whitespace-pre-line"
             >
               {p.aboutHeading}
             </h2>
@@ -35,7 +35,7 @@ export function AboutSection({ locale, t }: Props) {
 
           {/* Right: Description + CTA */}
           <div className="lg:pt-12">
-            <p className="text-base md:text-lg leading-relaxed text-text-muted mb-6">
+            <p className="text-sm sm:text-base md:text-lg leading-relaxed text-text-muted mb-4 sm:mb-6">
               {p.aboutText}
             </p>
             <Link

@@ -27,25 +27,25 @@ export function CTASection({
 
   return (
     <section
-      className={`py-14 md:py-20 ${isDark ? 'bg-brand-dark' : 'bg-surface-mint'}`}
+      className={`py-10 sm:py-14 md:py-20 ${isDark ? 'bg-brand-dark' : 'bg-surface-mint'}`}
       aria-label={ctaLabel}
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
         <h2
-          className={`text-2xl md:text-display-sm font-serif font-bold mb-3 ${isDark ? 'text-white' : 'text-text-base'}`}
+          className={`text-xl sm:text-2xl md:text-display-sm font-serif font-bold mb-2 sm:mb-3 ${isDark ? 'text-white' : 'text-text-base'}`}
         >
           {heading}
         </h2>
         {subtext && (
           <p
-            className={`text-sm md:text-base mb-8 max-w-md mx-auto leading-relaxed ${isDark ? 'text-white/60' : 'text-text-muted'}`}
+            className={`text-xs sm:text-base mb-6 sm:mb-8 max-w-md mx-auto leading-relaxed ${isDark ? 'text-white/60' : 'text-text-muted'}`}
           >
             {subtext}
           </p>
         )}
         <Link
           href={ctaHref}
-          className={`inline-flex items-center px-7 py-3.5 rounded-xl text-sm font-semibold transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
+          className={`inline-flex items-center justify-center w-full sm:w-auto px-7 py-3.5 rounded-xl text-sm font-semibold transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
             isDark
               ? 'bg-brand-red text-white hover:bg-brand-red-dark focus-visible:ring-brand-red'
               : 'bg-brand-dark text-white hover:bg-brand-medium focus-visible:ring-brand-dark'

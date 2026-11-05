@@ -63,8 +63,8 @@ export function Footer({ locale, t, contactSettings }: Props) {
       dir={isAr ? 'rtl' : 'ltr'}
     >
       {/* Main Multi-Column Content Area */}
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-8 items-start">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 sm:py-12 lg:py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-7 sm:gap-8 lg:gap-8 items-start">
 
           {/* ─────────────────────────────────────────────────────────────
               SECTION 1: Medical Center Information

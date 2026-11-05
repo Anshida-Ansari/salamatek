@@ -46,34 +46,34 @@ export function PromoPopup() {
         </button>
 
         {/* Left Side: Content */}
-        <div className="w-full md:w-[55%] p-8 md:p-12 flex flex-col justify-center relative z-10">
+        <div className="w-full md:w-[55%] p-5 sm:p-8 md:p-12 flex flex-col justify-center relative z-10">
           
           {/* Logo */}
-          <div className="mb-6 relative flex items-center justify-start">
+          <div className="mb-4 sm:mb-6 relative flex items-center justify-start">
             <Image
               src="/images/promo-horizontal-logo.png"
               alt="Salamatek Logo"
               width={220}
               height={80}
-              className="object-contain mix-blend-multiply"
+              className="object-contain mix-blend-multiply h-10 sm:h-12 w-auto"
               priority
             />
           </div>
 
-          <p className="text-brand-DEFAULT font-bold tracking-widest text-xs uppercase mb-3">
+          <p className="text-brand-DEFAULT font-bold tracking-widest text-xs uppercase mb-2 sm:mb-3">
             {isAr ? "رعاية موثوقة منذ عام 1985" : "Trusted Care Since 1985"}
           </p>
           
-          <h2 className="text-3xl md:text-5xl font-serif font-bold text-brand-dark mb-4 leading-tight">
+          <h2 className="text-2xl sm:text-3xl md:text-5xl font-serif font-bold text-brand-dark mb-3 sm:mb-4 leading-tight">
             {isAr ? <>صحتكم،<br />أولويتنا</> : <>Your Health,<br />Our Priority</>}
           </h2>
           
-          <p className="text-text-muted text-lg mb-8 max-w-sm">
+          <p className="text-text-muted text-sm sm:text-lg mb-6 sm:mb-8 max-w-sm">
             {isAr ? "تجربة رعاية صحية متميزة في مجمع سلامتك الطبي." : "Experience quality healthcare at Salamatek Medical Center."}
           </p>
 
           {/* Features Row */}
-          <div className="flex flex-wrap gap-6 mb-8">
+          <div className="flex flex-wrap gap-3 sm:gap-6 mb-6 sm:mb-8">
             <div className="flex flex-col items-center text-center max-w-[80px]">
               <div className="w-10 h-10 rounded-full bg-brand-pale/30 flex items-center justify-center mb-2 text-brand-DEFAULT">
                 <Users className="w-5 h-5" />

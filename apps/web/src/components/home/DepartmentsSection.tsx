@@ -137,38 +137,38 @@ export async function DepartmentsSection({ locale, t }: Props) {
 
   return (
     <section
-      className="bg-brand-dark py-16 md:py-24"
+      className="bg-brand-dark py-12 sm:py-16 md:py-24"
       aria-labelledby="departments-heading"
       id="departments"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center mb-12">
-          <p className="text-xs font-bold uppercase tracking-widest text-brand-light mb-4">
+        <div className="text-center mb-8 sm:mb-12">
+          <p className="text-xs font-bold uppercase tracking-widest text-brand-light mb-2 sm:mb-4">
             {p.departmentsEyebrow}
           </p>
           <h2
             id="departments-heading"
-            className="text-3xl md:text-display-md font-serif font-bold text-white leading-tight mb-3"
+            className="text-2xl sm:text-3xl md:text-display-md font-serif font-bold text-white leading-tight mb-2 sm:mb-3"
           >
             {p.departmentsHeading}
           </h2>
-          <p className="text-sm text-white/55 max-w-lg mx-auto">
+          <p className="text-xs sm:text-sm text-white/55 max-w-lg mx-auto leading-relaxed">
             {p.departmentsSubtext}
           </p>
         </div>
 
         {/* 3 × 2 grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4 mb-6 sm:mb-8">
           {featured.map((dept: any) => (
             <Link
               key={dept._id}
               href={getLocalizedPath(`/departments/${dept.slug}`, locale)}
-              className="group relative bg-white/[0.06] hover:bg-white/[0.10] border border-white/[0.08] hover:border-white/[0.18] rounded-2xl p-6 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+              className="group relative bg-white/[0.06] hover:bg-white/[0.10] border border-white/[0.08] hover:border-white/[0.18] rounded-2xl p-4 sm:p-6 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
               aria-label={`${dept.name[locale] || dept.name.en} — ${dept.description?.[locale] || dept.description?.en || ''}`}
             >
               {/* Icon */}
-              <div className="w-9 h-9 rounded-xl bg-brand-medium/20 flex items-center justify-center text-brand-light mb-5">
+              <div className="w-9 h-9 rounded-xl bg-brand-medium/20 flex items-center justify-center text-brand-light mb-4 sm:mb-5">
                 <DeptIcon slug={dept.slug} />
               </div>
 
@@ -178,7 +178,7 @@ export async function DepartmentsSection({ locale, t }: Props) {
               </h3>
 
               {/* Description */}
-              <p className="text-sm text-white/55 leading-relaxed mb-4 line-clamp-2">
+              <p className="text-xs sm:text-sm text-white/55 leading-relaxed mb-4 line-clamp-2">
                 {dept.description?.[locale] || dept.description?.en || ''}
               </p>
 
@@ -199,7 +199,7 @@ export async function DepartmentsSection({ locale, t }: Props) {
         <div className="text-center">
           <Link
             href={getLocalizedPath('/departments', locale)}
-            className="inline-flex items-center justify-center gap-2 w-full max-w-md px-6 py-4 rounded-xl border border-white/15 text-white text-sm font-semibold hover:bg-white/05 hover:border-white/30 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+            className="inline-flex items-center justify-center gap-2 w-full sm:w-auto max-w-md px-6 py-3.5 sm:py-4 rounded-xl border border-white/15 text-white text-sm font-semibold hover:bg-white/05 hover:border-white/30 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
           >
             {t.common.viewAllServices}
           </Link>

@@ -97,23 +97,23 @@ export default async function HealthPackagesPage({ params }: Props) {
 
       {/* ── 1. Dynamic Health Packages Grid ── */}
       {packages.length > 0 && (
-        <section className="py-16 md:py-24 bg-[#F8FAF9]">
+        <section className="py-12 sm:py-16 md:py-24 bg-[#F8FAF9]">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="text-center max-w-3xl mx-auto mb-12 md:mb-16">
-              <span className="inline-block px-3.5 py-1 rounded-full bg-brand-mint text-brand-dark text-xs font-bold tracking-widest uppercase mb-3 border border-brand-pale">
+            <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-12 md:mb-16">
+              <span className="inline-block px-3.5 py-1 rounded-full bg-brand-mint text-brand-dark text-xs font-bold tracking-widest uppercase mb-2 sm:mb-3 border border-brand-pale">
                 {isAr ? 'عروض وباقات الفحص' : 'Exclusive Packages'}
               </span>
-              <h2 className="text-3xl sm:text-4xl font-serif font-bold text-brand-dark tracking-tight">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold text-brand-dark tracking-tight">
                 {isAr ? 'باقات الرعاية الصحية المتميزة' : 'Our Comprehensive Health Packages'}
               </h2>
-              <p className="mt-3 text-sm sm:text-base text-text-muted leading-relaxed">
+              <p className="mt-2.5 sm:mt-3 text-xs sm:text-base text-text-muted leading-relaxed">
                 {isAr
                   ? 'اختر الباقة الصحية المصممة لتلبية احتياجاتك واحتياجات أسرتك بأعلى معايير الجودة الطبية.'
                   : 'Choose from our specialized checkup packages designed to provide complete healthcare peace of mind.'}
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-8">
               {packages.map((pkg) => {
                 const title = pkg.title?.[typedLocale] || pkg.title?.en || 'Health Package';
                 const description = pkg.description?.[typedLocale] || pkg.description?.en || '';
@@ -163,7 +163,7 @@ export default async function HealthPackagesPage({ params }: Props) {
                       )}
 
                       {/* Content */}
-                      <div className="p-6">
+                      <div className="p-4 sm:p-6">
                         <h3 className="text-xl font-bold font-serif text-brand-dark mb-2">
                           {title}
                         </h3>
@@ -207,7 +207,7 @@ export default async function HealthPackagesPage({ params }: Props) {
                     </div>
 
                     {/* Bottom Pricing & Actions */}
-                    <div className="p-6 pt-0 mt-auto">
+                    <div className="p-4 sm:p-6 pt-0 mt-auto">
                       <div className="flex items-baseline justify-between mb-4 pt-4 border-t border-border/50">
                         <span className="text-xs text-text-muted font-medium">
                           {isAr ? 'السعر' : 'Price'}

@@ -139,7 +139,7 @@ export default async function DoctorsPage({ params }: Props) {
         </div>
 
         {/* Slogan Banner Badge */}
-        <div className="absolute top-24 sm:top-26 md:top-28 inset-x-0 z-20 pointer-events-none">
+        <div className="absolute top-[84px] sm:top-24 md:top-28 inset-x-0 z-20 pointer-events-none">
           <div className="mx-auto max-w-[1600px] w-full px-4 sm:px-6 lg:px-8 xl:px-12 flex justify-end rtl:justify-start">
             <div
               className="pointer-events-auto relative inline-flex items-center transition-all duration-300 hover:scale-105 select-none drop-shadow-[0_8px_20px_rgba(200,16,30,0.35)]"
@@ -197,7 +197,7 @@ export default async function DoctorsPage({ params }: Props) {
               </p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8">
               {sortedDoctors.map((doc: any) => {
                 const docName = doc.name[typedLocale] || doc.name.en;
                 const docDesignation = doc.designation?.[typedLocale] || doc.designation?.en;
@@ -237,12 +237,12 @@ export default async function DoctorsPage({ params }: Props) {
                     </div>
 
                     {/* Doctor Info */}
-                    <div className="p-6 flex flex-col flex-1 text-center sm:text-start">
+                    <div className="p-4 sm:p-6 flex flex-col flex-1 text-center sm:text-start">
                       <Link
                         href={getLocalizedPath(`/doctors/${doc.slug}`, typedLocale)}
                         className="group"
                       >
-                        <h2 className="text-xl font-serif font-bold text-brand-dark group-hover:text-brand transition-colors line-clamp-1">
+                        <h2 className="text-lg sm:text-xl font-serif font-bold text-brand-dark group-hover:text-brand transition-colors line-clamp-1">
                           {docName}
                         </h2>
                       </Link>

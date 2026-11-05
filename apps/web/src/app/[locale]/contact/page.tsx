@@ -41,32 +41,32 @@ export default async function ContactPage({ params }: Props) {
         imageSrc="https://images.unsplash.com/photo-1516387938699-a93567ec168e?q=80&w=2071&auto=format&fit=crop"
       />
 
-      <section className="py-20">
+      <section className="py-12 sm:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
             
             {/* Contact Information */}
-            <div className="lg:col-span-1 space-y-8">
+            <div className="lg:col-span-1 space-y-6 sm:space-y-8">
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-6">
                   {isRtl ? 'معلومات التواصل' : 'Contact Information'}
                 </h2>
-                <p className="text-gray-600 mb-8">
+                <p className="text-sm sm:text-base text-gray-600 mb-6 sm:mb-8">
                   {isRtl ? 'فريقنا متاح لمساعدتك. تواصل معنا عبر القنوات التالية.' : 'Our team is available to assist you. Reach out to us through the following channels.'}
                 </p>
               </div>
 
-              <div className="space-y-6">
+              <div className="space-y-5 sm:space-y-6">
                 {/* Physical Address */}
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-full bg-[#8E2829]/10 flex items-center justify-center flex-shrink-0 text-[#8E2829]">
-                    <MapPin className="w-6 h-6" />
+                <div className="flex items-start gap-3.5 sm:gap-4">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#8E2829]/10 flex items-center justify-center flex-shrink-0 text-[#8E2829]">
+                    <MapPin className="w-5 h-5 sm:w-6 sm:h-6" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-gray-900">{isRtl ? 'العنوان' : 'Address'}</h4>
-                    <p className="text-gray-600 mt-1">{displayAddress}</p>
+                    <h4 className="font-bold text-gray-900 text-sm sm:text-base">{isRtl ? 'العنوان' : 'Address'}</h4>
+                    <p className="text-gray-600 mt-1 text-xs sm:text-sm">{displayAddress}</p>
                     {contact.mapsLink && (
-                      <a href={contact.mapsLink} target="_blank" rel="noopener noreferrer" className="inline-block mt-2 text-sm font-semibold text-[#8E2829] hover:underline">
+                      <a href={contact.mapsLink} target="_blank" rel="noopener noreferrer" className="inline-block mt-2 text-xs sm:text-sm font-semibold text-[#8E2829] hover:underline">
                         {isRtl ? 'احصل على الاتجاهات (Google Maps)' : 'Get Directions (Google Maps)'}
                       </a>
                     )}
@@ -74,35 +74,35 @@ export default async function ContactPage({ params }: Props) {
                 </div>
 
                 {/* Phone & Direct Contacts */}
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-full bg-emerald-500/10 flex items-center justify-center flex-shrink-0 text-emerald-700">
-                    <Phone className="w-6 h-6" />
+                <div className="flex items-start gap-3.5 sm:gap-4">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-emerald-500/10 flex items-center justify-center flex-shrink-0 text-emerald-700">
+                    <Phone className="w-5 h-5 sm:w-6 sm:h-6" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-gray-900">{isRtl ? 'الهاتف وأرقام التواصل' : 'Phone & Direct Contacts'}</h4>
+                    <h4 className="font-bold text-gray-900 text-sm sm:text-base">{isRtl ? 'الهاتف وأرقام التواصل' : 'Phone & Direct Contacts'}</h4>
                     <div className="mt-1 space-y-1" dir="ltr">
                       {contact.phone && (
                         <div>
-                          <a href={getTelLink(contact.phone)} className="text-gray-900 hover:text-emerald-700 font-medium block">
+                          <a href={getTelLink(contact.phone)} className="text-gray-900 hover:text-emerald-700 font-medium block text-xs sm:text-sm">
                             {contact.phone}
                           </a>
-                          <span className="text-xs text-gray-500 block">
+                          <span className="text-[11px] text-gray-500 block">
                             {isRtl ? 'الهاتف الثابت / المواعيد' : 'Landline / Appointments'}
                           </span>
                         </div>
                       )}
 
                       <div className="pt-1">
-                        <span className="text-xs font-semibold text-gray-500 block">
+                        <span className="text-[11px] font-semibold text-gray-500 block">
                           {isRtl ? 'الجوال والطوارئ:' : 'Direct & Emergency:'}
                         </span>
                         {contact.emergencyPhone && (
-                          <a href={getTelLink(contact.emergencyPhone)} className="text-emerald-700 hover:underline font-semibold block text-sm">
+                          <a href={getTelLink(contact.emergencyPhone)} className="text-emerald-700 hover:underline font-semibold block text-xs sm:text-sm">
                             {contact.emergencyPhone}
                           </a>
                         )}
                         {contact.additionalPhones?.map((phone, idx) => (
-                          <a key={idx} href={getTelLink(phone)} className="text-gray-800 hover:text-emerald-700 block text-sm">
+                          <a key={idx} href={getTelLink(phone)} className="text-gray-800 hover:text-emerald-700 block text-xs sm:text-sm">
                             {phone}
                           </a>
                         ))}
@@ -112,17 +112,17 @@ export default async function ContactPage({ params }: Props) {
                 </div>
 
                 {/* Email Address */}
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-full bg-emerald-500/10 flex items-center justify-center flex-shrink-0 text-emerald-700">
-                    <Mail className="w-6 h-6" />
+                <div className="flex items-start gap-3.5 sm:gap-4">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-emerald-500/10 flex items-center justify-center flex-shrink-0 text-emerald-700">
+                    <Mail className="w-5 h-5 sm:w-6 sm:h-6" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-gray-900">{isRtl ? 'البريد الإلكتروني' : 'Email'}</h4>
-                    <a href={getMailtoLink(contact.email)} className="text-gray-600 hover:text-emerald-700 hover:underline mt-1 block" dir="ltr">
+                    <h4 className="font-bold text-gray-900 text-sm sm:text-base">{isRtl ? 'البريد الإلكتروني' : 'Email'}</h4>
+                    <a href={getMailtoLink(contact.email)} className="text-gray-600 hover:text-emerald-700 hover:underline mt-1 block text-xs sm:text-sm break-all" dir="ltr">
                       {contact.email}
                     </a>
                     {contact.additionalEmails?.map((em, idx) => (
-                      <a key={idx} href={getMailtoLink(em)} className="text-gray-600 hover:text-emerald-700 hover:underline mt-1 block text-sm" dir="ltr">
+                      <a key={idx} href={getMailtoLink(em)} className="text-gray-600 hover:text-emerald-700 hover:underline mt-1 block text-xs sm:text-sm break-all" dir="ltr">
                         {em}
                       </a>
                     ))}

@@ -19,34 +19,34 @@ export function WhySalamateKSection({ locale: _locale, t }: Props) {
 
   return (
     <section
-      className="bg-surface-mint py-14 md:py-20"
+      className="bg-surface-mint py-10 sm:py-14 md:py-20"
       aria-labelledby="why-salamatek-heading"
       id="why-salamatek"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-10 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-10 items-start">
 
           {/* Left: eyebrow + heading */}
           <div className="lg:col-span-1">
-            <p className="text-xs font-bold uppercase tracking-widest text-brand-red mb-4">
+            <p className="text-xs font-bold uppercase tracking-widest text-brand-red mb-2 sm:mb-4">
               {p.whyEyebrow}
             </p>
             <h2
               id="why-salamatek-heading"
-              className="text-2xl md:text-display-sm font-serif font-bold text-text-base leading-snug whitespace-pre-line"
+              className="text-xl sm:text-2xl md:text-display-sm font-serif font-bold text-text-base leading-snug whitespace-pre-line"
             >
               {p.whyHeading}
             </h2>
           </div>
 
           {/* Right: 3 pillar cards */}
-          <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-3 gap-3.5 sm:gap-4">
             {pillars.map((pillar) => (
               <div
                 key={pillar.num}
-                className="bg-white rounded-2xl border border-border/50 p-6 shadow-card"
+                className="bg-white rounded-2xl border border-border/50 p-4 sm:p-6 shadow-card"
               >
-                <p className="text-xs font-bold text-text-subtle mb-4 tabular-nums">
+                <p className="text-xs font-bold text-text-subtle mb-2 sm:mb-4 tabular-nums">
                   {pillar.num}
                 </p>
                 <h3 className="text-base font-semibold text-text-base mb-2 leading-snug">

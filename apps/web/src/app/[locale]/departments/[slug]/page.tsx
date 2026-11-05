@@ -255,16 +255,16 @@ export default async function DepartmentDetailPage({ params }: Props) {
 
           {/* Doctors Section */}
           {doctors.length > 0 && (
-            <div className="border-t border-border/50 pt-16">
-              <div className="text-center mb-12">
-                <p className="text-xs font-bold uppercase tracking-widest text-brand-medium mb-3">
+            <div className="border-t border-border/50 pt-10 sm:pt-16">
+              <div className="text-center mb-8 sm:mb-12">
+                <p className="text-xs font-bold uppercase tracking-widest text-brand-medium mb-2 sm:mb-3">
                   {isAr ? 'الخبراء' : 'The Experts'}
                 </p>
-                <h2 className="text-3xl md:text-4xl font-serif font-bold text-brand-dark">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold text-brand-dark">
                   {isAr ? 'أطباؤنا' : 'Our Doctors'}
                 </h2>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 md:gap-10">
                 {doctors.map((doc: any) => (
                   <div key={doc._id} className="group h-full flex flex-col bg-white rounded-3xl overflow-hidden transition-all duration-300 hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] border border-transparent hover:border-border/60">
                     <div className="relative aspect-[4/5] bg-surface-light w-full overflow-hidden shrink-0">
@@ -281,21 +281,23 @@ export default async function DepartmentDetailPage({ params }: Props) {
                           </svg>
                         </div>
                       )}
-                      <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/90 via-brand-dark/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/90 via-brand-dark/20 to-transparent opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300"></div>
                       
-                      <div className="absolute bottom-0 start-0 end-0 p-6 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+                      <div className="absolute bottom-0 start-0 end-0 p-4 sm:p-6 sm:translate-y-4 sm:opacity-0 sm:group-hover:translate-y-0 sm:group-hover:opacity-100 transition-all duration-300">
                         <Link 
                           href={getLocalizedPath(`/doctors/${doc.slug}`, typedLocale)}
-                          className="block w-full py-2.5 bg-white text-brand-dark text-sm font-semibold rounded-xl text-center hover:bg-brand hover:text-white transition-colors"
+                          className="block w-full py-2.5 bg-white text-brand-dark text-sm font-semibold rounded-xl text-center hover:bg-brand hover:text-white transition-colors shadow-sm"
                         >
                           {isAr ? 'عرض الملف الشخصي' : 'View Profile'}
                         </Link>
                       </div>
                     </div>
-                    <div className="p-6 text-center bg-white relative z-10 flex flex-col items-center flex-grow">
-                      <h3 className="text-xl lg:text-2xl font-serif font-bold text-brand-dark mb-1.5 group-hover:text-brand transition-colors">
-                        {doc.name[typedLocale] || doc.name.en}
-                      </h3>
+                    <div className="p-4 sm:p-6 text-center bg-white relative z-10 flex flex-col items-center flex-grow">
+                      <Link href={getLocalizedPath(`/doctors/${doc.slug}`, typedLocale)}>
+                        <h3 className="text-xl lg:text-2xl font-serif font-bold text-brand-dark mb-1.5 group-hover:text-brand transition-colors">
+                          {doc.name[typedLocale] || doc.name.en}
+                        </h3>
+                      </Link>
                       {doc.designation && (
                         <p className="text-sm md:text-base text-text-muted font-medium mb-4">
                           {doc.designation[typedLocale] || doc.designation.en}

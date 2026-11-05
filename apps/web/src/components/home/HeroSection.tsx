@@ -32,13 +32,13 @@ export function HeroSection({ locale, t, heroImages, contactSettings }: Props) {
 
   return (
     <section
-      className="relative w-full h-[calc(100svh-5rem)] min-h-[600px] max-h-[850px] flex flex-col justify-end overflow-hidden"
+      className="relative w-full min-h-[620px] sm:h-[calc(100svh-5rem)] sm:min-h-[600px] sm:max-h-[850px] flex flex-col justify-end overflow-hidden"
       aria-label={locale === 'ar' ? 'البانر الرئيسي' : 'Hero banner'}
     >
       <HeroCarouselBackground images={carouselImages} locale={locale} />
 
       {/* Slogan Banner Badge (matches reference placement below header accreditation group) */}
-      <div className="absolute top-24 sm:top-26 md:top-28 inset-x-0 z-20 pointer-events-none">
+      <div className="absolute top-[84px] sm:top-24 md:top-28 inset-x-0 z-20 pointer-events-none">
         <div className="mx-auto max-w-[1600px] w-full px-4 sm:px-6 lg:px-8 xl:px-12 flex justify-end rtl:justify-start">
           <div
             className="pointer-events-auto relative inline-flex items-center transition-all duration-300 hover:scale-105 select-none drop-shadow-[0_8px_20px_rgba(200,16,30,0.35)]"
@@ -50,7 +50,7 @@ export function HeroSection({ locale, t, heroImages, contactSettings }: Props) {
               alt={p.heroSlogan || 'Excellence In Health Care'}
               width={260}
               height={65}
-              className="h-9 sm:h-11 md:h-12 lg:h-13 w-auto object-contain"
+              className="h-8 sm:h-11 md:h-12 lg:h-13 w-auto object-contain"
               priority
               suppressHydrationWarning
             />
@@ -60,43 +60,43 @@ export function HeroSection({ locale, t, heroImages, contactSettings }: Props) {
 
       {/* Content */}
       <div className="relative z-10 mx-auto max-w-[1600px] w-full px-4 sm:px-6 lg:px-8 xl:px-12 pb-0 pointer-events-none mt-auto">
-        <div className="max-w-2xl pt-20 sm:pt-24 pb-8 sm:pb-12 pointer-events-auto">
+        <div className="max-w-2xl pt-16 sm:pt-24 pb-4 sm:pb-12 pointer-events-auto">
           {/* Eyebrow */}
-          <p className="text-xs font-semibold uppercase tracking-widest text-[#6EE7A8] mb-5 drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]">
+          <p className="text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-[#6EE7A8] mb-2 sm:mb-5 drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]">
             {p.heroEyebrow}
           </p>
 
           {/* Main heading */}
-          <h1 className="text-4xl sm:text-5xl md:text-display-xl font-serif font-bold text-white leading-tight mb-4 drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]">
+          <h1 className="text-2xl sm:text-5xl md:text-display-xl font-serif font-bold text-white leading-tight mb-2.5 sm:mb-4 drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]">
             <span className="block">
-              <span className="text-5xl sm:text-6xl md:text-[5.5rem] text-[#5FE3A1] font-bold me-3">
+              <span className="text-3xl sm:text-6xl md:text-[5.5rem] text-[#5FE3A1] font-bold me-2 sm:me-3">
                 {/* @ts-ignore */}
                 {p.heroHeading1Num}
               </span>
               {/* @ts-ignore */}
               {p.heroHeading1Text}
             </span>
-            <span className="block text-brand-light italic">{p.heroHeading2}</span>
+            <span className="block text-brand-light italic text-xl sm:text-4xl md:text-5xl">{p.heroHeading2}</span>
           </h1>
 
           {/* Sub-text */}
-          <p className="text-base sm:text-lg text-white/90 mb-8 max-w-lg leading-relaxed drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]">
+          <p className="text-xs sm:text-lg text-white/90 mb-4 sm:mb-8 max-w-lg leading-relaxed drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]">
             {p.heroSubtext}
           </p>
 
           {/* CTAs */}
-          <div className="flex flex-wrap items-center gap-3 drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3 drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)] mb-3 sm:mb-0">
             <a
               href={waUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center px-6 py-3 rounded-lg bg-brand-red text-white text-sm font-semibold hover:bg-brand-red-dark transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-red focus-visible:ring-offset-2"
+              className="inline-flex items-center justify-center px-5 py-2.5 sm:px-6 sm:py-3 rounded-lg bg-brand-red text-white text-xs sm:text-sm font-semibold hover:bg-brand-red-dark transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-red focus-visible:ring-offset-2"
             >
               {p.heroCtaPrimary}
             </a>
             <Link
               href={getLocalizedPath('/departments', locale)}
-              className="inline-flex items-center px-6 py-3 rounded-lg bg-white/10 backdrop-blur-sm border border-white/60 text-white text-sm font-semibold hover:bg-white/20 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+              className="inline-flex items-center justify-center px-5 py-2.5 sm:px-6 sm:py-3 rounded-lg bg-white/10 backdrop-blur-sm border border-white/60 text-white text-xs sm:text-sm font-semibold hover:bg-white/20 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
             >
               {p.heroCtaSecondary}
             </Link>
@@ -104,30 +104,29 @@ export function HeroSection({ locale, t, heroImages, contactSettings }: Props) {
         </div>
 
         {/* Stats bar */}
-        <div className="border-t border-white/10 py-6 flex flex-wrap items-center gap-x-12 gap-y-4 drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)] pointer-events-auto">
+        <div className="border-t border-white/15 pt-3 pb-4 sm:py-6 grid grid-cols-3 sm:flex items-center gap-x-2 sm:gap-x-12 gap-y-2 drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)] pointer-events-auto">
           <div>
-            <p className="text-xl sm:text-2xl font-bold font-serif text-white leading-none">
+            <p className="text-base sm:text-2xl font-bold font-serif text-white leading-none">
               {p.heroStat1Value}
             </p>
-            <p className="text-xs text-white/80 mt-1">{p.heroStat1Label}</p>
+            <p className="text-[10px] sm:text-xs text-white/80 mt-1 leading-tight">{p.heroStat1Label}</p>
           </div>
-          <div className="w-px h-8 bg-white/15 hidden sm:block" aria-hidden="true" />
+          <div className="w-px h-6 sm:h-8 bg-white/15 hidden sm:block" aria-hidden="true" />
           <div>
-            <p className="text-xl sm:text-2xl font-bold font-serif text-white leading-none">
+            <p className="text-base sm:text-2xl font-bold font-serif text-white leading-none">
               {p.heroStat2Value}
             </p>
-            <p className="text-xs text-white/80 mt-1">{p.heroStat2Label}</p>
+            <p className="text-[10px] sm:text-xs text-white/80 mt-1 leading-tight">{p.heroStat2Label}</p>
           </div>
-          <div className="w-px h-8 bg-white/15 hidden sm:block" aria-hidden="true" />
+          <div className="w-px h-6 sm:h-8 bg-white/15 hidden sm:block" aria-hidden="true" />
           <div>
-            <p className="text-xl sm:text-2xl font-bold font-serif text-white leading-none">
+            <p className="text-base sm:text-2xl font-bold font-serif text-white leading-none">
               {p.heroStat3Value}
             </p>
-            <p className="text-xs text-white/80 mt-1">{p.heroStat3Label}</p>
+            <p className="text-[10px] sm:text-xs text-white/80 mt-1 leading-tight">{p.heroStat3Label}</p>
           </div>
-
-
         </div>
+
       </div>
     </section>
   );

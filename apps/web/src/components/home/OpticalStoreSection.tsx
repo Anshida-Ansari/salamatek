@@ -14,34 +14,34 @@ export function OpticalStoreSection({ locale, t }: Props) {
 
   return (
     <section
-      className="bg-brand-dark py-16 md:py-24 overflow-hidden"
+      className="bg-brand-dark py-12 sm:py-16 md:py-24 overflow-hidden"
       aria-labelledby="optical-heading"
       id="optical-store"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-16 items-center">
 
           {/* Left: Content */}
           <div>
-            <p className="text-xs font-bold uppercase tracking-widest text-brand-light mb-5">
+            <p className="text-xs font-bold uppercase tracking-widest text-brand-light mb-3 sm:mb-5">
               {p.opticalEyebrow}
             </p>
 
             <h2
               id="optical-heading"
-              className="text-3xl md:text-display-md font-serif font-bold text-white leading-tight mb-6"
+              className="text-2xl sm:text-3xl md:text-display-md font-serif font-bold text-white leading-tight mb-4 sm:mb-6"
             >
               <span className="block">{p.opticalHeading1}</span>
               <span className="block">{p.opticalHeading2}</span>
             </h2>
 
-            <p className="text-sm md:text-base text-white/65 leading-relaxed mb-8 max-w-md">
+            <p className="text-sm md:text-base text-white/65 leading-relaxed mb-6 sm:mb-8 max-w-md">
               {p.opticalSubtext}
             </p>
 
             <Link
               href={getLocalizedPath('/optical-store', locale)}
-              className="inline-flex items-center px-6 py-3 rounded-lg border border-white text-white text-sm font-semibold hover:bg-white/10 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+              className="inline-flex items-center justify-center w-full sm:w-auto px-6 py-3 rounded-lg border border-white text-white text-sm font-semibold hover:bg-white/10 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
             >
               {t.common.exploreOptical}
             </Link>
