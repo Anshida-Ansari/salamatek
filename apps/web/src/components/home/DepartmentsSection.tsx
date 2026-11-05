@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import type { Locale } from '@/i18n/config';
 import type { Translations } from '@/i18n';
 import { getLocalizedPath } from '@/lib/utils';
@@ -54,67 +55,7 @@ function sortDepartments(list: any[]): any[] {
   });
 }
 
-// SVG icons for departments
-function DeptIcon({ slug }: { slug: string }) {
-  const icons: Record<string, React.ReactNode> = {
-    'internal-medicine': (
-      <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
-    ),
-    'general-medicine': (
-      <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-    ),
-    'obstetrics-gynaecology': (
-      <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
-    ),
-    paediatrics: (
-      <path strokeLinecap="round" strokeLinejoin="round" d="M15.182 16.318A4.486 4.486 0 0012.016 15a4.486 4.486 0 00-3.198 1.318M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm-.375 0h.008v.015h-.008V9.75zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75zm-.375 0h.008v.015h-.008V9.75z" />
-    ),
-    'dermatology-cosmetology': (
-      <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
-    ),
-    cosmetology: (
-      <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
-    ),
-    dermatology: (
-      <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
-    ),
-    dental: (
-      <path strokeLinecap="round" strokeLinejoin="round" d="M15.182 15.182a4.5 4.5 0 01-6.364 0M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm-.375 0h.008v.015h-.008V9.75zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75zm-.375 0h.008v.015h-.008V9.75z" />
-    ),
-    ophthalmology: (
-      <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-    ),
-    laboratory: (
-      <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714a2.25 2.25 0 001.357 2.059l.096.04a3.75 3.75 0 012.44 4.023 6.75 6.75 0 01-6.726 6.016h-.09A6.75 6.75 0 016.25 15.52a3.75 3.75 0 012.44-4.023l.096-.04a2.25 2.25 0 001.357-2.059V3.104" />
-    ),
-    physiotherapy: (
-      <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
-    ),
-    pediatrics: (
-      <path strokeLinecap="round" strokeLinejoin="round" d="M15.182 16.318A4.486 4.486 0 0012.016 15a4.486 4.486 0 00-3.198 1.318M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm-.375 0h.008v.015h-.008V9.75zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75zm-.375 0h.008v.015h-.008V9.75z" />
-    ),
-    emergency: (
-      <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
-    ),
-  };
-
-  const path = icons[slug] ?? icons['general-medicine'];
-
-  return (
-    <svg
-      className="w-5 h-5"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      aria-hidden="true"
-    >
-      {path}
-    </svg>
-  );
-}
-
-// Diagonal arrow icon
+// Arrow icon with smooth hover motion
 function ArrowIcon({ className = '' }: { className?: string }) {
   return (
     <svg
@@ -122,7 +63,7 @@ function ArrowIcon({ className = '' }: { className?: string }) {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="2"
+      strokeWidth="2.25"
       aria-hidden="true"
     >
       <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
@@ -134,74 +75,159 @@ export async function DepartmentsSection({ locale, t }: Props) {
   const p = t.pages.home;
   const depts = await getDepartments();
   const featured = sortDepartments(depts);
+  const isRtl = locale === 'ar';
 
   return (
     <section
-      className="bg-brand-dark py-12 sm:py-16 md:py-24"
+      className="relative bg-brand-dark py-14 sm:py-20 md:py-28 overflow-hidden"
       aria-labelledby="departments-heading"
       id="departments"
     >
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center mb-8 sm:mb-12">
-          <p className="text-xs font-bold uppercase tracking-widest text-brand-light mb-2 sm:mb-4">
-            {p.departmentsEyebrow}
-          </p>
-          <h2
-            id="departments-heading"
-            className="text-2xl sm:text-3xl md:text-display-md font-serif font-bold text-white leading-tight mb-2 sm:mb-3"
-          >
-            {p.departmentsHeading}
-          </h2>
-          <p className="text-xs sm:text-sm text-white/55 max-w-lg mx-auto leading-relaxed">
-            {p.departmentsSubtext}
-          </p>
-        </div>
+      {/* Subtle top ambient glow for medical luxury depth */}
+      <div
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[350px] bg-brand-medium/15 blur-[140px] pointer-events-none"
+        aria-hidden="true"
+      />
 
-        {/* 3 × 2 grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4 mb-6 sm:mb-8">
-          {featured.map((dept: any) => (
-            <Link
-              key={dept._id}
-              href={getLocalizedPath(`/departments/${dept.slug}`, locale)}
-              className="group relative bg-white/[0.06] hover:bg-white/[0.10] border border-white/[0.08] hover:border-white/[0.18] rounded-2xl p-4 sm:p-6 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
-              aria-label={`${dept.name[locale] || dept.name.en} — ${dept.description?.[locale] || dept.description?.en || ''}`}
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10 sm:mb-14">
+          <div className="max-w-2xl">
+            {/* Eyebrow Badge */}
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-brand-pale text-xs font-semibold uppercase tracking-wider mb-3.5 backdrop-blur-xs">
+              <span className="w-1.5 h-1.5 rounded-full bg-brand-light" aria-hidden="true" />
+              <span>{p.departmentsEyebrow}</span>
+            </div>
+
+            {/* Main Title */}
+            <h2
+              id="departments-heading"
+              className="text-2xl sm:text-4xl lg:text-display-sm font-serif font-bold text-white leading-tight tracking-tight mb-3"
             >
-              {/* Icon */}
-              <div className="w-9 h-9 rounded-xl bg-brand-medium/20 flex items-center justify-center text-brand-light mb-4 sm:mb-5">
-                <DeptIcon slug={dept.slug} />
-              </div>
+              {p.departmentsHeading}
+            </h2>
 
-              {/* Name */}
-              <h3 className="text-base font-semibold text-white mb-1.5">
-                {dept.name[locale] || dept.name.en}
-              </h3>
+            {/* Supporting Description */}
+            <p className="text-sm sm:text-base text-white/75 leading-relaxed max-w-xl">
+              {p.departmentsSubtext}
+            </p>
+          </div>
 
-              {/* Description */}
-              <p className="text-xs sm:text-sm text-white/55 leading-relaxed mb-4 line-clamp-2">
-                {dept.description?.[locale] || dept.description?.en || ''}
-              </p>
-
-              {/* Learn more */}
-              <span className="text-xs font-semibold text-brand-red group-hover:text-brand-light transition-colors duration-150">
-                {t.common.learnMore}
+          {/* Desktop Direct Link to Directory */}
+          <div className="hidden md:flex flex-shrink-0">
+            <Link
+              href={getLocalizedPath('/departments', locale)}
+              className="group inline-flex items-center gap-2.5 px-6 py-3 rounded-xl bg-white/10 hover:bg-white/15 border border-white/20 hover:border-brand-pale/50 text-white text-sm font-semibold transition-all duration-200 shadow-sm"
+            >
+              <span>{t.common.viewAllServices}</span>
+              <span className={`inline-block transition-transform duration-200 group-hover:translate-x-1 ${isRtl ? 'rtl-flip' : ''}`} aria-hidden="true">
+                →
               </span>
-
-              {/* Diagonal arrow */}
-              <div className="absolute top-5 end-5 opacity-0 group-hover:opacity-100 transition-opacity duration-150 text-white/40">
-                <ArrowIcon />
-              </div>
             </Link>
-          ))}
+          </div>
         </div>
 
-        {/* View all CTA */}
-        <div className="text-center">
+        {/* 3 × 2 Modern Healthcare Department Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-7">
+          {featured.map((dept: any) => {
+            const deptName = dept.name[locale] || dept.name.en;
+            const deptSub = dept.subheading?.[locale] || dept.subheading?.en;
+            const deptDesc = dept.description?.[locale] || dept.description?.en || '';
+
+            return (
+              <Link
+                key={dept._id}
+                href={getLocalizedPath(`/departments/${dept.slug}`, locale)}
+                className="group relative h-[360px] sm:h-[400px] rounded-2xl sm:rounded-3xl overflow-hidden border border-white/15 bg-[#0C3528] flex flex-col justify-between p-5 sm:p-7 shadow-lg transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_45px_rgba(0,0,0,0.45)] hover:border-brand-pale/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+                aria-label={`${deptName} — ${deptDesc}`}
+              >
+                {/* Department Background Image */}
+                {dept.image ? (
+                  <Image
+                    src={dept.image}
+                    alt={deptName}
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-108"
+                  />
+                ) : (
+                  <div className="absolute inset-0 bg-gradient-to-br from-brand-medium/40 to-brand-dark" />
+                )}
+
+                {/* Dark Vignette + Bottom Emerald Gradient for Crystal-Clear Readability */}
+                <div
+                  className="absolute inset-0 bg-gradient-to-b from-black/55 via-brand-dark/65 to-brand-dark/95 transition-opacity duration-300 group-hover:opacity-90"
+                  aria-hidden="true"
+                />
+
+                {/* Subtle Radial Emerald Glow on Hover */}
+                <div
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-[radial-gradient(ellipse_at_bottom_left,rgba(45,158,114,0.35),transparent_70%)] pointer-events-none"
+                  aria-hidden="true"
+                />
+
+                {/* Card Top: Action Button */}
+                <div className="relative z-10 flex items-center justify-end w-full">
+                  {/* Circular Arrow Action Button */}
+                  <div className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white flex items-center justify-center shadow-xs group-hover:bg-brand-red group-hover:border-brand-red group-hover:text-white transition-all duration-300">
+                    <ArrowIcon className="transform transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  </div>
+                </div>
+
+                {/* Card Bottom: Typography & Medical Details */}
+                <div className="relative z-10">
+                  {/* Subheading / Clinical Specialty */}
+                  {deptSub && (
+                    <p className="text-[11px] sm:text-xs font-semibold text-brand-pale tracking-wide line-clamp-1 mb-1.5 opacity-90 drop-shadow-xs">
+                      {deptSub}
+                    </p>
+                  )}
+
+                  {/* Department Name */}
+                  <h3 className="text-xl sm:text-2xl font-serif font-bold text-white group-hover:text-brand-mint transition-colors duration-200 leading-snug mb-2 drop-shadow-xs">
+                    {deptName}
+                  </h3>
+
+                  {/* Department Clinical Description */}
+                  <p className="text-xs sm:text-sm text-white/80 leading-relaxed line-clamp-2 mb-4 drop-shadow-xs">
+                    {deptDesc}
+                  </p>
+
+                  {/* Clean Action Divider */}
+                  <div className="pt-3 border-t border-white/15 flex items-center justify-between">
+                    <span className="text-xs font-bold uppercase tracking-wider text-white group-hover:text-brand-pale transition-colors flex items-center gap-1.5">
+                      <span>{t.common.learnMore}</span>
+                      <span className={`inline-block transition-transform duration-200 group-hover:translate-x-1 ${isRtl ? 'rtl-flip' : ''}`} aria-hidden="true">
+                        →
+                      </span>
+                    </span>
+
+                    <span className="text-[11px] font-medium text-white/50 group-hover:text-white/80 transition-colors">
+                      Salamatek Medical
+                    </span>
+                  </div>
+                </div>
+
+                {/* Bottom Interactive Accent Bar */}
+                <div
+                  className="absolute bottom-0 inset-x-0 h-1 bg-gradient-to-r from-brand-pale via-brand-light to-brand transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out origin-left rtl:origin-right"
+                  aria-hidden="true"
+                />
+              </Link>
+            );
+          })}
+        </div>
+
+        {/* View All CTA (Mobile & Tablet primary, Desktop supplementary) */}
+        <div className="text-center mt-8 sm:mt-12 md:hidden">
           <Link
             href={getLocalizedPath('/departments', locale)}
-            className="inline-flex items-center justify-center gap-2 w-full sm:w-auto max-w-md px-6 py-3.5 sm:py-4 rounded-xl border border-white/15 text-white text-sm font-semibold hover:bg-white/05 hover:border-white/30 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+            className="inline-flex items-center justify-center gap-2.5 w-full sm:w-auto px-8 py-3.5 sm:py-4 rounded-xl bg-white/10 hover:bg-white/15 border border-white/20 text-white text-sm font-semibold transition-all duration-200"
           >
-            {t.common.viewAllServices}
+            <span>{t.common.viewAllServices}</span>
+            <span className={`inline-block transition-transform duration-200 ${isRtl ? 'rtl-flip' : ''}`} aria-hidden="true">
+              →
+            </span>
           </Link>
         </div>
       </div>
